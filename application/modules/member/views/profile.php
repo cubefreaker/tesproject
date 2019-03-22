@@ -246,7 +246,7 @@
                 </div>
                 <div class="form-group">
                     <label class="avenir_regular fs_12 lh_22 color_yellow">E-mail</label>
-                    <input readonly id="email_form_profile" required name="email" type="email" class="avenir_regular fs_12 lh_22 color_dark_gray_2 form-control side_form_input form-control" ng-model="Member.Email">
+                    <input id="email_form_profile" required name="email" type="email" class="avenir_regular fs_12 lh_22 color_dark_gray_2 form-control side_form_input form-control" ng-model="Member.Email">
                 </div>
                 <div class="form-group">
                     <label class="avenir_regular fs_12 lh_22 color_yellow">Mobile Number</label>

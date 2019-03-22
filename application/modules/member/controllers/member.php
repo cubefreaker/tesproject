@@ -338,7 +338,7 @@ class member extends CI_Controller
             redirect(base_url('member/login'), 'refresh');
 
         $data = $this->m_general->loadGeneralData();
-        $data['MasterCountry']  = $this->m_get->getMasterCountry();
+        // $data['MasterCountry']  = $this->m_get->getMasterCountry();
         $Member         = $this->ion_auth->user()->row();
         $MemberData = [
             'UserName'      => $Member->username,
