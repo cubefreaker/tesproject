@@ -18,8 +18,39 @@ class member extends CI_Controller
 
     //     $this->load->view('member/index', $data);
     // }
-
     function index() //before was login()
+    {        
+        // get general data for header and footer
+        $data = $this->m_general->loadGeneralData();
+        $data['error'] = FALSE;
+        // if ($input = $this->input->post()) {
+        //     $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+        //     $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]');
+        //     if ($this->form_validation->run() === FALSE)
+        //     {
+        //         $data['error'] = trim(strip_tags(validation_errors()));
+        //     }
+        //     else
+        //     {
+            
+        //         $identity = $input['email'];
+        //         $password = $input['password'];
+        //         $remember = isset($input['remember_me']) ? TRUE : FALSE;
+        //         if( $this->ion_auth->login($identity, $password, $remember)) {
+        //             // redirect them to the member dashboard page
+        //             redirect(base_url("member/dashboard"), "refresh");
+        //         }
+        //         else {
+        //             $data['error'] = strip_tags($this->ion_auth->errors());
+        //         }
+        //     }
+        // }
+        
+        $this->load->view('member/login', $data);
+        
+    }
+
+    function login() //before was login()
     {        
         // get general data for header and footer
         $data = $this->m_general->loadGeneralData();
@@ -58,8 +89,9 @@ class member extends CI_Controller
             $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
             $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]');
             $this->form_validation->set_rules('repassword', 'Password Confirmation', 'trim|required|matches[password]');
-            $this->form_validation->set_rules('firstname', 'First Name', 'trim|required|alpha|max_length[50]');
-            $this->form_validation->set_rules('lastname', 'Last Name', 'trim|required|max_length[50]');
+            // $this->form_validation->set_rules('firstname', 'First Name', 'trim|required|alpha|max_length[50]');
+            // $this->form_validation->set_rules('lastname', 'Last Name', 'trim|required|max_length[50]');
+            $this->form_validation->set_rules('user_name', 'Username', 'trim|required|alpha|max_length[50]');
             $this->form_validation->set_rules('phone', 'Phone Number', 'trim|numeric|required|max_length[20]');
             if ($this->form_validation->run() === FALSE)
             {
@@ -67,9 +99,9 @@ class member extends CI_Controller
             }
             else
             {
-                $firstname      = $input['firstname'];
-                $midname        = $input['midname'];
-                $lastname       = $input['lastname'];
+                // $firstname      = $input['firstname'];
+                // $lastname       = $input['lastname'];
+                $user_name       = $input['user_name'];
                 $email          = strtolower($input['email']);
                 $password       = $input['password'];
                 $phone          = $input['phone'];
@@ -77,9 +109,7 @@ class member extends CI_Controller
                 $password = $this->input->post('password');
 
                 $additional_data = array(
-                    'first_name'    => $firstname,
-                    'midname'       => $midname,
-                    'last_name'     => $lastname,
+                    'user_name'      => $user_name,
                     'phone'         => $phone,
                     'status'        => 0,
                     'type'          => 5,
@@ -121,65 +151,65 @@ class member extends CI_Controller
         // get general data for header and footer
         $this->load->model('member/m_member');
         $data = $this->m_general->loadGeneralData();
-        $data['MasterAirport']          = $this->m_get->getMasterAirport();
-        // $data['MasterBank']             = $this->m_get->getMasterBank();
-        $data['MasterBank'] = $this->m_get->getDynamic([
-            'select'    => 'id, name, rekening, rekening_name',
-            'from'      => 'v2_master_bank',
-            'where'     => ['id'=>1]
-        ]);
-        $data['BookingFormula']         = $this->m_get->getBookingFormula();
+        // $data['MasterAirport']          = $this->m_get->getMasterAirport();
+        // // $data['MasterBank']             = $this->m_get->getMasterBank();
+        // $data['MasterBank'] = $this->m_get->getDynamic([
+        //     'select'    => 'id, name, rekening, rekening_name',
+        //     'from'      => 'v2_master_bank',
+        //     'where'     => ['id'=>1]
+        // ]);
+        // $data['BookingFormula']         = $this->m_get->getBookingFormula();
         $data['Member']                 = $this->ion_auth->user()->row();
 
-        $Transactions = $this->m_member->getListTransactions($data['Member']->id);
+        // $Transactions = $this->m_member->getListTransactions($data['Member']->id);
 
         $data['List'] = [];
         $this->load->model('m_general');
-        if ($Transactions) {
-            foreach ($Transactions as $key => $value) {
-                $RsvResponse    = json_decode($value->RsvResponse);
+        // if ($Transactions) {
+        //     foreach ($Transactions as $key => $value) {
+        //         $RsvResponse    = json_decode($value->RsvResponse);
 
-                $Adult   = array_filter($RsvResponse->Passengers, function ($var) {
-                    return ($var->Type == 'Adult');
-                });
+        //         $Adult   = array_filter($RsvResponse->Passengers, function ($var) {
+        //             return ($var->Type == 'Adult');
+        //         });
 
-                if (!$value->TotalPrice) {
-                    $GetPrice = $this->m_general->GetPrice(['OrderId' => $value->OrderId]);
-                    $TotalPrice = $GetPrice['TotalPrice'];
-                }
-                else {
-                    $TotalPrice = $value->TotalPrice;
-                }
+        //         if (!$value->TotalPrice) {
+        //             $GetPrice = $this->m_general->GetPrice(['OrderId' => $value->OrderId]);
+        //             $TotalPrice = $GetPrice['TotalPrice'];
+        //         }
+        //         else {
+        //             $TotalPrice = $value->TotalPrice;
+        //         }
 
-                $LfrRequest = json_decode($value->LfrRequest);
-                $RsvArr['RsvStatus']            = $RsvResponse->Status;
-                $RsvArr['FlightOrigin']         = $RsvResponse->FlightDetails[0]->Origin;
-                $RsvArr['FlightDestination']    = $RsvResponse->FlightDetails[0]->Destination;
-                $RsvArr['Adult']                = count($Adult);
-                $RsvArr['ContactName']          = ucwords($LfrRequest->Contact->Title.' '.$LfrRequest->Contact->FirstName.' '.$LfrRequest->Contact->LastName);
-                $RsvArr['ContactEmail']         = $LfrRequest->Contact->Email;
-                $RsvArr['CreatedDate']          = $RsvResponse->Created;
-                $RsvArr['OrderId']              = $value->OrderId;
-                $RsvArr['IsRead']               = $value->IsRead;
-                $RsvArr['PaymentStatus']        = $value->PaymentStatus;
-                $RsvArr['PaymentStatusId']        = $value->PaymentStatusId;
-                if ($value->PaymentStatusId != 3 && strtotime($value->RsvTimeLimit) < strtotime("NOW")) {
-                    $RsvArr['PaymentStatus'] = "Expired";
-                }
-                $RsvArr['RsvTimeLimit']         = $value->RsvTimeLimit;
-                $RsvArr['OrderCount']           = $value->OrderCount;
-                $RsvArr['RsvId']                = $value->RsvId;
-                $RsvArr['TotalPrice']           = number_format($TotalPrice, 0, '', ',');
-                $RsvArr['BankName']             = $value->BankName;
-                $RsvArr['PayIsRead']            = $value->PayIsRead;
-                $RsvArr['PaymentType']          = $value->PaymentType;
-                $RsvArr['CreatedDateView']      = date('l, d M Y. - H:i', strtotime($RsvResponse->Created));
-                $RsvArr['DueDate']              = date('l, d M Y. - H:i', strtotime($value->RsvTimeLimit));
+        //         $LfrRequest = json_decode($value->LfrRequest);
+        //         $RsvArr['RsvStatus']            = $RsvResponse->Status;
+        //         $RsvArr['FlightOrigin']         = $RsvResponse->FlightDetails[0]->Origin;
+        //         $RsvArr['FlightDestination']    = $RsvResponse->FlightDetails[0]->Destination;
+        //         $RsvArr['Adult']                = count($Adult);
+        //         $RsvArr['ContactName']          = ucwords($LfrRequest->Contact->Title.' '.$LfrRequest->Contact->FirstName.' '.$LfrRequest->Contact->LastName);
+        //         $RsvArr['ContactEmail']         = $LfrRequest->Contact->Email;
+        //         $RsvArr['CreatedDate']          = $RsvResponse->Created;
+        //         $RsvArr['OrderId']              = $value->OrderId;
+        //         $RsvArr['IsRead']               = $value->IsRead;
+        //         $RsvArr['PaymentStatus']        = $value->PaymentStatus;
+        //         $RsvArr['PaymentStatusId']        = $value->PaymentStatusId;
+        //         if ($value->PaymentStatusId != 3 && strtotime($value->RsvTimeLimit) < strtotime("NOW")) {
+        //             $RsvArr['PaymentStatus'] = "Expired";
+        //         }
+        //         $RsvArr['RsvTimeLimit']         = $value->RsvTimeLimit;
+        //         $RsvArr['OrderCount']           = $value->OrderCount;
+        //         $RsvArr['RsvId']                = $value->RsvId;
+        //         $RsvArr['TotalPrice']           = number_format($TotalPrice, 0, '', ',');
+        //         $RsvArr['BankName']             = $value->BankName;
+        //         $RsvArr['PayIsRead']            = $value->PayIsRead;
+        //         $RsvArr['PaymentType']          = $value->PaymentType;
+        //         $RsvArr['CreatedDateView']      = date('l, d M Y. - H:i', strtotime($RsvResponse->Created));
+        //         $RsvArr['DueDate']              = date('l, d M Y. - H:i', strtotime($value->RsvTimeLimit));
 
-                $data['List'][] = $RsvArr;                
-            }
+        //         $data['List'][] = $RsvArr;                
+        //     }
 
-        }
+        // }
 
         $this->load->view('member/dashboard', $data);
     }
