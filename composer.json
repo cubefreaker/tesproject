@@ -1,0 +1,14 @@
+{
+	"description" : "The CodeIgniter Application with Composer",
+	"require": {
+		"php": ">=5.3.2",
+		"codeigniter/framework": "3.1.*",
+		"mobiledetect/mobiledetectlib": "^2.8",
+		"guzzlehttp/guzzle": "^6.3",
+		"phpmailer/phpmailer": "^6.0",
+		"veritrans/veritrans-php": "dev-master"
+	},
+	"require-dev": {
+		"mikey179/vfsStream": "1.1.*"
+	}
+}
