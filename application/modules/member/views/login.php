@@ -9,27 +9,22 @@
 	                <h3>Register Now</h3>
 	                <h5>&nbsp;</h5>
 
-	                <!-- <div class="form-group">
+	                <div class="form-group">
 	                    <label>First Name</label>
 	                    <input type="text" name="firstname" class="form-control" required>
 	                    <input type="hidden" name="act" value="register">
-                  </div>
+	                </div>
 	                <div class="form-group">
 	                    <label>Last Name</label>
 	                    <input type="text" name="lastname" class="form-control" required>
 	                    <input type="hidden" name="act" value="register">
-	                </div> -->
-                  <div class="form-group">
-	                    <label>Username</label>
-	                    <input type="text" name="user_name" class="form-control" required>
-	                    <input type="hidden" name="act" value="register">
-                  </div>
-	                <div class="form-group">
-	                    <label>Phone Number</label>
-	                    <input type="number" name="phone" class="form-control" required>
 	                </div>
 	                <div class="form-group">
-	                    <label>Email Address</label>
+	                    <label>Phone Number</label>
+	                    <input type="tel" name="phone" class="form-control" required>
+	                </div>
+	                <div class="form-group">
+	                    <label>Email</label>
 	                    <input type="email" name="email" class="form-control" placeholder="e.g: email@example.com" required>
 	                </div>
 	                <div class="form-group">

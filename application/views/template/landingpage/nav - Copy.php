@@ -44,26 +44,14 @@
         if ( !$this->ion_auth->logged_in() || ($this->ion_auth->is_admin()) )
         {
             // echo'<li><a href="'.base_url().'member/login">Login</a></li>';
-            echo'
-            <li class="sign-up">
-            <a class="keep-color" href="">Home</a>
-          <li class="sign-up">
-            <a class="keep-color" href="">Promo</a>
-          <li class="sign-up">
-            <a class="keep-color" href="">Contact Us</a>
-          </li>
-            <li class="sign-up"><span><a href="'.base_url("member/login").'" class="nav-link text-dark">Login</a></span></li>';
+            echo'<li class="sign-up"><span><a href="'.base_url("member/login").'">Login</a></span></li>';
         }
         else {
             $member = $this->ion_auth->user()->row();
             $memberFullName = $member->first_name.' '.$member->last_name;
          echo'
           <li class="sign-up">
-            <a class="keep-color" href="">Home</a>
-          <li class="sign-up">
-            <a class="keep-color" href="">Promo</a>
-          <li class="sign-up">
-            <a class="keep-color" href="">Contact Us</a>
+            <a class="keep-color" href="'.base_url("member/dashboard").'">Dashboard</a>
           </li>
             <li class="sign-up" style="padding: 18px">
             <div class="dropdown">

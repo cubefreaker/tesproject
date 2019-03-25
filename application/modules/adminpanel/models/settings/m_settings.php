@@ -123,20 +123,20 @@ class m_settings extends CI_Model
     //     return FALSE;
     // }
 
-    function getOpsitoolsAuth(){
-        $q = "
-            SELECT
-            AuthApi.grant_type AS GrantType,
-            AuthApi.client_id AS ClientId,
-            AuthApi.client_secret AS ClientSecret,
-            AuthApi.scope AS Scope
-            FROM v2_master_auth_api AS AuthApi
-        ";
-        $list = $this->db->query($q);
-        if ($list->num_rows() > 0) {
-            return $list->row();
-        }
-        return FALSE;
-    }
+    // function getOpsitoolsAuth(){
+    //     $q = "
+    //         SELECT
+    //         AuthApi.grant_type AS GrantType,
+    //         AuthApi.client_id AS ClientId,
+    //         AuthApi.client_secret AS ClientSecret,
+    //         AuthApi.scope AS Scope
+    //         FROM v2_master_auth_api AS AuthApi
+    //     ";
+    //     $list = $this->db->query($q);
+    //     if ($list->num_rows() > 0) {
+    //         return $list->row();
+    //     }
+    //     return FALSE;
+    // }
 
 }

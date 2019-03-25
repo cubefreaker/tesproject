@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 
 // Check Payment Gateway //
 $ListPG         = $this->m_get->getDynamic([
@@ -33,7 +33,7 @@ $CheckServiceHotel = array_filter( (Array) $ListService, function ($var) {
 $IsServiceFlight = count($CheckServiceFlight) > 0 ? 1 : 0;
 $IsServiceHotel = count($CheckServiceHotel) > 0 ? 1 : 0;
 
-?>
+?> -->
 
 <div class="leftpanel">
     <div class="logopanel text-center">
@@ -68,31 +68,31 @@ $IsServiceHotel = count($CheckServiceHotel) > 0 ? 1 : 0;
         <li id="ParentManages" class="nav-parent" >
           <a href="javascript:;"><i class="fa fa-edit"></i> <span>Manages</span></a>
           <ul class="children">
+            <li id='ChildrenContactUs'><a href="<?=base_url('adminpanel/manages/contactUs')?>"><i class="fa fa-caret-right"></i> Manage Contact Us</a></li>
             <!-- <li id='ChildrenAirline'><a href="<?=base_url('adminpanel/manages/airlines')?>"><i class="fa fa-caret-right"></i> Manage Airline</a></li> -->
-            <li id='ChildrenDiscounts'><a href="<?=base_url('adminpanel/manages/discounts')?>"><i class="fa fa-caret-right"></i> Manage Discount</a></li>
-            <li id='ChildrenBanks'><a href="<?=base_url('adminpanel/manages/banks')?>"><i class="fa fa-caret-right"></i> Manage Bank</a></li>
+            <!-- <li id='ChildrenDiscounts'><a href="<?=base_url('adminpanel/manages/discounts')?>"><i class="fa fa-caret-right"></i> Manage Discount</a></li> -->
+            <!-- <li id='ChildrenBanks'><a href="<?=base_url('adminpanel/manages/banks')?>"><i class="fa fa-caret-right"></i> Manage Bank</a></li> -->
             <!-- <li id='ChildrenCareers'><a href="<?=base_url('adminpanel/manages/careers')?>"><i class="fa fa-caret-right"></i> Manage Career</a></li> -->
             <!-- <li id='ChildrenCareersApply'><a href="<?=base_url('adminpanel/manages/careersApply')?>"><i class="fa fa-caret-right"></i> Manage Career(Apply)</a></li> -->
-            <li id='ChildrenContactUs'><a href="<?=base_url('adminpanel/manages/contactUs')?>"><i class="fa fa-caret-right"></i> Manage Contact Us</a></li>
             <!-- <li id='ChildrenMembers'><a href="<?=base_url('adminpanel/manages/members')?>"><i class="fa fa-caret-right"></i> Manage Member</a></li> -->
             <!-- <li id='ChildrenSugestionPlace'><a href="<?=base_url('adminpanel/manages/sugestionPlace')?>"><i class="fa fa-caret-right"></i> Manage Sugestion Place</a></li> -->
             <!-- <li id='ChildrenTestimoni'><a href="<?=base_url('adminpanel/manages/testimoni')?>"><i class="fa fa-caret-right"></i> Manage Testimoni</a></li> -->
 
-            <?php if ($IsServiceHotel) { ?>
+            <!-- <?php if ($IsServiceHotel) { ?>
               <li id='ChildrenTransactions'><a href="<?=base_url('adminpanel/manages/transactionsFlight')?>"><i class="fa fa-caret-right"></i> Manage Transaction Flight</a></li>
-            <?php } ?>
+            <?php } ?> -->
 
-            <?php if ($IsServiceHotel) { ?>
+            <!-- <?php if ($IsServiceHotel) { ?>
               <li id='ChildrenTransactionsHotel'><a href="<?=base_url('adminpanel/manages/transactionsHotel')?>"><i class="fa fa-caret-right"></i> Manage Transaction Hotel</a></li>  
-            <?php } ?>
+            <?php } ?> -->
 
             <!-- <li id='ChildrenUmroh'><a href="<?=base_url('adminpanel/manages/umroh')?>"><i class="fa fa-caret-right"></i> Manage Package Umroh</a></li> -->
-            <li id='ChildrenAirports'>
+            <!-- <li id='ChildrenAirports'>
               <a href="<?=base_url('adminpanel/manages/airports')?>"><i class="fa fa-caret-right"></i> Manage Airport</a>
-            </li>
-            <li id='ChildrenItinerary'>
+            </li> -->
+            <!-- <li id='ChildrenItinerary'>
               <a href="<?=base_url('adminpanel/manages/itinerary')?>"><i class="fa fa-caret-right"></i> Manage Itinerary</a>
-            </li>
+            </li> -->
           </ul>
         </li>
         <!-- // ------------------------------------ End Manages ------------------------------------ // -->
@@ -111,11 +111,11 @@ $IsServiceHotel = count($CheckServiceHotel) > 0 ? 1 : 0;
         <li id="ParentSettings" class=" nav-parent"><a href="javascript:;"><i class="fa fa-wrench"></i> <span>Settings</span></a>
           <ul class="children" style="">
             <li id='ChildrenGeneral' class=""><a href="<?=base_url('adminpanel/settings/general')?>"><i class="fa fa-caret-right"></i> General</a></li>
-            <li id='ChildrenBooking' class=""><a href="<?=base_url('adminpanel/settings/booking')?>"><i class="fa fa-caret-right"></i> Booking</a></li>
-            <li id='ChildrenOpsitools' class=""><a href="<?=base_url('adminpanel/settings/opsitools')?>"><i class="fa fa-caret-right"></i> Opsitools </a></li>
-            <li id='ChildrenEmail' class=""><a href="<?=base_url('adminpanel/settings/email')?>"><i class="fa fa-caret-right"></i> Email</a></li>
+            <!-- <li id='ChildrenBooking' class=""><a href="<?=base_url('adminpanel/settings/booking')?>"><i class="fa fa-caret-right"></i> Booking</a></li> -->
+            <!-- <li id='ChildrenOpsitools' class=""><a href="<?=base_url('adminpanel/settings/opsitools')?>"><i class="fa fa-caret-right"></i> Opsitools </a></li> -->
+            <!-- <li id='ChildrenEmail' class=""><a href="<?=base_url('adminpanel/settings/email')?>"><i class="fa fa-caret-right"></i> Email</a></li> -->
 
-            <?php if ($FaspayCheck) { ?>
+            <!-- <?php if ($FaspayCheck) { ?>
             <li id='ChildrenFaspay'class="">
               <a href="<?=base_url('adminpanel/settings/faspay')?>"><i class="fa fa-caret-right"></i> Faspay</a>
             </li>
@@ -123,7 +123,7 @@ $IsServiceHotel = count($CheckServiceHotel) > 0 ? 1 : 0;
             <li id='ChildrenMidtrans'class="">
               <a href="<?=base_url('adminpanel/settings/midtrans')?>"><i class="fa fa-caret-right"></i> Midtrans</a>
             </li>
-          <?php } ?>
+          <?php } ?> -->
           </ul>
         </li>
         <!-- // ------------------------------------ End Settings ------------------------------------ // -->
