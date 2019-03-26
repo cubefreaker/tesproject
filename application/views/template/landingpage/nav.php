@@ -51,8 +51,12 @@
             <a class="keep-color" href="">Promo</a>
           <li class="sign-up">
             <a class="keep-color" href="">Contact Us</a>
+          <li class="sign-up">
+            <a class="keep-color" href="">Contact Us</a>
+          <li class="sign-up">
+            <a class="keep-color" href="'.base_url("member/register").'">Register</a>
           </li>
-            <li class="sign-up"><span><a href="'.base_url("member/login").'" class="nav-link text-dark">Login</a></span></li>';
+            <li class="sign-up"><a href="'.base_url("member/login").'" class="keep-color">Login</a></li>';
         }
         else {
             $member = $this->ion_auth->user()->row();

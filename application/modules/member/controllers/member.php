@@ -11,15 +11,46 @@ class member extends CI_Controller
         $this->general->saveVisitor($this, [1, 0]);
     }
 
-    function index()
-    {
+    // function index()
+    // {
+    //     $data = $this->m_general->loadGeneralData();
+    //     $data = array();
+
+    //     $this->load->view('member/index', $data);
+    // }
+    function index() //before was login()
+    {        
+        // get general data for header and footer
         $data = $this->m_general->loadGeneralData();
         $data['error'] = FALSE;
-
+        // if ($input = $this->input->post()) {
+        //     $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+        //     $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]');
+        //     if ($this->form_validation->run() === FALSE)
+        //     {
+        //         $data['error'] = trim(strip_tags(validation_errors()));
+        //     }
+        //     else
+        //     {
+            
+        //         $identity = $input['email'];
+        //         $password = $input['password'];
+        //         $remember = isset($input['remember_me']) ? TRUE : FALSE;
+        //         if( $this->ion_auth->login($identity, $password, $remember)) {
+        //             // redirect them to the member dashboard page
+        //             redirect(base_url("member/dashboard"), "refresh");
+        //         }
+        //         else {
+        //             $data['error'] = strip_tags($this->ion_auth->errors());
+        //         }
+        //     }
+        // }
+        
         $this->load->view('member/login', $data);
+        
     }
 
-    function login()
+    function login() //before was login()
     {        
         // get general data for header and footer
         $data = $this->m_general->loadGeneralData();
@@ -48,17 +79,21 @@ class member extends CI_Controller
         }
         
         $this->load->view('member/login', $data);
+        
     }
 
     public function register()
     {
+        $data = $this->m_general->loadGeneralData();
+        $data['error'] = FALSE;
         $result = ['status'=>TRUE, 'message'=>'Data harus diisi', 'data'=>[]];
         if ($input = $this->input->post()) {
             $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
             $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]');
             $this->form_validation->set_rules('repassword', 'Password Confirmation', 'trim|required|matches[password]');
-            $this->form_validation->set_rules('firstname', 'First Name', 'trim|required|alpha|max_length[50]');
-            $this->form_validation->set_rules('lastname', 'Last Name', 'trim|required|max_length[50]');
+            // $this->form_validation->set_rules('firstname', 'First Name', 'trim|required|alpha|max_length[50]');
+            // $this->form_validation->set_rules('lastname', 'Last Name', 'trim|required|max_length[50]');
+            $this->form_validation->set_rules('user_name', 'Username', 'trim|required|alpha|max_length[50]');
             $this->form_validation->set_rules('phone', 'Phone Number', 'trim|numeric|required|max_length[20]');
             if ($this->form_validation->run() === FALSE)
             {
@@ -66,8 +101,9 @@ class member extends CI_Controller
             }
             else
             {
-                $firstname      = $input['firstname'];
-                $lastname       = $input['lastname'];
+                // $firstname      = $input['firstname'];
+                // $lastname       = $input['lastname'];
+                $user_name       = $input['user_name'];
                 $email          = strtolower($input['email']);
                 $password       = $input['password'];
                 $phone          = $input['phone'];
@@ -75,8 +111,7 @@ class member extends CI_Controller
                 $password = $this->input->post('password');
 
                 $additional_data = array(
-                    'first_name'    => $firstname,
-                    'last_name'     => $lastname,
+                    'user_name'      => $user_name,
                     'phone'         => $phone,
                     'status'        => 0,
                     'type'          => 5,
@@ -97,7 +132,8 @@ class member extends CI_Controller
 
         }
 
-        echo json_encode($result);
+        $this->load->view('member/register', $data);
+        // echo json_encode($result);
     }
 
     public function logout()
@@ -126,12 +162,13 @@ class member extends CI_Controller
         //     'where'     => ['id'=>1]
         // ]);
         // $data['BookingFormula']         = $this->m_get->getBookingFormula();
-        // $data['Member']                 = $this->ion_auth->user()->row();
+        
+        $data['Member']                 = $this->ion_auth->user()->row();
 
         // $Transactions = $this->m_member->getListTransactions($data['Member']->id);
 
-        // $data['List'] = [];
-        // $this->load->model('m_general');
+        $data['List'] = [];
+        $this->load->model('m_general');
         // if ($Transactions) {
         //     foreach ($Transactions as $key => $value) {
         //         $RsvResponse    = json_decode($value->RsvResponse);
@@ -181,80 +218,80 @@ class member extends CI_Controller
         $this->load->view('member/dashboard', $data);
     }
 
-    // public function paymentConfirmation()
-    // {
-    //     // redirect them to the login page if not logged in or is login as admin
-    //     if ( !$this->ion_auth->logged_in() || $this->ion_auth->is_admin() )
-    //         redirect(base_url('member/login'), 'refresh');
+    public function paymentConfirmation()
+    {
+        // redirect them to the login page if not logged in or is login as admin
+        if ( !$this->ion_auth->logged_in() || $this->ion_auth->is_admin() )
+            redirect(base_url('member/login'), 'refresh');
 
-    //     $data = $this->m_general->loadGeneralData();
-    //     $data['MasterBank']     = $this->m_get->getMasterBank();
+        $data = $this->m_general->loadGeneralData();
+        $data['MasterBank']     = $this->m_get->getMasterBank();
 
-    //     $this->load->view('member/payment_confirmation', $data);
-    // }
+        $this->load->view('member/payment_confirmation', $data);
+    }
 
-    // public function inputPaymentConfirmation()
-    // {
-    //     // redirect them to the login page if not logged in or is login as admin
-    //     if ( !$this->ion_auth->logged_in() || $this->ion_auth->is_admin() )
-    //         redirect(base_url('member/login'), 'refresh');
+    public function inputPaymentConfirmation()
+    {
+        // redirect them to the login page if not logged in or is login as admin
+        if ( !$this->ion_auth->logged_in() || $this->ion_auth->is_admin() )
+            redirect(base_url('member/login'), 'refresh');
 
-    //     $this->load->model('m_member');
+        $this->load->model('m_member');
 
-    //     if ($input = $this->input->post()) {
-    //         $result = array('status'=>FALSE, 'message'=>'Invalid Order ID', 'data'=>[]);
-    //         $this->form_validation->set_rules('orderid', 'Order Id', 'trim|required|numeric');
-    //         $this->form_validation->set_rules('bank', 'Bank From', 'trim|required');
-    //         $this->form_validation->set_rules('bank_to', 'Bank To', 'trim|required');
-    //         $this->form_validation->set_rules('accountname', 'Account Name', 'trim|required');
-    //         $this->form_validation->set_rules('accountnumber', 'Account Number', 'trim|required|numeric');
-    //         $this->form_validation->set_rules('ordertotal', 'Total Transfer', 'trim|required');
-    //         $this->form_validation->set_rules('date_day_input', 'Transaction Date Day', 'trim|numeric|required|max_length[2]');
-    //         $this->form_validation->set_rules('date_month_input', 'Transaction Date Month', 'trim|numeric|required|max_length[2]');
-    //         $this->form_validation->set_rules('date_year_input', 'Transaction Date Year', 'trim|numeric|required|max_length[4]');
+        if ($input = $this->input->post()) {
+            $result = array('status'=>FALSE, 'message'=>'Invalid Order ID', 'data'=>[]);
+            $this->form_validation->set_rules('orderid', 'Order Id', 'trim|required|numeric');
+            $this->form_validation->set_rules('bank', 'Bank From', 'trim|required');
+            $this->form_validation->set_rules('bank_to', 'Bank To', 'trim|required');
+            $this->form_validation->set_rules('accountname', 'Account Name', 'trim|required');
+            $this->form_validation->set_rules('accountnumber', 'Account Number', 'trim|required|numeric');
+            $this->form_validation->set_rules('ordertotal', 'Total Transfer', 'trim|required');
+            $this->form_validation->set_rules('date_day_input', 'Transaction Date Day', 'trim|numeric|required|max_length[2]');
+            $this->form_validation->set_rules('date_month_input', 'Transaction Date Month', 'trim|numeric|required|max_length[2]');
+            $this->form_validation->set_rules('date_year_input', 'Transaction Date Year', 'trim|numeric|required|max_length[4]');
 
-    //         // if validation false
-    //         if ($this->form_validation->run() === FALSE)
-    //         {
-    //             $result['message'] = trim(strip_tags(validation_errors()));
-    //         }
-    //         // if validation true
-    //         else
-    //         {
-    //             $trans_date = $input['date_year_input'].'-'.$input['date_month_input'].'-'.$input['date_day_input'] ;
+            // if validation false
+            if ($this->form_validation->run() === FALSE)
+            {
+                $result['message'] = trim(strip_tags(validation_errors()));
+            }
+            // if validation true
+            else
+            {
+                $trans_date = $input['date_year_input'].'-'.$input['date_month_input'].'-'.$input['date_day_input'] ;
 
-    //             $paymentConfirmData = [
-    //                 'id_rsv'            => $input['orderid'],
-    //                 'bank_from'         => $input['bank'],
-    //                 'bank_to'           => $input['bank_to'],
-    //                 'account_name'      => $input['accountname'],
-    //                 'account_number'    => $input['accountnumber'],
-    //                 'amount'            => $input['ordertotal'],
-    //                 'transf_date'       => $trans_date
-    //             ];
+                $paymentConfirmData = [
+                    'id_rsv'            => $input['orderid'],
+                    'bank_from'         => $input['bank'],
+                    'bank_to'           => $input['bank_to'],
+                    'account_name'      => $input['accountname'],
+                    'account_number'    => $input['accountnumber'],
+                    'amount'            => $input['ordertotal'],
+                    'transf_date'       => $trans_date
+                ];
 
-    //             // update rsv table
-    //             // set payment status, confirmation date, and undread confirmation
-    //             if ($CheckRsv = $this->m_get->getRsvById($paymentConfirmData['id_rsv'])) {
-    //                 $this->m_member->updateRsv(
-    //                     $paymentConfirmData['id_rsv'],
-    //                     [   'paymentstatus' => 1, 
-    //                         'cf_date'       => date('Y-m-d H:i:s'),
-    //                         'unread_cf'     => 1
-    //                     ]
-    //                 );
-    //                 // insert data to rsv_confirmation table
-    //                 $this->m_member->insertRsvConfirmation($paymentConfirmData);
+                // update rsv table
+                // set payment status, confirmation date, and undread confirmation
+                if ($CheckRsv = $this->m_get->getRsvById($paymentConfirmData['id_rsv'])) {
+                    $this->m_member->updateRsv(
+                        $paymentConfirmData['id_rsv'],
+                        [   'paymentstatus' => 1, 
+                            'cf_date'       => date('Y-m-d H:i:s'),
+                            'unread_cf'     => 1
+                        ]
+                    );
+                    // insert data to rsv_confirmation table
+                    $this->m_member->insertRsvConfirmation($paymentConfirmData);
 
-    //                 $result = array('status'=>TRUE, 'message'=>'Success send payment confirmation', 'data'=>[]);
-    //             }
-    //         }
-    //         echo json_encode($result);
-    //     }
-    //     else {
-    //         redirect(base_url('member/login'), 'refresh');
-    //     }
-    // }
+                    $result = array('status'=>TRUE, 'message'=>'Success send payment confirmation', 'data'=>[]);
+                }
+            }
+            echo json_encode($result);
+        }
+        else {
+            redirect(base_url('member/login'), 'refresh');
+        }
+    }
 
     public function editProfile()
     {
