@@ -82,9 +82,8 @@ class member extends CI_Controller
         
     }
 
-    public function register()
+    public function submitRegister()
     {
-        $data = $this->m_general->loadGeneralData();
         $data['error'] = FALSE;
         $result = ['status'=>TRUE, 'message'=>'Data harus diisi', 'data'=>[]];
         if ($input = $this->input->post()) {
@@ -136,7 +135,13 @@ class member extends CI_Controller
         else {
 
         }
+        echo json_encode($result);
+    }
 
+    public function register()
+    {
+        $data = $this->m_general->loadGeneralData();
+        $data['error'] = FALSE;
         //set up email
 		// 	$config = array(
         //         'protocol' => 'smtp',
@@ -183,7 +188,7 @@ class member extends CI_Controller
 
 
         $this->load->view('member/register', $data);
-        // echo json_encode($result);
+        
     }
 
     //user email activation

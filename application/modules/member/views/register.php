@@ -182,7 +182,7 @@ $(document).ready(function() {
         
         $.ajax({
           type: "POST",
-          url: "<?=base_url('member/register')?>",
+          url: "<?=base_url('member/submitRegister')?>",
           data: $('#regfrm').serialize(),
           headers: { 'X-CSRF-TOKEN': getCookiebyName('5f05193eee9e900380c12e6040e7dee9') },
           success: function(resp){
