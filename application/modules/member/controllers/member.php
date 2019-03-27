@@ -50,7 +50,7 @@ class member extends CI_Controller
         
     }
 
-    function login() //before was login()
+    function login()
     {        
         // get general data for header and footer
         $data = $this->m_general->loadGeneralData();
@@ -89,11 +89,12 @@ class member extends CI_Controller
         $result = ['status'=>TRUE, 'message'=>'Data harus diisi', 'data'=>[]];
         if ($input = $this->input->post()) {
             $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+            $this->form_validation->set_rules('bdate', 'Birth Date', 'trim|required');
             $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]');
             $this->form_validation->set_rules('repassword', 'Password Confirmation', 'trim|required|matches[password]');
-            // $this->form_validation->set_rules('firstname', 'First Name', 'trim|required|alpha|max_length[50]');
-            // $this->form_validation->set_rules('lastname', 'Last Name', 'trim|required|max_length[50]');
-            $this->form_validation->set_rules('user_name', 'Username', 'trim|required|alpha|max_length[50]');
+            $this->form_validation->set_rules('firstname', 'First Name', 'trim|required|alpha|max_length[50]');
+            $this->form_validation->set_rules('lastname', 'Last Name', 'trim|required|max_length[50]');
+            $this->form_validation->set_rules('username', 'Username', 'trim|required|alpha|max_length[50]');
             $this->form_validation->set_rules('phone', 'Phone Number', 'trim|numeric|required|max_length[20]');
             if ($this->form_validation->run() === FALSE)
             {
@@ -101,18 +102,22 @@ class member extends CI_Controller
             }
             else
             {
-                // $firstname      = $input['firstname'];
-                // $lastname       = $input['lastname'];
-                $user_name       = $input['user_name'];
-                $email          = strtolower($input['email']);
-                $password       = $input['password'];
-                $phone          = $input['phone'];
+                $firstname      = $this->input->post('firstname');
+                $lastname       = $this->input->post('lastname');
+                $username       = $this->input->post('username');
+                $phone          = $this->input->post('phone');
+                $gender         = $this->input->post('gender');
+                $bdate          = $this->input->post('bdate');
                 $email = strtolower($this->input->post('email'));
                 $password = $this->input->post('password');
 
                 $additional_data = array(
-                    'user_name'      => $user_name,
+                    'username'      => $username,
                     'phone'         => $phone,
+                    'gender'        => $gender,
+                    'first_name'    => $firstname,
+                    'last_name'     => $lastname,
+                    'birth_date'    => $bdate,
                     'status'        => 0,
                     'type'          => 5,
                     'created_date'  => date('Y-m-d H:i:s'),
@@ -132,9 +137,84 @@ class member extends CI_Controller
 
         }
 
+        //set up email
+		// 	$config = array(
+        //         'protocol' => 'smtp',
+        //         'smtp_host' => 'ssl://smtp.googlemail.com',
+        //         'smtp_port' => 465,
+        //         'smtp_user' => '<a href="mailto:testsourcecodester@gmail.com" rel="nofollow">testsourcecodester@gmail.com</a>', // change it to yours
+        //         'smtp_pass' => 'mysourcepass', // change it to yours
+        //         'mailtype' => 'html',
+        //         'charset' => 'iso-8859-1',
+        //         'wordwrap' => TRUE
+        //   );
+
+        //   $message = 	"
+        //               <html>
+        //               <head>
+        //                   <title>Verification Code</title>
+        //               </head>
+        //               <body>
+        //                   <h2>Thank you for Registering.</h2>
+        //                   <p>Your Account:</p>
+        //                   <p>Email: ".$email."</p>
+        //                   <p>Password: ".$password."</p>
+        //                   <p>Please click the link below to activate your account.</p>
+        //                   <h4><a href='".base_url()."user/activate/".$id."/".$code."'>Activate My Account</a></h4>
+        //               </body>
+        //               </html>
+        //               ";
+
+        //   $this->load->library('email', $config);
+        //   $this->email->set_newline("\r\n");
+        //   $this->email->from($config['smtp_user']);
+        //   $this->email->to($email);
+        //   $this->email->subject('Signup Verification Email');
+        //   $this->email->message($message);
+
+          //sending email
+        //   if($this->email->send()){
+        //       $this->session->set_flashdata('message','Activation code sent to email');
+        //   }
+        //   else{
+        //       $this->session->set_flashdata('message', $this->email->print_debugger());
+
+        //   }
+
+
         $this->load->view('member/register', $data);
         // echo json_encode($result);
     }
+
+    //user email activation
+    // public function activate(){
+	// 	$id =  $this->uri->segment(3);
+	// 	$code = $this->uri->segment(4);
+ 
+	// 	//fetch user details
+	// 	$user = $this->users_model->getUser($id);
+ 
+	// 	//if code matches
+	// 	if($user['code'] == $code){
+	// 		//update user active status
+	// 		$data['active'] = true;
+	// 		$query = $this->users_model->activate($data, $id);
+ 
+	// 		if($query){
+	// 			$this->session->set_flashdata('message', 'User activated successfully');
+	// 		}
+	// 		else{
+	// 			$this->session->set_flashdata('message', 'Something went wrong in activating account');
+	// 		}
+	// 	}
+	// 	else{
+	// 		$this->session->set_flashdata('message', 'Cannot activate account. Code didnt match');
+	// 	}
+ 
+	// 	redirect('register');
+ 
+    // }
+    
 
     public function logout()
     {

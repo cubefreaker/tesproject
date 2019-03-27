@@ -32,10 +32,13 @@
             <label>Birth Date</label>
             <!-- <h5 class="text-left" style="margin-bottom: 5px;color: rgb(0,0,0);">Birth date</h5> -->
             <input type="date" name="bdate" class="form-control" required/></div>
-        <div class="form-group">
+        <div class="form-group col-md-6" style="padding-left: 0px;">
             <label>Email</label>
             <!-- <h5 class="text-left" style="margin-bottom: 5px;color: rgb(0,0,0);">Email</h5> -->
             <input type="email" name="email" class="form-control" placeholder="Example: john@example.com" required/></div>
+        <div class="form-group col-md-6" style="padding-left: 0px;">
+            <label>Phone</label>
+            <input type="tel" name="phone" class="form-control" required/></div>
         <div class="form-group">
             <label>Password</label>
             <!-- <h5 class="text-left" style="margin-bottom: 5px;color: rgb(0,0,0);">Password</h5> -->
@@ -44,9 +47,18 @@
             <label>Re-Type Password</label>
             <!-- <h5 class="text-left" style="margin-bottom: 5px;color: rgb(0,0,0);">Re-Type Password</h5> -->
             <input class="form-control" type="password" name="repassword" id="pass2" required/></div>
-            <button class="btn btn-danger btn-block btn-register" style="margin-top: 20px">
-	                    Register
-	                </button>
+        <div class="card">
+        <label>EULA</label>
+        <div class="card-body pre-scrollable" style="height: 150px; width: 100%;">
+          
+              Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla. Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla. Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla. Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla. Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
+          </div>
+        </div>
+        <div class="custom-control custom-checkbox" style="margin-top: 20px;">
+          <input type="checkbox" class="custom-control-input" id="terms" name="terms" required>
+          <label class="custom-control-label" for="terms">I have read and agree to the terms and privacy policy of ....</label>
+        </div>
+        <button class="btn btn-danger btn-block btn-register" style="margin-top: 20px">Accept and Register</button>
     </form>
     
 </div>
@@ -114,19 +126,20 @@
 	            </form>
 	        </div> -->
 	        <!-- End of col-sm-6 -->
-	    </div>
+	    <!-- </div> -->
 	    <!-- End of row -->
-	</section>
+	<!-- </section> -->
 	    
 	<?php $this->load->view('template/loader/preloader') ?>
   
-  <?php $this->load->view('template/landingpage/footer', $footerPage) ?>
+  <!-- <?php $this->load->view('template/landingpage/footer', $footerPage) ?> -->
 
 <script src="<?=base_url()?>assets/js/jquery.min.js"></script>
 <script src="<?=base_url()?>assets/js/bootstrap.min.js"></script>
 <script src="<?=base_url()?>assets/js/nav.js"></script>
 <script src="<?=base_url()?>assets/js/slick.min.js"></script>
 <script src="<?=base_url()?>assets/js/login.js"></script>
+
 
 <script type="text/javascript">
 function stopLoading() {
