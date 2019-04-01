@@ -2,46 +2,59 @@
 <body>  
 <?php $this->load->view('template/landingpage/nav') ?>
 
-	<section class="main-section container-fluid" ng-controller="LoginController">
-	    <div class="row">
-	        <div class="col-sm-6 col-register">
-	            <form id="regfrm" name="regfrm">
-	                <h3>Register Now</h3>
-	                <h5>&nbsp;</h5>
-
-	                <div class="form-group">
-	                    <label>First Name</label>
-	                    <input type="text" name="firstname" class="form-control" required>
-	                    <input type="hidden" name="act" value="register">
-	                </div>
-	                <div class="form-group">
-	                    <label>Last Name</label>
-	                    <input type="text" name="lastname" class="form-control" required>
-	                    <input type="hidden" name="act" value="register">
-	                </div>
-	                <div class="form-group">
-	                    <label>Phone Number</label>
-	                    <input type="tel" name="phone" class="form-control" required>
-	                </div>
-	                <div class="form-group">
+	<section class="main-section container-fluid" ng-controller="LoginController" style="margin-top: 5%">
+	    <div class="row" style="margin-top: 10px;">
+	        <div class="col-sm-8 col-md-8" style="text-align: center;">
+          <h1 style="text-align: center;">Why Must Join ITX?</h1>
+            <div class="row">
+              <div class="col-md-4">
+                <a href="" class="thumbnail">Thumbnail 1</a>
+                <label>Buyer Management</label>                
+              </div>
+              <div class="col-md-4">
+                <a href="" class="thumbnail">Thumbnail 2</a>                
+                <label>Seller Management</label>
+              </div>
+              <div class="col-md-4">
+                <a href="" class="thumbnail">Thumbnail 3</a>                
+                <label>Price Management</label>
+              </div>
+            </div>
+            <div class="row" style="margin-top: 10px;">
+            <div class="col-md-4">
+                <a href="" class="thumbnail">Thumbnail 4</a>                
+                <label>Data Analytics</label>                
+              </div>
+              <div class="col-md-4">
+                <a href="" class="thumbnail">Thumbnail 5</a>                
+                <label>Aplication Program Interface</label>                
+              </div>
+              <div class="col-md-4">
+                <a href="" class="thumbnail">Thumbnail 6</a>                
+                <label>Dashboard</label>                
+              </div>
+            </div>
+          </div>
+	        <!-- End of col-sm-5 -->
+          <div class="col-sm-4 col-md-4" style="padding-right:5%;padding-left:5%;">
+          <h1>Login</h1>
+          <div class="form-group">
 	                    <label>Email</label>
-	                    <input type="email" name="email" class="form-control" placeholder="e.g: email@example.com" required>
+	                    <input type="email" name="email" required class="form-control">
+	                    <input type="hidden" name="act" value="login">
+                      <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
 	                </div>
 	                <div class="form-group">
 	                    <label>Password</label>
-	                    <input type="password" id="pass1" name="password" class="form-control" required>
+	                    <input type="password" name="password" required class="form-control">
 	                </div>
-	                <div class="form-group">
-	                    <label>Confirm Password</label>
-	                    <input type="password" id="pass2" name="repassword" class="form-control" required>
-	                </div>
-	                <button class="btn btn-danger btn-block btn-register">
-	                    Register
+	                <button type="submit" class="btn btn-danger btn-block">
+	                    Login
 	                </button>
-	            </form>
-	        </div>
-	        <!-- End of col-sm-6 -->
-	        <div class="col-sm-6 col-login">
+          </div>
+
+
+	        <!-- <div class="col-sm-4 col-md-4" style="padding-right:5%;padding-left:5%;">
 	            <form name="logfrm" method="post" action="<?=base_url('member/login')?>">
 	                <h3>Already Member</h3>
 	                <h5>login to make everything easier</h5>
@@ -57,15 +70,15 @@
 	                    <input type="password" name="password" required class="form-control">
 	                </div>
 	                <div class="checkbox">
-	                  <label><input name='remember_me' type="checkbox" value="">Remember me</label>
+	                  <label><input name='remember_me' type="checkbox" value="">Remember me</label> -->
 	                  <!-- <a href="forgot.php" class="forgot">Lost your password?</a> -->
-	                </div>
+	                <!-- </div>
 	                <button type="submit" class="btn btn-danger btn-block">
 	                    Login
 	                </button>
                   
 	            </form>
-	        </div>
+	        </div> -->
 	        <!-- End of col-sm-6 -->
 	    </div>
 	    <!-- End of row -->
