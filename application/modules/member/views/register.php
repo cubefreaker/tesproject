@@ -42,7 +42,7 @@
         <div class="form-group">
             <label>Password</label>
             <!-- <h5 class="text-left" style="margin-bottom: 5px;color: rgb(0,0,0);">Password</h5> -->
-            <input type="password" name="password" id="pass1" class="form-control" placeholder="Password must contain capitalize & number" required/></div>
+            <input type="password" name="password" id="pass1" class="form-control" placeholder="Password must contain capitalize & number" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required/></div>
         <div class="form-group">
             <label>Re-Type Password</label>
             <!-- <h5 class="text-left" style="margin-bottom: 5px;color: rgb(0,0,0);">Re-Type Password</h5> -->

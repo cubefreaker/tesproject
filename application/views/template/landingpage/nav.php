@@ -60,7 +60,7 @@
         }
         else {
             $member = $this->ion_auth->user()->row();
-            $memberFullName = $member->first_name.' '.$member->last_name;
+            $memberUsername = $member->username;
          echo'
           <li class="sign-up">
             <a class="keep-color" href="">Home</a>
@@ -71,15 +71,20 @@
           </li>
             <li class="sign-up" style="padding: 18px">
             <div class="dropdown">
-              <button class="btn" type="button" data-toggle="dropdown">
-                '.$memberFullName.'
+              <button class="keep-color" type="button" data-toggle="dropdown">
+                Request
               </button>
               <ul class="dropdown-menu">
-                <li><a class="keep-color" href="'.base_url("member/profile").'">Edit Profile</a></li>
-                <li><a class="keep-color" href="'.base_url("member/logout").'">Logout</a></li>
+                <li><a class="keep-color" href="">As Seller</a></li>
+                <li><a class="keep-color" href="">As Buyer</a></li>
+                <li><a class="keep-color" href="">Data Analytic</a></li>
+                <li><a class="keep-color" href="">Resource</a></li>
               </ul>
             </div>
-          </li>';
+          </li>
+          <li class="sign-up">
+            <a class="keep-color" href="">'.$memberUsername.'</a>
+          ';
         }
       ?>
       

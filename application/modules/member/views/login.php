@@ -37,6 +37,7 @@
           </div>
 	        <!-- End of col-sm-5 -->
           <div class="col-sm-4 col-md-4" style="padding-right:5%;padding-left:5%;">
+          <form name="logfrm" method="post" action="<?=base_url('member/login')?>" style="margin: 0px; padding:0px;">
           <h1>Login</h1>
           <div class="form-group">
 	                    <label>Email</label>
@@ -52,8 +53,7 @@
 	                    Login
 	                </button>
           </div>
-
-
+          </form>
 	        <!-- <div class="col-sm-4 col-md-4" style="padding-right:5%;padding-left:5%;">
 	            <form name="logfrm" method="post" action="<?=base_url('member/login')?>">
 	                <h3>Already Member</h3>
@@ -88,7 +88,7 @@
   
   <?php $this->load->view('template/landingpage/footer', $footerPage) ?>
 
-<script src="<?=base_url()?>assets/js/jquery.min.js"></script>
+  <script src="<?=base_url()?>assets/js/jquery.min.js"></script>
 <script src="<?=base_url()?>assets/js/bootstrap.min.js"></script>
 <script src="<?=base_url()?>assets/js/nav.js"></script>
 <script src="<?=base_url()?>assets/js/slick.min.js"></script>
