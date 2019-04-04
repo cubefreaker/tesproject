@@ -59,11 +59,11 @@
             <li class="sign-up"><a href="'.base_url("member/login").'" class="keep-color">Login</a></li>';
         }
         else {
-            $member = $this->ion_auth->user()->row();
-            $memberUsername = $member->username;
+        $member = $this->ion_auth->user()->row();
+        $memberUsername = $member->username;
          echo'
           <li class="sign-up">
-            <a class="keep-color" href="">Home</a>
+          <a class="keep-color" href="">Home</a>
           <li class="sign-up">
             <a class="keep-color" href="">Promo</a>
           <li class="sign-up">
@@ -83,7 +83,15 @@
             </div>
           </li>
           <li class="sign-up">
-            <a class="keep-color" href="">'.$memberUsername.'</a>
+          <div class="dropdown">
+            <button class="keep-color" type="button" data-toggle="dropdown">
+              '.$memberUsername.'
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="keep-color" href="'.base_url('member/logout').'">Logout</a></li>
+            </ul>
+          </div>
+          </li>
           ';
         }
       ?>

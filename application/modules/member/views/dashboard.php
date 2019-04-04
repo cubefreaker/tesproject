@@ -36,8 +36,29 @@
                     <div>Gender : <?php echo $user->gender; ?></div>
                     <div>Birth Date : <?php echo $user->birth_date; ?></div>
                     <div>Email : <?php echo $user->email; ?></div>
-                    <div>Phone : <?php echo $user->phone; ?> <button type="button" data-toggle="modal" data-target="#">edit</button>
-                    
+                    <div>Phone : <?php echo $user->phone; ?>
+                        <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#editPhone">edit</button>
+                        <div id="editPhone" class="modal fade" role="dialog">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <form method="post" action="<?=base_url('member/editPhone')?>">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Edit Phone</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        Input new phone number
+                                        <input type="tel" name="newphone" class="form-control">
+                                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-default">Save</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>                    
                     </div>
                     <div>Password :</div>
             </div>

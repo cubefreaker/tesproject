@@ -46,7 +46,7 @@ class member extends CI_Controller
         //     }
         // }
         
-        $this->load->view('member/login', $data);
+        $this->load->view('member/dashboard', $data);
         
     }
 
@@ -418,6 +418,19 @@ class member extends CI_Controller
         $this->m_update->updateDynamic($dataProfile);
         $Return['StatusResponse'] = 1;
         echo json_encode($Return);
+    }
+
+    public function editPhone()
+    {
+        $this->load->model('m_update');
+        $newPhone = ['phone' => $this->input->post('newphone')];
+        $data = [
+            'data'  => $newPhone,
+            'table' => 'users',
+            'where'     => ['id' => $this->ion_auth->user()->row()->id],
+        ];
+        $this->m_update->updateDynamic($data);
+        redirect(base_url('member/dashboard'), 'refresh');
     }
 
     public function profile()
