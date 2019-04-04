@@ -46,7 +46,7 @@ class member extends CI_Controller
         //     }
         // }
         
-        $this->load->view('member/dashboard', $data);
+        redirect(base_url('member/dashboard'));
         
     }
 
@@ -239,67 +239,10 @@ class member extends CI_Controller
         // get general data for header and footer
         $this->load->model('member/m_member');
         $data = $this->m_general->loadGeneralData();
-        // $data['MasterAirport']          = $this->m_get->getMasterAirport();
-        // // $data['MasterBank']             = $this->m_get->getMasterBank();
-        // $data['MasterBank'] = $this->m_get->getDynamic([
-        //     'select'    => 'id, name, rekening, rekening_name',
-        //     'from'      => 'v2_master_bank',
-        //     'where'     => ['id'=>1]
-        // ]);
-        // $data['BookingFormula']         = $this->m_get->getBookingFormula();
-        
-        $data['Member']                 = $this->ion_auth->user()->row();
-
-        // $Transactions = $this->m_member->getListTransactions($data['Member']->id);
-
-        $data['List'] = [];
+        // $data['Member'] = $this->ion_auth->user()->row();
+        // $data['List'] = [];
         $this->load->model('m_general');
-        // if ($Transactions) {
-        //     foreach ($Transactions as $key => $value) {
-        //         $RsvResponse    = json_decode($value->RsvResponse);
-
-        //         $Adult   = array_filter($RsvResponse->Passengers, function ($var) {
-        //             return ($var->Type == 'Adult');
-        //         });
-
-        //         if (!$value->TotalPrice) {
-        //             $GetPrice = $this->m_general->GetPrice(['OrderId' => $value->OrderId]);
-        //             $TotalPrice = $GetPrice['TotalPrice'];
-        //         }
-        //         else {
-        //             $TotalPrice = $value->TotalPrice;
-        //         }
-
-        //         $LfrRequest = json_decode($value->LfrRequest);
-        //         $RsvArr['RsvStatus']            = $RsvResponse->Status;
-        //         $RsvArr['FlightOrigin']         = $RsvResponse->FlightDetails[0]->Origin;
-        //         $RsvArr['FlightDestination']    = $RsvResponse->FlightDetails[0]->Destination;
-        //         $RsvArr['Adult']                = count($Adult);
-        //         $RsvArr['ContactName']          = ucwords($LfrRequest->Contact->Title.' '.$LfrRequest->Contact->FirstName.' '.$LfrRequest->Contact->LastName);
-        //         $RsvArr['ContactEmail']         = $LfrRequest->Contact->Email;
-        //         $RsvArr['CreatedDate']          = $RsvResponse->Created;
-        //         $RsvArr['OrderId']              = $value->OrderId;
-        //         $RsvArr['IsRead']               = $value->IsRead;
-        //         $RsvArr['PaymentStatus']        = $value->PaymentStatus;
-        //         $RsvArr['PaymentStatusId']        = $value->PaymentStatusId;
-        //         if ($value->PaymentStatusId != 3 && strtotime($value->RsvTimeLimit) < strtotime("NOW")) {
-        //             $RsvArr['PaymentStatus'] = "Expired";
-        //         }
-        //         $RsvArr['RsvTimeLimit']         = $value->RsvTimeLimit;
-        //         $RsvArr['OrderCount']           = $value->OrderCount;
-        //         $RsvArr['RsvId']                = $value->RsvId;
-        //         $RsvArr['TotalPrice']           = number_format($TotalPrice, 0, '', ',');
-        //         $RsvArr['BankName']             = $value->BankName;
-        //         $RsvArr['PayIsRead']            = $value->PayIsRead;
-        //         $RsvArr['PaymentType']          = $value->PaymentType;
-        //         $RsvArr['CreatedDateView']      = date('l, d M Y. - H:i', strtotime($RsvResponse->Created));
-        //         $RsvArr['DueDate']              = date('l, d M Y. - H:i', strtotime($value->RsvTimeLimit));
-
-        //         $data['List'][] = $RsvArr;                
-        //     }
-
-        // }
-
+        
         $this->load->view('member/dashboard', $data);
     }
 
