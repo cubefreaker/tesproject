@@ -24,59 +24,15 @@
     </ul>
 
     <div class="tab-content clearfix">
-        <div class="tab-pane active" id="personaldata">
-            <h3 style="padding:2%;">Personal Data</h3>
-            <div class="col-md-8">
-                <?php 
-                    $user = $this->ion_auth->user()->row();
-                ?>
-                    <div>Username : <?php echo $user->username; ?></div>
-                    <div>First Name : <?php echo $user->first_name; ?></div>
-                    <div>Last Name : <?php echo $user->last_name; ?></div>
-                    <div>Gender : <?php echo $user->gender; ?></div>
-                    <div>Birth Date : <?php echo $user->birth_date; ?></div>
-                    <div>Email : <?php echo $user->email; ?></div>
-                    <div>Phone : <?php echo $user->phone; ?>
-                        <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#editPhone">edit</button>
-                        <div id="editPhone" class="modal fade" role="dialog">
-                            <div class="modal-dialog modal-sm">
-                                <div class="modal-content">
-                                    <form method="post" action="<?=base_url('member/editPhone')?>">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title">Edit Phone</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        Input new phone number
-                                        <input type="tel" name="newphone" class="form-control">
-                                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-default">Save</button>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>                    
-                    </div>
-                    <div>Password :</div>
-            </div>
-            <div class="col-md-4 panel panel-default">
-                <img src="" alt="">
-            </div>
-        </div>
-        <div class="tab-pane" id="infoperus">
-            <h3>Isi info perusahaan</h3>
-        </div>
-        <div class="tab-pane" id="dokumen">
-            <h3>Isi dokumen</h3>
-        </div>
-        <div class="tab-pane" id="alamat">
-            <h3>Isi alamat</h3>
-        </div>
+        <?php $this->load->view('member/personal_data'); ?>
+        <?php $this->load->view('member/informasi_perusahaan'); ?>
+        <?php $this->load->view('member/dokumen'); ?>
+        <?php $this->load->view('member/alamat'); ?>
         <div class="tab-pane" id="rekening">
-            <h3>Isi rekening bank</h3>
+            <h3 style="padding:2%;">Rekening Bank</h3>
+            <div>Nama Bank : </div>
+            <div>Nama Pemilik : </div>
+            <div>Nomor Rekening : </div>
         </div>
     </div>
 </div>
@@ -84,6 +40,20 @@
 <?php $this->load->view('template/loader/preloader') ?>
 <?php $this->load->view('template/landingpage/footer', $footerPage) ?>
 
+<script type="text/javascript">
+    var password = document.getElementById("pass1") , confirm_password = document.getElementById("pass2");
+
+    function validatePassword(){
+        if(pass1.value != pass2.value) {
+            confirm_password.setCustomValidity("Passwords Don't Match");
+        }else{
+            confirm_password.setCustomValidity('');
+        }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+</script>
 
 </body>
 

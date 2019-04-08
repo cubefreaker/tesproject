@@ -187,7 +187,7 @@ class member extends CI_Controller
         //   }
 
 
-        $this->load->view('member/register', $data);
+        $this->load->view('member/login', $data);
         
     }
 
@@ -239,7 +239,7 @@ class member extends CI_Controller
         // get general data for header and footer
         $this->load->model('member/m_member');
         $data = $this->m_general->loadGeneralData();
-        // $data['Member'] = $this->ion_auth->user()->row();
+        $data['Member'] = $this->ion_auth->user()->row();
         // $data['List'] = [];
         $this->load->model('m_general');
         
@@ -323,28 +323,31 @@ class member extends CI_Controller
 
     public function editProfile()
     {
-        $InputData = json_decode(file_get_contents('php://input'),true);
-        $Return = ['StatusResponse'=>0, 'Message'=>''];
-        $ProfileData = $InputData['data'];
-        if (isset($ProfileData['Password1']) && isset($ProfileData['Password2']) ) {
-            if ($ProfileData['Password1'] != $ProfileData['Password2']) {
-                $Return['Message'] = 'Password Not match';
-                echo $Return;
-                die();
-            }
-            else {
-                $Password = $this->ion_auth->reset_password($this->ion_auth->user()->row()->username, $ProfileData['Password1']);
-            }
-        }
-        else {
-            $Password = false;
-        }
+        // $InputData = json_decode(file_get_contents('php://input'),true);
+        // $Return = ['StatusResponse'=>0, 'Message'=>''];
+        // $ProfileData = $InputData['data'];
+        // if (isset($ProfileData['Password1']) && isset($ProfileData['Password2']) ) {
+        //     if ($ProfileData['Password1'] != $ProfileData['Password2']) {
+        //         $Return['Message'] = 'Password Not match';
+        //         echo $Return;
+        //         die();
+        //     }
+        //     else {
+        //         $Password = $this->ion_auth->reset_password($this->ion_auth->user()->row()->username, $ProfileData['Password1']);
+        //     }
+        // }
+        // else {
+        //     $Password = false;
+        // }
 
         $MemberData = [
-            'username'      => $ProfileData['UserName'],
-            'first_name'     => $ProfileData['FirstName'],
-            'last_name'      => $ProfileData['LastName'],
-            'phone'         => $ProfileData['Phone']
+            'username'      => $this->input->post('username'),
+            'first_name'    => $this->input->post('firstname'),
+            'last_name'     => $this->input->post('lastname'),
+            'gender'        => $this->input->post('gender'),
+            'birth_date'    => $this->input->post('birthdate'),
+            'email'         => $this->input->post('email'),
+            'phone'         => $this->input->post('phone')
         ];
         // if ($Password) {
         //     $MemberData['Password'] = $Password;
@@ -353,27 +356,20 @@ class member extends CI_Controller
         $dataProfile = [
             'data'  => $MemberData,
             'table' => 'users',
-            'where'     => ['id' => $this->ion_auth->user()->row()->id],
+            'where' => ['id' => $this->ion_auth->user()->row()->id],
         ];
         // if($this->session->flashdata('BankImage')){
         //     $dataBank['data']['imgor'] = $this->session->flashdata('BankImage');
         // }
         $this->m_update->updateDynamic($dataProfile);
-        $Return['StatusResponse'] = 1;
-        echo json_encode($Return);
+        // $Return['StatusResponse'] = 1;
+        // echo json_encode($Return);
+        redirect(base_url('member/dashboard'), 'refresh');
     }
 
-    public function editPhone()
+    public function changePass()
     {
-        $this->load->model('m_update');
-        $newPhone = ['phone' => $this->input->post('newphone')];
-        $data = [
-            'data'  => $newPhone,
-            'table' => 'users',
-            'where'     => ['id' => $this->ion_auth->user()->row()->id],
-        ];
-        $this->m_update->updateDynamic($data);
-        redirect(base_url('member/dashboard'), 'refresh');
+        
     }
 
     public function profile()
