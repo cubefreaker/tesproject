@@ -72,7 +72,7 @@
                                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="submit" class="btn btn-default btn-edit">Save</button>
+                                            <button type="submit" class="btn btn-default btn-edit" onclick="saveProfile()">Save</button>
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                         </div>
                                         </form>
@@ -85,4 +85,9 @@
             </div>
         </div>
 
+<script>
+    function saveProfile(){
+        confirm("Are You Sure?")
+    }
+</script>
        
