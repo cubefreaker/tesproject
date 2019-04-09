@@ -80,8 +80,18 @@
                                 </div>
                         </div>
             </div>
-            <div class="col-md-4 panel panel-default">
-                <img src="" alt="">
+            <div class="col-md-4">
+                <div class="thumbnail">
+                    <?php 
+                        if ($Member->img_thum == NULL || $Member->img_thum == '') {
+                            echo '<img height="200" width="200" src="'.base_url().'assets/images/profile/profile.png">';
+                        } else {
+                            echo '<img height="200" width="200" src="'.base_url().'assets/images/profile/'.$Member->img_thum.'">';
+                        }
+                    ?>
+                    
+
+                </div>
             </div>
         </div>
 

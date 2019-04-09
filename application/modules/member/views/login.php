@@ -8,30 +8,50 @@
           <h1 style="text-align: center;">Why Must Join ITX?</h1>
             <div class="row">
               <div class="col-md-4">
-                <a href="" class="thumbnail">Thumbnail 1</a>
-                <label>Buyer Management</label>                
+                <div class="thumbnail">
+                  <img src="" alt="">
+                  <h3>Buyer Management</h3>
+                  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur placeat dicta eum ea? Nesciunt eveniet, saepe quod cum vitae labore ipsam commodi dicta, impedit voluptatem nulla atque vel, provident voluptates?</p>
+                
+                </div>
+                <!-- <label>Buyer Management</label>                 -->
               </div>
               <div class="col-md-4">
-                <a href="" class="thumbnail">Thumbnail 2</a>                
-                <label>Seller Management</label>
+                <div class="thumbnail">
+                  <img src="" alt="">
+                  <h3>Seller Management</h3>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur ipsam repudiandae non animi? Architecto vitae quia atque exercitationem sed corporis optio consequuntur inventore error quod deserunt, delectus iure perferendis? Laborum!</p>
+                </div>
               </div>
               <div class="col-md-4">
-                <a href="" class="thumbnail">Thumbnail 3</a>                
-                <label>Price Management</label>
+                <div>
+                  <img src="" alt="">
+                  <h3>Price Management</h3>
+                  <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt rerum molestias illum voluptatibus consectetur, assumenda nobis nam nihil velit. Sed impedit sapiente obcaecati quis libero molestiae quidem repellendus commodi ullam?</p>
+                </div>
               </div>
             </div>
             <div class="row" style="margin-top: 10px;">
-            <div class="col-md-4">
-                <a href="" class="thumbnail">Thumbnail 4</a>                
-                <label>Data Analytics</label>                
+              <div class="col-md-4">                
+                <div class="thumbnail">
+                  <img src="" alt="">
+                  <h3>Data Analytics</h3>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae quasi maxime sit? Ullam deleniti, quos ratione illo veniam natus fugiat numquam quibusdam doloremque facilis consequuntur? Nam repellendus error minus recusandae?</p>
+                </div>
               </div>
               <div class="col-md-4">
-                <a href="" class="thumbnail">Thumbnail 5</a>                
-                <label>Aplication Program Interface</label>                
+                <div class="thumbnail">
+                  <img src="" alt="">
+                  <h3>Aplication Program Interface</h3>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus autem, mollitia aut facere, veniam, ab excepturi praesentium sapiente voluptatum ipsam doloremque illo! Obcaecati recusandae atque facere veniam, repellat blanditiis tempore.</p>
+                </div>                
               </div>
               <div class="col-md-4">
-                <a href="" class="thumbnail">Thumbnail 6</a>                
-                <label>Dashboard</label>                
+                <div class="thumbnail">
+                  <img src="" alt="">
+                  <h3>Dashboard</h3>
+                  <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. A laudantium odio expedita nesciunt impedit deleniti aliquid quis sed vel. Fugit vel earum quaerat tempora voluptatem quasi repellendus quidem eveniet nesciunt!</p>
+                </div>      
               </div>
             </div>
           </div>

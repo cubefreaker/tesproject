@@ -187,7 +187,7 @@ class member extends CI_Controller
         //   }
 
 
-        $this->load->view('member/login', $data);
+        $this->load->view('member/register', $data);
         
     }
 
@@ -244,6 +244,39 @@ class member extends CI_Controller
         $this->load->model('m_general');
         
         $this->load->view('member/dashboard', $data);
+    }
+
+    public function personalData()
+    {
+
+    }
+
+    function uploadImage()
+    {
+        $initialize = $this->upload->initialize(array(
+            "upload_path" => "./assets/images/profile/",
+            "allowed_types" => "jpg|jpeg|png|bmp",
+            "remove_spaces" => TRUE
+        ));
+        $imagename = 'no-img.jpg';
+        if(!$this->upload->do_upload('imageURL')){
+            $error = array('error' => $this->upload->display_errors());
+            echo $this->upload->display_errors();
+        }
+        else{
+            $data = $this->upload->data();
+            $imagename = ['img_thum' => $data['file_name']];
+            $dataimg = [
+                'data'  => $imagename,
+                'table' => 'users',
+                'where' => ['id' => $this->ion_auth->user()->row()->id]
+            ];
+            $this->m_update->updateDynamic($dataimg);
+            $this->session->set_flashdata('img_uploaded_msg', '<div class="alert alert-success">Image uploaded successfully!</div>');
+            $this->session->set_flashdata('img_uploaded', $imagename);
+            redirect(base_url('member/dashboard'), 'refresh');
+
+        }
     }
 
     public function paymentConfirmation()
@@ -356,7 +389,7 @@ class member extends CI_Controller
         $dataProfile = [
             'data'  => $MemberData,
             'table' => 'users',
-            'where' => ['id' => $this->ion_auth->user()->row()->id],
+            'where' => ['id' => $this->ion_auth->user()->row()->id]
         ];
         // if($this->session->flashdata('BankImage')){
         //     $dataBank['data']['imgor'] = $this->session->flashdata('BankImage');
