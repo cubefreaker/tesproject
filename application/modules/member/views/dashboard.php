@@ -38,7 +38,7 @@
 </div>
 
 <?php $this->load->view('template/loader/preloader') ?>
-<?php $this->load->view('template/landingpage/footer', $footerPage) ?>
+<!-- <?php $this->load->view('template/landingpage/footer', $footerPage) ?> -->
 
 <script type="text/javascript">
     var password = document.getElementById("pass1") , confirm_password = document.getElementById("pass2");

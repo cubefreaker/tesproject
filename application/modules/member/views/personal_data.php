@@ -1,6 +1,6 @@
 <div class="tab-pane active" id="personaldata">
-            <h3 style="padding:2%;">Personal Data</h3>
-            <div class="col-md-8">
+            <div class="col-md-8" style="padding:2%;">
+                    <h3 style="margin-bottom:10px;">Personal Data</h3>               
                     <div>Username : <?=$Member->username; ?></div>
                     <div>First Name : <?=$Member->first_name; ?></div>
                     <div>Last Name : <?=$Member->last_name; ?></div>
@@ -80,8 +80,9 @@
                                 </div>
                         </div>
             </div>
-            <div class="col-md-4">
-                <div class="thumbnail">
+            <div class="col-md-4" style="padding:2%;">
+                
+                <div class="img-thumbnail">
                     <?php 
                         if ($Member->img_thum == NULL || $Member->img_thum == '') {
                             echo '<img height="200" width="200" src="'.base_url().'assets/images/profile/profile.png">';
@@ -89,9 +90,11 @@
                             echo '<img height="200" width="200" src="'.base_url().'assets/images/profile/'.$Member->img_thum.'">';
                         }
                     ?>
-                    
-
                 </div>
+                <div>
+                <button type="button" class="btn btn-default btn-file">upload</button>
+                </div>
+                
             </div>
         </div>
 
