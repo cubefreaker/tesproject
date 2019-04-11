@@ -24,7 +24,7 @@
                 </div>
               </div>
               <div class="col-md-4">
-                <div>
+                <div class="thumbnail">
                   <img src="" alt="">
                   <h3>Price Management</h3>
                   <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt rerum molestias illum voluptatibus consectetur, assumenda nobis nam nihil velit. Sed impedit sapiente obcaecati quis libero molestiae quidem repellendus commodi ullam?</p>
