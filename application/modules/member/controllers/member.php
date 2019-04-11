@@ -253,15 +253,21 @@ class member extends CI_Controller
 
     function uploadImage()
     {
-        $initialize = $this->upload->initialize(array(
-            "upload_path" => "./assets/images/profile/",
-            "allowed_types" => "jpg|jpeg|png|bmp",
-            "remove_spaces" => TRUE
-        ));
-        $imagename = 'no-img.jpg';
+        $user = $this->ion_auth->user()->row();
+            
+        $config = array(
+            'file_name' => $user->id.$user->username.time(),
+            'upload_path' => './assets/images/profile/',
+            'allowed_types' => 'jpg|png|jpeg',
+            'max_size'  => '2048',
+            'remove_space' => TRUE,
+            'overwrite' => TRUE
+        );
+        
+        $this->load->library('upload', $config);
         if(!$this->upload->do_upload('imageURL')){
             $error = array('error' => $this->upload->display_errors());
-            echo $this->upload->display_errors();
+            echo $error['error'];
         }
         else{
             $data = $this->upload->data();
@@ -271,6 +277,7 @@ class member extends CI_Controller
                 'table' => 'users',
                 'where' => ['id' => $this->ion_auth->user()->row()->id]
             ];
+            $this->load->model('m_update');
             $this->m_update->updateDynamic($dataimg);
             $this->session->set_flashdata('img_uploaded_msg', '<div class="alert alert-success">Image uploaded successfully!</div>');
             $this->session->set_flashdata('img_uploaded', $imagename);
