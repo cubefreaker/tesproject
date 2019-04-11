@@ -46,7 +46,7 @@ class member extends CI_Controller
         //     }
         // }
         
-        redirect(base_url('member/dashboard'));
+        redirect(base_url('member/personalData'));
         
     }
 
@@ -70,7 +70,7 @@ class member extends CI_Controller
                 $remember = isset($input['remember_me']) ? TRUE : FALSE;
                 if( $this->ion_auth->login($identity, $password, $remember)) {
                     // redirect them to the member dashboard page
-                    redirect(base_url("member/dashboard"), "refresh");
+                    redirect(base_url("member/personalData"), "refresh");
                 }
                 else {
                     $data['error'] = strip_tags($this->ion_auth->errors());
@@ -126,6 +126,7 @@ class member extends CI_Controller
                     && $this->ion_auth->register($email, $password, $email, $additional_data))
                 {
                     $result = ['status'=>TRUE, 'message'=>trim(strip_tags($this->ion_auth->messages())), 'data'=>[]];
+                    redirect('member/login');
                 }
                 else {
                     $result['message'] = trim(strip_tags($this->ion_auth->errors()));
@@ -230,7 +231,23 @@ class member extends CI_Controller
         redirect(base_url(), 'refresh');
     }
 
-    public function dashboard()
+    // public function dashboard()
+    // {
+    //     // redirect them to the login page if not logged in or is login as admin
+    //     if ( !$this->ion_auth->logged_in() || $this->ion_auth->is_admin() || $this->ion_auth->user()->row()->type < 5 )
+    //         redirect(base_url('member/login'), 'refresh');
+
+    //     // get general data for header and footer
+    //     $this->load->model('member/m_member');
+    //     $data = $this->m_general->loadGeneralData();
+    //     $data['Member'] = $this->ion_auth->user()->row();
+    //     // $data['List'] = [];
+    //     $this->load->model('m_general');
+        
+    //     $this->load->view('member/dashboard', $data);
+    // }
+
+    public function personalData()
     {
         // redirect them to the login page if not logged in or is login as admin
         if ( !$this->ion_auth->logged_in() || $this->ion_auth->is_admin() || $this->ion_auth->user()->row()->type < 5 )
@@ -243,12 +260,7 @@ class member extends CI_Controller
         // $data['List'] = [];
         $this->load->model('m_general');
         
-        $this->load->view('member/dashboard', $data);
-    }
-
-    public function personalData()
-    {
-
+        $this->load->view('member/profile', $data);
     }
 
     function uploadImage()

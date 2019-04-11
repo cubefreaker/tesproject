@@ -88,6 +88,7 @@
               '.$memberUsername.'
             </button>
             <ul class="dropdown-menu">
+              <li><a class="keep-color" href="'.base_url('member/index').'">Profile</a></li>
               <li><a class="keep-color" href="'.base_url('member/logout').'">Logout</a></li>
             </ul>
           </div>

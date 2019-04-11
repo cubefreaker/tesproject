@@ -4,7 +4,7 @@
             </div>
             <div class="col-md-8" >
                     
-                    <form class="form-horizontal" method="post" action="<?=base_url('member/editProfile')?>">
+                    <form id="editfrm" class="form-horizontal" method="post" action="<?=base_url('member/editProfile')?>">
                         <div class="form-group">
                             <label class="control-label col-sm-2" style="text-align: left;">Username</label> 
                             <div class="input-group col-sm-10">
@@ -162,7 +162,7 @@
                                         </div>
                                     </div>
                             </div> -->
-                        <button type="submit" class="btn btn-default btn-edit">Save Changes</button>
+                        <button type="submit" class="btn btn-danger btn-edit" onclick="saveProfile()">Save Changes</button>
                     </form>
             </div>
                         
@@ -203,8 +203,11 @@
         </div>
 
 <script>
-    function saveProfile(){
-        confirm("Are You Sure?")
-    }
+function saveProfile(){
+    if(confirm("Are You Sure?")){
+        document.getElementById("editfrm").submit();
+    }   
+}
+
 </script>
        
