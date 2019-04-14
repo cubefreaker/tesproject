@@ -293,7 +293,7 @@ class member extends CI_Controller
             $this->m_update->updateDynamic($dataimg);
             $this->session->set_flashdata('img_uploaded_msg', '<div class="alert alert-success">Image uploaded successfully!</div>');
             $this->session->set_flashdata('img_uploaded', $imagename);
-            redirect(base_url('member/dashboard'), 'refresh');
+            redirect(base_url('member/personalData'), 'refresh');
 
         }
     }
@@ -416,7 +416,7 @@ class member extends CI_Controller
         $this->m_update->updateDynamic($dataProfile);
         // $Return['StatusResponse'] = 1;
         // echo json_encode($Return);
-        redirect(base_url('member/dashboard'), 'refresh');
+        redirect(base_url('member/personalData'), 'refresh');
     }
 
     public function changePass()

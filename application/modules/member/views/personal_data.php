@@ -118,51 +118,7 @@
                             </div>
                         </div>
                         
-                        
-                        <!-- <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#editprofile">Edit Profile</button>
-                            <div id="editprofile" class="modal fade" role="dialog">
-                                <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <form id="editfrm" method="post" action="<?=base_url('member/editProfile')?>">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                <h4 class="modal-title">Username</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                Username
-                                                <input type="text" name="username" class="form-control" value="<?=$Member->username;?>" required>
-                                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                                                First Name
-                                                <input type="text" name="firstname" class="form-control" value="<?=$Member->first_name;?>" required>
-                                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                                                Last Name
-                                                <input type="text" name="lastname" class="form-control" value="<?=$Member->last_name;?>" required>
-                                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                                                Gender
-                                                <select class="form-control" name="gender" value="<?=$Member->gender;?>">
-                                                    <option value="male" selected>Male</option>
-                                                    <option value="female">Female</option>
-                                                </select>
-                                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                                                Birth Date
-                                                <input type="date" name="birthdate" class="form-control" value="<?=$Member->birth_date?>" required/>
-                                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                                                Email
-                                                <input type="email" name="email" class="form-control" placeholder="Example: john@example.com" value="<?=$Member->email;?>" required/>
-                                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                                                Phone
-                                                <input type="tel" name="phone" class="form-control" value="<?=$Member->phone;?>">
-                                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-default btn-edit" onclick="saveProfile()">Save</button>
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                            </div> -->
-                        <button type="submit" class="btn btn-danger btn-edit" onclick="saveProfile()">Save Changes</button>
+                        <button id="savechanges" type="submit" class="btn btn-danger btn-edit">Save Changes</button>
                     </form>
             </div>
                         
@@ -203,11 +159,12 @@
         </div>
 
 <script>
-function saveProfile(){
-    if(confirm("Are You Sure?")){
-        document.getElementById("editfrm").submit();
-    }   
-}
-
+$(document).ready(function(){
+	$('#savechanges').click(function(){
+        if(confirm("Are You Sure?")){
+            $("#editfrm").submit();
+        }
+	});
+});
 </script>
        
