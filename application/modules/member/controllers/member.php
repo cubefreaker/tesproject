@@ -126,7 +126,7 @@ class member extends CI_Controller
                     && $this->ion_auth->register($email, $password, $email, $additional_data))
                 {
                     $result = ['status'=>TRUE, 'message'=>trim(strip_tags($this->ion_auth->messages())), 'data'=>[]];
-                    redirect('member/login');
+                    redirect('member/login', 'refresh');
                 }
                 else {
                     $result['message'] = trim(strip_tags($this->ion_auth->errors()));
@@ -298,80 +298,75 @@ class member extends CI_Controller
         }
     }
 
-    public function paymentConfirmation()
+    function uploadBrandlogo()
     {
-        // redirect them to the login page if not logged in or is login as admin
-        if ( !$this->ion_auth->logged_in() || $this->ion_auth->is_admin() )
-            redirect(base_url('member/login'), 'refresh');
-
-        $data = $this->m_general->loadGeneralData();
-        $data['MasterBank']     = $this->m_get->getMasterBank();
-
-        $this->load->view('member/payment_confirmation', $data);
-    }
-
-    public function inputPaymentConfirmation()
-    {
-        // redirect them to the login page if not logged in or is login as admin
-        if ( !$this->ion_auth->logged_in() || $this->ion_auth->is_admin() )
-            redirect(base_url('member/login'), 'refresh');
-
-        $this->load->model('m_member');
-
-        if ($input = $this->input->post()) {
-            $result = array('status'=>FALSE, 'message'=>'Invalid Order ID', 'data'=>[]);
-            $this->form_validation->set_rules('orderid', 'Order Id', 'trim|required|numeric');
-            $this->form_validation->set_rules('bank', 'Bank From', 'trim|required');
-            $this->form_validation->set_rules('bank_to', 'Bank To', 'trim|required');
-            $this->form_validation->set_rules('accountname', 'Account Name', 'trim|required');
-            $this->form_validation->set_rules('accountnumber', 'Account Number', 'trim|required|numeric');
-            $this->form_validation->set_rules('ordertotal', 'Total Transfer', 'trim|required');
-            $this->form_validation->set_rules('date_day_input', 'Transaction Date Day', 'trim|numeric|required|max_length[2]');
-            $this->form_validation->set_rules('date_month_input', 'Transaction Date Month', 'trim|numeric|required|max_length[2]');
-            $this->form_validation->set_rules('date_year_input', 'Transaction Date Year', 'trim|numeric|required|max_length[4]');
-
-            // if validation false
-            if ($this->form_validation->run() === FALSE)
-            {
-                $result['message'] = trim(strip_tags(validation_errors()));
+        $query = $this->db->query("SELECT * FROM users_company WHERE id = '".$Member->id."'");
+        
+        if($query->num_rows() > 0){
+            $company = $query->row();
+            $config = array(
+                'file_name' => $company->co_id.time(),
+                'upload_path' => './assets/images/profile/',
+                'allowed_types' => 'jpg|png|jpeg',
+                'max_size'  => '2048',
+                'remove_space' => TRUE,
+                'overwrite' => TRUE
+            );
+            
+            $this->load->library('upload', $config);
+            if(!$this->upload->do_upload('imgLogo')){
+                $error = array('error' => $this->upload->display_errors());
+                echo $error['error'];
             }
-            // if validation true
-            else
-            {
-                $trans_date = $input['date_year_input'].'-'.$input['date_month_input'].'-'.$input['date_day_input'] ;
-
-                $paymentConfirmData = [
-                    'id_rsv'            => $input['orderid'],
-                    'bank_from'         => $input['bank'],
-                    'bank_to'           => $input['bank_to'],
-                    'account_name'      => $input['accountname'],
-                    'account_number'    => $input['accountnumber'],
-                    'amount'            => $input['ordertotal'],
-                    'transf_date'       => $trans_date
+            else{
+                $data = $this->upload->data();
+                $logoname = ['logo' => $data['file_name']];
+                $dataimg = [
+                    'data'  => $logoname,
+                    'table' => 'users_company',
+                    'where' => ['id' => $company->id]
                 ];
-
-                // update rsv table
-                // set payment status, confirmation date, and undread confirmation
-                if ($CheckRsv = $this->m_get->getRsvById($paymentConfirmData['id_rsv'])) {
-                    $this->m_member->updateRsv(
-                        $paymentConfirmData['id_rsv'],
-                        [   'paymentstatus' => 1, 
-                            'cf_date'       => date('Y-m-d H:i:s'),
-                            'unread_cf'     => 1
-                        ]
-                    );
-                    // insert data to rsv_confirmation table
-                    $this->m_member->insertRsvConfirmation($paymentConfirmData);
-
-                    $result = array('status'=>TRUE, 'message'=>'Success send payment confirmation', 'data'=>[]);
-                }
+                $this->load->model('m_update');
+                $this->m_update->updateDynamic($dataimg);
+                $this->session->set_flashdata('img_uploaded_msg', '<div class="alert alert-success">Image uploaded successfully!</div>');
+                $this->session->set_flashdata('img_uploaded', $imagename);
+                redirect(base_url('member/personalData'), 'refresh');
+    
             }
-            echo json_encode($result);
+        }else{
+            $user = $this->ion_auth->user()->row();
+            $config = array(
+                'file_name' => $user->id.time(),
+                'upload_path' => './assets/images/profile/',
+                'allowed_types' => 'jpg|png|jpeg',
+                'max_size'  => '2048',
+                'remove_space' => TRUE,
+                'overwrite' => TRUE
+            );
+            
+            $this->load->library('upload', $config);
+            if(!$this->upload->do_upload('imgLogo')){
+                $error = array('error' => $this->upload->display_errors());
+                echo $error['error'];
+            }
+            else{
+                $data = $this->upload->data();
+                $data = ['logo' => $data['file_name'], 'id' => $user->id];
+                $dataimg = [
+                    'data'  => $data,
+                    'table' => 'users_company'
+                ];
+                $this->load->model('m_insert');
+                $this->m_update->insertDynamic($dataimg);
+                $this->session->set_flashdata('img_uploaded_msg', '<div class="alert alert-success">Image uploaded successfully!</div>');
+                $this->session->set_flashdata('img_uploaded', $data['file_name']);
+                redirect('refresh');
+    
+            }
         }
-        else {
-            redirect(base_url('member/login'), 'refresh');
-        }
+
     }
+
 
     public function editProfile()
     {
@@ -417,6 +412,53 @@ class member extends CI_Controller
         // $Return['StatusResponse'] = 1;
         // echo json_encode($Return);
         redirect(base_url('member/personalData'), 'refresh');
+    }
+
+    function editMitra()
+    {
+        $companyData = [
+            'brand'      => $this->input->post('brand'),
+            'company_name'    => $this->input->post('coname'),
+            'owner'     => $this->input->post('owner'),
+            'phone_no'        => $this->input->post('phone'),
+            'mobile_no'    => $this->input->post('mobile'),
+            'sub_district'         => $this->input->post('subdistrict'),
+            'province'         => $this->input->post('province'),
+            'city'         => $this->input->post('city'),
+            'email'         => $this->input->post('email'),
+            'website'         => $this->input->post('website'),
+            'postal_code'         => $this->input->post('postal'),
+        ];
+
+        $this->load->model('m_get');
+        $getData = [
+            'select'  => '*',
+            'from' => 'users_company',
+            'where' => ['id' => $this->ion_auth->user()->row()->id]
+        ];
+        if($this->m_get->getDynamic($getData) == FALSE){
+            $this->load->model('m_insert');
+            $data = [$companyData, 
+            'id'    => $this->ion_auth->user()->row()->id];
+            $dataInsert = [
+                'table' => '',
+                'data'  => $data
+            ];
+            $this->m_insert->insertDynamic($dataInsert);
+        }else{
+            $this->load->model('m_update');
+            $dataUpdate = [
+                'data'  => $companyData,
+                'table' => 'users_company',
+                'where' => ['id' => $this->ion_auth->user()->row()->id]
+            ];
+        
+        $this->m_update->updateDynamic($dataUpdate);
+        }
+        
+        // echo json_encode($Return);
+        redirect('refresh');        
+        
     }
 
     public function changePass()
