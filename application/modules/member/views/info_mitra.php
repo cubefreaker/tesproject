@@ -2,7 +2,7 @@
 <div style="padding:2%;">
                 <h3 style="margin-bottom:10px;">Informasi Mitra</h3>
             </div>
-            <form id="editfrm" class="form-horizontal" method="post" action="<?=base_url('member/editMitra')?>">
+            <form id="mitrafrm" class="form-horizontal" method="post" action="<?=base_url('member/editMitra')?>">
             <div class="col-md-6" style="padding:2%;">
                     
                     
@@ -111,113 +111,89 @@
             </div>
                         
             <div class="col-md-6 text-center"style="padding:2%;">
-                
+                <!-- <div class="form-group"> -->
                 <div class="img-thumbnail text-center" style="margin-bottom:35px;">
                     
                         <?php 
-                            // $this->load->model('m_get');
-                            // $data = [
-                            //     'select' => '*',
-                            //     'from' => 'users_company',
-                            //     'where' => ['id' => $Member->id]
-                            // ];
-                            // $company = $this->m_get->getDynamic($data);
-                            // // echo $company;
                             $query = $this->db->query("SELECT * FROM users_company WHERE id = '".$Member->id."'");
                             $company = $query->row();
-                            if ($company->logo == NULL || $company->logo == '') {
+                            
+                            $csrf_name = $this->security->get_csrf_token_name();
+                            $csrf_hash = $this->security->get_csrf_hash();
+
+                            if($company != NULL){
+                                if ($company->logo == NULL || $company->logo == '') {
+                                    echo '
+                                        <input type="file" id="imgUpload" name="logoURL" style="display: none;">
+                                        <input type="hidden" name="'.$csrf_name.'" value="'.$csrf_hash.'">
+                                        <input type="image" id="imgBrand" height="200" width="200" src="'.base_url().'assets/images/profile/profile.png">';
+                                } else {
+                                    echo '
+                                        <input type="file" id="imgUpload" name="logoURL" style="display: none;">
+                                        <input type="hidden" name="'.$csrf_name.'" value="'.$csrf_hash.'">
+                                        <input type="image" id="imgBrand" height="200" width="200" src="'.base_url().'assets/images/profile/'.$company->logo.'">';
+                                }
+                            }else{
                                 echo '
-                                    <input type="file" id="imgUpload" style="display: none;">
-                                    <input type="image" id="imgBrand" height="200" width="200" src="'.base_url().'assets/images/profile/profile.png">';
-                            } else {
-                                echo '
-                                    <input type="file" id="imgUpload" style="display: none;">
-                                    <input type="image" id="imgBrand" height="200" width="200" src="'.base_url().'assets/images/profile/'.$company->logo.'">';
+                                        <input type="file" id="imgUpload" name="logoURL" style="display: none;>
+                                        <input type="hidden" name="'.$csrf_name.'" value="'.$csrf_hash.'">
+                                        <input type="image" id="imgBrand" height="200" width="200" src="'.base_url().'assets/images/profile/profile.png">';
                             }
+                            
                                                        
                         ?>
-                        <!-- <div>
-                            <input type='file' id="imgInp" />
-                            <img id="blah" src="<?=base_url().'assets/images/profile/'.$company->logo;?>" alt="your image" />
-                        </div> -->
-                        <!-- <div id="imgmodal" class="modal fade" role="dialog">
-                            <div class="modal-dialog modal-sm">
-                                <div class="modal-content text-left">
-                                    <form method="post" enctype="multipart/form-data" action="<?=base_url('member/uploadBrandlogo')?>">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            <h4 class="modal-title">Upload Photo</h4>
-                                        </div>
-                                        <div class="modal-body">                                    
-                                            <input type="file" name="imageURL"> 
-                                            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">                               
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-default btn-edit">Upload</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>                        
-                        </div> -->
-                    
-                    
+                </div>
+                <!-- </div> -->
+                <div class="form-group">
+                    <label class="control-label col-sm-4" style="text-align: left;">Email</label> 
+                    <div class="input-group col-sm-8">
+                        <span class="input-group-addon">
+                            <i class="fa fa-envelope"></i>
+                        </span>
+                        <input type="email" class="form-control" name="email" value="" required>
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                    </div>
                 </div>
                 <div class="form-group">
-                <label class="control-label col-sm-4" style="text-align: left;">Email</label> 
-                <div class="input-group col-sm-8">
-                    <span class="input-group-addon">
-                        <i class="fa fa-envelope"></i>
-                    </span>
-                    <input type="email" class="form-control" name="email" value="" required>
-                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                    <label class="control-label col-sm-4" style="text-align: left;">Website</label> 
+                    <div class="input-group col-sm-8">
+                        <span class="input-group-addon">
+                            <i class="fa fa-envelope"></i>
+                        </span>
+                        <input type="text" class="form-control" name="website" value="" required>
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-4" style="text-align: left;">Website</label> 
-                <div class="input-group col-sm-8">
-                    <span class="input-group-addon">
-                        <i class="fa fa-envelope"></i>
-                    </span>
-                    <input type="text" class="form-control" name="website" value="" required>
-                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                <div class="form-group">
+                    <label class="control-label col-sm-4" style="text-align: left;">Kabupaten / Kota</label> 
+                    <div class="input-group col-sm-8">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-user"></i>
+                        </span>
+                        <select class="form-control" name="city" value="">
+                            <option value="" selected>1</option>
+                            <option value="">2</option>
+                        </select>
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-4" style="text-align: left;">Kabupaten / Kota</label> 
-                <div class="input-group col-sm-8">
-                    <span class="input-group-addon">
-                        <i class="glyphicon glyphicon-user"></i>
-                    </span>
-                    <select class="form-control" name="city" value="">
-                        <option value="" selected>1</option>
-                        <option value="">2</option>
-                    </select>
-                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                <div class="form-group">
+                    <label class="control-label col-sm-4" style="text-align: left;">Kode Pos</label> 
+                    <div class="input-group col-sm-8">
+                        <span class="input-group-addon">
+                            <i class="fa fa-envelope"></i>
+                        </span>
+                        <input type="text" class="form-control" name="postal" value="" required>
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-4" style="text-align: left;">Kode Pos</label> 
-                <div class="input-group col-sm-8">
-                    <span class="input-group-addon">
-                        <i class="fa fa-envelope"></i>
-                    </span>
-                    <input type="text" class="form-control" name="postal" value="" required>
-                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                 </div>
-            </div>
-            </div>
             
-            <button id="savechanges" type="submit" class="btn btn-danger btn-edit pull-right">Save Changes</button>
+            <button id="savemitra" type="submit" class="btn btn-danger pull-right">Save Changes</button>
         </form>
 </div>
 
 <script>
-$(document).ready(function(){
-	$('#imgbrand').click(function(){
-  		$('#imgmodal').modal('show')
-	});
-});
-
 function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -228,7 +204,7 @@ function readURL(input) {
             
             reader.readAsDataURL(input.files[0]);
         }
-    }
+}
     
 $("#imgUpload").change(function(){
     readURL(this);
@@ -239,9 +215,9 @@ $("#imgBrand").click(function() {
 });
 
 $(document).ready(function(){
-	$('#savechanges').click(function(){
+	$('#savemitra').click(function(){
         if(confirm("Are You Sure?")){
-            $("#editfrm").submit();
+            $("#mitrafrm").submit();
         }
 	});
 });
