@@ -11,10 +11,10 @@
             <a href="#rekening" data-toggle="tab">Rekening Bank</a>
         </li>
         <li class="pull-right">
-            <a href="#alamat" data-toggle="tab">Alamat</a>
+            <a href="#dokumen" data-toggle="tab">Dokumen</a>
         </li>
         <li class="pull-right">
-            <a href="#dokumen" data-toggle="tab">Dokumen</a>
+            <a href="#kontak" data-toggle="tab">Kontak Perwakilan</a>
         </li>
         <li class="pull-right">
             <a href="#infomitra" data-toggle="tab">Info Mitra</a>
@@ -27,14 +27,9 @@
     <div class="tab-content clearfix">
         <?php $this->load->view('member/personal_data'); ?>
         <?php $this->load->view('member/info_mitra'); ?>
+        <?php $this->load->view('member/kontak'); ?>
         <?php $this->load->view('member/dokumen'); ?>
-        <?php $this->load->view('member/alamat'); ?>
-        <div class="tab-pane" id="rekening">
-            <h3 style="padding:2%;">Rekening Bank</h3>
-            <div>Nama Bank : </div>
-            <div>Nama Pemilik : </div>
-            <div>Nomor Rekening : </div>
-        </div>
+        <?php $this->load->view('member/rekening'); ?>
     </div>
 </div>
 
