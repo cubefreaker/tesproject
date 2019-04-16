@@ -118,7 +118,7 @@
                             </div>
                         </div>
                         
-                        <button id="savechanges" type="submit" class="btn btn-danger btn-edit">Save Changes</button>
+                        <button id="savechanges" type="submit" class="btn btn-danger">Save Changes</button>
                     </form>
             </div>
                         
