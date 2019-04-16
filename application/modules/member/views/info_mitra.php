@@ -10,9 +10,9 @@
                             <label class="control-label col-sm-4" style="text-align: left;">Nama Brand / Merk</label> 
                             <div class="input-group col-sm-8">
                                 <span class="input-group-addon">
-                                    <i class="glyphicon glyphicon-user"></i>
+                                    <i class="fa fa-qrcode"></i>
                                 </span>
-                                <input type="text" class="form-control" name="brand" value="" required>
+                                <input type="text" class="form-control" id="brand" name="brand" value="" required>
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                             </div>
                         </div>
@@ -20,7 +20,7 @@
                             <label class="control-label col-sm-4" style="text-align: left;">Nama Perusahaan</label> 
                             <div class="input-group col-sm-8">
                                 <span class="input-group-addon">
-                                    <i class="glyphicon glyphicon-user"></i>
+                                    <i class="fa fa-building"></i>
                                 </span>
                                 <input type="text" class="form-control" name="coname" value="" required>
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
@@ -30,7 +30,7 @@
                             <label class="control-label col-sm-4" style="text-align: left;">Jenis Usaha</label> 
                             <div class="input-group col-sm-8">
                                 <span class="input-group-addon">
-                                    <i class="glyphicon glyphicon-user"></i>
+                                    <i class="fa fa-briefcase"></i>
                                 </span>
                                 <select class="form-control" name="type" value="">
                                                     <option value="" selected>1</option>
@@ -43,7 +43,7 @@
                             <label class="control-label col-sm-4" style="text-align: left;">Nama Pemilik Usaha</label> 
                             <div class="input-group col-sm-8">
                                 <span class="input-group-addon">
-                                    <i class="fa fa-male"></i>
+                                    <i class="glyphicon glyphicon-user"></i>
                                 </span>
                                 <input type="text" class="form-control" name="owner" value="" required>
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
@@ -53,7 +53,7 @@
                             <label class="control-label col-sm-4" style="text-align: left;">No Telepon</label> 
                             <div class="input-group col-sm-8">
                                 <span class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
+                                    <i class="fa fa-phone"></i>
                                 </span>
                                 <input type="tel" class="form-control" name="phone" value="" required>
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
@@ -63,7 +63,7 @@
                             <label class="control-label col-sm-4" style="text-align: left;">No HP</label> 
                             <div class="input-group col-sm-8">
                                 <span class="input-group-addon">
-                                    <i class="fa fa-envelope"></i>
+                                    <i class="fa fa-mobile"></i>
                                 </span>
                                 <input type="tel" class="form-control" name="mobile" value="" required>
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
@@ -73,7 +73,7 @@
                             <label class="control-label col-sm-4" style="text-align: left;">Alamat Perusahaan</label> 
                             <div class="input-group col-sm-8">
                                 <span class="input-group-addon">
-                                    <i class="glyphicon glyphicon-user"></i>
+                                    <i class="fa fa-home"></i>
                                 </span>
                                 <input type="text" class="form-control" name="address" value="" required>
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
@@ -83,7 +83,7 @@
                             <label class="control-label col-sm-4" style="text-align: left;">Kecamatan</label> 
                             <div class="input-group col-sm-8">
                                 <span class="input-group-addon">
-                                    <i class="glyphicon glyphicon-user"></i>
+                                    <i class="fa fa-home"></i>
                                 </span>
                                 <select class="form-control" name="subdistrict" value="">
                                                     <option value="" selected>1</option>
@@ -96,11 +96,10 @@
                             <label class="control-label col-sm-4" style="text-align: left;">Provinsi</label> 
                             <div class="input-group col-sm-8">
                                 <span class="input-group-addon">
-                                    <i class="glyphicon glyphicon-user"></i>
+                                    <i class="fa fa-home"></i>
                                 </span>
                                 <select class="form-control" name="province" value="">
                                                     <option value="" selected>1</option>
-                                                    <option value="">2</option>
                                 </select>
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                             </div>
@@ -158,7 +157,7 @@
                     <label class="control-label col-sm-4" style="text-align: left;">Website</label> 
                     <div class="input-group col-sm-8">
                         <span class="input-group-addon">
-                            <i class="fa fa-envelope"></i>
+                            <i class="fa fa-globe"></i>
                         </span>
                         <input type="text" class="form-control" name="website" value="" required>
                         <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
@@ -166,13 +165,12 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label col-sm-4" style="text-align: left;">Kabupaten / Kota</label> 
-                    <div class="input-group col-sm-8">
+                    <div ng-app="myApp" ngController="myCtrl" class="input-group col-sm-8">
                         <span class="input-group-addon">
-                            <i class="glyphicon glyphicon-user"></i>
+                            <i class="fa fa-home"></i>
                         </span>
                         <select class="form-control" name="city" value="">
-                            <option value="" selected>1</option>
-                            <option value="">2</option>
+                            <option ng-repeat="x in country" value="{{x}}" selected>{{x}}</option>
                         </select>
                         <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                     </div>
@@ -181,7 +179,7 @@
                     <label class="control-label col-sm-4" style="text-align: left;">Kode Pos</label> 
                     <div class="input-group col-sm-8">
                         <span class="input-group-addon">
-                            <i class="fa fa-envelope"></i>
+                            <i class="fa fa-envelope-o"></i>
                         </span>
                         <input type="text" class="form-control" name="postal" value="" required>
                         <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
@@ -192,7 +190,6 @@
             <button id="savemitra" type="submit" class="btn btn-danger pull-right">Save Changes</button>
         </form>
 </div>
-
 <script>
 function readURL(input) {
         if (input.files && input.files[0]) {
@@ -227,4 +224,19 @@ $(document).ready(function(){
     // }   
 // }
 
+$(document).ready(function(){
+    $('#brand').val("Test");
+});
+
 </script>
+
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope, $http) {
+  $http.get('http://localhost/webitx/member/tes')
+  .then(function(response) {
+    $scope.country = response.data;
+  });console.log('tes');
+});
+</script> 

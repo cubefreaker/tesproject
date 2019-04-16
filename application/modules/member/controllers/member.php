@@ -416,6 +416,30 @@ class member extends CI_Controller
 
     function editMitra()
     {
+        $user = $this->ion_auth->user()->row();
+            
+        $config = array(
+            'file_name' => $user->id.'_company_'.$user->username.time(),
+            'upload_path' => './assets/images/logo/',
+            'allowed_types' => 'jpg|png|jpeg',
+            'max_size'  => '1024',
+            'remove_space' => TRUE,
+            'overwrite' => TRUE
+        );
+        
+        $this->load->library('upload', $config);
+        if($this->upload->do_upload('logoURL')){
+            $data = $this->upload->data();
+            return $data;
+        }
+        // if(!$this->upload->do_upload('logoURL')){
+        //     $error = array('error' => $this->upload->display_errors());
+        //     echo $error['error'];
+        // }
+        // else{
+        //     $data = $this->upload->data();
+        // }
+
         $companyData = [
             'brand'      => $this->input->post('brand'),
             'company_name'    => $this->input->post('coname'),
@@ -428,20 +452,21 @@ class member extends CI_Controller
             'email'         => $this->input->post('email'),
             'website'         => $this->input->post('website'),
             'postal_code'         => $this->input->post('postal'),
+            'logo'  => $data['file_name']
         ];
 
         $this->load->model('m_get');
         $getData = [
             'select'  => '*',
             'from' => 'users_company',
-            'where' => ['id' => $this->ion_auth->user()->row()->id]
+            'where' => ['id' => $user->id]
         ];
         if($this->m_get->getDynamic($getData) == FALSE){
             $this->load->model('m_insert');
             $data = [$companyData, 
-            'id'    => $this->ion_auth->user()->row()->id];
+            'id'    => $user->id];
             $dataInsert = [
-                'table' => '',
+                'table' => 'users_company',
                 'data'  => $data
             ];
             $this->m_insert->insertDynamic($dataInsert);
@@ -450,10 +475,10 @@ class member extends CI_Controller
             $dataUpdate = [
                 'data'  => $companyData,
                 'table' => 'users_company',
-                'where' => ['id' => $this->ion_auth->user()->row()->id]
+                'where' => ['id' => $user->id]
             ];
-        
-        $this->m_update->updateDynamic($dataUpdate);
+            
+            $this->m_update->updateDynamic($dataUpdate);
         }
         
         // echo json_encode($Return);
@@ -489,116 +514,15 @@ class member extends CI_Controller
         $this->load->view('member/profile', $data);
     }
 
-    public function detailTransaction($OrderId = FALSE)
+    public function tes()
     {
-        if (!$OrderId) 
-            die();
-
-        // --- Check OrderId Exist --- /
-        $this->load->model('adminpanel/m_manages');
-        $Transactions = $this->m_manages->getTransactionByOrderId($OrderId);
-        // --- End Check OrderId Exist --- /
-
-        // --- Repopulate list Object --- //
-        $data['List'] = [];
-        if (!$Transactions) {
-            die('no transaction');
+        $this->load->library('country_list');
+        $data = $this->country_list->country();
+        $newdata = array();
+        foreach($data as $a){
+                array_push($newdata,$a); 
         }
-
-        $MasterAirline         = $this->m_get->getDynamicArray([
-            'select'    => '*',
-            'from'      => 'v2_master_airline',
-            'where'     => []
-        ]);
-
-        $MasterAirport         = $this->m_get->getDynamicArray([
-            'select'    => '*',
-            'from'      => 'v2_master_airport',
-            'where'     => []
-        ]);
-
-        $this->load->general('m_general');
-        foreach ($Transactions as $key => $value) {
-            $RsvResponse    = json_decode($value->RsvResponse);
-            $AirlineId = array_search($RsvResponse->Airline, array_column($MasterAirline, 'code'));
-            $Adult   = array_filter($RsvResponse->Passengers, function ($var) {
-                return ($var->Type == 'Adult');
-            });
-
-            $GetPrice = $this->m_general->GetPrice(['OrderId' => $value->OrderId]);
-            if (!$value->TotalPrice) {
-                $TotalPrice     = $GetPrice['TotalPrice'];
-            }
-            else {
-                $TotalPrice     = $value->TotalPrice;
-            }
-            $TotalDiscount  = $GetPrice['TotalDiscount'];
-
-            $RsvArr['RsvResponse']          = $RsvResponse;
-            $RsvArr['TotalPrice']           = number_format($value->TotalPrice, 0, '', ',');
-            $RsvArr['AirlineName']          = $AirlineId ? $MasterAirline[$AirlineId]['name'] : '';
-            $RsvArr['TimeLimit']            = date('D, d M Y. H:i', strtotime($RsvResponse->TimeLimit));
-            $RsvArr['OrderDate']            = date('l, d F Y. - H:i', strtotime($RsvResponse->Created));
-            $RsvArr['DueDate']              = date('l, d F Y. - H:i', strtotime($value->RsvTimeLimit));
-            $RsvArr['OrderId']              = $value->OrderId;
-            $RsvArr['Adult']                = count($Adult);
-            $RsvArr['ContactName']          = $RsvResponse->Contact->Title.' '.$RsvResponse->Contact->FirstName.' '.$RsvResponse->Contact->LastName;
-            $RsvArr['CreatedDate']          = $RsvResponse->Created;
-            $RsvArr['ReffId']               = $value->ReffId;
-            $RsvArr['IsRead']               = $value->IsRead;
-            $RsvArr['PaymentStatus']        = $value->PaymentStatus;
-            if (strtotime($value->RsvTimeLimit) < strtotime("NOW")) {
-                $RsvArr['PaymentStatus'] = "Expired";
-            }
-            $RsvArr['OrderCount']           = $value->OrderCount;
-            $RsvArr['RsvId']                = $value->RsvId;
-            $RsvArr['PnrId']                = $value->PnrId;
-            $RsvArr['TotalPrice']           = number_format($TotalPrice, 0, '', ',');
-            $RsvArr['TotalDiscount']        = $TotalDiscount;
-            $RsvArr['BankName']             = $value->BankName;
-            $RsvArr['PaymentType']          = $value->PaymentType;
-            $RsvArr['PaymentTypeOri']       = $value->PaymentTypeOri;
-            $RsvArr['PriceBeforeDiscount']  = number_format($TotalPrice + $TotalDiscount, 0, '', ',');
-            $RsvArr['PaymentStatusId']      = $value->PaymentStatusId;
-            $RsvArr['IsTicketed']           = $RsvResponse->Ticketed;
-
-            if (strtotime($RsvResponse->TimeLimit) < strtotime("now")) {
-                $RsvArr['IsTicketExpired']    = TRUE;
-            }
-            else {
-                $RsvArr['IsTicketExpired']    = FALSE;
-            }
-
-            $RsvArr['FlightDetails']        = [];
-            foreach ($RsvResponse->FlightDetails as $key => $value) {                
-                $AirlineId = array_search($value->Airline, array_column($MasterAirline, 'code'));
-                $AirportDepartId = array_search($value->Origin, array_column($MasterAirport, 'code'));
-                $AirportArriveId = array_search($value->Destination, array_column($MasterAirport, 'code'));
-
-                $FlightDetail = array_merge( [], (Array) $value );
-                $FlightDetail['AirlineName']        = $AirlineId ? $MasterAirline[$AirlineId]['name'] : '';
-                $FlightDetail['AirportDepartName']  = $AirportDepartId ? $MasterAirport[$AirportDepartId]['cityname'] : '';
-                $FlightDetail['AirportArriveName']  = $AirportArriveId ? $MasterAirport[$AirportArriveId]['cityname'] : '';
-                $FlightDetail['DepartDateView']     = date('D, d M Y. H:i', strtotime($value->DepartDate.' '.$value->DepartTime));
-                $FlightDetail['ArriveDateView']     = date('D, d M Y. H:i', strtotime($value->ArriveDate.' '.$value->ArriveTime));
-                $RsvArr['FlightDetails'][] = (Object) $FlightDetail;
-            }
-
-            $data['List'][] = $RsvArr;
-        }
-        // --- End Repopulate List Object --- //
-
-        // --- Update Payment Is Read --- //
-        $this->load->model('m_update');
-        $this->m_update->updateDynamic([
-         'where'     => ['pay_order_id'=>$OrderId],
-         'table'     => 'v2_rsv_payment',
-         'data'      => ['pay_is_read'=>1]
-        ]);
-        // --- End Update Payment Is Read --- //
-
-        echo "<pre>";
-        print_r($data['List']);
-        die();
+        echo json_encode($newdata);
     }
+   
 }

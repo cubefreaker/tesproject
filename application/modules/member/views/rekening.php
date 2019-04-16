@@ -17,7 +17,7 @@
             <label class="control-label col-sm-2" style="text-align: left;">Nomor Rekening</label> 
             <div class="input-group col-sm-4">
                 <span class="input-group-addon">
-                    <i class="fa fa-money"></i>
+                    <i class="fa fa-credit-card"></i>
                 </span>
                 <input type="text" class="form-control" name="rekno" value="" required>
                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
@@ -27,7 +27,7 @@
             <label class="control-label col-sm-2" style="text-align: left;">Atas Nama</label> 
             <div class="input-group col-sm-4">
                 <span class="input-group-addon">
-                    <i class="fa fa-user"></i>
+                    <i class="glyphicon glyphicon-user"></i>
                 </span>
                 <input type="text" class="form-control" name="rekowner" value="" required>
                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">

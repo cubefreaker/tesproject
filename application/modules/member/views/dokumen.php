@@ -5,7 +5,7 @@
             <label class="control-label col-sm-2" style="text-align: left;">Jenis Usaha</label> 
                 <div class="input-group col-sm-3">
                     <span class="input-group-addon">
-                        <i class="fa fa-male"></i>
+                        <i class="fa fa-briefcase"></i>
                     </span>
                     <select class="form-control" name="gender" value="<?=$Member->gender;?>">
                         <option value="badanusaha" selected>Badan Usaha</option>

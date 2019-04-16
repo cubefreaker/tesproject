@@ -39,7 +39,7 @@
                             <label class="control-label col-sm-2" style="text-align: left;">Gender</label> 
                             <div class="input-group col-sm-10">
                                 <span class="input-group-addon">
-                                    <i class="fa fa-male"></i>
+                                    <i class="fa fa-mars"></i>
                                 </span>
                                 <select class="form-control" name="gender" value="<?=$Member->gender;?>">
                                                     <option value="male" selected>Male</option>
@@ -72,7 +72,7 @@
                             <label class="control-label col-sm-2" style="text-align: left;">Phone</label> 
                             <div class="input-group col-sm-10">
                                 <span class="input-group-addon">
-                                    <i class="glyphicon glyphicon-user"></i>
+                                    <i class="fa fa-phone"></i>
                                 </span>
                                 <input type="tel" class="form-control" name="phone" value="<?=$Member->phone;?>" required>
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
