@@ -100,9 +100,11 @@
                                                 <div class="modal-body">
                                                     Input current password
                                                     <input class="form-control" type="password" name="old" required/>
+                                                    <br>
                                                     Input new password
                                                     <input type="password" id="pass1" name="new" class="form-control" placeholder="Password must contain capitalize & number" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required/>
                                                     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                                                    <br>
                                                     Confirm password
                                                     <input class="form-control" type="password" id="pass2" name="new_confirm" required/>
                                                 </div>
