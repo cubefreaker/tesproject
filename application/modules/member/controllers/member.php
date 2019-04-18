@@ -486,6 +486,87 @@ class member extends CI_Controller
         
     }
 
+    function editKontak()
+    {
+        $user = $this->ion_auth->user()->row();
+
+        $contactData = [
+            'name' => $this->input->post('name'),
+            'email' => $this->input->post('email'),
+            'phone' => $this->input->post('phone'),
+            'mobile' => $this->input->post('mobile'),
+            'name_ops' => $this->input->post('nameops'),
+            'email_ops' => $this->input->post('emailops'),
+            'phone_ops' => $this->input->post('phoneops'),
+            'mobile_ops' => $this->input->post('mobileops')
+        ];
+
+        $getContact = [
+            'select' => '*',
+            'from'  => 'company_contact',
+            'where' => ['user_id' => $user->id]
+        ];
+        $this->load->model('m_get');
+        if($this->m_get->getRowDynamic($getContact) == FALSE){
+            $contactData['user_id'] = $user->id;
+            $this->load->model('m_insert');
+            $dataInsert = [
+                'table' => 'company_contact',
+                'data' => $contactData
+            ];
+            $this->m_insert->insertDynamic($dataInsert);
+        }else{
+            $this->load->model('m_update');
+            $dataUpdate = [
+                'data'  => $contactData,
+                'table' => 'company_contact',
+                'where' => ['user_id' => $user->id]
+            ];
+            
+            $this->m_update->updateDynamic($dataUpdate);
+        }
+
+        redirect('member/personalData');
+    }
+
+    function editRekening()
+    {
+        $user = $this->ion_auth->user()->row();
+        $rekData = [
+            'bank_name' => $this->input->post('bankname'),
+            'bank_account' => $this->input->post('bankaccount'),
+            'bank_user' => $this->input->post('bankuser')
+        ];
+
+        $getRek = [
+            'select' => '*',
+            'from'  => 'users_bank',
+            'where' => ['user_id' => $user->id]
+        ];
+        $this->load->model('m_get');
+        if($this->m_get->getRowDynamic($getRek) == FALSE){
+            $rekData['user_id'] = $user->id;
+            $this->load->model('m_insert');
+            $dataInsert = [
+                'table' => 'users_bank',
+                'data' => $rekData
+            ];
+            $this->m_insert->insertDynamic($dataInsert);
+        }else{
+            $this->load->model('m_update');
+            $dataUpdate = [
+                'data'  => $rekData,
+                'table' => 'users_bank',
+                'where' => ['user_id' => $user->id]
+            ];
+            
+            $this->m_update->updateDynamic($dataUpdate);
+        }
+
+        redirect('member/personalData');
+    }
+
+
     public function changePass()
     {
         
