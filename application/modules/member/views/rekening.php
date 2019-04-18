@@ -1,3 +1,6 @@
+<?php
+    $rekening = $this->db->query("SELECT * FROM users_bank WHERE user_id = '".$Member->id."'")->row();
+?>
 <div class="tab-pane" id="rekening">
     <div style="padding:2%;">
         <h3 style="margin-bottom:10px;">Kontak Perwakilan Perusahaan</h3>
@@ -9,7 +12,7 @@
                 <span class="input-group-addon">
                     <i class="fa fa-building"></i>
                 </span>
-                <input type="text" class="form-control" name="bank" value="" required>
+                <input type="text" class="form-control" name="bankname" value="<?=$rekening ? $rekening->bank_name:'';?>" required>
                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
             </div>
         </div>
@@ -19,7 +22,7 @@
                 <span class="input-group-addon">
                     <i class="fa fa-credit-card"></i>
                 </span>
-                <input type="text" class="form-control" name="rekno" value="" required>
+                <input type="text" class="form-control" name="bankaccount" value="<?=$rekening ? $rekening->bank_account:'';?>" required>
                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
             </div>
         </div>
@@ -29,7 +32,7 @@
                 <span class="input-group-addon">
                     <i class="glyphicon glyphicon-user"></i>
                 </span>
-                <input type="text" class="form-control" name="rekowner" value="" required>
+                <input type="text" class="form-control" name="bankuser" value="<?=$rekening ? $rekening->bank_user:'';?>" required>
                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
             </div>
         </div>
