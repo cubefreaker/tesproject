@@ -1,4 +1,4 @@
-<div class="tab-pane active" id="personaldata">
+<div class="tab-pane" id="personaldata">
             <div style="padding:2%;">
                 <h3 style="margin-bottom:10px;">Personal Data</h3>
             </div>
@@ -85,10 +85,11 @@
                                     <i class="fa fa-lock"></i>
                                 </span>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" value="********">
+                                    <input type="text" class="form-control" value="********" disabled>
                                 </div>
                                 <div class="col-sm-3">
-                                    <button type="button" class="btn btn-default btn-md" data-toggle="modal" data-target="#changepass">change password</button>
+                                    <a class="btn btn-default btn-md" href="<?=base_url('member/changePassView')?>">change password</a>
+                                    <!-- <button type="button" class="btn btn-default btn-md" data-toggle="modal" data-target="#changepass">change password</button>
                                     <div id="changepass" class="modal fade" role="dialog">
                                         <div class="modal-dialog modal-sm">
                                             <div class="modal-content">
@@ -115,7 +116,7 @@
                                                 </form>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>

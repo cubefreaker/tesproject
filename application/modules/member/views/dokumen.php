@@ -39,10 +39,19 @@
                     </tr>
                     <tr>
                         <td>Scan SIUP/TDP</td>
-                        <td></td>
+                        <td>
+                            <div class="form-group">
+                                <input id="scsiup" name="scsiup" type="file"> 
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <td>Scan Akte Perusahaan</td>
+                        <td>
+                            <div class="form-group">
+                                <input id="scakte" name="scakte" type="file"> 
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <td>Scan Surat Kuasa (bila diwakilkan)</td>
