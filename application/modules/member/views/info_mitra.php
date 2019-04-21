@@ -1,8 +1,12 @@
+<?php
+    $mitra = $this->db->query("SELECT * FROM users_company WHERE id = '".$Member->id."'")->row();
+?>
 <div class="tab-pane" id="infomitra">
 <div style="padding:2%;">
                 <h3 style="margin-bottom:10px;">Informasi Mitra</h3>
             </div>
-            <form id="mitrafrm" class="form-horizontal" method="post" action="<?=base_url('member/editMitra')?>">
+            <!-- <?php echo form_open_multipart('member/editMitra', array('id' => 'mitrafrm')); ?> -->
+            <form id="mitrafrm" class="form-horizontal" enctype="multipart/form-data" method="post" action="<?=base_url('member/editMitra')?>">
             <div class="col-md-6" style="padding:2%;">
                     
                     
@@ -12,7 +16,7 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-qrcode"></i>
                                 </span>
-                                <input type="text" class="form-control" id="brand" name="brand" value="" required>
+                                <input type="text" class="form-control" id="brand" name="brand" value="<?=$mitra ? $mitra->brand:'';?>" required>
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                             </div>
                         </div>
@@ -22,7 +26,7 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-building"></i>
                                 </span>
-                                <input type="text" class="form-control" name="coname" value="" required>
+                                <input type="text" class="form-control" name="coname" value="<?=$mitra ? $mitra->company_name:'';?>" required>
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                             </div>
                         </div>
@@ -45,7 +49,7 @@
                                 <span class="input-group-addon">
                                     <i class="glyphicon glyphicon-user"></i>
                                 </span>
-                                <input type="text" class="form-control" name="owner" value="" required>
+                                <input type="text" class="form-control" name="owner" value="<?=$mitra ? $mitra->owner:'';?>" required>
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                             </div>
                         </div>
@@ -55,7 +59,7 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-phone"></i>
                                 </span>
-                                <input type="tel" class="form-control" name="phone" value="" required>
+                                <input type="tel" class="form-control" name="phone" value="<?=$mitra ? $mitra->phone_no:'';?>" required>
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                             </div>
                         </div>
@@ -65,7 +69,7 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-mobile"></i>
                                 </span>
-                                <input type="tel" class="form-control" name="mobile" value="" required>
+                                <input type="tel" class="form-control" name="mobile" value="<?=$mitra ? $mitra->mobile_no:'';?>" required>
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                             </div>
                         </div>
@@ -75,7 +79,7 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-home"></i>
                                 </span>
-                                <input type="text" class="form-control" name="address" value="" required>
+                                <input type="text" class="form-control" name="address" value="<?=$mitra ? $mitra->address:'';?>" required>
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                             </div>
                         </div>
@@ -130,7 +134,7 @@
                                     echo '
                                         <input type="file" id="imgUpload" name="logoURL" style="display: none;">
                                         <input type="hidden" name="'.$csrf_name.'" value="'.$csrf_hash.'">
-                                        <input type="image" id="imgBrand" height="200" width="200" src="'.base_url().'assets/images/profile/'.$company->logo.'">';
+                                        <input type="image" id="imgBrand" height="200" width="200" src="'.base_url().'assets/images/logo/'.$mitra->logo.'">';
                                 }
                             }else{
                                 echo '
@@ -149,7 +153,7 @@
                         <span class="input-group-addon">
                             <i class="fa fa-envelope"></i>
                         </span>
-                        <input type="email" class="form-control" name="email" value="" required>
+                        <input type="email" class="form-control" name="email" value="<?=$mitra ? $mitra->email:'';?>" required>
                         <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                     </div>
                 </div>
@@ -159,7 +163,7 @@
                         <span class="input-group-addon">
                             <i class="fa fa-globe"></i>
                         </span>
-                        <input type="text" class="form-control" name="website" value="" required>
+                        <input type="text" class="form-control" name="website" value="<?=$mitra ? $mitra->website:'';?>" required>
                         <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                     </div>
                 </div>
@@ -181,7 +185,7 @@
                         <span class="input-group-addon">
                             <i class="fa fa-envelope-o"></i>
                         </span>
-                        <input type="text" class="form-control" name="postal" value="" required>
+                        <input type="text" class="form-control" name="postal" value="<?=$mitra ? $mitra->postal_code:'';?>" required>
                         <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                     </div>
                 </div>
