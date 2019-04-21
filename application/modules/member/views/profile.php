@@ -19,12 +19,16 @@
         <li class="pull-right">
             <a href="#infomitra" data-toggle="tab">Info Mitra</a>
         </li>
-        <li class="active pull-right">
+        <li class="pull-right">
             <a href="#personaldata" data-toggle="tab">Personal Data</a>
+        </li>
+        <li class="active pull-right">
+            <a href="#accountrole" data-toggle="tab">Account Role</a>
         </li>
     </ul>
 
     <div class="tab-content clearfix">
+        <?php $this->load->view('member/account_role'); ?>
         <?php $this->load->view('member/personal_data'); ?>
         <?php $this->load->view('member/info_mitra'); ?>
         <?php $this->load->view('member/kontak'); ?>
@@ -36,20 +40,6 @@
 <?php $this->load->view('template/loader/preloader') ?>
 <!-- <?php $this->load->view('template/landingpage/footer', $footerPage) ?> -->
 
-<script type="text/javascript">
-    var password = document.getElementById("pass1") , confirm_password = document.getElementById("pass2");
-
-    function validatePassword(){
-        if(pass1.value != pass2.value) {
-            confirm_password.setCustomValidity("Passwords Don't Match");
-        }else{
-            confirm_password.setCustomValidity('');
-        }
-    }
-
-    password.onchange = validatePassword;
-    confirm_password.onkeyup = validatePassword;
-</script>
 
 </body>
 
