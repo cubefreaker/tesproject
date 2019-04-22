@@ -263,6 +263,49 @@ class member extends CI_Controller
         $this->load->view('member/profile', $data);
     }
 
+    public function accountRole(){
+
+        $user = $this->ion_auth->user()->row();
+        $dataRole = [
+            'username'  => $user->username,
+        ];
+        
+        if($this->input->post('type') == 'seller'){
+            $dataRole['type'] = 'seller';
+        }else{
+            $dataRole['type'] = 'buyer';
+        }
+        
+        $this->load->model('m_get');
+        $getData = [
+            'select'  => '*',
+            'from' => 'users_request',
+            'where' => ['user_id' => $user->id]
+        ];
+        if($this->m_get->getDynamic($getData) == FALSE){
+            $this->load->model('m_insert');
+            $dataRole['user_id'] = $user->id;
+            $dataRole['created_date'] = date('Y-m-d H:i:s');
+            $dataInsert = [
+                'table' => 'users_request',
+                'data'  => $dataRole
+            ];
+            $this->m_insert->insertDynamic($dataInsert);
+        }else{
+            $this->load->model('m_update');
+            $dataRole['modified_date'] = date('Y-m-d H:i:s');
+            $dataUpdate = [
+                'data'  => $dataRole,
+                'table' => 'users_request',
+                'where' => ['user_id' => $user->id]
+            ];
+            
+            $this->m_update->updateDynamic($dataUpdate);
+        }
+        
+        redirect('member/personalData', 'refresh');
+    }
+
     function uploadImage()
     {
         $user = $this->ion_auth->user()->row();
@@ -433,6 +476,7 @@ class member extends CI_Controller
             'owner'     => $this->input->post('owner'),
             'phone_no'        => $this->input->post('phone'),
             'mobile_no'    => $this->input->post('mobile'),
+            'address'   => $this->input->post('address'),
             'sub_district'         => $this->input->post('subdistrict'),
             'province'         => $this->input->post('province'),
             'city'         => $this->input->post('city'),
@@ -444,7 +488,7 @@ class member extends CI_Controller
         $this->load->library('upload', $config);
         if(!$this->upload->do_upload('logoURL')){
             $error = array('error' => $this->upload->display_errors());
-            echo $error['error'];
+            // echo $error['error'];
             // die();
         }
         else{
@@ -596,69 +640,49 @@ class member extends CI_Controller
 
     public function changePassword()
 	{
-		$this->form_validation->set_rules('oldpass', $this->lang->line('change_password_validation_old_password_label'), 'required');
-		$this->form_validation->set_rules('newpass', $this->lang->line('change_password_validation_new_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[new_confirm]');
-		$this->form_validation->set_rules('newconfirm', $this->lang->line('change_password_validation_new_password_confirm_label'), 'required');
+        
+        $user = $this->ion_auth->user()->row();
+        $this->form_validation->set_rules('newpass', 'Password', 'trim|required|min_length[8]');
+        $this->form_validation->set_rules('newconfirm', 'Password Confirmation', 'trim|required|matches[newpass]');
 
-		if (!$this->ion_auth->logged_in())
-		{
-			redirect('member/login', 'refresh');
-		}
+        if ($this->form_validation->run() === FALSE)
+        {
+            $result['message'] = trim(strip_tags(validation_errors()));
+        }else{
+            $oldpass = $this->input->post('oldpass');
+            $newpass = $this->input->post('newpass');
 
-		$user = $this->ion_auth->user()->row();
+            $check = $this->ion_auth->hash_password_db($user->id, $oldpass);
 
-		if ($this->form_validation->run() === FALSE)
-		{
-			// display the form
-			// set the flash data error message if there is one
-			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+            if($check == TRUE){
+                $this->load->model('m_update');
+                $data = [
+                    'table' => 'users',
+                    'where' => ['id' => $user->id],
+                    'data'  => ['password' => $this->ion_auth->hash_password($newpass)]
+                ];
+                $this->load->model('m_update');
+                $this->m_update->updateDynamic($data);
+                $this->session->set_flashdata('message', 'Password Successfully Changed');
+                redirect('member/personalData', 'refresh');
+                // echo $this->ion_auth->hash_password($oldpass);
+            }else{
+                $this->session->set_flashdata('message', 'Wrong Password');
+            }
+        //     $passData =[
+        //         'table' => 'users',
+        //         'where' => ['id' => $user->id],
+        //         'data' => ['password' => ]
+        //     ]
+        //     $data = [
+        //         'select' => '*',
+        //         'from'  => 'users',
+        //         'where' => ['id' => $user->id, 'password' => ]
+        //     ]
+        //     $this->load->model('m_get');
+        //     $checkpass = 
+        }
 
-			$this->data['min_password_length'] = $this->config->item('min_password_length', 'ion_auth');
-			$this->data['old_password'] = array(
-				'name' => 'oldpass',
-				'id' => 'oldpass',
-				'type' => 'password',
-			);
-			$this->data['new_password'] = array(
-				'name' => 'newpass',
-				'id' => 'newpass',
-				'type' => 'password',
-				'pattern' => '^.{' . $this->data['min_password_length'] . '}.*$',
-			);
-			$this->data['new_password_confirm'] = array(
-				'name' => 'newconfirm',
-				'id' => 'newconfirm',
-				'type' => 'password',
-				'pattern' => '^.{' . $this->data['min_password_length'] . '}.*$',
-			);
-			$this->data['user_id'] = array(
-				'name' => 'user_id',
-				'id' => 'user_id',
-				'type' => 'hidden',
-				'value' => $user->id,
-			);
-
-			// render
-			$this->_render_page('member' . DIRECTORY_SEPARATOR . 'changePassView', $this->data);
-		}
-		else
-		{
-			$identity = $this->session->userdata('identity');
-
-			$change = $this->ion_auth->change_password($identity, $this->input->post('oldpass'), $this->input->post('newpass'));
-
-			if ($change)
-			{
-				//if the password was successfully changed
-				$this->session->set_flashdata('message', $this->ion_auth->messages());
-				$this->logout();
-			}
-			else
-			{
-				$this->session->set_flashdata('message', $this->ion_auth->errors());
-				redirect('member/changePassView', 'refresh');
-			}
-		}
 	}
 
     public function tes()

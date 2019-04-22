@@ -105,6 +105,7 @@
 	</section>
 	    
 	<?php $this->load->view('template/loader/preloader') ?>
+  <!-- <?php $this->load->view('template/landingpage/footer') ?> -->
   
 
   <script src="<?=base_url()?>assets/js/jquery.min.js"></script>
@@ -204,7 +205,15 @@ $(document).ready(function() {
 });
 </script>
 
-<script type="text/javascript">
+<script>
+var app = angular.module('App', ['ngCookies', 'ngRoute']);
+app.controller('LoginController', function ($scope, $filter, $window, $http) {
+
+
+});
+</script>
+
+<!-- <script type="text/javascript">
     var urlSearch = "<?=base_url('flight/search')?>";
     
     app.filter('range', function() {
@@ -221,7 +230,7 @@ $(document).ready(function() {
 
 
   });
-</script>
+</script> -->
 </body>
 
 </html>

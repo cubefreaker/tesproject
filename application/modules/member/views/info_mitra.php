@@ -174,7 +174,7 @@
                             <i class="fa fa-home"></i>
                         </span>
                         <select class="form-control" name="city" value="">
-                            <option ng-repeat="x in country" value="{{x}}" selected>{{x}}</option>
+                            <option value="" selected>1</option>
                         </select>
                         <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                     </div>

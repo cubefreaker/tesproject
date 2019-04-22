@@ -7,10 +7,10 @@
 
 <div class="col-md-5">
     <h3 style="margin-top:5%;margin-bottom:10px;">Change Password</h3>
-    <form action="">
+    <form method="post" action="<?=base_url('member/changePassword')?>">
         <div class="form-group">
             Input current password
-            <input class="form-control" type="password" name="old" id="old" required/>                                            
+            <input class="form-control" type="password" name="oldpass" id="oldpass" required/>                                            
         </div>
         <div class="form-group">
             Input new password
