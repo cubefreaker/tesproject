@@ -9,6 +9,9 @@ class m_update extends CI_Model
         $this->db->update($data['table'],
             $data['data']
         );
+
+        return TRUE;
+
     }
 
 	function updateRsvToken($data)

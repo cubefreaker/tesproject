@@ -1,44 +1,7 @@
-<!-- <?php
-
-// Check Payment Gateway //
-$ListPG         = $this->m_get->getDynamic([
-    'select'    => '*',
-    'from'      => 'v2_list_payment_gateway',
-    'where'     => [
-        'lpg_status' => 1
-    ]
-]);
-
-$FaspayCheck = array_filter((Array) $ListPG, function ($var) {
-    return ($var->lpg_code == 1);
-});
-
-$MidtransCheck = array_filter((Array) $ListPG, function ($var) {
-    return ($var->lpg_code == 2);
-});
-
-// Check List Service //
-$ListService = $this->m_get->getDynamic([
-    'select'    => 'ls_id, ls_name, ls_status',
-    'from'      => 'v2_list_service',
-    'where'     => ['ls_status' => 1]
-]);
-
-$CheckServiceFlight = array_filter( (Array) $ListService, function ($var) {
-    return ($var->ls_id == 1);
-});
-$CheckServiceHotel = array_filter( (Array) $ListService, function ($var) {
-    return ($var->ls_id == 2);
-});
-$IsServiceFlight = count($CheckServiceFlight) > 0 ? 1 : 0;
-$IsServiceHotel = count($CheckServiceHotel) > 0 ? 1 : 0;
-
-?> -->
-
 <div class="leftpanel">
     <div class="logopanel text-center">
         <h1>
-          <img ng-click="AngularService.GoToDashboard()" src="<?=base_url('assets/images/logo/opsibook-logo.png')?>" class="pointer" style="max-width:155px;max-height: 55px; display: inline;">
+          <img ng-click="AngularService.GoToDashboard()" src="" class="pointer" style="max-width:155px;max-height: 55px; display: inline;">
         </h1>
     </div><!-- logopanel -->
     <div class="leftpanelinner cs_df">    
@@ -102,6 +65,7 @@ $IsServiceHotel = count($CheckServiceHotel) > 0 ? 1 : 0;
           <ul class="children" style="">
             <li id='ChildrenAllUser' class=""><a href="<?=base_url('adminpanel/users')?>"><i class="fa fa-caret-right"></i> All Users</a></li>
             <li id='ChildrenAddUser' class=""><a href="<?=base_url('adminpanel/users/add')?>"><i class="fa fa-caret-right"></i> Add User</a></li>
+            <li id='ChildrenRequestUser' class=""><a href="<?=base_url('adminpanel/users/requests')?>"><i class="fa fa-caret-right"></i> Request</a></li>
             <!-- <li id='ChildrenProfileUser' class=""><a href="<?=base_url('adminpanel/profile')?>"><i class="fa fa-caret-right"></i> Your Profile</a></li> -->
           </ul>
         </li>

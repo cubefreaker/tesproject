@@ -94,6 +94,47 @@ class users extends CI_Controller
         $this->load->view('adminpanel/users/add', $data);
     }
 
+    public function requests(){
+        $data['HeaderBar'] = [
+            'FaName'            => 'fa-edit',
+            'LeftMenuTitle'     => 'Users Request',
+            'RightMenuTitle'    => [
+                ['isUrl' => TRUE, 'Name' => 'Page', 'Url' => 'users'],
+                ['isUrl' => FALSE,'Name' => 'User Requests'],
+            ]
+        ];
+        $data = $this->globalFunction($data);
+
+        $data['Member']         = $this->ion_auth->user()->row();
+        $data['List']           = [];
+        // $data['List']   = $this->m_manages->getListUsers();
+        $Users = $this->ion_auth->users()->result();
+        
+        foreach ($Users as $key => $value) {
+            $req = $this->db->query("select * from users_request where user_id='".$value->id."'")->row();
+            $User = [
+                'UserId'        => $value->id,
+                'UserName'      => $value->username,
+                'Email'         => $value->email,
+                'Seller'     => $req ? $req->seller_status : 'undefined',
+                'Buyer'      => $req ? $req->buyer_status : 'undefined',
+                'Group'         => $this->ion_auth->get_users_groups($value->id)->row()
+            ];
+            $data['List'][] = $User;
+        }
+        // echo json_encode($data['List']);
+        // die();
+        usort($data['List'], function($a, $b) {
+            return $a['Group']->id - $b['Group']->id;
+        });
+
+
+        // echo "<pre>";
+        // print_r($data['List']);
+        // die();
+        $this->load->view('adminpanel/users/requests', $data);
+    }
+
     protected function globalFunction($data)
     {
         $data['MasterGeneral']         = $this->m_get->getRowDynamic([

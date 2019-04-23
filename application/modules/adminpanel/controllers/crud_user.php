@@ -6,6 +6,7 @@ class crud_user extends CI_Controller
     function __construct()
     {
         parent::__construct();
+        $this->load->model('m_update');
         $this->load->library(['session', 'ion_auth', 'form_validation', 'general']);
         $this->output->set_header('Last-Modified: ' . gmdate("D, d M Y H:i:s") . ' GMT');
         $this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
@@ -25,6 +26,67 @@ class crud_user extends CI_Controller
         }
         echo json_encode($Return);
     }
+
+    public function acceptSeller(){
+        $InputData = json_decode(file_get_contents('php://input'),true);
+        $UserId = $InputData['UserId'];
+        $Return['StatusResponse'] = 0;
+        $dataUpdate = [
+            'table' => 'users_request',
+            'where' => ['user_id' => $UserId],
+            'data'  => ['seller_status' => 'accepted']
+        ];
+        if ($this->m_update->updateDynamic($dataUpdate)) {
+            $Return['StatusResponse'] = 1;
+        }
+        echo json_encode($Return);
+    }
+
+    public function rejectSeller(){
+        $InputData = json_decode(file_get_contents('php://input'),true);
+        $UserId = $InputData['UserId'];
+        $Return['StatusResponse'] = 0;
+        $dataUpdate = [
+            'table' => 'users_request',
+            'where' => ['user_id' => $UserId],
+            'data'  => ['seller_status' => 'rejected']
+        ];
+        if ($this->m_update->updateDynamic($dataUpdate)) {
+            $Return['StatusResponse'] = 1;
+        }
+        echo json_encode($Return);
+    }
+
+    public function acceptBuyer(){
+        $InputData = json_decode(file_get_contents('php://input'),true);
+        $UserId = $InputData['UserId'];
+        $Return['StatusResponse'] = 0;
+        $dataUpdate = [
+            'table' => 'users_request',
+            'where' => ['user_id' => $UserId],
+            'data'  => ['buyer_status' => 'accepted']
+        ];
+        if ($this->m_update->updateDynamic($dataUpdate)) {
+            $Return['StatusResponse'] = 1;
+        }
+        echo json_encode($Return);
+    }
+
+    public function rejectBuyer(){
+        $InputData = json_decode(file_get_contents('php://input'),true);
+        $UserId = $InputData['UserId'];
+        $Return['StatusResponse'] = 0;
+        $dataUpdate = [
+            'table' => 'users_request',
+            'where' => ['user_id' => $UserId],
+            'data'  => ['buyer_status' => 'rejected']
+        ];
+        if ($this->m_update->updateDynamic($dataUpdate)) {
+            $Return['StatusResponse'] = 1;
+        }
+        echo json_encode($Return);
+    }
+
 
     public function editUser()
     {
