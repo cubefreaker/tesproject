@@ -271,9 +271,19 @@ class member extends CI_Controller
         ];
         
         if($this->input->post('type') == 'seller'){
-            $dataRole['type'] = 'seller';
+            $dataRole['is_seller'] = 'Y';
+            $dataRole['seller_status'] = 'requested';
         }else{
-            $dataRole['type'] = 'buyer';
+            $dataRole['is_buyer'] = 'Y';
+            $dataRole['buyer_status'] = 'requested';
+
+            $checkapi = $this->input->post('api') != '' ? 'Y' : 'N';
+            $checkwl = $this->input->post('wl') != '' ? 'Y' : 'N';
+            $checkta = $this->input->post('ta') != '' ? 'Y' : 'N';
+
+            $dataRole['is_api'] = $checkapi;
+            $dataRole['is_wl'] = $checkwl;
+            $dataRole['is_ta'] = $checkta;
         }
         
         $this->load->model('m_get');
