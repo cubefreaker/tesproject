@@ -6,7 +6,7 @@ class member extends CI_Controller
     {
         parent::__construct();
         $this->load->library(array('form_validation', 'session', 'ion_auth', 'general'));
-        $this->load->helper(array('language'));
+        $this->load->helper(array('language', 'form'));
         $this->load->model('m_general');
         $this->general->saveVisitor($this, [1, 0]);
     }
@@ -578,6 +578,103 @@ class member extends CI_Controller
         }
 
         redirect('member/personalData');
+    }
+
+    public function editDokumen()
+    {
+        $user = $this->ion_auth->user()->row();
+            
+        $config = array(
+            'upload_path' => './assets/file_upload/',
+            'allowed_types' => 'jpg|png|jpeg|pdf',
+            'max_size'  => '4096',
+            'remove_space' => TRUE,
+            'overwrite' => TRUE
+        );
+
+        $dokumenData = [
+            // 'created_date'  => date('Y-m-d H:i:s')
+        ];
+        
+        $this->load->library('upload', $config);
+
+        //Upload KTP
+        if(!$this->upload->do_upload('scktp')){
+            $error = array('error' => $this->upload->display_errors());
+            // echo $error['error'];
+        }
+        else{
+            $scktp = $this->upload->data();
+            $dokumenData['scan_ktp']  = $scktp['file_name'];
+        }
+        
+        //Upload NPWP
+        if(!$this->upload->do_upload('scnpwp')){
+            $error = array('error' => $this->upload->display_errors());
+            // echo $error['error'];
+        }
+        else{
+            $scnpwp = $this->upload->data();
+            $dokumenData['scan_npwp']  = $scnpwp['file_name'];
+        }
+
+        //Upload SIUP/TDP
+        if(!$this->upload->do_upload('scsiup')){
+            $error = array('error' => $this->upload->display_errors());
+            // echo $error['error'];
+        }
+        else{
+            $scsiup = $this->upload->data();
+            $dokumenData['scan_siup']  = $scsiup['file_name'];
+        }
+
+        //Upload AKTA
+        if(!$this->upload->do_upload('scakta')){
+            $error = array('error' => $this->upload->display_errors());
+            // echo $error['error'];
+        }
+        else{
+            $scakta = $this->upload->data();
+            $dokumenData['scan_akta']  = $scakta['file_name'];
+        }
+
+        //Upload SK
+        if(!$this->upload->do_upload('scsk')){
+            $error = array('error' => $this->upload->display_errors());
+            // echo $error['error'];
+        }
+        else{
+            $scsk = $this->upload->data();
+            $dokumenData['scan_sk']  = $scsk['file_name'];
+        }
+
+        $this->load->model('m_get');
+        $getData = [
+            'select'  => '*',
+            'from' => 'users_document',
+            'where' => ['user_id' => $user->id]
+        ];
+        if($this->m_get->getDynamic($getData) == FALSE){
+            $this->load->model('m_insert');
+            $dokumenData['user_id'] = $user->id;
+            $dataInsert = [
+                'table' => 'users_document',
+                'data'  => $dokumenData
+            ];
+            $this->m_insert->insertDynamic($dataInsert);
+        }else{
+            $this->load->model('m_update');
+            $dataUpdate = [
+                'data'  => $dokumenData,
+                'table' => 'users_document',
+                'where' => ['user_id' => $user->id]
+            ];
+            
+            $this->m_update->updateDynamic($dataUpdate);
+        }
+        
+        // echo json_encode($Return);
+        redirect('member/personalData', 'refresh');      
     }
 
     function editRekening()
