@@ -5,7 +5,7 @@
 <div style="padding:2%;">
                 <h3 style="margin-bottom:10px;">Informasi Mitra</h3>
             </div>
-            <!-- <?php echo form_open_multipart('member/editMitra', array('id' => 'mitrafrm')); ?> -->
+            <!-- <?php echo form_open_multipart('member/editMitra', array('id' => 'mitrafrm', 'class' => 'form-horizontal')); ?> -->
             <form id="mitrafrm" class="form-horizontal" enctype="multipart/form-data" method="post" action="<?=base_url('member/editMitra')?>">
             <div class="col-md-6" style="padding:2%;">
                     
