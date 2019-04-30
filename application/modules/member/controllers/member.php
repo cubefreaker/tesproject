@@ -813,5 +813,15 @@ class member extends CI_Controller
         // echo '<br>';
         echo $data;
     }
+
+    public function tes2()
+    {
+        $this->load->library('privyid_api');
+
+        $url = 'https://antavaya.opsifin.com/opsifin_api_print';
+        $user = 'anv-ops189';
+        $pass = '$2y$10$XFSAh4wRcteGhbzXoEEuU./6XWinKmEunDNdqs1/dRX9oylpNJ9da';
+        $this->privyid_api->tesGet($url, $user, $pass);
+    }
    
 }

@@ -1,15 +1,20 @@
 <?php
 
-if (!class_exists('Curl\Curl')) {
-  include('./vendor/phpcurl/ArrayUtil.php');
-  include('./vendor/phpcurl/Curl.php');
-  include('./vendor/phpcurl/MultiCurl.php');
-  include('./vendor/phpcurl/CaseInsensitiveArray.php');
-}
-
-use Curl\Curl;
+use GuzzleHttp\Client;
 
 class privyid_api {
+
+
+  function tesGet($url, $user, $pass)
+  {
+
+    // list($baseurl, $endpoint) = func_get_args();
+    $client = new GuzzleHttp\Client(['verify' => false]);
+
+    $resp = $client->request('GET', $url, ['auth' => [$user,$pass]]);
+
+    echo $resp->getBody();
+  }
 
   function userRegistration($url, $auth, $data)
   {
