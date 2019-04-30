@@ -33,14 +33,14 @@
                     <tr>
                         <td>Scan KTP</td>
                         <td>
-                            <label id="ktpid"><?= $scdok->scan_ktp ? $scdok->scan_ktp : 'No File' ?></label>
+                            <label id="ktpid"><?= $scdok ? ($scdok->scan_ktp ? $scdok->scan_ktp : 'No File') : 'No File'?></label>
                         </td>
                         <td></td>
                         <td>
                             <div class="form-group">
                                 <a id="ktp" class="tooltipx pointer">
                                     <?php
-                                        if($scdok->scan_ktp){
+                                        if($scdok && $scdok->scan_ktp){
                                             echo '
                                                 <button id="ktp" class="btn btn-success">Update</button>
                                                  ';
@@ -58,14 +58,14 @@
                     <tr>
                         <td>Scan NPWP</td>
                         <td>
-                            <label id="npwpid"><?= $scdok->scan_npwp ? $scdok->scan_npwp : 'No File' ?></label>
+                            <label id="npwpid"><?= $scdok ? ($scdok->scan_npwp ? $scdok->scan_npwp : 'No File') : 'No File' ?></label>
                         </td>
                         <td></td>
                         <td>
                             <div class="form-group">
                                 <a id="npwp" class="tooltipx pointer">
                                     <?php
-                                        if($scdok->scan_npwp){
+                                        if($scdok && $scdok->scan_npwp){
                                             echo '
                                                 <button id="npwp" class="btn btn-success">Update</button>
                                                  ';
@@ -83,14 +83,14 @@
                     <tr>
                         <td>Scan SIUP/TDP</td>
                         <td>
-                            <label id="siupid"><?= $scdok->scan_siup ? $scdok->scan_siup : 'No File' ?></label>
+                            <label id="siupid"><?= $scdok ? ($scdok->scan_siup ? $scdok->scan_siup : 'No File') : 'No File' ?></label>
                         </td>
                         <td></td>
                         <td>
                             <div class="form-group">
                                 <a id="siup" class="tooltipx pointer">
                                     <?php
-                                        if($scdok->scan_siup){
+                                        if($scdok && $scdok->scan_siup){
                                             echo '
                                                 <button id="siup" class="btn btn-success">Update</button>
                                                  ';
@@ -108,14 +108,14 @@
                     <tr>
                         <td>Scan Akta Perusahaan</td>
                         <td>
-                            <label id="aktaid"><?= $scdok->scan_akta ? $scdok->scan_akta : 'No File' ?></label>
+                            <label id="aktaid"><?= $scdok ? ($scdok->scan_akta ? $scdok->scan_akta : 'No File') : 'No File' ?></label>
                         </td>
                         <td></td>
                         <td>
                             <div class="form-group">
                                 <a id="akta" class="tooltipx pointer">
                                     <?php
-                                        if($scdok->scan_akta){
+                                        if($scdok && $scdok->scan_akta){
                                             echo '
                                                 <button id="akta" class="btn btn-success">Update</button>
                                                  ';
@@ -133,14 +133,14 @@
                     <tr>
                         <td>Scan Surat Kuasa (bila diwakilkan)</td>
                         <td>
-                            <label id="skid"><?= $scdok->scan_sk ? $scdok->scan_sk : 'No File' ?></label>
+                            <label id="skid"><?= $scdok ? ($scdok->scan_sk ? $scdok->scan_sk : 'No File') : 'No File' ?></label>
                         </td>
                         <td></td>
                         <td>
                             <div class="form-group">
                                 <a id="sk" class="tooltipx pointer">
                                     <?php
-                                        if($scdok->scan_sk){
+                                        if($scdok && $scdok->scan_sk){
                                             echo '
                                                 <button id="sk" class="btn btn-success">Update</button>
                                                  ';

@@ -11,7 +11,7 @@
                 <div class="signin-info">
                     <div class="logopanel">
                         <!-- <h1><img src="images/logo.png" class="img-responsive" /></h1> -->
-                        <h1><img src="<?=base_url('assets/images/logo/opsibook-logo.png')?>" class="img-responsive"> </h1>
+                        <h1><img src="<?=base_url('assets/images/logo/5c98e37a12ec7.png')?>" class="img-responsive"> </h1>
                     </div><!-- logopanel -->
                     <div class="mb20"></div>
                     <ul></ul>

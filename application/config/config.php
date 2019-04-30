@@ -26,6 +26,8 @@ date_default_timezone_set('Asia/Jakarta');
 |
 */
 $config['base_url']    = "$root";
+$config['composer_autoload'] = TRUE;
+
 /*
 |--------------------------------------------------------------------------
 | Index File

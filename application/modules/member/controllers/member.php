@@ -654,6 +654,7 @@ class member extends CI_Controller
             'from' => 'users_document',
             'where' => ['user_id' => $user->id]
         ];
+
         if($this->m_get->getDynamic($getData) == FALSE){
             $this->load->model('m_insert');
             $dokumenData['user_id'] = $user->id;
@@ -671,6 +672,7 @@ class member extends CI_Controller
             ];
             
             $this->m_update->updateDynamic($dataUpdate);
+
         }
         
         // echo json_encode($Return);
@@ -790,17 +792,26 @@ class member extends CI_Controller
         //     $checkpass = 
         }
 
-	}
+    }
+    
 
     public function tes()
     {
-        $this->load->library('country_list');
-        $data = $this->country_list->country();
-        $newdata = array();
-        foreach($data as $a){
-                array_push($newdata,$a); 
-        }
-        echo json_encode($newdata);
+        // $this->load->library('country_list');
+        // $data = $this->country_list->country();
+        // $newdata = array();
+        // foreach($data as $a){
+        //         array_push($newdata,$a); 
+        // }
+        // echo json_encode($newdata);
+
+        $img = file_get_contents('./assets/images/profile/21jokowi1554957442.jpg');
+
+        $data = base64_encode($img);
+
+        // echo $img;
+        // echo '<br>';
+        echo $data;
     }
    
 }

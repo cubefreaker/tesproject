@@ -51,7 +51,6 @@ class privyid_api {
   function postDocument($url, $auth, $data)
   {
     $curl = new Curl();
-    $data['document'] = new CURLFile($data['file']);
 
     $curl->setBasicAuthentication($auth['username'], $auth['password']);
     $curl->setHeader('Content-Type', 'application/json');
