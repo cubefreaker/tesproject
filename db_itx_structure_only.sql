@@ -169,6 +169,45 @@ CREATE TABLE `users_login_attempts` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `users_privyid` */
+
+DROP TABLE IF EXISTS `users_privyid`;
+
+CREATE TABLE `users_privyid` (
+  `auto_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `status` varchar(20) DEFAULT NULL,
+  `token` text,
+  PRIMARY KEY (`auto_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Table structure for table `users_privyid_det` */
+
+DROP TABLE IF EXISTS `users_privyid_det`;
+
+CREATE TABLE `users_privyid_det` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `privy_id` varchar(50) DEFAULT NULL,
+  `user_id` varchar(50) DEFAULT NULL,
+  `verified_status` varchar(15) DEFAULT NULL,
+  `ktp_det` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Table structure for table `users_privyid_doc` */
+
+DROP TABLE IF EXISTS `users_privyid_doc`;
+
+CREATE TABLE `users_privyid_doc` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `doc_token` varchar(100) DEFAULT NULL,
+  `url_document` varchar(100) DEFAULT NULL,
+  `posted_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 /*Table structure for table `users_request` */
 
 DROP TABLE IF EXISTS `users_request`;
@@ -223,7 +262,7 @@ CREATE TABLE `v2_log_visitor` (
   `lv_type` tinyint(4) DEFAULT NULL COMMENT '1:customer|2:adminpanel',
   `lv_is_ajax` tinyint(4) DEFAULT NULL COMMENT '0:no|1:ajax',
   PRIMARY KEY (`lv_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11259 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11274 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `v2_master_country` */
 

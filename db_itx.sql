@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.4.3 (64 bit)
-MySQL - 10.1.9-MariaDB : Database - db_itx_v2
+SQLyog Ultimate v12.5.1 (32 bit)
+MySQL - 10.1.38-MariaDB : Database - db_itx_v2
 *********************************************************************
 */
 
@@ -92,7 +92,7 @@ insert  into `users`(`id`,`ip_address`,`username`,`password`,`salt`,`email`,`act
 (15,'::1','joko','$2y$08$xg38f5hGJ2tepkXgx1huEu4tzCdHHMDU5eE/hNOWLAL1bT9ODvlnq',NULL,'joko@email.com',NULL,NULL,NULL,NULL,1553683260,NULL,'',1,'joko','joko','Male','2019-03-20',NULL,'62224209985',NULL,5,0,'2019-03-27 17:41:00',0,NULL,NULL,NULL,NULL,NULL),
 (20,'::1','hamzah','$2y$08$5R7TA44rD7rZzaoKE59gAONwPERh5Zwxsm5KqZaupNVuGMWDrWoTe',NULL,'hamzah_habibi@rocketmail.com','fwL9OPWDZg4e',NULL,NULL,NULL,1553830826,1554447530,'false',1,'hamzah','habibi','Male','2019-03-20',NULL,'08946456845',NULL,5,0,'2019-03-29 10:40:26',0,NULL,NULL,NULL,NULL,NULL),
 (21,'::1','jokowi','$2y$08$HQDLOKiIDwzKKO6OE/kyWeLYb7An9pJw37EMXcfjHcQNEd8/4yghO',NULL,'joko@widodo.com',NULL,NULL,NULL,NULL,1554692536,1555329815,'false',1,'Joko','Widodo','Male','1975-01-01',NULL,'08181818181','21jokowi1554963003.jpg',5,0,'2019-04-08 10:02:16',0,NULL,NULL,NULL,NULL,NULL),
-(22,'::1','magneto','$2y$08$dtF0FJfdK9RD/VYe2XfiyuX6QoIcaGVkFk1OzNHK73Uyz42prVlXS',NULL,'eustass.kid@mail.com',NULL,NULL,NULL,NULL,1555300025,1555560106,'false',1,'Eustass','Kid','Male','1989-02-08',NULL,'09809809809',NULL,5,0,'2019-04-15 10:47:05',0,NULL,NULL,NULL,NULL,NULL);
+(22,'::1','magneto','$2y$08$dtF0FJfdK9RD/VYe2XfiyuX6QoIcaGVkFk1OzNHK73Uyz42prVlXS',NULL,'eustass.kid@mail.com',NULL,NULL,NULL,NULL,1555300025,1556510056,'false',1,'Eustass','Kid','Male','1989-02-08',NULL,'09809809809',NULL,5,0,'2019-04-15 10:47:05',0,NULL,NULL,NULL,NULL,NULL);
 
 /*Table structure for table `users_bank` */
 
@@ -141,6 +141,32 @@ CREATE TABLE `users_company` (
 
 insert  into `users_company`(`co_id`,`brand`,`company_name`,`owner`,`phone_no`,`mobile_no`,`address`,`sub_district`,`province`,`city`,`email`,`website`,`postal_code`,`logo`,`id`) values 
 (1,'','','',0,0,'','','','','','',0,'21jokowi1554957535.PNG',21);
+
+/*Table structure for table `users_document` */
+
+DROP TABLE IF EXISTS `users_document`;
+
+CREATE TABLE `users_document` (
+  `doc_id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(20) DEFAULT NULL,
+  `scan_ktp` varchar(50) DEFAULT NULL,
+  `scan_npwp` varchar(50) DEFAULT NULL,
+  `scan_siup` varchar(50) DEFAULT NULL,
+  `scan_akta` varchar(50) DEFAULT NULL,
+  `scan_sk` varchar(50) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `is_ktp` enum('1','0') DEFAULT '0',
+  `is_npwp` enum('1','0') DEFAULT '0',
+  `is_siup` enum('1','0') DEFAULT '0',
+  `is_akta` enum('1','0') DEFAULT '0',
+  `is_sk` enum('1','0') DEFAULT '0',
+  PRIMARY KEY (`doc_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+/*Data for the table `users_document` */
+
+insert  into `users_document`(`doc_id`,`type`,`scan_ktp`,`scan_npwp`,`scan_siup`,`scan_akta`,`scan_sk`,`user_id`,`is_ktp`,`is_npwp`,`is_siup`,`is_akta`,`is_sk`) values 
+(1,NULL,'DQewc0lWAAEKUoQ.jpg','2.PNG',NULL,'sg-90-drawing.png',NULL,22,'0','0','0','0','0');
 
 /*Table structure for table `users_groups` */
 
@@ -204,6 +230,71 @@ CREATE TABLE `users_login_attempts` (
 
 /*Data for the table `users_login_attempts` */
 
+/*Table structure for table `users_privyid` */
+
+DROP TABLE IF EXISTS `users_privyid`;
+
+CREATE TABLE `users_privyid` (
+  `auto_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `status` varchar(20) DEFAULT NULL,
+  `token` text,
+  PRIMARY KEY (`auto_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `users_privyid` */
+
+/*Table structure for table `users_privyid_det` */
+
+DROP TABLE IF EXISTS `users_privyid_det`;
+
+CREATE TABLE `users_privyid_det` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `privy_id` varchar(50) DEFAULT NULL,
+  `user_id` varchar(50) DEFAULT NULL,
+  `verified_status` varchar(15) DEFAULT NULL,
+  `ktp_det` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `users_privyid_det` */
+
+/*Table structure for table `users_privyid_doc` */
+
+DROP TABLE IF EXISTS `users_privyid_doc`;
+
+CREATE TABLE `users_privyid_doc` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `doc_token` varchar(100) DEFAULT NULL,
+  `url_document` varchar(100) DEFAULT NULL,
+  `posted_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `users_privyid_doc` */
+
+/*Table structure for table `users_request` */
+
+DROP TABLE IF EXISTS `users_request`;
+
+CREATE TABLE `users_request` (
+  `req_id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `seller_status` enum('undefined','requested','accepted','rejected') NOT NULL DEFAULT 'undefined',
+  `buyer_status` enum('undefined','requested','accepted','rejected') NOT NULL DEFAULT 'undefined',
+  `is_api` enum('Y','N') NOT NULL DEFAULT 'N',
+  `is_wl` enum('Y','N') NOT NULL DEFAULT 'N',
+  `is_ta` enum('Y','N') NOT NULL DEFAULT 'N',
+  `user_id` int(11) NOT NULL,
+  `created_date` datetime NOT NULL,
+  `modified_date` datetime NOT NULL,
+  PRIMARY KEY (`req_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `users_request` */
+
 /*Table structure for table `v2_list_payment_gateway` */
 
 DROP TABLE IF EXISTS `v2_list_payment_gateway`;
@@ -254,7 +345,7 @@ CREATE TABLE `v2_log_visitor` (
   `lv_type` tinyint(4) DEFAULT NULL COMMENT '1:customer|2:adminpanel',
   `lv_is_ajax` tinyint(4) DEFAULT NULL COMMENT '0:no|1:ajax',
   PRIMARY KEY (`lv_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11209 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11274 DEFAULT CHARSET=utf8;
 
 /*Data for the table `v2_log_visitor` */
 
@@ -11467,7 +11558,72 @@ insert  into `v2_log_visitor`(`lv_id`,`lv_ip_address`,`lv_user_agent`,`lv_create
 (11205,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-18 12:24:00','http://localhost/webitx/member/personalData',1,0),
 (11206,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-18 12:24:28','http://localhost/webitx/member/personalData',1,0),
 (11207,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-18 12:24:42','http://localhost/webitx/member/editRekening',1,0),
-(11208,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-18 12:24:42','http://localhost/webitx/member/personalData',1,0);
+(11208,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-18 12:24:42','http://localhost/webitx/member/personalData',1,0),
+(11209,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 21:42:29','http://localhost/webitx/member',1,0),
+(11210,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 21:42:29','http://localhost/webitx/member/personalData',1,0),
+(11211,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 21:42:29','http://localhost/webitx/member/login',1,0),
+(11212,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 21:42:36','http://localhost/webitx/member/login',1,0),
+(11213,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 21:42:36','http://localhost/webitx/member/personalData',1,0),
+(11214,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 21:48:03','http://localhost/webitx/member/personalData',1,0),
+(11215,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 21:53:23','http://localhost/webitx/member/personalData',1,0),
+(11216,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 22:26:33','http://localhost/webitx/member/personalData',1,0),
+(11217,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 22:26:35','http://localhost/webitx/member/personalData',1,0),
+(11218,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 22:28:36','http://localhost/webitx/member/personalData',1,0),
+(11219,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 22:48:00','http://localhost/webitx/member/personalData',1,0),
+(11220,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 22:52:32','http://localhost/webitx/member/personalData',1,0),
+(11221,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 22:52:44','http://localhost/webitx/member/editDokumen',1,0),
+(11222,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 22:53:34','http://localhost/webitx/member/personalData',1,0),
+(11223,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 22:53:59','http://localhost/webitx/member/editDokumen',1,0),
+(11224,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 22:53:59','http://localhost/webitx/member/personalData',1,0),
+(11225,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 22:55:14','http://localhost/webitx/member/personalData',1,0),
+(11226,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:13:28','http://localhost/webitx/member/personalData',1,0),
+(11227,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:14:37','http://localhost/webitx/member/personalData',1,0),
+(11228,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:16:18','http://localhost/webitx/member/personalData',1,0),
+(11229,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:19:29','http://localhost/webitx/member/personalData',1,0),
+(11230,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:19:59','http://localhost/webitx/member/personalData',1,0),
+(11231,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:28:49','http://localhost/webitx/member/personalData',1,0),
+(11232,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:29:18','http://localhost/webitx/member/personalData',1,0),
+(11233,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:32:59','http://localhost/webitx/member/personalData',1,0),
+(11234,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:33:34','http://localhost/webitx/member/personalData',1,0),
+(11235,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:34:45','http://localhost/webitx/member/personalData',1,0),
+(11236,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:42:57','http://localhost/webitx/member/personalData',1,0),
+(11237,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:43:15','http://localhost/webitx/member/personalData',1,0),
+(11238,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:43:39','http://localhost/webitx/member/personalData',1,0),
+(11239,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:44:02','http://localhost/webitx/member/personalData',1,0),
+(11240,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:44:44','http://localhost/webitx/member/personalData',1,0),
+(11241,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:45:20','http://localhost/webitx/member/personalData',1,0),
+(11242,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:46:48','http://localhost/webitx/member/personalData',1,0),
+(11243,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:48:07','http://localhost/webitx/member/personalData',1,0),
+(11244,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:48:28','http://localhost/webitx/member/editDokumen',1,0),
+(11245,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:48:29','http://localhost/webitx/member/personalData',1,0),
+(11246,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:58:01','http://localhost/webitx/member/personalData',1,0),
+(11247,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-24 23:59:10','http://localhost/webitx/member/personalData',1,0),
+(11248,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-25 00:02:28','http://localhost/webitx/member/personalData',1,0),
+(11249,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-25 00:03:41','http://localhost/webitx/member/personalData',1,0),
+(11250,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-25 00:04:21','http://localhost/webitx/member/personalData',1,0),
+(11251,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-25 00:04:49','http://localhost/webitx/member/personalData',1,0),
+(11252,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-25 00:05:48','http://localhost/webitx/member/personalData',1,0),
+(11253,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-25 00:06:04','http://localhost/webitx/member/personalData',1,0),
+(11254,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-25 00:06:52','http://localhost/webitx/member/personalData',1,0),
+(11255,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-25 00:07:10','http://localhost/webitx/member/personalData',1,0),
+(11256,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-25 00:09:13','http://localhost/webitx/member/personalData',1,0),
+(11257,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-25 00:10:00','http://localhost/webitx/member/personalData',1,0),
+(11258,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-25 00:11:18','http://localhost/webitx/member/personalData',1,0),
+(11259,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-25 00:16:55','http://localhost/webitx/member/personalData',1,0),
+(11260,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-25 00:17:50','http://localhost/webitx/member/editDokumen',1,0),
+(11261,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-25 00:17:50','http://localhost/webitx/member/personalData',1,0),
+(11262,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-29 10:54:08','http://localhost/webitx/member',1,0),
+(11263,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-29 10:54:08','http://localhost/webitx/member/personalData',1,0),
+(11264,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-29 10:54:08','http://localhost/webitx/member/login',1,0),
+(11265,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-29 10:54:16','http://localhost/webitx/member/login',1,0),
+(11266,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-29 10:54:16','http://localhost/webitx/member/personalData',1,0),
+(11267,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-29 10:55:00','http://localhost/webitx/member',1,0),
+(11268,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-29 10:55:00','http://localhost/webitx/member/personalData',1,0),
+(11269,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-29 10:55:02','http://localhost/webitx/',1,0),
+(11270,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-29 10:55:02','http://localhost/webitx/member/personalData',1,0),
+(11271,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-29 13:43:24','http://localhost/webitx/',1,0),
+(11272,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-29 13:43:24','http://localhost/webitx/member/personalData',1,0),
+(11273,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-29 13:46:05','http://localhost/webitx/adminpanel',2,0);
 
 /*Table structure for table `v2_master_country` */
 
