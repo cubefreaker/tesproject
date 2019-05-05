@@ -5,70 +5,45 @@ use GuzzleHttp\Client;
 class privyid_api {
 
 
-  function tesGet($url, $user, $pass)
+  function tesGet($url, $data)
   {
 
     // list($baseurl, $endpoint) = func_get_args();
-    $client = new GuzzleHttp\Client(['verify' => false]);
+    $client = new Client(['verify' => false]);
 
-    $resp = $client->request('GET', $url, ['auth' => [$user,$pass]]);
+    $resp = $client->get($url, $data);
 
     echo $resp->getBody();
   }
 
-  function userRegistration($url, $auth, $data)
+  function getPrivyAPI($url, $data)
   {
-    $curl = new Curl();
-    $data['identityCard'] = new CURLFile($data['file']);
-
-    $curl->setBasicAuthentication($auth['username'], $auth['password']);
-    $curl->setHeader('Content-Type', 'application/json');
-
-    $Result = FALSE;
-    $curl->post($url, $data);
-    if (!$curl->error) {
-        $Result = $curl->response;
-    }else{
-        echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage . "\n";
+    $client = new Client(['verify' => false]);
+   
+    try {
+      $response = $client->get($url, $data);
+      return $response->getBody();
     }
-    $curl->close();
-    return array('response'=> $Result);
+    catch (GuzzleHttp\Exception\ClientException $e) {
+      $response = $e->getResponse();
+      return $response->getBody();
+    }
+
   }
 
-  function getRegStatus($url, $data, $token) {
-    $curl = new Curl();
-
-    $curl->setBasicAuthentication($auth['username'], $auth['password']);
-    $curl->setHeader('Content-Type', 'application/json');
-    
-    $Result       = FALSE;
-    $curl->get($url, $data);
-    if (!$curl->error) {
-      $Result = $curl->response;
-    }
-    else {
-        echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage . "\n";
-    }
-    $curl->close();
-    return array('response'=>$Result);
-  }
-
-  function postDocument($url, $auth, $data)
+  function postPrivyAPI($url, $data)
   {
-    $curl = new Curl();
-
-    $curl->setBasicAuthentication($auth['username'], $auth['password']);
-    $curl->setHeader('Content-Type', 'application/json');
-
-    $Result = FALSE;
-    $curl->post($url, $data);
-    if (!$curl->error) {
-        $Result = $curl->response;
-    }else{
-        echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage . "\n";
+    $client = new Client(['verify' => false]);
+   
+    try {
+      $response = $client->post($url, $data);
+      return $response->getBody();
     }
-    $curl->close();
-    return array('response'=> $Result);
+    catch (GuzzleHttp\Exception\ClientException $e) {
+      $response = $e->getResponse();
+      return $response->getBody();
+    }
+
   }
 
 }
