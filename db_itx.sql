@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v12.4.3 (64 bit)
-MySQL - 10.1.9-MariaDB : Database - db_itx_v2
+MySQL - 10.1.37-MariaDB : Database - db_itx_v2
 *********************************************************************
 */
 
@@ -40,6 +40,26 @@ CREATE TABLE `company_contact` (
 
 insert  into `company_contact`(`contact_id`,`name`,`email`,`phone`,`mobile`,`name_ops`,`email_ops`,`phone_ops`,`mobile_ops`,`user_id`) values 
 (1,'Eustass','1@mail.com',101010101,11011011,'Kid','2@mail.com',202020202,22022022,22);
+
+/*Table structure for table `privyid_api` */
+
+DROP TABLE IF EXISTS `privyid_api`;
+
+CREATE TABLE `privyid_api` (
+  `user` varchar(100) DEFAULT NULL,
+  `pass` varchar(100) DEFAULT NULL,
+  `merchant_key` varchar(100) DEFAULT NULL,
+  `base` varchar(50) DEFAULT NULL,
+  `reg` varchar(50) DEFAULT NULL,
+  `reg_status` varchar(50) DEFAULT NULL,
+  `doc_upload` varchar(50) DEFAULT NULL,
+  `doc_status` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `privyid_api` */
+
+insert  into `privyid_api`(`user`,`pass`,`merchant_key`,`base`,`reg`,`reg_status`,`doc_upload`,`doc_status`) values 
+('ITX','$Rt3WAL/&b=baw8f','LLU6HjsxPVyZ3jjGhky6','https://api-sandbox.privy.id/v3/merchant','/registration','/registration/status','/document/upload','/document/status');
 
 /*Table structure for table `users` */
 
@@ -92,7 +112,7 @@ insert  into `users`(`id`,`ip_address`,`username`,`password`,`salt`,`email`,`act
 (15,'::1','joko','$2y$08$xg38f5hGJ2tepkXgx1huEu4tzCdHHMDU5eE/hNOWLAL1bT9ODvlnq',NULL,'joko@email.com',NULL,NULL,NULL,NULL,1553683260,NULL,'',1,'joko','joko','Male','2019-03-20',NULL,'62224209985',NULL,5,0,'2019-03-27 17:41:00',0,NULL,NULL,NULL,NULL,NULL),
 (20,'::1','hamzah','$2y$08$5R7TA44rD7rZzaoKE59gAONwPERh5Zwxsm5KqZaupNVuGMWDrWoTe',NULL,'hamzah_habibi@rocketmail.com','fwL9OPWDZg4e',NULL,NULL,NULL,1553830826,1554447530,'false',1,'hamzah','habibi','Male','2019-03-20',NULL,'08946456845',NULL,5,0,'2019-03-29 10:40:26',0,NULL,NULL,NULL,NULL,NULL),
 (21,'::1','jokowi','$2y$08$HQDLOKiIDwzKKO6OE/kyWeLYb7An9pJw37EMXcfjHcQNEd8/4yghO',NULL,'joko@widodo.com',NULL,NULL,NULL,NULL,1554692536,1555329815,'false',1,'Joko','Widodo','Male','1975-01-01',NULL,'08181818181','21jokowi1554963003.jpg',5,0,'2019-04-08 10:02:16',0,NULL,NULL,NULL,NULL,NULL),
-(22,'::1','Eustass','$2y$08$dtF0FJfdK9RD/VYe2XfiyuX6QoIcaGVkFk1OzNHK73Uyz42prVlXS',NULL,'eustass.kid@mail.com',NULL,NULL,NULL,NULL,1555300025,1556592903,'false',1,'Eustass','Kid','Male','1989-02-08',NULL,'09809809809',NULL,5,0,'2019-04-15 10:47:05',0,NULL,NULL,NULL,NULL,NULL);
+(22,'::1','Eustass','$2y$08$dtF0FJfdK9RD/VYe2XfiyuX6QoIcaGVkFk1OzNHK73Uyz42prVlXS',NULL,'eustass.kid@mail.com',NULL,NULL,NULL,NULL,1555300025,1557072356,'false',1,'Eustass','Kid','Male','1989-02-08',NULL,'09809809809',NULL,5,0,'2019-04-15 10:47:05',0,NULL,NULL,NULL,NULL,NULL);
 
 /*Table structure for table `users_bank` */
 
@@ -269,8 +289,11 @@ DROP TABLE IF EXISTS `users_privyid_doc`;
 CREATE TABLE `users_privyid_doc` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `doc_token` varchar(100) DEFAULT NULL,
-  `url_document` varchar(100) DEFAULT NULL,
+  `doc_url` varchar(100) DEFAULT NULL,
+  `reviewer` varchar(15) DEFAULT NULL,
+  `signer` varchar(15) DEFAULT NULL,
   `posted_date` datetime DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -351,7 +374,7 @@ CREATE TABLE `v2_log_visitor` (
   `lv_type` tinyint(4) DEFAULT NULL COMMENT '1:customer|2:adminpanel',
   `lv_is_ajax` tinyint(4) DEFAULT NULL COMMENT '0:no|1:ajax',
   PRIMARY KEY (`lv_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11356 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11496 DEFAULT CHARSET=utf8;
 
 /*Data for the table `v2_log_visitor` */
 
@@ -11711,7 +11734,147 @@ insert  into `v2_log_visitor`(`lv_id`,`lv_ip_address`,`lv_user_agent`,`lv_create
 (11352,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-30 11:53:51','http://localhost/webitx/member/personalData',1,0),
 (11353,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-30 11:54:33','http://localhost/webitx/member/personalData',1,0),
 (11354,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-30 11:54:41','http://localhost/webitx/member/editDokumen',1,0),
-(11355,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-30 11:54:42','http://localhost/webitx/member/personalData',1,0);
+(11355,'::1','Chrome 73.0.3683.103, Windows 10','2019-04-30 11:54:42','http://localhost/webitx/member/personalData',1,0),
+(11356,'::1','Firefox 66.0, Windows 7','2019-05-05 19:37:42','http://localhost/webitx/',1,0),
+(11357,'::1','Firefox 66.0, Windows 7','2019-05-05 19:37:42','http://localhost/webitx/member/personalData',1,0),
+(11358,'::1','Firefox 66.0, Windows 7','2019-05-05 19:37:43','http://localhost/webitx/member/login',1,0),
+(11359,'::1','Firefox 66.0, Windows 7','2019-05-05 19:38:00','http://localhost/webitx/member/login',1,0),
+(11360,'::1','Firefox 66.0, Windows 7','2019-05-05 19:38:00','http://localhost/webitx/member/personalData',1,0),
+(11361,'::1','Firefox 66.0, Windows 7','2019-05-05 19:38:05','http://localhost/webitx/member/tes2',1,0),
+(11362,'::1','Firefox 66.0, Windows 7','2019-05-05 19:38:23','http://localhost/webitx/member/tes2',1,0),
+(11363,'::1','Firefox 66.0, Windows 7','2019-05-05 19:38:54','http://localhost/webitx/member/tes2',1,0),
+(11364,'::1','Firefox 66.0, Windows 7','2019-05-05 19:39:27','http://localhost/webitx/member/tes2',1,0),
+(11365,'::1','Firefox 66.0, Windows 7','2019-05-05 19:39:49','http://localhost/webitx/member/tes2',1,0),
+(11366,'::1','Firefox 66.0, Windows 7','2019-05-05 19:40:05','http://localhost/webitx/member/tes2',1,0),
+(11367,'::1','Firefox 66.0, Windows 7','2019-05-05 19:40:27','http://localhost/webitx/member/tes2',1,0),
+(11368,'::1','Firefox 66.0, Windows 7','2019-05-05 19:40:37','http://localhost/webitx/member/tes2',1,0),
+(11369,'::1','Firefox 66.0, Windows 7','2019-05-05 19:42:25','http://localhost/webitx/member/tes2',1,0),
+(11370,'::1','Firefox 66.0, Windows 7','2019-05-05 19:43:31','http://localhost/webitx/member/tes2',1,0),
+(11371,'::1','Firefox 66.0, Windows 7','2019-05-05 19:43:43','http://localhost/webitx/member/tes2',1,0),
+(11372,'::1','Firefox 66.0, Windows 7','2019-05-05 19:48:41','http://localhost/webitx/member/tes2',1,0),
+(11373,'::1','Firefox 66.0, Windows 7','2019-05-05 20:03:31','http://localhost/webitx/member/privyUserReg',1,0),
+(11374,'::1','Firefox 66.0, Windows 7','2019-05-05 20:04:36','http://localhost/webitx/member/privyUserReg',1,0),
+(11375,'::1','Firefox 66.0, Windows 7','2019-05-05 20:05:21','http://localhost/webitx/member/privyUserReg',1,0),
+(11376,'::1','Firefox 66.0, Windows 7','2019-05-05 20:05:23','http://localhost/webitx/member/privyUserReg',1,0),
+(11377,'::1','Firefox 66.0, Windows 7','2019-05-05 20:06:07','http://localhost/webitx/member/privyUserReg',1,0),
+(11378,'::1','Firefox 66.0, Windows 7','2019-05-05 20:18:38','http://localhost/webitx/member/privyUserReg',1,0),
+(11379,'::1','Firefox 66.0, Windows 7','2019-05-05 20:18:55','http://localhost/webitx/member/privyUserReg',1,0),
+(11380,'::1','Firefox 66.0, Windows 7','2019-05-05 20:19:08','http://localhost/webitx/member/privyUserReg',1,0),
+(11381,'::1','Firefox 66.0, Windows 7','2019-05-05 20:19:53','http://localhost/webitx/member/privyUserReg',1,0),
+(11382,'::1','Firefox 66.0, Windows 7','2019-05-05 20:21:09','http://localhost/webitx/member/privyUserReg',1,0),
+(11383,'::1','Firefox 66.0, Windows 7','2019-05-05 20:21:39','http://localhost/webitx/member/privyUserReg',1,0),
+(11384,'::1','Firefox 66.0, Windows 7','2019-05-05 20:25:35','http://localhost/webitx/member/tes2',1,0),
+(11385,'::1','Firefox 66.0, Windows 7','2019-05-05 20:26:26','http://localhost/webitx/member/tes2',1,0),
+(11386,'::1','Firefox 66.0, Windows 7','2019-05-05 20:26:38','http://localhost/webitx/member/tes2',1,0),
+(11387,'::1','Firefox 66.0, Windows 7','2019-05-05 20:27:33','http://localhost/webitx/member/tes2',1,0),
+(11388,'::1','Firefox 66.0, Windows 7','2019-05-05 20:28:13','http://localhost/webitx/member/tes2',1,0),
+(11389,'::1','Firefox 66.0, Windows 7','2019-05-05 20:29:00','http://localhost/webitx/member/tes2',1,0),
+(11390,'::1','Firefox 66.0, Windows 7','2019-05-05 20:29:30','http://localhost/webitx/member/tes2',1,0),
+(11391,'::1','Firefox 66.0, Windows 7','2019-05-05 20:29:39','http://localhost/webitx/member/tes2',1,0),
+(11392,'::1','Firefox 66.0, Windows 7','2019-05-05 20:31:03','http://localhost/webitx/member/tes2',1,0),
+(11393,'::1','Firefox 66.0, Windows 7','2019-05-05 20:31:15','http://localhost/webitx/member/tes2',1,0),
+(11394,'::1','Firefox 66.0, Windows 7','2019-05-05 20:31:30','http://localhost/webitx/member/tes2',1,0),
+(11395,'::1','Firefox 66.0, Windows 7','2019-05-05 20:36:11','http://localhost/webitx/member/tes3',1,0),
+(11396,'::1','Firefox 66.0, Windows 7','2019-05-05 20:37:12','http://localhost/webitx/member/tes3',1,0),
+(11397,'::1','Firefox 66.0, Windows 7','2019-05-05 20:37:34','http://localhost/webitx/member/tes3',1,0),
+(11398,'::1','Firefox 66.0, Windows 7','2019-05-05 20:38:47','http://localhost/webitx/member/tes2',1,0),
+(11399,'::1','Firefox 66.0, Windows 7','2019-05-05 20:39:52','http://localhost/webitx/member/tes2',1,0),
+(11400,'::1','Firefox 66.0, Windows 7','2019-05-05 20:40:29','http://localhost/webitx/member/tes3',1,0),
+(11401,'::1','Firefox 66.0, Windows 7','2019-05-05 20:40:38','http://localhost/webitx/member/tes3',1,0),
+(11402,'::1','Firefox 66.0, Windows 7','2019-05-05 20:40:47','http://localhost/webitx/member/tes3',1,0),
+(11403,'::1','Firefox 66.0, Windows 7','2019-05-05 20:41:57','http://localhost/webitx/member/tes3',1,0),
+(11404,'::1','Firefox 66.0, Windows 7','2019-05-05 20:42:03','http://localhost/webitx/member/tes3',1,0),
+(11405,'::1','Firefox 66.0, Windows 7','2019-05-05 20:42:29','http://localhost/webitx/member/tes2',1,0),
+(11406,'::1','Firefox 66.0, Windows 7','2019-05-05 20:43:35','http://localhost/webitx/member/tes2',1,0),
+(11407,'::1','Firefox 66.0, Windows 7','2019-05-05 20:43:53','http://localhost/webitx/member/tes2',1,0),
+(11408,'::1','Firefox 66.0, Windows 7','2019-05-05 20:44:12','http://localhost/webitx/member/tes2',1,0),
+(11409,'::1','Firefox 66.0, Windows 7','2019-05-05 20:44:47','http://localhost/webitx/member/tes2',1,0),
+(11410,'::1','Firefox 66.0, Windows 7','2019-05-05 20:56:12','http://localhost/webitx/member/tes2',1,0),
+(11411,'::1','Firefox 66.0, Windows 7','2019-05-05 21:00:14','http://localhost/webitx/member/tes2',1,0),
+(11412,'::1','Firefox 66.0, Windows 7','2019-05-05 21:01:54','http://localhost/webitx/member/tes2',1,0),
+(11413,'::1','Firefox 66.0, Windows 7','2019-05-05 21:02:25','http://localhost/webitx/member/tes2',1,0),
+(11414,'::1','Firefox 66.0, Windows 7','2019-05-05 21:03:32','http://localhost/webitx/member/tes2',1,0),
+(11415,'::1','Firefox 66.0, Windows 7','2019-05-05 21:04:08','http://localhost/webitx/member/tes2',1,0),
+(11416,'::1','Firefox 66.0, Windows 7','2019-05-05 21:04:52','http://localhost/webitx/member/tes2',1,0),
+(11417,'::1','Firefox 66.0, Windows 7','2019-05-05 21:05:20','http://localhost/webitx/member/tes2',1,0),
+(11418,'::1','Firefox 66.0, Windows 7','2019-05-05 21:06:07','http://localhost/webitx/member/tes2',1,0),
+(11419,'::1','Firefox 66.0, Windows 7','2019-05-05 21:06:33','http://localhost/webitx/member/tes2',1,0),
+(11420,'::1','Firefox 66.0, Windows 7','2019-05-05 21:06:47','http://localhost/webitx/member/tes2',1,0),
+(11421,'::1','Firefox 66.0, Windows 7','2019-05-05 21:07:25','http://localhost/webitx/member/tes2',1,0),
+(11422,'::1','Firefox 66.0, Windows 7','2019-05-05 21:07:45','http://localhost/webitx/member/tes2',1,0),
+(11423,'::1','Firefox 66.0, Windows 7','2019-05-05 21:08:14','http://localhost/webitx/member/tes2',1,0),
+(11424,'::1','Firefox 66.0, Windows 7','2019-05-05 22:34:19','http://localhost/webitx/',1,0),
+(11425,'::1','Firefox 66.0, Windows 7','2019-05-05 22:34:20','http://localhost/webitx/member/personalData',1,0),
+(11426,'::1','Firefox 66.0, Windows 7','2019-05-05 22:34:39','http://localhost/webitx/member/privyUserStatus',1,0),
+(11427,'::1','Firefox 66.0, Windows 7','2019-05-05 22:35:12','http://localhost/webitx/member/privyUserStatus',1,0),
+(11428,'::1','Firefox 66.0, Windows 7','2019-05-05 22:36:04','http://localhost/webitx/member/privyUserStatus',1,0),
+(11429,'::1','Firefox 66.0, Windows 7','2019-05-05 22:36:18','http://localhost/webitx/member/privyUserStatus',1,0),
+(11430,'::1','Firefox 66.0, Windows 7','2019-05-05 22:39:19','http://localhost/webitx/member/privyUserStatus',1,0),
+(11431,'::1','Firefox 66.0, Windows 7','2019-05-05 22:47:12','http://localhost/webitx/member/privyUserStatus',1,0),
+(11432,'::1','Firefox 66.0, Windows 7','2019-05-05 22:47:18','http://localhost/webitx/member/privyUserStatus',1,0),
+(11433,'::1','Firefox 66.0, Windows 7','2019-05-05 22:48:35','http://localhost/webitx/member/privyUserStatus',1,0),
+(11434,'::1','Firefox 66.0, Windows 7','2019-05-05 22:49:01','http://localhost/webitx/member/privyUserStatus',1,0),
+(11435,'::1','Firefox 66.0, Windows 7','2019-05-05 22:49:52','http://localhost/webitx/member/privyUserStatus',1,0),
+(11436,'::1','Firefox 66.0, Windows 7','2019-05-05 22:50:34','http://localhost/webitx/member/privyUserStatus',1,0),
+(11437,'::1','Firefox 66.0, Windows 7','2019-05-05 22:50:45','http://localhost/webitx/member/privyUserStatus',1,0),
+(11438,'::1','Firefox 66.0, Windows 7','2019-05-05 22:51:01','http://localhost/webitx/member/privyUserStatus',1,0),
+(11439,'::1','Firefox 66.0, Windows 7','2019-05-05 22:51:30','http://localhost/webitx/member/privyUserStatus',1,0),
+(11440,'::1','Firefox 66.0, Windows 7','2019-05-05 22:52:12','http://localhost/webitx/member/privyUserStatus',1,0),
+(11441,'::1','Firefox 66.0, Windows 7','2019-05-05 22:52:41','http://localhost/webitx/member/privyUserStatus',1,0),
+(11442,'::1','Firefox 66.0, Windows 7','2019-05-05 22:53:01','http://localhost/webitx/member/privyUserStatus',1,0),
+(11443,'::1','Firefox 66.0, Windows 7','2019-05-05 22:53:27','http://localhost/webitx/member/privyUserStatus',1,0),
+(11444,'::1','Firefox 66.0, Windows 7','2019-05-05 22:54:08','http://localhost/webitx/member/tes2',1,0),
+(11445,'::1','Firefox 66.0, Windows 7','2019-05-05 22:55:09','http://localhost/webitx/member/privyUserStatus',1,0),
+(11446,'::1','Firefox 66.0, Windows 7','2019-05-05 22:55:23','http://localhost/webitx/member/privyUserStatus',1,0),
+(11447,'::1','Firefox 66.0, Windows 7','2019-05-05 22:55:47','http://localhost/webitx/member/privyUserStatus',1,0),
+(11448,'::1','Firefox 66.0, Windows 7','2019-05-05 22:56:05','http://localhost/webitx/member/privyUserStatus',1,0),
+(11449,'::1','Firefox 66.0, Windows 7','2019-05-05 22:56:50','http://localhost/webitx/member/privyUserStatus',1,0),
+(11450,'::1','Firefox 66.0, Windows 7','2019-05-05 22:57:18','http://localhost/webitx/member/privyUserStatus',1,0),
+(11451,'::1','Firefox 66.0, Windows 7','2019-05-05 22:58:33','http://localhost/webitx/member/privyUserStatus',1,0),
+(11452,'::1','Firefox 66.0, Windows 7','2019-05-05 22:58:46','http://localhost/webitx/member/privyUserStatus',1,0),
+(11453,'::1','Firefox 66.0, Windows 7','2019-05-05 22:59:00','http://localhost/webitx/member/privyUserStatus',1,0),
+(11454,'::1','Firefox 66.0, Windows 7','2019-05-05 22:59:23','http://localhost/webitx/member/privyUserStatus',1,0),
+(11455,'::1','Firefox 66.0, Windows 7','2019-05-05 22:59:35','http://localhost/webitx/member/privyUserStatus',1,0),
+(11456,'::1','Firefox 66.0, Windows 7','2019-05-05 23:01:25','http://localhost/webitx/member/privyUserStatus',1,0),
+(11457,'::1','Firefox 66.0, Windows 7','2019-05-05 23:01:44','http://localhost/webitx/member/privyUserStatus',1,0),
+(11458,'::1','Firefox 66.0, Windows 7','2019-05-05 23:02:23','http://localhost/webitx/member/privyUserStatus',1,0),
+(11459,'::1','Firefox 66.0, Windows 7','2019-05-05 23:03:15','http://localhost/webitx/member/privyUserStatus',1,0),
+(11460,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:05:16','http://localhost/webitx/',1,0),
+(11461,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:05:17','http://localhost/webitx/member/personalData',1,0),
+(11462,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:05:22','http://localhost/webitx/member/login',1,0),
+(11463,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:05:54','http://localhost/webitx/member/login',1,0),
+(11464,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:05:56','http://localhost/webitx/member/personalData',1,0),
+(11465,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:06:07','http://localhost/webitx/member/privyUserStatus',1,0),
+(11466,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:06:40','http://localhost/webitx/member/privyUserStatus',1,0),
+(11467,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:07:01','http://localhost/webitx/member/privyUserStatus',1,0),
+(11468,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:08:09','http://localhost/webitx/member/privyUserStatus',1,0),
+(11469,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:08:29','http://localhost/webitx/member/privyUserStatus',1,0),
+(11470,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:08:43','http://localhost/webitx/member/privyUserStatus',1,0),
+(11471,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:09:01','http://localhost/webitx/member/privyUserStatus',1,0),
+(11472,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:09:11','http://localhost/webitx/member/privyUserStatus',1,0),
+(11473,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:09:30','http://localhost/webitx/member/privyUserStatus',1,0),
+(11474,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:10:22','http://localhost/webitx/member/privyUserStatus',1,0),
+(11475,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:10:42','http://localhost/webitx/member/privyUserStatus',1,0),
+(11476,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:11:14','http://localhost/webitx/member/privyUserStatus',1,0),
+(11477,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:13:49','http://localhost/webitx/member/privyUserStatus',1,0),
+(11478,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:15:33','http://localhost/webitx/member/privyUserStatus',1,0),
+(11479,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:15:48','http://localhost/webitx/member/privyUserStatus',1,0),
+(11480,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:18:25','http://localhost/webitx/member/privyUserStatus',1,0),
+(11481,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:18:49','http://localhost/webitx/member/privyUserStatus',1,0),
+(11482,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:19:01','http://localhost/webitx/member/privyUserStatus',1,0),
+(11483,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:30:11','http://localhost/webitx/member/tes',1,0),
+(11484,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:30:52','http://localhost/webitx/member/tes',1,0),
+(11485,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:33:30','http://localhost/webitx/member/tes',1,0),
+(11486,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:33:38','http://localhost/webitx/member/tes',1,0),
+(11487,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:34:00','http://localhost/webitx/member/tes',1,0),
+(11488,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:34:22','http://localhost/webitx/member/tes',1,0),
+(11489,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:34:33','http://localhost/webitx/member/tes',1,0),
+(11490,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:35:34','http://localhost/webitx/member/tes',1,0),
+(11491,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:37:40','http://localhost/webitx/member/tes',1,0),
+(11492,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:37:59','http://localhost/webitx/member/tes',1,0),
+(11493,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-05 23:38:18','http://localhost/webitx/member/tes',1,0),
+(11494,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-06 00:29:44','http://localhost/webitx/member/privydocstatus',1,0),
+(11495,'::1','Chrome 74.0.3729.131, Windows 7','2019-05-06 00:29:58','http://localhost/webitx/member/privydocstatus',1,0);
 
 /*Table structure for table `v2_master_country` */
 
