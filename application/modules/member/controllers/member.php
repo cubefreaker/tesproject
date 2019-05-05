@@ -795,6 +795,168 @@ class member extends CI_Controller
     }
     
 
+    public function privyUserReg()
+    {
+        $user = $this->ion_auth->user()->row();
+        $privy = $this->db->query('select * from privyid_api')->row();
+        $url = $privy->base.$privy->reg;
+        $data = [
+            'auth' => [$privy->user,$privy->pass],
+            'headers' => [
+                'Merchant-Key' => $privy->merchant_key,
+                'Content-Type' => 'multipart/form-data'
+            ],
+            'query' => [
+                'email' => $user->email,
+                'phone' => $user->phone,
+                'identity' => [
+                    'nik' => '123456789',
+                    'nama' => 'tes nama'
+                ]
+                ],
+            'multipart' => [
+                [
+                    'name' => 'selfie',
+                    'contents' => fopen('./assets/images/profile/profile.png', 'r')
+                ],
+                [
+                    'name' => 'ktp',
+                    'contents' => fopen('./assets/images/profile/010101.jpg', 'r')
+                ]
+
+            ]  
+        ];
+        
+        $this->load->library('privyid_api');
+        $resp = $this->privyid_api->postPrivyAPI($url, $data);
+        $r = json_decode($resp, TRUE);
+        
+        if($r->code == 200){
+            $this->load->model('m_insert');
+            $dataUser = [
+                'email' => $r->data->email,
+                'phone' => $r->data->phone,
+                'token' => $r->data->userToken,
+                'status' => $r->data->status,
+                'created_date' => date('Y-m-d H:i:s'),
+                'user_id' => $user->id
+            ];
+            $dataInsert = [
+                'table' => 'users_privyid',
+                'data' => $dataUser
+            ];
+            $this->m_insert->insertDynamic($dataInsert);
+            
+        }
+
+    }
+
+    public function privyUserStatus()
+    {
+        $user = $this->ion_auth->user()->row();
+        $privy = $this->db->query('select * from privyid_api')->row();
+        $privyUser = $this->db->query('select * from users_privyid where user_id = "'.$user->id.'"')->row();
+        $url = $privy->base.$privy->reg_status;
+        $data = [
+            'auth' => [$privy->user,$privy->pass],
+            'form_params' => [
+                'token' => $privyUser->token,
+            ],
+            'headers' => [
+                'Merchant-Key' => $privy->merchant_key,
+                'Content-Type' => 'multipart/form-data'
+            ]
+        ];
+        
+        
+        $this->load->library('privyid_api');
+        $resp = $this->privyid_api->postPrivyAPI($url, $data);
+        $r = json_decode($resp);
+
+    }
+
+    public function privyDocUpload()
+    {
+        $user = $this->ion_auth->user()->row();
+        $privy = $this->db->query('select * from users_privyid')->row();
+        $url = $api->base.$api->doc_upload;
+        $data = [
+            'auth' => [$privy->user,$privy->pass],
+            'headers' => [
+                'Merchant-Key' => $privy->merchant_key,
+                'Content-Type' => 'multipart/form-data'
+            ],
+            'query' => [
+                'documentTitle' => 'doc title',
+                'docType' => 'serial or parallel',
+                'owner' => [
+                    'privyId' => 'a privy id',
+                    'enterpriseToken' => 'example token'
+                ],
+                'recipients' => [
+                    [
+                        'privyId' => 'a privy id',
+                        'type' => 'Signer',
+                        'enterpriseToken' => 'companyToken',
+                    ],
+                    [
+                        'privyId' => 'a privy id',
+                        'type' => 'Reviewer',
+                        'enterpriseToken' => '',
+                    ]
+                ]
+            ],
+            'multipart' => [
+                'name' => 'exampledoc.pdf',
+                'contents' => fopen('path/to/file', 'r')
+            ]
+        ];
+                
+        $this->load->library('privyid_api');
+        $resp = $this->privyid_api->postPrivyAPI($url, $data);
+        $r = json_decode($resp, true);
+
+        if($r->code == 200){
+            $this->load->model('m_insert');
+            $dataUser = [
+                'doc_token' => $r->data->docToken,
+                'doc_url' => $r->data->urlDocument,
+                'reviewer' => $r->data->recipients[0]->type == 'Reviewer' ? $r->data->recipients[0]->privyId : $r->data->recipients[1]->privyId,
+                'signer' => $r->data->recipients[1]->type == 'Signer' ? $r->data->recipients[1]->privyId : $r->data->recipients[0]->privyId,
+                'posted_date' => date('Y-m-d H:i:s'),
+                'user_id' => $user->id
+            ];
+            $dataInsert = [
+                'table' => 'users_privyid_doc',
+                'data' => $dataUser
+            ];
+            $this->m_insert->insertDynamic($dataInsert);
+        }
+
+    }
+
+    public function privyDocStatus()
+    {
+        $user = $this->ion_auth->user()->row();
+        $privy = $this->db->query('select * from privyid_api')->row();
+        $doc = $this->db->query('select * from users_privyid_doc where id = ""')->row();
+        $url = $privy->base.$privy->doc_status.'/'.$doc->doc_token;
+        echo $url;die();
+        $data = [
+            'auth' => [$privy->user,$privy->pass],
+            'headers' => [
+                'Merchant-Key' => $privy->merchant_key,
+                'Content-Type' => 'multipart/form-data'
+            ]
+            ];
+        
+        
+        $this->load->library('privyid_api');
+        $resp = $this->privyid_api->getPrivyAPI($url, $data);
+        $r = json_decode($resp, true);
+
+    }
+
     public function tes()
     {
         // $this->load->library('country_list');
@@ -805,13 +967,20 @@ class member extends CI_Controller
         // }
         // echo json_encode($newdata);
 
-        $img = file_get_contents('./assets/images/profile/21jokowi1554957442.jpg');
+        // $img = file_get_contents('./assets/images/profile/21jokowi1554957442.jpg');
 
-        $data = base64_encode($img);
+        // $data = base64_encode($img);
 
         // echo $img;
         // echo '<br>';
-        echo $data;
+        $n = 22;    
+        $data = $this->db->query('select * from users where id = "'.$n.'"')->row();
+        // echo $data;
+        if($data){
+            echo $data->id;
+        }else{
+            echo 'tidak ada';
+        }
     }
 
     public function tes2()
@@ -821,7 +990,26 @@ class member extends CI_Controller
         $url = 'https://antavaya.opsifin.com/opsifin_api_print';
         $user = 'anv-ops189';
         $pass = '$2y$10$XFSAh4wRcteGhbzXoEEuU./6XWinKmEunDNdqs1/dRX9oylpNJ9da';
-        $this->privyid_api->tesGet($url, $user, $pass);
+        $data = [
+            'auth' => [$user,$pass],
+            // 'headers' => [
+            //     'Content-Type' => 'application/json'
+            // ]
+        ];
+        $resp = $this->privyid_api->tesGet($url, $data);
+        // var_dump($resp);
+        print_r($resp);
+        // $r = json_decode($resp, true);
+        // echo json_encode($r[0]);
+    }
+
+    public function tes3()
+    {
+        $data = json_decode('', true);
+
+        $data1 = json_encode($data);
+
+        echo $data;
     }
    
 }
