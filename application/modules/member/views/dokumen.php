@@ -56,6 +56,31 @@
                         </td>
                     </tr>
                     <tr>
+                        <td>Scan Selfie KTP</td>
+                        <td>
+                            <label id="selfieid"><?= $scdok ? ($scdok->scan_selfie ? $scdok->scan_selfie : 'No File') : 'No File'?></label>
+                        </td>
+                        <td></td>
+                        <td>
+                            <div class="form-group">
+                                <a id="selfie" class="tooltipx pointer">
+                                    <?php
+                                        if($scdok && $scdok->scan_selfie){
+                                            echo '
+                                                <button id="selfie" class="btn btn-success">Update</button>
+                                                 ';
+                                        }else{
+                                            echo '
+                                                <button id="selfie" class="btn btn-success">Upload</button>
+                                                 ';
+                                        }
+                                    ?>
+                                </a>
+                                <input type="file" id="scselfie" name="scselfie" style="display:none;" >
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
                         <td>Scan NPWP</td>
                         <td>
                             <label id="npwpid"><?= $scdok ? ($scdok->scan_npwp ? $scdok->scan_npwp : 'No File') : 'No File' ?></label>
@@ -222,6 +247,17 @@ $(document).ready(function(){
         var file = document.getElementById('scsk').files[0];
         if(file){
             $('#skid').text(file.name);
+        }
+    });
+    
+    $('#selfie').click(function(){
+        $('#scselfie').click();
+    });
+
+    $('#scselfie').change(function(){
+        var file = document.getElementById('scselfie').files[0];
+        if(file){
+            $('#selfieid').text(file.name);
         }
     });
 });

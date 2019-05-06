@@ -94,6 +94,7 @@ class member extends CI_Controller
             $this->form_validation->set_rules('firstname', 'First Name', 'trim|required|alpha|max_length[50]');
             $this->form_validation->set_rules('lastname', 'Last Name', 'trim|required|max_length[50]');
             $this->form_validation->set_rules('username', 'Username', 'trim|required|alpha|max_length[50]');
+            $this->form_validation->set_rules('nik', 'NIK', 'trim|numeric|required|max_length[20]');
             $this->form_validation->set_rules('phone', 'Phone Number', 'trim|numeric|required|max_length[20]');
             if ($this->form_validation->run() === FALSE)
             {
@@ -105,6 +106,7 @@ class member extends CI_Controller
                 $lastname       = $this->input->post('lastname');
                 $username       = $this->input->post('username');
                 $phone          = $this->input->post('phone');
+                $nik            = $this->input->post('nik');
                 $gender         = $this->input->post('gender');
                 $bdate          = $this->input->post('bdate');
                 $email = strtolower($this->input->post('email'));
@@ -117,6 +119,7 @@ class member extends CI_Controller
                     'first_name'    => $firstname,
                     'last_name'     => $lastname,
                     'birth_date'    => $bdate,
+                    'nik'           => $nik,
                     'status'        => 0,
                     'type'          => 5,
                     'created_date'  => date('Y-m-d H:i:s'),
@@ -461,7 +464,8 @@ class member extends CI_Controller
             'gender'        => $this->input->post('gender'),
             'birth_date'    => $this->input->post('birthdate'),
             'email'         => $this->input->post('email'),
-            'phone'         => $this->input->post('phone')
+            'phone'         => $this->input->post('phone'),
+            'nik'           => $this->input->post('nik')
         ];
         // if ($Password) {
         //     $MemberData['Password'] = $Password;
@@ -620,6 +624,16 @@ class member extends CI_Controller
         else{
             $scktp = $this->upload->data();
             $dokumenData['scan_ktp']  = $scktp['file_name'];
+        }
+        
+        //Upload Selfie
+        if(!$this->upload->do_upload('scselfie')){
+            $error = array('error' => $this->upload->display_errors());
+            // echo $error['error'];
+        }
+        else{
+            $scselfie = $this->upload->data();
+            $dokumenData['scan_selfie']  = $scselfie['file_name'];
         }
         
         //Upload NPWP
@@ -813,6 +827,7 @@ class member extends CI_Controller
     {
         $user = $this->ion_auth->user()->row();
         $privy = $this->db->query('select * from privyid_api')->row();
+        $doc = $this->db->query('select scan_ktp, scan_selfie from users_document where user_id ="'.$user->id.'"')->row();
         $url = $privy->base.$privy->reg;
         $data = [
             'auth' => [$privy->user,$privy->pass],
@@ -823,28 +838,44 @@ class member extends CI_Controller
             'query' => [
                 'email' => $user->email,
                 'phone' => $user->phone,
-                'identity' => [
-                    'nik' => '123456789',
-                    'nama' => 'tes nama'
-                ]
-                ],
+                'identity' => json_encode([
+                    'nik' => $user->nik,
+                    'nama' => $user->first_name.' '.$user->last_name
+                ])
+            ],
             'multipart' => [
                 [
                     'name' => 'selfie',
-                    'contents' => fopen('./assets/images/profile/profile.png', 'r')
+                    'contents' => fopen('./assets/file_upload/'.$doc->scan_selfie, 'r')
                 ],
                 [
                     'name' => 'ktp',
-                    'contents' => fopen('./assets/images/profile/010101.jpg', 'r')
-                ]
-
+                    'contents' => fopen('./assets/file_upload/'.$doc->scan_ktp, 'r')
+                // ]
+                // [
+                //     'name' => 'email',
+                //     'contents' => $user->email,
+                // ],
+                // [
+                //     'name' => 'phone',
+                //     'contents' => $user->phone,
+                // ],
+                // [
+                //     'name' => 'identity',
+                //     'contents' => json_encode(
+                //         [
+                //             'nik' => $user->nik,
+                //             'nama' => $user->first_name.' '.$user->last_name
+                //         ]
+                //     )
+                // ]
             ]  
         ];
         
         $this->load->library('privyid_api');
         $resp = $this->privyid_api->postPrivyAPI($url, $data);
         $r = json_decode($resp, TRUE);
-        
+        echo $resp;die();
         if($r->code == 200){
             $this->load->model('m_insert');
             $dataUser = [
@@ -874,7 +905,7 @@ class member extends CI_Controller
         $data = [
             'auth' => [$privy->user,$privy->pass],
             'form_params' => [
-                'token' => $privyUser->token,
+                'token' => $privyUser ? $privyUser->token : '',
             ],
             'headers' => [
                 'Merchant-Key' => $privy->merchant_key,
@@ -886,6 +917,7 @@ class member extends CI_Controller
         $this->load->library('privyid_api');
         $resp = $this->privyid_api->postPrivyAPI($url, $data);
         $r = json_decode($resp);
+        echo $resp;
 
     }
 
@@ -955,7 +987,6 @@ class member extends CI_Controller
         $privy = $this->db->query('select * from privyid_api')->row();
         $doc = $this->db->query('select * from users_privyid_doc where id = ""')->row();
         $url = $privy->base.$privy->doc_status.'/'.$doc->doc_token;
-        echo $url;die();
         $data = [
             'auth' => [$privy->user,$privy->pass],
             'headers' => [
@@ -968,6 +999,7 @@ class member extends CI_Controller
         $this->load->library('privyid_api');
         $resp = $this->privyid_api->getPrivyAPI($url, $data);
         $r = json_decode($resp, true);
+        echo $resp;
 
     }
 

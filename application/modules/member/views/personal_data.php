@@ -86,6 +86,16 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="control-label col-sm-2" style="text-align: left;">NIK</label> 
+                            <div class="input-group col-sm-10">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                                <input type="tel" class="form-control" name="nik" value="<?=$Member->nik;?>" required>
+                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="control-label col-sm-2" style="text-align: left;">Password</label> 
                             <div class="input-group col-sm-10">
                                 <span class="input-group-addon">
