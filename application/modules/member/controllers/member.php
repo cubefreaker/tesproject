@@ -257,8 +257,22 @@ class member extends CI_Controller
         $this->load->model('member/m_member');
         $data = $this->m_general->loadGeneralData();
         $data['Member'] = $this->ion_auth->user()->row();
-        // $data['List'] = [];
-        $this->load->model('m_general');
+        $data['Provinces'] = $this->db->query('select name from mst_provinces')->result();
+        $data['Cities'] = $this->db->query('select name from mst_regencies')->result();
+        $data['Districts'] = $this->db->query('select name from mst_districts')->result();
+        // $this->load->model('m_general');
+        usort($data['Provinces'], function($a, $b) {
+            if ($a==$b) return 0;
+            return ($a<$b)?-1:1;
+        });
+        usort($data['Cities'], function($a, $b) {
+            if ($a==$b) return 0;
+            return ($a<$b)?-1:1;
+        });
+        usort($data['Districts'], function($a, $b) {
+            if ($a==$b) return 0;
+            return ($a<$b)?-1:1;
+        });
         
         $this->load->view('member/profile', $data);
     }

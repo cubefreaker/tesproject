@@ -42,8 +42,15 @@
                                     <i class="fa fa-mars"></i>
                                 </span>
                                 <select class="form-control" name="gender" value="<?=$Member->gender;?>">
-                                                    <option value="male" selected>Male</option>
-                                                    <option value="female">Female</option>
+                                <?php
+                                    if($Member->gender){
+                                        echo '<option value="'.$Member->gender.'" disabled selected hidden>'.$Member->gender.'</option>';
+                                    }else{
+                                        echo '<option value="" disabled selected hidden>--Select--</option>';
+                                    }
+                                ?>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
                                 </select>
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                             </div>

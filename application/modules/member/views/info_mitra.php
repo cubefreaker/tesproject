@@ -90,8 +90,16 @@
                                     <i class="fa fa-home"></i>
                                 </span>
                                 <select class="form-control" name="subdistrict" value="">
-                                                    <option value="" selected>1</option>
-                                                    <option value="">2</option>
+                                <?php
+                                if($mitra->sub_district != NULL && $mitra->sub_district != ''){
+                                    echo '<option value="'.$mitra->sub_district.'" disabled selected hidden>'.$mitra->sub_district.'</option>';
+                                }else{
+                                    echo '<option value="" disabled selected hidden>-- Select --</option>';
+                                }
+                                foreach($Districts as $d){
+                                    echo '<option value="'.$d->name.'" >'.$d->name.'</option>';
+                                }
+                                ?>
                                 </select>
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                             </div>
@@ -103,7 +111,16 @@
                                     <i class="fa fa-home"></i>
                                 </span>
                                 <select class="form-control" name="province" value="">
-                                                    <option value="" selected>1</option>
+                                <?php
+                                if($mitra->province != NULL && $mitra->province != ''){
+                                    echo '<option value="'.$mitra->province.'" disabled selected hidden>'.$mitra->province.'</option>';
+                                }else{
+                                    echo '<option value="" disabled selected hidden>-- Select --</option>';
+                                }
+                                foreach($Provinces as $p){
+                                    echo '<option value="'.$p->name.'" >'.$p->name.'</option>';
+                                }
+                                ?>
                                 </select>
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                             </div>
@@ -174,7 +191,16 @@
                             <i class="fa fa-home"></i>
                         </span>
                         <select class="form-control" name="city" value="">
-                            <option value="" selected>1</option>
+                        <?php
+                                if($mitra->city != NULL && $mitra->city != ''){
+                                    echo '<option value="'.$mitra->city.'" disabled selected hidden>'.$mitra->city.'</option>';
+                                }else{
+                                    echo '<option value="" disabled selected hidden>-- Select --</option>';
+                                }
+                                foreach($Cities as $c){
+                                    echo '<option value="'.$c->name.'" >'.$c->name.'</option>';
+                                }
+                                ?>
                         </select>
                         <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                     </div>
