@@ -868,7 +868,7 @@ class member extends CI_Controller
                 //             'nama' => $user->first_name.' '.$user->last_name
                 //         ]
                 //     )
-                // ]
+                ]
             ]  
         ];
         
