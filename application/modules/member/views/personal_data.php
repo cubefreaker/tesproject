@@ -91,7 +91,7 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-user"></i>
                                 </span>
-                                <input type="tel" class="form-control" name="nik" value="<?=$Member->nik;?>" required>
+                                <input type="number" class="form-control" name="nik" value="<?=$Member->nik;?>" required>
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                             </div>
                         </div>

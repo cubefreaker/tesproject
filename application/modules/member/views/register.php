@@ -6,20 +6,25 @@
   <div class="container-fluid my-auto" ng-controller="LoginController" style="margin-right: 15%;margin-left: 15%;background-color: #ffffff;">
     <h1 class="text-left" style="margin-top: 35px;color: rgb(0,0,0);margin-left: 35px;"><strong>User Registration</strong></h1>
     <form id="regfrm" name="regfrm" style="margin: 40px;">
-        <div class="form-group">
+        <div class="form-group col-md-6" style="padding-left: 0px;">
             <label>First Name</Label>
             <!-- <h5 class="text-left" style="margin-bottom: 5px;color: rgb(0,0,0);">First Name</h5> -->
             <input type="text" name="firstname" class="form-control" required/>
             <input type="hidden" name="act" value="register"></div>
-        <div class="form-group">
+        <div class="form-group col-md-6" style="padding-left: 0px;">
             <label>Last Name</Label>
             <!-- <h5 class="text-left" style="margin-bottom: 5px;color: rgb(0,0,0);">Last Name</h5> -->
             <input type="text" name="lastname" class="form-control" required/>
             <input type="hidden" name="act" value="register"></div>
-        <div class="form-group">
+        <div class="form-group col-md-6" style="padding-left: 0px;">
             <label>Username</Label>           
             <!-- <h5 class="text-left" style="margin-bottom: 5px;color: rgb(0,0,0);">Username</h5> -->
-            <input type="text" name="username" class="form-control" required/>
+            <input type="number" name="username" class="form-control" required/>
+            <input type="hidden" name="act" value="register"></div>
+        <div class="form-group col-md-6" style="padding-left: 0px;">
+            <label>NIK</Label>           
+            <!-- <h5 class="text-left" style="margin-bottom: 5px;color: rgb(0,0,0);">Username</h5> -->
+            <input type="text" name="nik" class="form-control" required/>
             <input type="hidden" name="act" value="register"></div>
         <div class="form-group col-md-6" style="padding-left: 0px;">
             <label>Gender</Label>            
@@ -39,11 +44,11 @@
         <div class="form-group col-md-6" style="padding-left: 0px;">
             <label>Phone</label>
             <input type="tel" name="phone" class="form-control" required/></div>
-        <div class="form-group">
+        <div class="form-group col-md-6" style="padding-left: 0px;">
             <label>Password</label>
             <!-- <h5 class="text-left" style="margin-bottom: 5px;color: rgb(0,0,0);">Password</h5> -->
             <input type="password" name="password" id="pass1" class="form-control" placeholder="Password must contain capitalize & number" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required/></div>
-        <div class="form-group">
+        <div class="form-group col-md-6" style="padding-left: 0px;">
             <label>Re-Type Password</label>
             <!-- <h5 class="text-left" style="margin-bottom: 5px;color: rgb(0,0,0);">Re-Type Password</h5> -->
             <input class="form-control" type="password" name="repassword" id="pass2" required/></div>
