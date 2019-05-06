@@ -112,12 +112,14 @@ class users extends CI_Controller
         
         foreach ($Users as $key => $value) {
             $req = $this->db->query("select * from users_request where user_id='".$value->id."'")->row();
+            $privy = $this->db->query("select privy_id from users_privyid_det where user_id='".$value->id."'")->row();
             $User = [
                 'UserId'        => $value->id,
                 'UserName'      => $value->username,
                 'Email'         => $value->email,
                 'Seller'     => $req ? $req->seller_status : 'undefined',
                 'Buyer'      => $req ? $req->buyer_status : 'undefined',
+                'PrivyId'   => $privy ? $privy->privy_id : 'empty',
                 'Group'         => $this->ion_auth->get_users_groups($value->id)->row()
             ];
             $data['List'][] = $User;

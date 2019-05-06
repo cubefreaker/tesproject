@@ -19,7 +19,7 @@
 							<th>Email</th>
 							<th>As Seller</th>
 							<th>As Buyer</th>
-                            <!-- <th>Type</th> -->
+                            <th>PrivyId</th>
 							<!-- <th>Action</th> -->
 						</tr>
 					</thead>
@@ -66,6 +66,49 @@
                                     Un-Requested
                                 </div>
                             </td>
+                            <td>
+                                <div ng-if="data.PrivyId != 'empty'">
+                                    <a href="#" data-toggle="modal" data-target="#privyModal" class="tooltipx pointer">
+                                        {{ data.PrivyId }} <span>view detail</span>
+                                    </a>
+                                    <div class="modal fade" id="privyModal" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h4 class="modal-title">PrivyId Detail</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>No</th>
+                                                                <th>Name</th>
+                                                                <th>Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody ng-repeat="">
+                                                            <tr>
+                                                                <td>1</td>
+                                                                <td>Registration</td>
+                                                                <td></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>                                        
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div ng-if="data.PrivyId == 'empty'">
+                                    {{ data.PrivyId }}
+                                </div>
+                                <!-- <ng-template #emptyPrivyId>{{ data.PrivyId }}</ng-template> -->
+                            </td>
                             <!-- <td> {{ data.Group.name }} </td> -->
 							<!-- <td class="table-action">
 			                    <a ng-click="GoToDetailUser(data.UserId)" class="tooltipx pointer">
@@ -99,7 +142,7 @@
     	$scope.List             = <?=json_encode($List)?>;
         $scope.Member           = <?=json_encode($Member)?>;
     };
-
+console.log($scope.List);
     (function () {
         // FlightSearch.startLoadingPage("Your transaction is being processed. Please be patient");
         $scope.init();
