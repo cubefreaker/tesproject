@@ -832,17 +832,17 @@ class member extends CI_Controller
         $data = [
             'auth' => [$privy->user,$privy->pass],
             'headers' => [
-                'Merchant-Key' => $privy->merchant_key,
-                'Content-Type' => 'multipart/form-data'
+                'Merchant-Key' => $privy->merchant_key
+                // 'Content-Type' => 'multipart/form-data'
             ],
-            'query' => [
-                'email' => $user->email,
-                'phone' => $user->phone,
-                'identity' => json_encode([
-                    'nik' => $user->nik,
-                    'nama' => $user->first_name.' '.$user->last_name
-                ])
-            ],
+            // 'query' => [
+            //     'email' => $user->email,
+            //     'phone' => $user->phone,
+            //     'identity' => json_encode([
+            //         'nik' => $user->nik,
+            //         'nama' => $user->first_name.' '.$user->last_name
+            //     ])
+            // ],
             'multipart' => [
                 [
                     'name' => 'selfie',
@@ -851,32 +851,33 @@ class member extends CI_Controller
                 [
                     'name' => 'ktp',
                     'contents' => fopen('./assets/file_upload/'.$doc->scan_ktp, 'r')
-                // ]
-                // [
-                //     'name' => 'email',
-                //     'contents' => $user->email,
-                // ],
-                // [
-                //     'name' => 'phone',
-                //     'contents' => $user->phone,
-                // ],
-                // [
-                //     'name' => 'identity',
-                //     'contents' => json_encode(
-                //         [
-                //             'nik' => $user->nik,
-                //             'nama' => $user->first_name.' '.$user->last_name
-                //         ]
-                //     )
+                ],
+                [
+                    'name' => 'email',
+                    'contents' => $user->email,
+                ],
+                [
+                    'name' => 'phone',
+                    'contents' => $user->phone,
+                ],
+                [
+                    'name' => 'identity',
+                    'contents' => json_encode(
+                        [
+                            'nik' => $user->nik,
+                            'nama' => $user->first_name.' '.$user->last_name
+                        ]
+                    )
                 ]
             ]  
         ];
         
         $this->load->library('privyid_api');
         $resp = $this->privyid_api->postPrivyAPI($url, $data);
-        $r = json_decode($resp, TRUE);
-        echo $resp;die();
-        if($r->code == 200){
+        $r = json_decode($resp);
+        // echo $r->code;die();
+        echo $resp;
+        if($r->code == 201){
             $this->load->model('m_insert');
             $dataUser = [
                 'email' => $r->data->email,
@@ -891,6 +892,7 @@ class member extends CI_Controller
                 'data' => $dataUser
             ];
             $this->m_insert->insertDynamic($dataInsert);
+        
             
         }
 
@@ -1019,14 +1021,8 @@ class member extends CI_Controller
 
         // echo $img;
         // echo '<br>';
-        $n = 22;    
-        $data = $this->db->query('select * from users where id = "'.$n.'"')->row();
-        // echo $data;
-        if($data){
-            echo $data->id;
-        }else{
-            echo 'tidak ada';
-        }
+        $a = 'opsigoitx';
+        echo $this->bcrypt->hash($a); //$2y$08$vOaaUVUp/65calOv6POl/Oxj.pFJevquxTwQNLFibmGT.KgwKcSnW
     }
 
     public function tes2()
