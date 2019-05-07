@@ -6,7 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Format' => $vendorDir . '/chriskacerguis/codeigniter-restserver/application/libraries/Format.php',
     'Mobile_Detect' => $vendorDir . '/mobiledetect/mobiledetectlib/Mobile_Detect.php',
+    'REST_Controller' => $vendorDir . '/chriskacerguis/codeigniter-restserver/application/libraries/REST_Controller.php',
     'SnapIntegrationTest' => $vendorDir . '/veritrans/veritrans-php/tests/integration/SnapIntegrationTest.php',
     'VT_Tests' => $vendorDir . '/veritrans/veritrans-php/tests/VtTests.php',
     'VeritransApiRequestorTest' => $vendorDir . '/veritrans/veritrans-php/tests/VeritransApiRequestorTest.php',

@@ -68,7 +68,9 @@ class ComposerStaticInit58a5bdc6c183675dfb055aa36b984699
     );
 
     public static $classMap = array (
+        'Format' => __DIR__ . '/..' . '/chriskacerguis/codeigniter-restserver/application/libraries/Format.php',
         'Mobile_Detect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/Mobile_Detect.php',
+        'REST_Controller' => __DIR__ . '/..' . '/chriskacerguis/codeigniter-restserver/application/libraries/REST_Controller.php',
         'SnapIntegrationTest' => __DIR__ . '/..' . '/veritrans/veritrans-php/tests/integration/SnapIntegrationTest.php',
         'VT_Tests' => __DIR__ . '/..' . '/veritrans/veritrans-php/tests/VtTests.php',
         'VeritransApiRequestorTest' => __DIR__ . '/..' . '/veritrans/veritrans-php/tests/VeritransApiRequestorTest.php',
