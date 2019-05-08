@@ -14,9 +14,6 @@ class adminpanel extends CI_Controller
 
     public function dashboard()
     {
-    	// echo "<pre>";
-    	// print_r($this->ion_auth->user()->row());
-    	// die();
     	$data = [];
     	$data['HeaderBar'] = [
     		'FaName' 			=> 'fa-home',
