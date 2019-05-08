@@ -30,8 +30,8 @@
                             <td> {{ data.Email }} </td>
                             <td>
                                 <div ng-if="data.Seller == 'requested'">
-                                    <a ng-click="acceptSeller(data.UserId)" class="tooltipx pointer">
-                                        <button class="fa fa-check"></button><span>Accept</span>
+                                    <a ng-click="acceptSeller(data)" class="tooltipx pointer">
+                                        <button class="fa fa-check"></button><span>Submit to PrivyId</span>
                                     </a>
                                     <a ng-click="rejectSeller(data.UserId)" class="tooltipx pointer">
                                         <button class="fa fa-times"></button><span>Reject</span>
@@ -49,12 +49,15 @@
                             </td>
                             <td>
                                 <div ng-if="data.Buyer == 'requested'">
-                                    <a ng-click="acceptBuyer(data.UserId)" class="tooltipx pointer">
-                                        <button class="fa fa-check"></button><span>Accept</span>
+                                    <a ng-click="acceptBuyer(data)" class="tooltipx pointer">
+                                        <button class="fa fa-check"></button><span>Submit to PrivyId</span>
                                     </a>
                                     <a ng-click="rejectBuyer(data.UserId)" class="tooltipx pointer">
                                         <button class="fa fa-times"></button><span>Reject</span>
                                     </a>
+                                </div>
+                                <div ng-if="data.Buyer == 'on process'">
+                                    On Process
                                 </div>
                                 <div ng-if="data.Buyer == 'rejected'">
                                     Rejected
@@ -82,7 +85,7 @@
                                                     <div>
                                                         <label class="control-label col-sm-3" style="text-align: left;">PrivyId Status</label> 
                                                         <div class=" col-sm-3">
-                                                           : waiting
+                                                           :&nbsp;&nbsp;{{ data.PrivyIdStatus }}
                                                         </div>
                                                     </div>
                                                     <table class="table">
@@ -97,7 +100,14 @@
                                                             <tr ng-repeat="doc in data.Document">
                                                                 <!-- <td>{{ $index+1 }}</td> -->
                                                                 <td>{{ doc.name }}</td>
-                                                                <td>{{ doc.status }}</td>
+                                                                <td>
+                                                                    <div ng-if="doc.status == 'undefined'">
+                                                                        <a ng-click="submitDoc(doc)" class="tooltipx pointer">
+                                                                            <button class="fa fa-check"></button><span>Submit to PrivyId</span>
+                                                                        </a>
+                                                                    </div>
+                                                                    <div ng-if="doc.status != 'undefined'">{{ doc.status }}</div>
+                                                                </td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -193,13 +203,13 @@ console.log($scope.List);
     //     window.location.href = adminUrl+'users/add/'+UserId;
     // };
 
-    $scope.acceptSeller = function(UserId) {
+    $scope.acceptSeller = function(user) {
         var c = confirm("Are you sure you want to accept this request?");
           if(c) {
             AngularService.startLoadingPage();
             $http.post(
                 adminUrl+'crud_user/acceptSeller',
-                {'UserId': UserId}
+                user
             ).then(function successCallback(resp) {
                 console.log(resp);
                 AngularService.stopLoadingPage();
@@ -239,13 +249,13 @@ console.log($scope.List);
         }
     };
     
-    $scope.acceptBuyer = function(UserId) {
+    $scope.acceptBuyer = function(user) {
         var c = confirm("Are you sure you want to accept this request?");
           if(c) {
             AngularService.startLoadingPage();
             $http.post(
                 adminUrl+'crud_user/acceptBuyer',
-                {'UserId': UserId}
+                user
             ).then(function successCallback(resp) {
                 console.log(resp);
                 AngularService.stopLoadingPage();
@@ -269,6 +279,29 @@ console.log($scope.List);
             $http.post(
                 adminUrl+'crud_user/rejectBuyer',
                 {'UserId': UserId}
+            ).then(function successCallback(resp) {
+                console.log(resp);
+                AngularService.stopLoadingPage();
+                if (resp.data['StatusResponse'] == 0) {
+                    AngularService.ErrorResponse(resp.data['Message']);
+                }
+                else if (resp.data['StatusResponse'] == 1) {
+                    AngularService.SuccessResponse();
+                }
+            }, function errorCallback(err) {
+                console.log(err);
+                AngularService.ErrorResponse(err);
+            });
+        }
+    };
+
+    $scope.submitDoc = function(doc) {
+        var c = confirm("Are you sure you want to submit this document?");
+          if(c) {
+            AngularService.startLoadingPage();
+            $http.post(
+                adminUrl+'crud_user/submitDokumen',
+                doc
             ).then(function successCallback(resp) {
                 console.log(resp);
                 AngularService.stopLoadingPage();

@@ -932,7 +932,6 @@ class member extends CI_Controller
             'auth' => [$privy->user,$privy->pass],
             'headers' => [
                 'Merchant-Key' => $privy->merchant_key,
-                'Content-Type' => 'multipart/form-data'
             ],
             'query' => [
                 'documentTitle' => 'doc title',

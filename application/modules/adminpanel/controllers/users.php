@@ -112,14 +112,19 @@ class users extends CI_Controller
         
         foreach ($Users as $key => $value) {
             $req = $this->db->query("select * from users_request where user_id='".$value->id."'")->row();
-            $privy = $this->db->query("select privy_id from users_privyid_det where user_id='".$value->id."'")->row();
+            $privy = $this->db->query("select * from users_privyid_det where user_id='".$value->id."'")->row();
             $User = [
                 'UserId'        => $value->id,
                 'UserName'      => $value->username,
                 'Email'         => $value->email,
+                'Phone'         => $value->phone,
+                'FirstName'     => $value->first_name,
+                'LastName'      => $value->last_name,
+                'Nik'           => $value->nik,
                 'Seller'     => $req ? $req->seller_status : 'undefined',
                 'Buyer'      => $req ? $req->buyer_status : 'undefined',
                 'PrivyId'   => $privy ? $privy->privy_id : 'empty',
+                'PrivyIdStatus' => $privy ? ($privy->verified_status ? $privy->verified_status : 'empty') : 'empty',
                 'Group'         => $this->ion_auth->get_users_groups($value->id)->row()
             ];
             $doc = $this->db->query("select * from users_document_det where user_id='".$value->id."'")->result();
@@ -127,12 +132,28 @@ class users extends CI_Controller
                 $User['Document'][] = [
                     'id' => $value->doc_id,
                     'name' => $value->doc_name,
-                    'status' => $value->status
+                    'status' => $value->status,
+                    'owner' => [
+                        'privyId' => '1234',
+                        'enterpriseToken' => '41bc84b42c8543daf448d893c255be1dbdcc722e'
+                    ]
+                    // 'recipient' => [
+                    //     [
+                    //         'privyId' => '',
+                    //         'type' => '',
+                    //         'enterpriseToken' => ''
+                    //     ],
+                    //     [
+                    //         'privyId' => '',
+                    //         'type' => '',
+                    //         'enterpriseToken' => ''
+                    //     ]
+                    // ]
                 ];
             }
             $data['List'][] = $User;
         }
-        // echo json_encode($value);
+        // echo json_encode($data['List']);
         // die();
         usort($data['List'], function($a, $b) {
             return $a['Group']->id - $b['Group']->id;
