@@ -122,9 +122,17 @@ class users extends CI_Controller
                 'PrivyId'   => $privy ? $privy->privy_id : 'empty',
                 'Group'         => $this->ion_auth->get_users_groups($value->id)->row()
             ];
+            $doc = $this->db->query("select * from users_document_det where user_id='".$value->id."'")->result();
+            foreach($doc as $key => $value){
+                $User['Document'][] = [
+                    'id' => $value->doc_id,
+                    'name' => $value->doc_name,
+                    'status' => $value->status
+                ];
+            }
             $data['List'][] = $User;
         }
-        // echo json_encode($data['List']);
+        // echo json_encode($value);
         // die();
         usort($data['List'], function($a, $b) {
             return $a['Group']->id - $b['Group']->id;

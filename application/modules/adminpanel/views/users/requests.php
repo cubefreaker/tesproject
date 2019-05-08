@@ -79,19 +79,25 @@
                                                     <h4 class="modal-title">PrivyId Detail</h4>
                                                 </div>
                                                 <div class="modal-body">
+                                                    <div>
+                                                        <label class="control-label col-sm-3" style="text-align: left;">PrivyId Status</label> 
+                                                        <div class=" col-sm-3">
+                                                           : waiting
+                                                        </div>
+                                                    </div>
                                                     <table class="table">
                                                         <thead>
                                                             <tr>
-                                                                <th>No</th>
-                                                                <th>Name</th>
+                                                                <!-- <th>No</th> -->
+                                                                <th>Document Name</th>
                                                                 <th>Status</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody ng-repeat="">
-                                                            <tr>
-                                                                <td>1</td>
-                                                                <td>Registration</td>
-                                                                <td></td>
+                                                        <tbody>
+                                                            <tr ng-repeat="doc in data.Document">
+                                                                <!-- <td>{{ $index+1 }}</td> -->
+                                                                <td>{{ doc.name }}</td>
+                                                                <td>{{ doc.status }}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
