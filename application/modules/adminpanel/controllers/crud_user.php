@@ -158,7 +158,7 @@ class crud_user extends CI_Controller
         $Return['StatusResponse'] = 0;
 
         $privy = $this->db->query('select * from users_privyid')->row();
-        $url = $api->base.$api->doc_upload;
+        $url = $privy->privy.$api->doc_upload;
         $data = [
             'auth' => [$privy->user,$privy->pass],
             'headers' => [

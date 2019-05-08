@@ -152,6 +152,8 @@ class users extends CI_Controller
                 ];
             }
             $data['List'][] = $User;
+            // echo $value->id;die();
+            // $this->privyUserStatus($value->id);
         }
         // echo json_encode($data['List']);
         // die();
@@ -183,6 +185,41 @@ class users extends CI_Controller
     	$data['ViewHeaderBar'] 		= $this->load->view('adminpanel/template/header_bar', $data['HeaderBar'], TRUE);
     	$data['ViewCopyRight'] 		= $this->load->view('adminpanel/template/copyright', [], TRUE);
     	return $data;
+    }
+
+    public function privyUserStatus($userid)
+    {
+        // $user = $this->ion_auth->user()->row();
+        $privy = $this->db->query('select * from privyid_api')->row();
+        $privyUser = $this->db->query('select * from users_privyid where user_id = "'.$userid.'"')->row();
+        $url = $privy->base.$privy->reg_status;
+        $data = [
+            'auth' => [$privy->user,$privy->pass],
+            'form_params' => [
+                'token' => $privyUser ? $privyUser->token : '',
+            ],
+            'headers' => [
+                'Merchant-Key' => $privy->merchant_key,
+                'Content-Type' => 'multipart/form-data'
+            ]
+        ];
+        
+        
+        $this->load->library('privyid_api');
+        $resp = $this->privyid_api->postPrivyAPI($url, $data);
+        $r = json_decode($resp);
+        // echo $resp;
+
+        if($r->code == 201){
+            $dataUpdate = [
+                'table' => 'users_privyid',
+                'where' => ['user_id' => $userid],
+                'data'  => ['status' => strtolower($r->data->status)]
+            ];
+
+            $this->m_update->updateDynamic($dataUpdate);
+        }
+
     }
 
 }
