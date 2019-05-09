@@ -6,7 +6,7 @@ class crud_user extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('m_update','m_insert');
+        $this->load->model('m_update');
         $this->load->library(['session', 'ion_auth', 'form_validation', 'general']);
         $this->output->set_header('Last-Modified: ' . gmdate("D, d M Y H:i:s") . ' GMT');
         $this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
@@ -156,33 +156,13 @@ class crud_user extends CI_Controller
     public function submitDokumen(){
         $InputData = json_decode(file_get_contents('php://input'),true);
         $Return['StatusResponse'] = 0;
-
-        $privy = $this->db->query('select * from users_privyid')->row();
-        $url = $privy->privy.$api->doc_upload;
+        
+        $privy = $this->db->query('select * from privyid_api')->row();
+        $url = $privy->base.$privy->doc_upload;
         $data = [
             'auth' => [$privy->user,$privy->pass],
             'headers' => [
                 'Merchant-Key' => $privy->merchant_key,
-            ],
-            'query' => [
-                'documentTitle' => 'doc title',
-                'docType' => 'serial or parallel',
-                'owner' => [
-                    'privyId' => 'a privy id',
-                    'enterpriseToken' => 'example token'
-                ],
-                'recipients' => [
-                    [
-                        'privyId' => 'a privy id',
-                        'type' => 'Signer',
-                        'enterpriseToken' => 'companyToken',
-                    ],
-                    [
-                        'privyId' => 'a privy id',
-                        'type' => 'Reviewer',
-                        'enterpriseToken' => '',
-                    ]
-                ]
             ],
             'multipart' => [
                 [
@@ -208,14 +188,14 @@ class crud_user extends CI_Controller
                     'name' => 'recipients',
                     'contents' => json_encode([
                             [
-                                'privyId' => '',
-                                'type' => '',
-                                'enterpriseToken' => ''
+                                'privyId' => $InputData['recipients'][0]['privyId'],
+                                'type' => $InputData['recipients'][0]['type'],
+                                'enterpriseToken' => $InputData['recipients'][0]['enterpriseToken']
                             ],
                             [
-                                'privyId' => '',
-                                'type' => '',
-                                'enterpriseToken' => ''
+                                'privyId' => $InputData['recipients'][1]['privyId'],
+                                'type' => $InputData['recipients'][1]['type'],
+                                'enterpriseToken' => $InputData['recipients'][1]['enterpriseToken']
                             ]
                         ])
                 ],
@@ -226,9 +206,31 @@ class crud_user extends CI_Controller
                 
         $this->load->library('privyid_api');
         $resp = $this->privyid_api->postPrivyAPI($url, $data);
-        $r = json_decode($resp, true);
-
+        $r = json_decode($resp);
+        echo $resp;
         if ($r->code == 201) {
+            $this->load->model('m_insert');
+            $docData = [
+                'doc_name' => $InputData['name'],
+                'doc_token' => $r->data->docToken,
+                'doc_url' => $r->data->urlDocument,
+                'status' => 'in progress',
+                'posted_date' => date('Y-m-d H:i:s'),
+                'user_id' => $InputData['user_id']
+            ];
+            $dataInsert = [
+                'table' => 'users_privyid_doc',
+                'data'  => $docData
+            ];
+            $this->m_insert->insertDynamic($dataInsert);
+
+            $dataUpdate = [
+                'table' => 'users_document_det',
+                'where' => ['doc_id' => $InputData['id']],
+                'data' => ['status' => 'in progress']
+            ];
+            $this->m_update->updateDynamic($dataUpdate);
+
             $Return['StatusResponse'] = 1;
         }
         echo json_encode($Return);
