@@ -132,31 +132,36 @@ class users extends CI_Controller
                 foreach($doc as $k => $v){
                     $User['Document'][] = [
                         'id' => $v->doc_id,
+                        'user_id' => $value->id,
                         'name' => $v->doc_name,
                         'status' => $v->status,
                         'owner' => [
-                            'privyId' => '1234',
+                            'privyId' => 'TES001',
                             'enterpriseToken' => '41bc84b42c8543daf448d893c255be1dbdcc722e'
+                        ],
+                        'recipients' => [
+                            [
+                                'privyId' => 'TES001',
+                                'type' => 'Reviewer',
+                                'enterpriseToken' => '41bc84b42c8543daf448d893c255be1dbdcc722e'
+                            ],
+                            [
+                                'privyId' => 'TES001',
+                                'type' => 'Signer',
+                                'enterpriseToken' => ''
+                            ]
                         ]
-                        // 'recipient' => [
-                        //     [
-                        //         'privyId' => '',
-                        //         'type' => '',
-                        //         'enterpriseToken' => ''
-                        //     ],
-                        //     [
-                        //         'privyId' => '',
-                        //         'type' => '',
-                        //         'enterpriseToken' => ''
-                        //     ]
-                        // ]
                     ];
+                    if($v && $v->status != 'undefined'){
+                        $this->privyDocStatus($v->doc_id);
+                    }
                 }
             }
             $data['List'][] = $User;
             // echo json_encode($value);
-            $this->privyUserStatus($value->id);
-            
+            if($privy){
+                $this->privyUserStatus($value->id);
+            }
         }
         // echo json_encode($data['List']);
         // die();
@@ -202,8 +207,7 @@ class users extends CI_Controller
                 'token' => $privyUser ? $privyUser->token : '',
             ],
             'headers' => [
-                'Merchant-Key' => $privy->merchant_key,
-                'Content-Type' => 'multipart/form-data'
+                'Merchant-Key' => $privy->merchant_key
             ]
         ];
         
@@ -224,5 +228,42 @@ class users extends CI_Controller
         }
 
     }
+        
+
+    public function privyDocStatus($docid)
+    {
+        $privy = $this->db->query('select * from privyid_api')->row();
+        $doc = $this->db->query('select * from users_privyid_doc where doc_id = "'.$docid.'"')->row();
+        $url = $privy->base.$privy->doc_status.'/'.$doc->doc_token;
+        $data = [
+            'auth' => [$privy->user,$privy->pass],
+            'headers' => [
+                'Merchant-Key' => $privy->merchant_key,
+            ]
+        ];
+                
+        $this->load->library('privyid_api');
+        $resp = $this->privyid_api->getPrivyAPI($url, $data);
+        $r = json_decode($resp);
+        // echo $resp;
+        if($r->code == 200){
+            $dataUpdate = [
+                'table' => 'users_privyid_doc',
+                'where' => ['doc_id' => $docid],
+                'data'  => ['status' => strtolower($r->data->documentStatus)]
+            ];
+            $dataUpdate2 = [
+                'table' => 'users_document_det',
+                'where' => ['doc_id' => $docid],
+                'data'  => ['status' => strtolower($r->data->documentStatus)]
+            ];
+
+            $this->load->model('m_update');
+            $this->m_update->updateDynamic($dataUpdate);
+            $this->m_update->updateDynamic($dataUpdate2);
+        }
+
+    }
+
 
 }
