@@ -29,17 +29,10 @@ class crud_user extends CI_Controller
 
     public function acceptSeller(){
         $InputData = json_decode(file_get_contents('php://input'),true);
-        $UserId = $InputData['UserId'];
         $Return['StatusResponse'] = 0;
-        $dataUpdate = [
-            'table' => 'users_request',
-            'where' => ['user_id' => $UserId],
-            'data'  => ['seller_status' => 'on process']
-        ];
-        if ($this->m_update->updateDynamic($dataUpdate)) {
-            $Return['StatusResponse'] = 1;
-        }
-        echo json_encode($Return);
+        $type = 'seller_status';
+
+        $this->submitPrivyId($InputData, $type);
         
     }
 
@@ -60,12 +53,33 @@ class crud_user extends CI_Controller
 
     public function acceptBuyer(){
         $InputData = json_decode(file_get_contents('php://input'),true);
+        $Return['StatusResponse'] = 0;
+        $type = 'buyer_status';
+
+        $this->submitPrivyId($InputData, $type);
+       
+    }
+
+    public function rejectBuyer(){
+        $InputData = json_decode(file_get_contents('php://input'),true);
         $UserId = $InputData['UserId'];
         $Return['StatusResponse'] = 0;
+        $dataUpdate = [
+            'table' => 'users_request',
+            'where' => ['user_id' => $UserId],
+            'data'  => ['buyer_status' => 'rejected']
+        ];
+        if ($this->m_update->updateDynamic($dataUpdate)) {
+            $Return['StatusResponse'] = 1;
+        }
+        echo json_encode($Return);
+    }
 
+    public function submitPrivyId($InputData, $typestatus)
+    {
         //Submit to PrivyId
         $privy = $this->db->query('select * from privyid_api')->row();
-        $doc = $this->db->query('select scan_ktp, scan_selfie from users_document where user_id ="'.$UserId.'"')->row();
+        $doc = $this->db->query('select scan_ktp, scan_selfie from users_document where user_id ="'.$InputData['UserId'].'"')->row();
         $url = $privy->base.$privy->reg;
         $data = [
             'auth' => [$privy->user,$privy->pass],
@@ -112,7 +126,7 @@ class crud_user extends CI_Controller
             $dataUpdate = [
                 'table' => 'users_request',
                 'where' => ['user_id' => $UserId],
-                'data'  => ['buyer_status' => 'on process']
+                'data'  => [ $typestatus => 'on process']
             ];
 
             $this->m_update->updateDynamic($dataUpdate);
@@ -121,7 +135,7 @@ class crud_user extends CI_Controller
                 'email' => $r->data->email,
                 'phone' => $r->data->phone,
                 'token' => $r->data->userToken,
-                'status' => $r->data->status,
+                'status' => strtolower($r->data->status),
                 'created_date' => date('Y-m-d H:i:s'),
                 'user_id' => $user->id
             ];
@@ -130,26 +144,13 @@ class crud_user extends CI_Controller
                 'table' => 'users_privyid',
                 'data' => $dataUser
             ];
+            
+            $this->load->model('m_insert');
             $this->m_insert->insertDynamic($dataInsert);
 
             $Return['StatusResponse'] = 1;
         }
         
-        echo json_encode($Return);
-    }
-
-    public function rejectBuyer(){
-        $InputData = json_decode(file_get_contents('php://input'),true);
-        $UserId = $InputData['UserId'];
-        $Return['StatusResponse'] = 0;
-        $dataUpdate = [
-            'table' => 'users_request',
-            'where' => ['user_id' => $UserId],
-            'data'  => ['buyer_status' => 'rejected']
-        ];
-        if ($this->m_update->updateDynamic($dataUpdate)) {
-            $Return['StatusResponse'] = 1;
-        }
         echo json_encode($Return);
     }
 

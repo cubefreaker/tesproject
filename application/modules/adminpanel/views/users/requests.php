@@ -57,18 +57,18 @@
                                         <button class="btn btn-xs btn-danger">Reject</button><span>Reject request</span>
                                     </a>
                                 </div>
-                                <div ng-if="data.Buyer == 'on process'">
-                                    On Process
+                                <div ng-if="data.Buyer == 'undefined'">
+                                    Un-Requested
                                 </div>
+                                <div ng-if="data.Buyer != 'requested' && data.Buyer != 'undefined'">
+                                    {{ data.Buyer }}
+                                <!-- </div>
                                 <div ng-if="data.Buyer == 'rejected'">
                                     Rejected
                                 </div>
                                 <div ng-if="data.Buyer == 'accepted'">
                                     Accepted
-                                </div>
-                                <div ng-if="data.Buyer == 'undefined'">
-                                    Un-Requested
-                                </div>
+                                </div> -->
                             </td>
                             <td>
                                 <div ng-if="data.PrivyIdSeller != 'empty'">
@@ -261,6 +261,7 @@ console.log($scope.List);
     // };
 
     $scope.acceptSeller = function(user) {
+        user['type'] = 'seller'
         var c = confirm("Are you sure you want to accept this request?");
           if(c) {
             AngularService.startLoadingPage();
@@ -307,7 +308,9 @@ console.log($scope.List);
     };
     
     $scope.acceptBuyer = function(user) {
+        user['type'] = 'buyer'
         var c = confirm("Are you sure you want to accept this request?");
+
           if(c) {
             AngularService.startLoadingPage();
             $http.post(
