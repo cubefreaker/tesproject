@@ -112,8 +112,8 @@ class users extends CI_Controller
         
         foreach ($Users as $key => $value) {
             $req = $this->db->query("select * from users_request where user_id='".$value->id."'")->row();
-            $privySeller = $this->db->query("select * from users_privyid_det where user_id='".$value->id."' and type='seller'")->row();
-            $privyBuyer = $this->db->query("select * from users_privyid_det where user_id='".$value->id."' and type='buyer'")->row();
+            $privySeller = $this->db->query("select * from users_privyid where user_id='".$value->id."' and type='seller'")->row();
+            $privyBuyer = $this->db->query("select * from users_privyid where user_id='".$value->id."' and type='buyer'")->row();
             $User = [
                 'UserId'        => $value->id,
                 'UserName'      => $value->username,
@@ -126,8 +126,8 @@ class users extends CI_Controller
                 'Buyer'      => $req ? $req->buyer_status : 'undefined',
                 'PrivyIdSeller'   => $privySeller ? $privySeller->privy_id : 'empty',
                 'PrivyIdBuyer'   => $privyBuyer ? $privyBuyer->privy_id : 'empty',
-                'PrivyIdSellerStatus' => $privySeller ? ($privySeller->verified_status ? $privySeller->verified_status : 'empty') : 'empty',
-                'PrivyIdBuyerStatus' => $privyBuyer ? ($privyBuyer->verified_status ? $privyBuyer->verified_status : 'empty') : 'empty',
+                'PrivyIdSellerStatus' => $privySeller ? ($privySeller->status ? $privySeller->status : 'empty') : 'empty',
+                'PrivyIdBuyerStatus' => $privyBuyer ? ($privyBuyer->status ? $privyBuyer->status : 'empty') : 'empty',
                 'Group'         => $this->ion_auth->get_users_groups($value->id)->row()
             ];
             $doc = $this->db->query("select * from users_document_det where user_id='".$value->id."'")->result();
@@ -207,7 +207,7 @@ class users extends CI_Controller
         // $user = $this->ion_auth->user()->row();
         $privy = $this->db->query('select * from privyid_api')->row();
         $privyUser = $this->db->query('select * from users_privyid where user_id = "'.$userid.'"')->row();
-        $privyUserDet = $this->db->query('select * from users_privyid_det where user_id = "'.$userid.'" and type="'.$type.'"')->row();
+        // $privyUserDet = $this->db->query('select * from users_privyid where user_id = "'.$userid.'" and type="'.$type.'"')->row();
         $url = $privy->base.$privy->reg_status;
         $data = [
             'auth' => [$privy->user,$privy->pass],
@@ -227,12 +227,25 @@ class users extends CI_Controller
 
         if($r->code == 201){
             $dataUpdate = [
-                'table' => 'users_privyid_det',
+                'table' => 'users_privyid',
                 'where' => ['user_id' => $userid, 'type' => $type],
-                'data'  => ['verified_status' => strtolower($r->data->status)]
+                'data'  => ['status' => strtolower($r->data->status)]
+            ];
+
+            if($type == 'seller'){
+                $typestat = 'seller_status';
+            }else{
+                $typestat = 'buyer_status';
+            }
+
+            $dataUpdate2 = [
+                'table' => 'users_request',
+                'where' => ['user_id' => $userid],
+                'data' => [ $typestat => strtolower($r->data->status)]
             ];
             $this->load->model('m_update');
             $this->m_update->updateDynamic($dataUpdate);
+            $this->m_update->updateDynamic($dataUpdate2);
         }
 
     }
