@@ -9,12 +9,22 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button> -->
+      <?php if($masterLandingPage->use_old_website == "1"){ ?>
+        <a class="navbar-brand desktop-only" href="https://itx.co.id/">
+         <img style="max-height:65px; padding:0;" src="<?=base_url()?>assets/images/logo/<?=$masterLandingPage->logo?>">
+       </a>
+       <a class="navbar-brand visible-xs" href="https://itx.co.id/">
+         <img src="<?=base_url()?>assets/images/logo/<?=$masterLandingPage->logo?>">
+       </a>
+      <?php }else{ ?>
       <a class="navbar-brand desktop-only" href="<?=base_url()?>">
         <img src="<?=base_url()?>assets/images/logo/<?=$masterLandingPage->logo?>">
       </a>
       <a class="navbar-brand visible-xs" href="<?=base_url()?>">
         <img src="<?=base_url()?>assets/images/logo/<?=$masterLandingPage->logo?>">
       </a>
+      <?php }?>
+     
     </div>
 
 
@@ -43,20 +53,25 @@
       <?php }
         if ( !$this->ion_auth->logged_in() || ($this->ion_auth->is_admin()) )
         {
-            // echo'<li><a href="'.base_url().'member/login">Login</a></li>';
-            echo'
-            <li class="sign-up">
-            <a class="keep-color" href="">Home</a>
-          <li class="sign-up">
-            <a class="keep-color" href="">Promo</a>
-          <li class="sign-up">
-            <a class="keep-color" href="">Contact Us</a>
-          <li class="sign-up">
-            <a class="keep-color" href="">Contact Us</a>
-          <li class="sign-up">
-            <a class="keep-color" href="'.base_url("member/register").'">Register</a>
-          </li>
-            <li class="sign-up"><a href="'.base_url("member/login").'" class="keep-color">Login</a></li>';
+          if($masterLandingPage->use_old_website == "1"){
+             $this->load->view('template/landingpage/menu_itx');
+          }else{
+             // echo'<li><a href="'.base_url().'member/login">Login</a></li>';
+             echo'
+             <li class="sign-up">
+             <a class="keep-color" href="">Home</a>
+           <li class="sign-up">
+             <a class="keep-color" href="">Promo</a>
+           <li class="sign-up">
+             <a class="keep-color" href="">Contact Us</a>
+           <li class="sign-up">
+             <a class="keep-color" href="">Contact Us</a>
+           <li class="sign-up">
+             <a class="keep-color" href="'.base_url("member/register").'">Register</a>
+           </li>
+             <li class="sign-up"><a href="'.base_url("member/login").'" class="keep-color">Login</a></li>';
+          }
+           
         }
         else {
         $member = $this->ion_auth->user()->row();

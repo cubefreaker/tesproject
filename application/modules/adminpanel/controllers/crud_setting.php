@@ -30,7 +30,8 @@ class crud_setting extends CI_Controller
                 'meta_keyword'          => $ContactUsData['MetaKeyword'],
                 'meta_description'      => $ContactUsData['MetaDescription'],
                 'color'                 => $ContactUsData['Color'],
-                'tagline'               => $ContactUsData['Tagline']
+                'tagline'               => $ContactUsData['Tagline'],
+                'use_old_website'               => $ContactUsData['UseOldWebsite']
             ],
             'table' => 'v2_master_landingpage',
             'where'     => ['id' => 1],

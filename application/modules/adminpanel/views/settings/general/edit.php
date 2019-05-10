@@ -156,6 +156,19 @@
                     </div>
                     <!-- End Color -->
 
+                    <!-- Use Header Old Website -->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Header Old Website</label>
+                        <div class="col-sm-2">
+                          <select ng-model="GeneralData.UseOldWebsite" class="form-control">
+                              <option ng-value="1">TRUE</option>
+                              <option ng-value="0">FALSE</option>
+                          </select>
+                        </div>
+                    </div>
+
+                    <!-- End Use Header Old Website -->
+
                     <div class="panel-footer">
                         <div class="row">
                             <div class="col-sm-9 col-sm-offset-3">
@@ -203,6 +216,7 @@ app.controller('GeneralController', function (AngularService, $scope, $filter, $
         $scope.BaseUrl              = "<?=base_url()?>";
     	$scope.AngularService       = AngularService;
     	$scope.GeneralData	 = <?=json_encode($GeneralData)?>;
+        $scope.GeneralData.UseOldWebsite = parseInt($scope.GeneralData.UseOldWebsite);        
     };
 
     (function () {

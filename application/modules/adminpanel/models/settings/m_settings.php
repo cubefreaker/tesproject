@@ -13,7 +13,8 @@ class m_settings extends CI_Model
             LandingPage.logo AS Logo,
             LandingPage.color AS Color,
             LandingPage.tagline AS Tagline,
-            LandingPage.background_image AS BackgroundImage
+            LandingPage.background_image AS BackgroundImage,
+            LandingPage.use_old_website AS UseOldWebsite
             FROM v2_master_landingpage AS LandingPage
             WHERE LandingPage.id = 1
         ";

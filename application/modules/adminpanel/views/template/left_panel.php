@@ -41,13 +41,13 @@
             <!-- <li id='ChildrenSugestionPlace'><a href="<?=base_url('adminpanel/manages/sugestionPlace')?>"><i class="fa fa-caret-right"></i> Manage Sugestion Place</a></li> -->
             <!-- <li id='ChildrenTestimoni'><a href="<?=base_url('adminpanel/manages/testimoni')?>"><i class="fa fa-caret-right"></i> Manage Testimoni</a></li> -->
 
-            <!-- <?php if ($IsServiceHotel) { ?>
+            <!-- <?php //if ($IsServiceHotel) { ?>
               <li id='ChildrenTransactions'><a href="<?=base_url('adminpanel/manages/transactionsFlight')?>"><i class="fa fa-caret-right"></i> Manage Transaction Flight</a></li>
-            <?php } ?> -->
+            <?php //} ?> -->
 
-            <!-- <?php if ($IsServiceHotel) { ?>
+            <!-- <?php //if ($IsServiceHotel) { ?>
               <li id='ChildrenTransactionsHotel'><a href="<?=base_url('adminpanel/manages/transactionsHotel')?>"><i class="fa fa-caret-right"></i> Manage Transaction Hotel</a></li>  
-            <?php } ?> -->
+            <?php //} ?> -->
 
             <!-- <li id='ChildrenUmroh'><a href="<?=base_url('adminpanel/manages/umroh')?>"><i class="fa fa-caret-right"></i> Manage Package Umroh</a></li> -->
             <!-- <li id='ChildrenAirports'>
@@ -79,15 +79,15 @@
             <!-- <li id='ChildrenOpsitools' class=""><a href="<?=base_url('adminpanel/settings/opsitools')?>"><i class="fa fa-caret-right"></i> Opsitools </a></li> -->
             <!-- <li id='ChildrenEmail' class=""><a href="<?=base_url('adminpanel/settings/email')?>"><i class="fa fa-caret-right"></i> Email</a></li> -->
 
-            <!-- <?php if ($FaspayCheck) { ?>
+            <!-- <?php //if ($FaspayCheck) { ?>
             <li id='ChildrenFaspay'class="">
               <a href="<?=base_url('adminpanel/settings/faspay')?>"><i class="fa fa-caret-right"></i> Faspay</a>
             </li>
-            <?php } if($MidtransCheck) { ?>
+            <?php //} if($MidtransCheck) { ?>
             <li id='ChildrenMidtrans'class="">
               <a href="<?=base_url('adminpanel/settings/midtrans')?>"><i class="fa fa-caret-right"></i> Midtrans</a>
             </li>
-          <?php } ?> -->
+          <?php //} ?> -->
           </ul>
         </li>
         <!-- // ------------------------------------ End Settings ------------------------------------ // -->

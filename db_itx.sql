@@ -1,4 +1,4 @@
-/*
+﻿/*
 SQLyog Ultimate v12.5.1 (32 bit)
 MySQL - 10.1.38-MariaDB : Database - db_itx_v2
 *********************************************************************
@@ -20402,6 +20402,7 @@ CREATE TABLE `v2_master_landingpage` (
   `google_analytic_id` varchar(50) DEFAULT NULL,
   `background_image` varchar(100) DEFAULT NULL,
   `tagline` text,
+	`use_old_website` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
