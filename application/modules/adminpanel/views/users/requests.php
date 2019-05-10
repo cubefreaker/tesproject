@@ -32,10 +32,10 @@
                             <td>
                                 <div ng-if="data.Seller == 'requested'">
                                     <a ng-click="acceptSeller(data)" class="tooltipx pointer">
-                                        <button class="fa fa-check"></button><span>Submit to PrivyId</span>
+                                        <button class="btn btn-xs btn-success">Submit</button><span>Submit to PrivyId</span>
                                     </a>
                                     <a ng-click="rejectSeller(data.UserId)" class="tooltipx pointer">
-                                        <button class="fa fa-times"></button><span>Reject</span>
+                                        <button class="btn btn-xs btn-danger">Reject</button><span>Reject request</span>
                                     </a>
                                 </div>
                                 <div ng-if="data.Seller == 'rejected'">
@@ -51,10 +51,10 @@
                             <td>
                                 <div ng-if="data.Buyer == 'requested'">
                                     <a ng-click="acceptBuyer(data)" class="tooltipx pointer">
-                                        <button class="btn btn-xs btn-success">submit</button><span>Submit to PrivyId</span>
+                                        <button class="btn btn-xs btn-success">Submit</button><span>Submit to PrivyId</span>
                                     </a>
                                     <a ng-click="rejectBuyer(data.UserId)" class="tooltipx pointer">
-                                        <button class="btn btn-xs btn-danger">reject</button><span>Reject request</span>
+                                        <button class="btn btn-xs btn-danger">Reject</button><span>Reject request</span>
                                     </a>
                                 </div>
                                 <div ng-if="data.Buyer == 'on process'">
@@ -71,12 +71,9 @@
                                 </div>
                             </td>
                             <td>
-                                seller's privyid
-                            </td>
-                            <td>
-                                <div ng-if="data.PrivyId != 'empty'">
+                                <div ng-if="data.PrivyIdSeller != 'empty'">
                                     <a href="#" data-toggle="modal" data-target="#privyModal" class="tooltipx pointer">
-                                        {{ data.PrivyId }} <span>view detail</span>
+                                        {{ data.PrivyIdSeller }} <span>view detail</span>
                                     </a>
                                     <div class="modal fade" id="privyModal" role="dialog">
                                         <div class="modal-dialog">
@@ -89,7 +86,7 @@
                                                     <div>
                                                         <label class="control-label col-sm-3" style="text-align: left;">PrivyId Status</label> 
                                                         <div class=" col-sm-3">
-                                                           :&nbsp;&nbsp;{{ data.PrivyIdStatus }}
+                                                           :&nbsp;&nbsp;{{ data.PrivyIdSellerStatus }}
                                                         </div>
                                                     </div>
                                                     <table class="table">
@@ -125,10 +122,65 @@
                                     </div>
                                 </div>
 
-                                <div ng-if="data.PrivyId == 'empty'">
-                                    {{ data.PrivyId }}
+                                <div ng-if="data.PrivyIdSeller == 'empty'">
+                                    {{ data.PrivyIdSeller }}
                                 </div>
-                                <!-- <ng-template #emptyPrivyId>{{ data.PrivyId }}</ng-template> -->
+                            </td>
+                            <td>
+                                <div ng-if="data.PrivyIdBuyer != 'empty'">
+                                    <a href="#" data-toggle="modal" data-target="#privyModal" class="tooltipx pointer">
+                                        {{ data.PrivyIdBuyer }} <span>view detail</span>
+                                    </a>
+                                    <div class="modal fade" id="privyModal" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h4 class="modal-title">PrivyId Detail</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div>
+                                                        <label class="control-label col-sm-3" style="text-align: left;">PrivyId Status</label> 
+                                                        <div class=" col-sm-3">
+                                                           :&nbsp;&nbsp;{{ data.PrivyIdBuyerStatus }}
+                                                        </div>
+                                                    </div>
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <!-- <th>No</th> -->
+                                                                <th>Document Name</th>
+                                                                <th>Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="doc in data.Document">
+                                                                <!-- <td>{{ $index+1 }}</td> -->
+                                                                <td>{{ doc.name }}</td>
+                                                                <td>
+                                                                    <div ng-if="doc.status == 'undefined'">
+                                                                        <a ng-click="submitDoc(doc)" class="tooltipx pointer">
+                                                                            <button class="btn btn-sm btn-success">Submit</button><span>Submit to PrivyId</span>
+                                                                        </a>
+                                                                    </div>
+                                                                    <div ng-if="doc.status != 'undefined'">{{ doc.status }}</div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <button class="btn btn-sm btn-success" ng-click="submitDocAll(data.Document)">Submit all documents</button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>                                        
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div ng-if="data.PrivyIdBuyer == 'empty'">
+                                    {{ data.PrivyIdBuyer }}
+                                </div>
                             </td>
                             <!-- <td> {{ data.Group.name }} </td> -->
 							<!-- <td class="table-action">
