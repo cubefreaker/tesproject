@@ -19,7 +19,8 @@
 							<th>Email</th>
 							<th>As Seller</th>
 							<th>As Buyer</th>
-                            <th>PrivyId</th>
+                            <th>PrivyId Seller</th>
+                            <th>PrivyId Buyer</th>
 							<!-- <th>Action</th> -->
 						</tr>
 					</thead>
@@ -50,10 +51,10 @@
                             <td>
                                 <div ng-if="data.Buyer == 'requested'">
                                     <a ng-click="acceptBuyer(data)" class="tooltipx pointer">
-                                        <button class="fa fa-check"></button><span>Submit to PrivyId</span>
+                                        <button class="btn btn-xs btn-success">submit</button><span>Submit to PrivyId</span>
                                     </a>
                                     <a ng-click="rejectBuyer(data.UserId)" class="tooltipx pointer">
-                                        <button class="fa fa-times"></button><span>Reject</span>
+                                        <button class="btn btn-xs btn-danger">reject</button><span>Reject request</span>
                                     </a>
                                 </div>
                                 <div ng-if="data.Buyer == 'on process'">
@@ -68,6 +69,9 @@
                                 <div ng-if="data.Buyer == 'undefined'">
                                     Un-Requested
                                 </div>
+                            </td>
+                            <td>
+                                seller's privyid
                             </td>
                             <td>
                                 <div ng-if="data.PrivyId != 'empty'">
@@ -103,7 +107,7 @@
                                                                 <td>
                                                                     <div ng-if="doc.status == 'undefined'">
                                                                         <a ng-click="submitDoc(doc)" class="tooltipx pointer">
-                                                                            <button class="fa fa-check"></button><span>Submit to PrivyId</span>
+                                                                            <button class="btn btn-sm btn-success">Submit</button><span>Submit to PrivyId</span>
                                                                         </a>
                                                                     </div>
                                                                     <div ng-if="doc.status != 'undefined'">{{ doc.status }}</div>
@@ -111,6 +115,7 @@
                                                             </tr>
                                                         </tbody>
                                                     </table>
+                                                    <button class="btn btn-sm btn-success" ng-click="submitDocAll(data.Document)">Submit all documents</button>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -301,6 +306,29 @@ console.log($scope.List);
             AngularService.startLoadingPage();
             $http.post(
                 adminUrl+'crud_user/submitDokumen',
+                doc
+            ).then(function successCallback(resp) {
+                console.log(resp);
+                AngularService.stopLoadingPage();
+                if (resp.data['StatusResponse'] == 0) {
+                    AngularService.ErrorResponse(resp.data['Message']);
+                }
+                else if (resp.data['StatusResponse'] == 1) {
+                    AngularService.SuccessResponse();
+                }
+            }, function errorCallback(err) {
+                console.log(err);
+                AngularService.ErrorResponse(err);
+            });
+        }
+    };
+
+    $scope.submitDocAll = function(doc) {
+        var c = confirm("Are you sure you want to submit all documents?");
+          if(c) {
+            AngularService.startLoadingPage();
+            $http.post(
+                adminUrl+'crud_user/submitAllDokumen',
                 doc
             ).then(function successCallback(resp) {
                 console.log(resp);

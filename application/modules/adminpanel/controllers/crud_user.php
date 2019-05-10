@@ -157,6 +157,24 @@ class crud_user extends CI_Controller
         $InputData = json_decode(file_get_contents('php://input'),true);
         $Return['StatusResponse'] = 0;
         
+        $this->privyDocUpload($InputData);
+        
+    }
+
+    public function submitAllDokumen()
+    {
+        $InputData = json_decode(file_get_contents('php://input'),true);
+        $Return['StatusResponse'] = 0;
+
+        foreach($InputData as $key => $value){
+            if($value['status'] == 'undefined'){
+                $this->privyDocUpload($value);
+            }
+        }
+    }
+
+    public function privyDocUpload($InputData){
+        
         $privy = $this->db->query('select * from privyid_api')->row();
         $url = $privy->base.$privy->doc_upload;
         $data = [
@@ -235,7 +253,6 @@ class crud_user extends CI_Controller
         }
         echo json_encode($Return);
     }
-
 
     public function editUser()
     {
