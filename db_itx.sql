@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.4.3 (64 bit)
-MySQL - 10.1.9-MariaDB : Database - db_itx_v2
+SQLyog Ultimate v12.5.1 (32 bit)
+MySQL - 10.1.38-MariaDB : Database - db_itx_v2
 *********************************************************************
 */
 
@@ -7916,7 +7916,7 @@ CREATE TABLE `users` (
 
 insert  into `users`(`id`,`ip_address`,`username`,`password`,`salt`,`email`,`activation_code`,`forgotten_password_code`,`forgotten_password_time`,`remember_code`,`created_on`,`last_login`,`is_active`,`active`,`first_name`,`last_name`,`gender`,`birth_date`,`company`,`phone`,`nik`,`img_thum`,`type`,`status`,`created_date`,`created_by`,`updated_date`,`updated_by`,`country`,`city`,`street`) values 
 (3,'::1','trivaldirahardja.tr@gmail.com','$2y$08$kL2BVdDKYQMJb90rSZk8U.p9u6sY/tsi5EV3EPOqVKFoieAvapKSq',NULL,'trivaldirahardja.tr@gmail.com',NULL,'',NULL,NULL,1537643584,1547626875,'',1,'Trivaldi','Rahardja','Male','0000-00-00',NULL,'123',NULL,NULL,5,1,'2018-09-22 21:13:04',0,NULL,NULL,NULL,NULL,NULL),
-(6,'::1','4M1n0pS1b00k','$2y$08$khEEwWxBplqYTOUK2v83kO.fbttC3hWqVwtyAorCpehjl3bRervki',NULL,'4M1n0pS1b00k',NULL,'',NULL,NULL,1539863159,1557479804,'',1,'Admin','','Male','0000-00-00',NULL,NULL,NULL,NULL,1,1,'2018-10-18 18:45:59',0,NULL,NULL,NULL,NULL,NULL),
+(6,'::1','4M1n0pS1b00k','$2y$08$khEEwWxBplqYTOUK2v83kO.fbttC3hWqVwtyAorCpehjl3bRervki',NULL,'4M1n0pS1b00k',NULL,'',NULL,NULL,1539863159,1557487006,'',1,'Admin','','Male','0000-00-00',NULL,NULL,NULL,NULL,1,1,'2018-10-18 18:45:59',0,NULL,NULL,NULL,NULL,NULL),
 (7,'::1','suci.ariesta@gmail.com','$2y$08$RDEAkLrBPHguG0kdTdLoQOrWCLLwUbfEBaaxAdvlWbJeuOc8Lv7BG',NULL,'suci.ariesta@gmail.com',NULL,'',NULL,'9ZkTVVyPlJTTOI4BMn9yBO',1541048530,1554706039,'',1,'Suci','Ariesta','Male','1970-01-01',NULL,'08123456789',NULL,NULL,5,0,'2018-11-01 12:02:10',0,NULL,NULL,NULL,NULL,NULL),
 (8,'::1','suci.ariesta2@gmail.com','$2y$08$61SAtey.M7n8q3B6sh6gt.oJwssR8vw5gzKQUGyFd8MUoFMRH.VyO',NULL,'suci.ariesta2@gmail.com',NULL,'',NULL,'xN5J7FQJEjs3DsDszlB18O',1541087186,1541087198,'',1,'suci','ariesta','Male','0000-00-00',NULL,'123456789',NULL,NULL,5,0,'2018-11-01 22:46:26',0,NULL,NULL,NULL,NULL,NULL),
 (12,'::1','123','$2y$08$6EJGz06l2gfD3psrS6HS1eKpqc3Kzn.a2GM76x9OFCm0imTOv/CmC',NULL,'123@123.com',NULL,'',NULL,NULL,1541254795,1541254875,'',1,'123',NULL,'Male','0000-00-00',NULL,'123',NULL,NULL,2,1,'2018-11-03 21:19:54',0,NULL,NULL,NULL,NULL,NULL),
@@ -7924,7 +7924,7 @@ insert  into `users`(`id`,`ip_address`,`username`,`password`,`salt`,`email`,`act
 (15,'::1','joko','$2y$08$xg38f5hGJ2tepkXgx1huEu4tzCdHHMDU5eE/hNOWLAL1bT9ODvlnq',NULL,'joko@email.com',NULL,'',NULL,NULL,1553683260,NULL,'',1,'joko','joko','Male','2019-03-20',NULL,'62224209985',NULL,NULL,5,0,'2019-03-27 17:41:00',0,NULL,NULL,NULL,NULL,NULL),
 (20,'::1','hamzah','$2y$08$5R7TA44rD7rZzaoKE59gAONwPERh5Zwxsm5KqZaupNVuGMWDrWoTe',NULL,'hamzah_habibi@rocketmail.com','fwL9OPWDZg4e','',NULL,NULL,1553830826,1554447530,'false',1,'hamzah','habibi','Male','2019-03-20',NULL,'08946456845',NULL,NULL,5,0,'2019-03-29 10:40:26',0,NULL,NULL,NULL,NULL,NULL),
 (21,'::1','jokowi','$2y$08$HQDLOKiIDwzKKO6OE/kyWeLYb7An9pJw37EMXcfjHcQNEd8/4yghO',NULL,'joko@widodo.com',NULL,'',NULL,NULL,1554692536,1555329815,'false',1,'Joko','Widodo','Male','1975-01-01',NULL,'08181818181',NULL,'21jokowi1554963003.jpg',5,0,'2019-04-08 10:02:16',0,NULL,NULL,NULL,NULL,NULL),
-(22,'::1','Eustass','$2y$08$dtF0FJfdK9RD/VYe2XfiyuX6QoIcaGVkFk1OzNHK73Uyz42prVlXS',NULL,'eustass@mail.com',NULL,'',NULL,NULL,1555300025,1557200886,'false',1,'Eustass','Kid','','1989-02-08',NULL,'09809809808','3519030802890002',NULL,5,0,'2019-04-15 10:47:05',0,NULL,NULL,NULL,NULL,NULL),
+(22,'::1','Eustass','$2y$08$dtF0FJfdK9RD/VYe2XfiyuX6QoIcaGVkFk1OzNHK73Uyz42prVlXS',NULL,'eustass@mail.com',NULL,'',NULL,NULL,1555300025,1557487412,'false',1,'Eustass','Kid','','1989-02-08',NULL,'09809809808','3519030802890002',NULL,5,0,'2019-04-15 10:47:05',0,NULL,NULL,NULL,NULL,NULL),
 (23,'::1','lengkuas','$2y$08$olwSUsZF1BxdzjavpY4ooOSuDZxi.ULYxVGRadWdy1YTr9gFuiW1C',NULL,'lengkuaskita@gmail.com',NULL,'',NULL,NULL,1557129427,1557220028,'false',1,'Alpinia','Galanga','','1998-12-28',NULL,'081383935203','3519032812980003',NULL,5,0,'2019-05-06 14:57:07',0,NULL,NULL,NULL,NULL,NULL);
 
 /*Table structure for table `users_bank` */
@@ -8011,7 +8011,7 @@ CREATE TABLE `users_document_det` (
   `modified_date` datetime DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`doc_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `users_document_det` */
 
@@ -8078,9 +8078,14 @@ CREATE TABLE `users_login_attempts` (
   `login` varchar(100) NOT NULL,
   `time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `users_login_attempts` */
+
+insert  into `users_login_attempts`(`id`,`ip_address`,`login`,`time`) values 
+(1,'::1','eustass.kid@mail.com',1557487361),
+(2,'::1','eustass.kid@mail.com',1557487371),
+(3,'::1','eustass.kid@mail.com',1557487381);
 
 /*Table structure for table `users_privyid` */
 
@@ -8089,8 +8094,10 @@ DROP TABLE IF EXISTS `users_privyid`;
 CREATE TABLE `users_privyid` (
   `auto_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
+  `privy_id` varchar(100) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `phone` varchar(15) DEFAULT NULL,
+  `type` enum('seller','buyer','undefined') DEFAULT 'undefined',
   `status` varchar(20) DEFAULT NULL,
   `token` text,
   `created_date` datetime DEFAULT NULL,
@@ -8099,8 +8106,8 @@ CREATE TABLE `users_privyid` (
 
 /*Data for the table `users_privyid` */
 
-insert  into `users_privyid`(`auto_id`,`user_id`,`email`,`phone`,`status`,`token`,`created_date`) values 
-(1,22,'eustass@mail.com','+629809809808','waiting','1d3cbf5f222db8051511708fedd7f80ac25989aeb7fc1aed61ee7ac4ed723199',NULL);
+insert  into `users_privyid`(`auto_id`,`user_id`,`privy_id`,`email`,`phone`,`type`,`status`,`token`,`created_date`) values 
+(1,22,'1234','eustass@mail.com','+629809809808','buyer','waiting','1d3cbf5f222db8051511708fedd7f80ac25989aeb7fc1aed61ee7ac4ed723199',NULL);
 
 /*Table structure for table `users_privyid_det` */
 
@@ -8152,8 +8159,8 @@ CREATE TABLE `users_request` (
   `username` varchar(50) NOT NULL,
   `is_buyer` enum('Y','N') DEFAULT 'N',
   `is_seller` enum('Y','N') DEFAULT 'N',
-  `seller_status` enum('undefined','requested','on process','accepted','rejected') NOT NULL DEFAULT 'undefined',
-  `buyer_status` enum('undefined','requested','on process','accepted','rejected') NOT NULL DEFAULT 'undefined',
+  `seller_status` varchar(15) NOT NULL DEFAULT 'undefined',
+  `buyer_status` varchar(15) NOT NULL DEFAULT 'undefined',
   `is_api` enum('Y','N') NOT NULL DEFAULT 'N',
   `is_wl` enum('Y','N') NOT NULL DEFAULT 'N',
   `is_ta` enum('Y','N') NOT NULL DEFAULT 'N',
@@ -8166,7 +8173,7 @@ CREATE TABLE `users_request` (
 /*Data for the table `users_request` */
 
 insert  into `users_request`(`req_id`,`username`,`is_buyer`,`is_seller`,`seller_status`,`buyer_status`,`is_api`,`is_wl`,`is_ta`,`user_id`,`created_date`,`modified_date`) values 
-(1,'magneto','Y','N','undefined','requested','Y','N','N',22,'2019-04-30 10:02:48','0000-00-00 00:00:00');
+(1,'Eustass','Y','Y','requested','waiting','Y','N','N',22,'2019-04-30 10:02:48','2019-05-10 18:23:36');
 
 /*Table structure for table `v2_list_payment_gateway` */
 
@@ -8218,7 +8225,7 @@ CREATE TABLE `v2_log_visitor` (
   `lv_type` tinyint(4) DEFAULT NULL COMMENT '1:customer|2:adminpanel',
   `lv_is_ajax` tinyint(4) DEFAULT NULL COMMENT '0:no|1:ajax',
   PRIMARY KEY (`lv_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11952 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11978 DEFAULT CHARSET=utf8;
 
 /*Data for the table `v2_log_visitor` */
 
@@ -19174,7 +19181,33 @@ insert  into `v2_log_visitor`(`lv_id`,`lv_ip_address`,`lv_user_agent`,`lv_create
 (11948,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 16:21:15','http://localhost/webitx/adminpanel/users/requests',2,0),
 (11949,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 16:22:59','http://localhost/webitx/adminpanel/users/requests',2,0),
 (11950,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 16:25:50','http://localhost/webitx/adminpanel/users/requests',2,0),
-(11951,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 16:26:48','http://localhost/webitx/adminpanel/users/requests',2,0);
+(11951,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 16:26:48','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11952,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 18:16:36','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11953,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 18:16:37','http://localhost/webitx/adminpanel/login/logout',2,1),
+(11954,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 18:16:37','http://localhost/webitx/adminpanel/login',2,0),
+(11955,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 18:16:46','http://localhost/webitx/adminpanel/login/checkLogin',2,1),
+(11956,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 18:16:46','http://localhost/webitx/adminpanel/dashboard',2,0),
+(11957,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 18:16:51','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11958,'::1','Firefox 66.0, Windows 10','2019-05-10 18:22:26','http://localhost/webitx/',1,0),
+(11959,'::1','Firefox 66.0, Windows 10','2019-05-10 18:22:26','http://localhost/webitx/member/personalData',1,0),
+(11960,'::1','Firefox 66.0, Windows 10','2019-05-10 18:22:26','http://localhost/webitx/member/login',1,0),
+(11961,'::1','Firefox 66.0, Windows 10','2019-05-10 18:22:41','http://localhost/webitx/member/login',1,0),
+(11962,'::1','Firefox 66.0, Windows 10','2019-05-10 18:22:50','http://localhost/webitx/member/login',1,0),
+(11963,'::1','Firefox 66.0, Windows 10','2019-05-10 18:23:01','http://localhost/webitx/member/login',1,0),
+(11964,'::1','Firefox 66.0, Windows 10','2019-05-10 18:23:32','http://localhost/webitx/member/login',1,0),
+(11965,'::1','Firefox 66.0, Windows 10','2019-05-10 18:23:32','http://localhost/webitx/member/personalData',1,0),
+(11966,'::1','Firefox 66.0, Windows 10','2019-05-10 18:23:36','http://localhost/webitx/member/accountRole',1,0),
+(11967,'::1','Firefox 66.0, Windows 10','2019-05-10 18:23:36','http://localhost/webitx/member/personalData',1,0),
+(11968,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 18:23:53','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11969,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 18:26:30','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11970,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 18:28:14','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11971,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 18:48:34','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11972,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 18:56:30','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11973,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 18:59:18','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11974,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 19:00:47','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11975,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 19:01:55','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11976,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 19:02:08','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11977,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 19:05:04','http://localhost/webitx/adminpanel/users/requests',2,0);
 
 /*Table structure for table `v2_master_country` */
 
