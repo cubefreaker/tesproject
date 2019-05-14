@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.5.1 (32 bit)
-MySQL - 10.1.38-MariaDB : Database - db_itx_v2
+SQLyog Ultimate v12.4.3 (64 bit)
+MySQL - 10.1.9-MariaDB : Database - db_itx_v2
 *********************************************************************
 */
 
@@ -15,31 +15,6 @@ MySQL - 10.1.38-MariaDB : Database - db_itx_v2
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`db_itx_v2` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
 USE `db_itx_v2`;
-
-/*Table structure for table `company_contact` */
-
-DROP TABLE IF EXISTS `company_contact`;
-
-CREATE TABLE `company_contact` (
-  `contact_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `phone` int(15) NOT NULL,
-  `mobile` int(15) NOT NULL,
-  `name_ops` varchar(50) NOT NULL,
-  `email_ops` varchar(50) NOT NULL,
-  `phone_ops` int(15) NOT NULL,
-  `mobile_ops` int(15) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`contact_id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
-/*Data for the table `company_contact` */
-
-insert  into `company_contact`(`contact_id`,`name`,`email`,`phone`,`mobile`,`name_ops`,`email_ops`,`phone_ops`,`mobile_ops`,`user_id`) values 
-(1,'Eustass','1@mail.com',101010101,11011011,'Kid','2@mail.com',202020202,22022022,22);
 
 /*Table structure for table `mst_districts` */
 
@@ -7925,7 +7900,7 @@ insert  into `users`(`id`,`ip_address`,`username`,`password`,`salt`,`email`,`act
 (20,'::1','hamzah','$2y$08$5R7TA44rD7rZzaoKE59gAONwPERh5Zwxsm5KqZaupNVuGMWDrWoTe',NULL,'hamzah_habibi@rocketmail.com','fwL9OPWDZg4e','',NULL,NULL,1553830826,1554447530,'false',1,'hamzah','habibi','Male','2019-03-20',NULL,'08946456845',NULL,NULL,5,0,'2019-03-29 10:40:26',0,NULL,NULL,NULL,NULL,NULL),
 (21,'::1','jokowi','$2y$08$HQDLOKiIDwzKKO6OE/kyWeLYb7An9pJw37EMXcfjHcQNEd8/4yghO',NULL,'joko@widodo.com',NULL,'',NULL,NULL,1554692536,1555329815,'false',1,'Joko','Widodo','Male','1975-01-01',NULL,'08181818181',NULL,'21jokowi1554963003.jpg',5,0,'2019-04-08 10:02:16',0,NULL,NULL,NULL,NULL,NULL),
 (22,'::1','Eustass','$2y$08$dtF0FJfdK9RD/VYe2XfiyuX6QoIcaGVkFk1OzNHK73Uyz42prVlXS',NULL,'eustass@mail.com',NULL,'',NULL,NULL,1555300025,1557487412,'false',1,'Eustass','Kid','','1989-02-08',NULL,'09809809808','3519030802890002',NULL,5,0,'2019-04-15 10:47:05',0,NULL,NULL,NULL,NULL,NULL),
-(23,'::1','lengkuas','$2y$08$olwSUsZF1BxdzjavpY4ooOSuDZxi.ULYxVGRadWdy1YTr9gFuiW1C',NULL,'lengkuaskita@gmail.com',NULL,'',NULL,NULL,1557129427,1557220028,'false',1,'Alpinia','Galanga','','1998-12-28',NULL,'081383935203','3519032812980003',NULL,5,0,'2019-05-06 14:57:07',0,NULL,NULL,NULL,NULL,NULL);
+(23,'::1','lengkuas','$2y$08$olwSUsZF1BxdzjavpY4ooOSuDZxi.ULYxVGRadWdy1YTr9gFuiW1C',NULL,'lengkuaskita@gmail.com',NULL,'',NULL,NULL,1557129427,1557812252,'false',1,'Alpinia','Galanga','','1998-12-28',NULL,'081383935203','3519032812980003',NULL,5,0,'2019-05-06 14:57:07',0,NULL,NULL,NULL,NULL,NULL);
 
 /*Table structure for table `users_bank` */
 
@@ -7944,37 +7919,6 @@ CREATE TABLE `users_bank` (
 
 insert  into `users_bank`(`bank_id`,`bank_name`,`bank_account`,`bank_user`,`user_id`) values 
 (1,'Tes Bank','123456789','Kid',22);
-
-/*Table structure for table `users_company` */
-
-DROP TABLE IF EXISTS `users_company`;
-
-CREATE TABLE `users_company` (
-  `co_id` int(11) NOT NULL AUTO_INCREMENT,
-  `brand` varchar(100) NOT NULL,
-  `company_name` varchar(100) NOT NULL,
-  `owner` varchar(100) NOT NULL,
-  `phone_no` int(15) NOT NULL,
-  `mobile_no` int(15) NOT NULL,
-  `address` varchar(250) NOT NULL,
-  `sub_district` varchar(50) NOT NULL,
-  `province` varchar(50) NOT NULL,
-  `city` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `website` varchar(50) NOT NULL,
-  `postal_code` int(10) NOT NULL,
-  `logo` varchar(50) NOT NULL,
-  `id` int(11) NOT NULL,
-  PRIMARY KEY (`co_id`),
-  KEY `id` (`id`),
-  CONSTRAINT `id` FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
-/*Data for the table `users_company` */
-
-insert  into `users_company`(`co_id`,`brand`,`company_name`,`owner`,`phone_no`,`mobile_no`,`address`,`sub_district`,`province`,`city`,`email`,`website`,`postal_code`,`logo`,`id`) values 
-(1,'','','',0,0,'','','','','','',0,'21jokowi1554957535.PNG',21),
-(2,'Test','','',0,0,'','','ACEH','','','',0,'',22);
 
 /*Table structure for table `users_document` */
 
@@ -8068,6 +8012,62 @@ insert  into `users_groups_relation`(`id`,`user_id`,`group_id`) values
 (20,22,2),
 (21,23,2);
 
+/*Table structure for table `users_info_mitra` */
+
+DROP TABLE IF EXISTS `users_info_mitra`;
+
+CREATE TABLE `users_info_mitra` (
+  `co_id` int(11) NOT NULL AUTO_INCREMENT,
+  `brand` varchar(100) NOT NULL,
+  `company_name` varchar(100) NOT NULL,
+  `owner` varchar(100) NOT NULL,
+  `phone_no` int(15) NOT NULL,
+  `mobile_no` int(15) NOT NULL,
+  `address` varchar(250) NOT NULL,
+  `sub_district` varchar(50) NOT NULL,
+  `province` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `website` varchar(50) NOT NULL,
+  `postal_code` int(10) NOT NULL,
+  `logo` varchar(50) NOT NULL,
+  `id` int(11) NOT NULL,
+  PRIMARY KEY (`co_id`),
+  KEY `id` (`id`),
+  CONSTRAINT `id` FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+/*Data for the table `users_info_mitra` */
+
+insert  into `users_info_mitra`(`co_id`,`brand`,`company_name`,`owner`,`phone_no`,`mobile_no`,`address`,`sub_district`,`province`,`city`,`email`,`website`,`postal_code`,`logo`,`id`) values 
+(1,'','','',0,0,'','','','','','',0,'21jokowi1554957535.PNG',21),
+(2,'Test','','',0,0,'','','ACEH','','','',0,'',22);
+
+/*Table structure for table `users_kontak_perwakilan` */
+
+DROP TABLE IF EXISTS `users_kontak_perwakilan`;
+
+CREATE TABLE `users_kontak_perwakilan` (
+  `contact_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `phone` int(15) NOT NULL,
+  `mobile` int(15) NOT NULL,
+  `name_ops` varchar(50) NOT NULL,
+  `email_ops` varchar(50) NOT NULL,
+  `phone_ops` int(15) NOT NULL,
+  `mobile_ops` int(15) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`contact_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+/*Data for the table `users_kontak_perwakilan` */
+
+insert  into `users_kontak_perwakilan`(`contact_id`,`name`,`email`,`phone`,`mobile`,`name_ops`,`email_ops`,`phone_ops`,`mobile_ops`,`user_id`) values 
+(1,'Eustass','1@mail.com',101010101,11011011,'Kid','2@mail.com',202020202,22022022,22);
+
 /*Table structure for table `users_login_attempts` */
 
 DROP TABLE IF EXISTS `users_login_attempts`;
@@ -8081,11 +8081,6 @@ CREATE TABLE `users_login_attempts` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `users_login_attempts` */
-
-insert  into `users_login_attempts`(`id`,`ip_address`,`login`,`time`) values 
-(1,'::1','eustass.kid@mail.com',1557487361),
-(2,'::1','eustass.kid@mail.com',1557487371),
-(3,'::1','eustass.kid@mail.com',1557487381);
 
 /*Table structure for table `users_privyid` */
 
@@ -8175,6 +8170,24 @@ CREATE TABLE `users_request` (
 insert  into `users_request`(`req_id`,`username`,`is_buyer`,`is_seller`,`seller_status`,`buyer_status`,`is_api`,`is_wl`,`is_ta`,`user_id`,`created_date`,`modified_date`) values 
 (1,'Eustass','Y','Y','requested','waiting','Y','N','N',22,'2019-04-30 10:02:48','2019-05-10 18:23:36');
 
+/*Table structure for table `users_request_det` */
+
+DROP TABLE IF EXISTS `users_request_det`;
+
+CREATE TABLE `users_request_det` (
+  `username` varchar(50) DEFAULT NULL,
+  `req_type` varchar(10) DEFAULT NULL,
+  `status` varchar(10) DEFAULT NULL,
+  `requested_date` datetime DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `users_request_det` */
+
+insert  into `users_request_det`(`username`,`req_type`,`status`,`requested_date`,`user_id`) values 
+('eustass','buyer',NULL,NULL,22),
+('eustass','seller',NULL,NULL,22);
+
 /*Table structure for table `v2_list_payment_gateway` */
 
 DROP TABLE IF EXISTS `v2_list_payment_gateway`;
@@ -8225,7 +8238,7 @@ CREATE TABLE `v2_log_visitor` (
   `lv_type` tinyint(4) DEFAULT NULL COMMENT '1:customer|2:adminpanel',
   `lv_is_ajax` tinyint(4) DEFAULT NULL COMMENT '0:no|1:ajax',
   PRIMARY KEY (`lv_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11978 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11991 DEFAULT CHARSET=utf8;
 
 /*Data for the table `v2_log_visitor` */
 
@@ -19207,7 +19220,20 @@ insert  into `v2_log_visitor`(`lv_id`,`lv_ip_address`,`lv_user_agent`,`lv_create
 (11974,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 19:00:47','http://localhost/webitx/adminpanel/users/requests',2,0),
 (11975,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 19:01:55','http://localhost/webitx/adminpanel/users/requests',2,0),
 (11976,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 19:02:08','http://localhost/webitx/adminpanel/users/requests',2,0),
-(11977,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 19:05:04','http://localhost/webitx/adminpanel/users/requests',2,0);
+(11977,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-10 19:05:04','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11978,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-14 12:37:32','http://localhost/webitx/member/login',1,0),
+(11979,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-14 12:37:32','http://localhost/webitx/member/personalData',1,0),
+(11980,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-14 12:43:03','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11981,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-14 12:44:37','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11982,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-14 12:44:46','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11983,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-14 12:45:47','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11984,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-14 12:45:56','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11985,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-14 12:57:58','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11986,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-14 12:58:17','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11987,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-14 12:59:26','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11988,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-14 13:02:19','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11989,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-14 13:02:41','http://localhost/webitx/adminpanel/users/requests',2,0),
+(11990,'::1','Chrome 74.0.3729.131, Windows 10','2019-05-14 13:03:30','http://localhost/webitx/adminpanel/users/requests',2,0);
 
 /*Table structure for table `v2_master_country` */
 

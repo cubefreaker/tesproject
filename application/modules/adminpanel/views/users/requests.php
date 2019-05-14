@@ -17,10 +17,8 @@
 							<th>No</th>
 							<th>Username</th>
 							<th>Email</th>
-							<th>As Seller</th>
-							<th>As Buyer</th>
-                            <th>PrivyId Seller</th>
-                            <th>PrivyId Buyer</th>
+							<th>Request Type</th>
+                            <th>Privy ID</th>
 							<!-- <th>Action</th> -->
 						</tr>
 					</thead>
@@ -29,7 +27,7 @@
                             <td> {{ $index+1 }} </td>
                             <td> {{ data.UserName }} </td>
                             <td> {{ data.Email }} </td>
-                            <td>
+                            <!-- <td>
                                 <div ng-if="data.Seller == 'requested'">
                                     <a ng-click="acceptSeller(data)" class="tooltipx pointer">
                                         <button class="btn btn-xs btn-success">Submit</button><span>Submit to PrivyId</span>
@@ -47,8 +45,8 @@
                                 <div ng-if="data.Seller == 'undefined'">
                                     Un-Requested
                                 </div>
-                            </td>
-                            <td>
+                            </td> -->
+                            <!-- <td>
                                 <div ng-if="data.Buyer == 'requested'">
                                     <a ng-click="acceptBuyer(data)" class="tooltipx pointer">
                                         <button class="btn btn-xs btn-success">Submit</button><span>Submit to PrivyId</span>
@@ -62,14 +60,7 @@
                                 </div>
                                 <div ng-if="data.Buyer != 'requested' && data.Buyer != 'undefined'">
                                     {{ data.Buyer }}
-                                <!-- </div>
-                                <div ng-if="data.Buyer == 'rejected'">
-                                    Rejected
-                                </div>
-                                <div ng-if="data.Buyer == 'accepted'">
-                                    Accepted
-                                </div> -->
-                            </td>
+                            </td> -->
                             <td>
                                 <div ng-if="data.PrivyIdSeller != 'empty'">
                                     <a href="#" data-toggle="modal" data-target="#privyModal" class="tooltipx pointer">
@@ -227,16 +218,16 @@ console.log($scope.List);
     })();
 
     function getDatatablesContent(){
-        $scope.columnDefs = [];
+        // $scope.columnDefs = [];
 
-        $scope.columnDefs.push(
-            {className: "text-left",orderable: true,targets: [0], visible: true}, // No
-            {className: "text-left",orderable: true,targets: [1], visible: true}, //  Discount
-            {className: "text-left",orderable: true,targets: [2], visible: true}, // QTY
-            {className: "text-left",orderable: true,targets: [3], visible: true},   //  Start date
-            {className: "text-left",orderable: true,targets: [4], visible: true},   // End date
-            {className: "text-left",orderable: true,targets: [5], visible: true}, // Action
-        );
+        // $scope.columnDefs.push(
+        //     {className: "text-left",orderable: true,targets: [0], visible: true}, // No
+        //     {className: "text-left",orderable: true,targets: [1], visible: true}, //  Discount
+        //     {className: "text-left",orderable: true,targets: [2], visible: true}, // QTY
+        //     {className: "text-left",orderable: true,targets: [3], visible: true},   //  Start date
+        //     {className: "text-left",orderable: true,targets: [4], visible: true},   // End date
+        //     {className: "text-left",orderable: true,targets: [5], visible: true}, // Action
+        // );
 
         setTimeout(function() {
             var table = $('#datatable').DataTable({

@@ -528,14 +528,14 @@ class member extends CI_Controller
         $this->load->model('m_get');
         $getData = [
             'select'  => '*',
-            'from' => 'users_company',
+            'from' => 'users_info_mitra',
             'where' => ['id' => $user->id]
         ];
         if($this->m_get->getDynamic($getData) == FALSE){
             $this->load->model('m_insert');
             $companyData['id'] = $user->id;
             $dataInsert = [
-                'table' => 'users_company',
+                'table' => 'users_info_mitra',
                 'data'  => $companyData
             ];
             $this->m_insert->insertDynamic($dataInsert);
@@ -543,7 +543,7 @@ class member extends CI_Controller
             $this->load->model('m_update');
             $dataUpdate = [
                 'data'  => $companyData,
-                'table' => 'users_company',
+                'table' => 'users_info_mitra',
                 'where' => ['id' => $user->id]
             ];
             
@@ -580,7 +580,7 @@ class member extends CI_Controller
             $contactData['user_id'] = $user->id;
             $this->load->model('m_insert');
             $dataInsert = [
-                'table' => 'company_contact',
+                'table' => 'users_kontak_perwakilan',
                 'data' => $contactData
             ];
             $this->m_insert->insertDynamic($dataInsert);
@@ -588,7 +588,7 @@ class member extends CI_Controller
             $this->load->model('m_update');
             $dataUpdate = [
                 'data'  => $contactData,
-                'table' => 'company_contact',
+                'table' => 'users_kontak_perwakilan',
                 'where' => ['user_id' => $user->id]
             ];
             

@@ -108,12 +108,10 @@ class users extends CI_Controller
         $data['Member']         = $this->ion_auth->user()->row();
         $data['List']           = [];
         // $data['List']   = $this->m_manages->getListUsers();
-        $Users = $this->ion_auth->users()->result();
-        
-        foreach ($Users as $key => $value) {
-            $req = $this->db->query("select * from users_request where user_id='".$value->id."'")->row();
-            $privySeller = $this->db->query("select * from users_privyid where user_id='".$value->id."' and type='seller'")->row();
-            $privyBuyer = $this->db->query("select * from users_privyid where user_id='".$value->id."' and type='buyer'")->row();
+        // $Users = $this->ion_auth->users()->result();
+        $listUserReq = $this->db->query("select users.id, users.username, email, phone, first_name, last_name, nik, req_type from users left join users_request_det on users.id = users_request_det.user_id")->result(); 
+        foreach ($listUserReq as $key => $value) {
+            $privyId = $this->db->query("select * from users_privyid where user_id='".$value->id."' and type='".$value->req_type."'")->row();
             $User = [
                 'UserId'        => $value->id,
                 'UserName'      => $value->username,
@@ -122,9 +120,8 @@ class users extends CI_Controller
                 'FirstName'     => $value->first_name,
                 'LastName'      => $value->last_name,
                 'Nik'           => $value->nik,
-                'Seller'     => $req ? $req->seller_status : 'undefined',
-                'Buyer'      => $req ? $req->buyer_status : 'undefined',
-                'PrivyIdSeller'   => $privySeller ? $privySeller->privy_id : 'empty',
+                'ReqType'       => $value->req_type ? $value->req_type : 'No Request',
+                'Status'     => $value->status ? $value->status : 'undefined',
                 'PrivyIdBuyer'   => $privyBuyer ? $privyBuyer->privy_id : 'empty',
                 'PrivyIdSellerStatus' => $privySeller ? ($privySeller->status ? $privySeller->status : 'empty') : 'empty',
                 'PrivyIdBuyerStatus' => $privyBuyer ? ($privyBuyer->status ? $privyBuyer->status : 'empty') : 'empty',
@@ -155,20 +152,20 @@ class users extends CI_Controller
                             ]
                         ]
                     ];
-                    if($v && $v->status != 'undefined'){
-                        $this->privyDocStatus($v->doc_id);
-                    }
+                    // if($v && $v->status != 'undefined'){
+                    //     $this->privyDocStatus($v->doc_id);
+                    // }
                 }
             }
             $data['List'][] = $User;
             // echo json_encode($value);
-            if($privySeller){
-                $this->privyUserStatus($value->id, 'seller');
-            }
+            // if($privySeller){
+            //     $this->privyUserStatus($value->id, 'seller');
+            // }
 
-            if($privyBuyer){
-                $this->privyUserStatus($value->id, 'buyer');
-            }
+            // if($privyBuyer){
+            //     $this->privyUserStatus($value->id, 'buyer');
+            // }
         }
         // echo json_encode($data['List']);
         // die();
