@@ -99,7 +99,7 @@ class users extends CI_Controller
             'FaName'            => 'fa-edit',
             'LeftMenuTitle'     => 'Users Request',
             'RightMenuTitle'    => [
-                ['isUrl' => TRUE, 'Name' => 'Page', 'Url' => 'users'],
+                ['isUrl' => TRUE, 'Name' => 'Users', 'Url' => 'users'],
                 ['isUrl' => FALSE,'Name' => 'User Requests'],
             ]
         ];
@@ -109,7 +109,7 @@ class users extends CI_Controller
         $data['List']           = [];
         // $data['List']   = $this->m_manages->getListUsers();
         // $Users = $this->ion_auth->users()->result();
-        $listUserReq = $this->db->query("select users.id, users.username, email, phone, first_name, last_name, nik, req_type from users left join users_request_det on users.id = users_request_det.user_id")->result(); 
+        $listUserReq = $this->db->query("select users.id, users.username, email, phone, first_name, last_name, nik, req_type, users_request_det.status from users inner join users_request_det on users.id = users_request_det.user_id where type != 1 ")->result(); 
         foreach ($listUserReq as $key => $value) {
             $privyId = $this->db->query("select * from users_privyid where user_id='".$value->id."' and type='".$value->req_type."'")->row();
             $User = [
@@ -122,9 +122,8 @@ class users extends CI_Controller
                 'Nik'           => $value->nik,
                 'ReqType'       => $value->req_type ? $value->req_type : 'No Request',
                 'Status'     => $value->status ? $value->status : 'undefined',
-                'PrivyIdBuyer'   => $privyBuyer ? $privyBuyer->privy_id : 'empty',
-                'PrivyIdSellerStatus' => $privySeller ? ($privySeller->status ? $privySeller->status : 'empty') : 'empty',
-                'PrivyIdBuyerStatus' => $privyBuyer ? ($privyBuyer->status ? $privyBuyer->status : 'empty') : 'empty',
+                'PrivyId'   => $privyId ? $privyId->privy_id : 'empty',
+                'PrivyIdStatus' => $privyId ? ($privyId->status ? $privyId->status : 'empty') : 'empty',
                 'Group'         => $this->ion_auth->get_users_groups($value->id)->row()
             ];
             $doc = $this->db->query("select * from users_document_det where user_id='".$value->id."'")->result();
@@ -178,6 +177,11 @@ class users extends CI_Controller
         // print_r($data['List']);
         // die();
         $this->load->view('adminpanel/users/requests', $data);
+    }
+
+    public function userDetail()
+    {
+        $this->load->view('adminpanel/users/user_detail');
     }
 
     protected function globalFunction($data)

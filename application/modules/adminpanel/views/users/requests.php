@@ -19,6 +19,7 @@
 							<th>Email</th>
 							<th>Request Type</th>
                             <th>Privy ID</th>
+                            <th>Action</th>
 							<!-- <th>Action</th> -->
 						</tr>
 					</thead>
@@ -62,9 +63,19 @@
                                     {{ data.Buyer }}
                             </td> -->
                             <td>
-                                <div ng-if="data.PrivyIdSeller != 'empty'">
+                                <div ng-if="data.ReqType != 'empty'">
+                                    {{ data.ReqType }}
+                                </div>
+
+                                <div ng-if="data.ReqType == 'empty'">
+                                    No Request
+                                </div>
+                            </td>
+                            
+                            <td>
+                                <div ng-if="data.PrivyId != 'empty'">
                                     <a href="#" data-toggle="modal" data-target="#privyModal" class="tooltipx pointer">
-                                        {{ data.PrivyIdSeller }} <span>view detail</span>
+                                        {{ data.PrivyId }} <span>view detail</span>
                                     </a>
                                     <div class="modal fade" id="privyModal" role="dialog">
                                         <div class="modal-dialog">
@@ -77,33 +88,9 @@
                                                     <div>
                                                         <label class="control-label col-sm-3" style="text-align: left;">PrivyId Status</label> 
                                                         <div class=" col-sm-3">
-                                                           :&nbsp;&nbsp;{{ data.PrivyIdSellerStatus }}
+                                                           :&nbsp;&nbsp;{{ data.PrivyIdStatus }}
                                                         </div>
                                                     </div>
-                                                    <table class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <!-- <th>No</th> -->
-                                                                <th>Document Name</th>
-                                                                <th>Status</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr ng-repeat="doc in data.Document">
-                                                                <!-- <td>{{ $index+1 }}</td> -->
-                                                                <td>{{ doc.name }}</td>
-                                                                <td>
-                                                                    <div ng-if="doc.status == 'undefined'">
-                                                                        <a ng-click="submitDoc(doc)" class="tooltipx pointer">
-                                                                            <button class="btn btn-sm btn-success">Submit</button><span>Submit to PrivyId</span>
-                                                                        </a>
-                                                                    </div>
-                                                                    <div ng-if="doc.status != 'undefined'">{{ doc.status }}</div>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <button class="btn btn-sm btn-success" ng-click="submitDocAll(data.Document)">Submit all documents</button>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -113,64 +100,44 @@
                                     </div>
                                 </div>
 
-                                <div ng-if="data.PrivyIdSeller == 'empty'">
-                                    {{ data.PrivyIdSeller }}
+                                <div ng-if="data.PrivyId == 'empty'">
+                                    {{ data.PrivyId }}
                                 </div>
                             </td>
                             <td>
-                                <div ng-if="data.PrivyIdBuyer != 'empty'">
-                                    <a href="#" data-toggle="modal" data-target="#privyModal" class="tooltipx pointer">
-                                        {{ data.PrivyIdBuyer }} <span>view detail</span>
+                                <div class="text-center">
+                                    <a ng-if="data.ReqType != 'No Request' && data.Status == 'requested'" id="accept" href="" class="tooltipx pointer">
+                                        <button class="btn btn-xs btn-success fa fa-check">
+                                            <span>Accept</span>
+                                        </button>
                                     </a>
-                                    <div class="modal fade" id="privyModal" role="dialog">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                    <h4 class="modal-title">PrivyId Detail</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div>
-                                                        <label class="control-label col-sm-3" style="text-align: left;">PrivyId Status</label> 
-                                                        <div class=" col-sm-3">
-                                                           :&nbsp;&nbsp;{{ data.PrivyIdBuyerStatus }}
-                                                        </div>
-                                                    </div>
-                                                    <table class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <!-- <th>No</th> -->
-                                                                <th>Document Name</th>
-                                                                <th>Status</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr ng-repeat="doc in data.Document">
-                                                                <!-- <td>{{ $index+1 }}</td> -->
-                                                                <td>{{ doc.name }}</td>
-                                                                <td>
-                                                                    <div ng-if="doc.status == 'undefined'">
-                                                                        <a ng-click="submitDoc(doc)" class="tooltipx pointer">
-                                                                            <button class="btn btn-sm btn-success">Submit</button><span>Submit to PrivyId</span>
-                                                                        </a>
-                                                                    </div>
-                                                                    <div ng-if="doc.status != 'undefined'">{{ doc.status }}</div>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <button class="btn btn-sm btn-success" ng-click="submitDocAll(data.Document)">Submit all documents</button>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>                                        
+                                    
+                                    <a ng-if="data.ReqType != 'No Request' && data.Status == 'requested'" id="reject" href="" class="tooltipx pointer">
+                                        <button class="btn btn-xs btn-danger fa fa-times">
+                                            <span>Reject</span>
+                                        </button>
+                                    </a>
+                                    <a ng-click="viewDetail(data.UserId)" href="" class="tooltipx pointer"  data-toggle="modal" data-target="#detModal">
+                                        <button class="btn btn-xs btn-primary fa fa-eye">
+                                            <span>View Detail</span>
+                                        </button>
+                                    </a>
+                                </div>
+                                <div class="modal fade" id="detModal" role="dialog">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">User's Detail</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <?php $this->load->view('adminpanel/users/user_detail'); ?>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div ng-if="data.PrivyIdBuyer == 'empty'">
-                                    {{ data.PrivyIdBuyer }}
                                 </div>
                             </td>
                             <!-- <td> {{ data.Group.name }} </td> -->
@@ -250,6 +217,26 @@ console.log($scope.List);
     // $scope.GoToDetailUser = function(UserId) {
     //     window.location.href = adminUrl+'users/add/'+UserId;
     // };
+
+    $scope.viewDetail = function(UserId) {
+
+            $http.post(
+                adminUrl+'crud_user/viewDetail',
+                {'UserId': UserId}
+            ).then(function successCallback(resp) {
+                console.log(resp);
+                if (resp.data['StatusResponse'] == 0) {
+                    AngularService.ErrorResponse(resp.data['Message']);
+                }
+                else if (resp.data['StatusResponse'] == 1) {
+                    AngularService.SuccessResponse();
+                }
+            }, function errorCallback(err) {
+                console.log(err);
+                AngularService.ErrorResponse(err);
+            });
+        
+    };
 
     $scope.acceptSeller = function(user) {
         user['type'] = 'seller'

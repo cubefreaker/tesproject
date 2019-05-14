@@ -36,6 +36,17 @@ class crud_user extends CI_Controller
         
     }
 
+    public function viewDetail()
+    {
+        $InputData = json_decode(file_get_contents('php://input'),true);
+        $UserId = $InputData['UserId'];
+        $Return['StatusResponse'] = 0;
+
+        $resp = $this->db->query("select * from users where id = '.$UserId.'")->result();
+
+        echo json_encode($resp);
+    }
+
     public function rejectSeller(){
         $InputData = json_decode(file_get_contents('php://input'),true);
         $UserId = $InputData['UserId'];
