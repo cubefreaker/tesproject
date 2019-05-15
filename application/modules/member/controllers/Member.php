@@ -1,6 +1,6 @@
 <?php
 
-class member extends CI_Controller
+class Member extends CI_Controller
 {
     function __construct()
     {
@@ -84,112 +84,81 @@ class member extends CI_Controller
 
     public function submitRegister()
     {
+        $this->load->model('M_member');
         $data['error'] = FALSE;
-        $result = ['status'=>TRUE, 'message'=>'Data harus diisi', 'data'=>[]];
-        if ($input = $this->input->post()) {
-            $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
-            $this->form_validation->set_rules('bdate', 'Birth Date', 'trim|required');
-            $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]');
-            $this->form_validation->set_rules('repassword', 'Password Confirmation', 'trim|required|matches[password]');
-            $this->form_validation->set_rules('firstname', 'First Name', 'trim|required|alpha|max_length[50]');
-            $this->form_validation->set_rules('lastname', 'Last Name', 'trim|required|max_length[50]');
-            $this->form_validation->set_rules('username', 'Username', 'trim|required|alpha|max_length[50]');
-            $this->form_validation->set_rules('nik', 'NIK', 'trim|numeric|required|max_length[20]');
-            $this->form_validation->set_rules('phone', 'Phone Number', 'trim|numeric|required|max_length[20]');
-            if ($this->form_validation->run() === FALSE)
-            {
-                $result['message'] = trim(strip_tags(validation_errors()));
-            }
-            else
-            {
-                $firstname      = $this->input->post('firstname');
-                $lastname       = $this->input->post('lastname');
-                $username       = $this->input->post('username');
-                $phone          = $this->input->post('phone');
-                $nik            = $this->input->post('nik');
-                $gender         = $this->input->post('gender');
-                $bdate          = $this->input->post('bdate');
-                $email = strtolower($this->input->post('email'));
-                $password = $this->input->post('password');
+        $result['status'] = FALSE;
+        $result['message'] = "";
+        // $result = ['status'=>TRUE, 'message'=>'Data harus diisi', 'data'=>[]];
+        
+        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+        $this->form_validation->set_rules('bdate', 'Birth Date', 'trim|required');
+        $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]');
+        $this->form_validation->set_rules('repassword', 'Password Confirmation', 'trim|required|matches[password]');
+        $this->form_validation->set_rules('firstname', 'First Name', 'trim|required|alpha|max_length[50]');
+        $this->form_validation->set_rules('lastname', 'Last Name', 'trim|required|max_length[50]');
+        $this->form_validation->set_rules('username', 'Username', 'trim|required|alpha|max_length[50]');
+        $this->form_validation->set_rules('nik', 'NIK', 'trim|numeric|required|max_length[20]');
+        $this->form_validation->set_rules('phone', 'Phone Number', 'trim|numeric|required|max_length[20]');
+        if ($this->form_validation->run() === FALSE)
+        {
+            $result['status'] = FALSE;
+            $result['message'] = trim(strip_tags(validation_errors()));
+        }
+        else
+        {
+            $firstname      = $this->input->post('firstname');
+            $lastname       = $this->input->post('lastname');
+            $username       = $this->input->post('username');
+            $phone          = $this->input->post('phone');
+            $nik            = $this->input->post('nik');
+            $gender         = $this->input->post('gender');
+            $bdate          = $this->input->post('bdate');
+            $email = strtolower($this->input->post('email'));
+            $password = $this->input->post('password');
 
-                $additional_data = array(
-                    'username'      => $username,
-                    'phone'         => $phone,
-                    'gender'        => $gender,
-                    'first_name'    => $firstname,
-                    'last_name'     => $lastname,
-                    'birth_date'    => $bdate,
-                    'nik'           => $nik,
-                    'status'        => 0,
-                    'type'          => 5,
-                    'created_date'  => date('Y-m-d H:i:s'),
-                    'created_by'    => 0
-                );
-                if ($this->form_validation->run() === TRUE 
-                    && $this->ion_auth->register($email, $password, $email, $additional_data))
-                {
-                    $result = ['status'=>TRUE, 'message'=>trim(strip_tags($this->ion_auth->messages())), 'data'=>[]];
-                    redirect('member/login', 'refresh');
-                }
-                else {
-                    $result['message'] = trim(strip_tags($this->ion_auth->errors()));
+            $additional_data = array(
+                'username'      => $username,
+                'phone'         => $phone,
+                'gender'        => $gender,
+                'first_name'    => $firstname,
+                'last_name'     => $lastname,
+                'birth_date'    => $bdate,
+                'nik'           => $nik,
+                'status'        => 0,
+                'type'          => 5,
+                'created_date'  => date('Y-m-d H:i:s'),
+                'created_by'    => 0
+            );
+
+            $check_username = $this->M_member->check_username($username);
+
+            if( $check_username ) {
+                $result['status'] = FALSE;  
+                $result['message'] = 'Username already exist';
+            }
+
+            if( $this->ion_auth->register($email, $password, $email, $additional_data) ) {
+                $result['status'] = true;
+                $result['message'] = "Success register";
+            } else {
+                $result['status']  = FALSE;
+                $result['message'] = trim(strip_tags($this->ion_auth->errors()));
+
+                if( $check_username ) {
+                    $result = ['status'=>FALSE, 'message'=>'Username already exist', 'data'=>[]];
                 }
             }
         }
-        else {
 
-        }
+        $this->output->set_content_type('application/json');
         echo json_encode($result);
+        exit;
     }
 
     public function register()
     {
         $data = $this->m_general->loadGeneralData();
         $data['error'] = FALSE;
-        //set up email
-		// 	$config = array(
-        //         'protocol' => 'smtp',
-        //         'smtp_host' => 'ssl://smtp.googlemail.com',
-        //         'smtp_port' => 465,
-        //         'smtp_user' => '<a href="mailto:testsourcecodester@gmail.com" rel="nofollow">testsourcecodester@gmail.com</a>', // change it to yours
-        //         'smtp_pass' => 'mysourcepass', // change it to yours
-        //         'mailtype' => 'html',
-        //         'charset' => 'iso-8859-1',
-        //         'wordwrap' => TRUE
-        //   );
-
-        //   $message = 	"
-        //               <html>
-        //               <head>
-        //                   <title>Verification Code</title>
-        //               </head>
-        //               <body>
-        //                   <h2>Thank you for Registering.</h2>
-        //                   <p>Your Account:</p>
-        //                   <p>Email: ".$email."</p>
-        //                   <p>Password: ".$password."</p>
-        //                   <p>Please click the link below to activate your account.</p>
-        //                   <h4><a href='".base_url()."user/activate/".$id."/".$code."'>Activate My Account</a></h4>
-        //               </body>
-        //               </html>
-        //               ";
-
-        //   $this->load->library('email', $config);
-        //   $this->email->set_newline("\r\n");
-        //   $this->email->from($config['smtp_user']);
-        //   $this->email->to($email);
-        //   $this->email->subject('Signup Verification Email');
-        //   $this->email->message($message);
-
-          //sending email
-        //   if($this->email->send()){
-        //       $this->session->set_flashdata('message','Activation code sent to email');
-        //   }
-        //   else{
-        //       $this->session->set_flashdata('message', $this->email->print_debugger());
-
-        //   }
-
 
         $this->load->view('member/register', $data);
         

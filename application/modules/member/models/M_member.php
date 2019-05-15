@@ -1,6 +1,6 @@
 <?php
 
-class m_member extends CI_Model
+class M_member extends CI_Model
 {
 	function updateRsv($id, $data)
     {
@@ -68,5 +68,17 @@ class m_member extends CI_Model
             return $list->result();
         }
         return FALSE;
+    }
+
+    public function check_username($username)
+    {
+        $this->db->where('username', $username);
+        return $this->db->get('users')->row();
+    }
+
+    public function check_email($email)
+    {
+        $this->db->where('email', $email);
+        return $this->db->get('users')->row();
     }
 }
