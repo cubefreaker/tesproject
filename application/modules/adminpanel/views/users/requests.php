@@ -19,6 +19,7 @@
 							<th>Email</th>
 							<th>Request Type</th>
                             <th>Privy ID</th>
+                            <th>Document</th>
                             <th>Action</th>
 							<!-- <th>Action</th> -->
 						</tr>
@@ -105,6 +106,53 @@
                                 </div>
                             </td>
                             <td>
+                                <div>
+                                    <a href="#" data-toggle="modal" data-target="#docModal">
+                                        view detail
+                                    </a>
+                                    <div class="modal fade" id="docModal" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h4 class="modal-title">Document List</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <!-- <th>No</th> -->
+                                                                <th>Document Name</th>
+                                                                <th>Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="doc in data.Document">
+                                                                <!-- <td>{{ $index+1 }}</td> -->
+                                                                <td>{{ doc.Name }}</td>
+                                                                <td>
+                                                                    <div ng-if="doc.Status == 'undefined'">
+                                                                        <a ng-click="submitDoc(doc)" class="tooltipx pointer">
+                                                                            <button class="btn btn-sm btn-success">Submit</button><span>Submit to PrivyId</span>
+                                                                        </a>
+                                                                    </div>
+                                                                    <div ng-if="doc.Status != 'undefined'">{{ doc.Status }}</div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <button class="btn btn-sm btn-success" ng-click="submitDocAll(data.Document)">Submit all documents</button>
+                                                
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>                                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
                                 <div class="text-center">
                                     <a ng-if="data.ReqType != 'No Request' && data.Status == 'requested'" id="accept" href="" class="tooltipx pointer">
                                         <button class="btn btn-xs btn-success fa fa-check">
@@ -137,7 +185,7 @@
                                                             <a href="#personaldata" data-toggle="tab">Personal Data</a>
                                                         </li>
                                                         <li>
-                                                            <a href="#dokumen" data-toggle="tab">Dokumen</a>
+                                                            <a ng-click="getDoc(data.UserId)" href="#dokumen" data-toggle="tab">Dokumen</a>
                                                         </li>
                                                         <li ng-if="data.ReqType == 'seller'">
                                                             <a href="#infomitra" data-toggle="tab">Info Mitra</a>
@@ -242,10 +290,6 @@
                                                             </div>
                                                         </div>
 
-                                                        <?php
-                                                            $scdok = $this->db->query("SELECT * FROM users_document WHERE user_id = '".$Member->id."'")->row();
-                                                        ?>
-
                                                         <div class="tab-pane" id="dokumen">
                                                             <h3 style="padding:2%;">Dokumen Upload</h3>
                                                             <form class="form-horizontal">
@@ -264,7 +308,7 @@
                                                                             <tr>
                                                                                 <td>Scan KTP</td>
                                                                                 <td>
-                                                                                    <label id="ktpid"><?= $scdok ? ($scdok->scan_ktp ? $scdok->scan_ktp : 'No File') : 'No File'?></label>
+                                                                                    <label id="ktpid"></label>
                                                                                 </td>
                                                                                 <td></td>
                                                                                 <td>
@@ -274,7 +318,7 @@
                                                                             <tr>
                                                                                 <td>Scan Selfie KTP</td>
                                                                                 <td>
-                                                                                    <label id="selfieid"><?= $scdok ? ($scdok->scan_selfie ? $scdok->scan_selfie : 'No File') : 'No File'?></label>
+                                                                                    <label id="selfieid"></label>
                                                                                 </td>
                                                                                 <td></td>
                                                                                 <td>
@@ -284,7 +328,7 @@
                                                                             <tr>
                                                                                 <td>Scan NPWP</td>
                                                                                 <td>
-                                                                                    <label id="npwpid"><?= $scdok ? ($scdok->scan_npwp ? $scdok->scan_npwp : 'No File') : 'No File' ?></label>
+                                                                                    <label id="npwpid">{{docList.npwp}}</label>
                                                                                 </td>
                                                                                 <td></td>
                                                                                 <td>
@@ -294,7 +338,7 @@
                                                                             <tr>
                                                                                 <td>Scan SIUP/TDP</td>
                                                                                 <td>
-                                                                                    <label id="siupid"><?= $scdok ? ($scdok->scan_siup ? $scdok->scan_siup : 'No File') : 'No File' ?></label>
+                                                                                    <label id="siupid"></label>
                                                                                 </td>
                                                                                 <td></td>
                                                                                 <td>
@@ -304,7 +348,7 @@
                                                                             <tr>
                                                                                 <td>Scan Akta Perusahaan</td>
                                                                                 <td>
-                                                                                    <label id="aktaid"><?= $scdok ? ($scdok->scan_akta ? $scdok->scan_akta : 'No File') : 'No File' ?></label>
+                                                                                    <label id="aktaid"></label>
                                                                                 </td>
                                                                                 <td></td>
                                                                                 <td>
@@ -314,7 +358,7 @@
                                                                             <tr>
                                                                                 <td>Scan Surat Kuasa (bila diwakilkan)</td>
                                                                                 <td>
-                                                                                    <label id="skid"><?= $scdok ? ($scdok->scan_sk ? $scdok->scan_sk : 'No File') : 'No File' ?></label>
+                                                                                    <label id="skid"></label>
                                                                                 </td>
                                                                                 <td></td>
                                                                                 <td>
@@ -728,25 +772,12 @@
     //     window.location.href = adminUrl+'users/add/'+UserId;
     // };
 
-    $scope.viewDetail = function(UserId) {
-        console.log(UserId);
-            $http.post(
-                adminUrl+'crud_user/viewDetail',
-                {'UserId': UserId}
-            ).then(function successCallback(resp) {
-                console.log(resp);
-                if (resp.data['StatusResponse'] == 0) {
-                    AngularService.ErrorResponse(resp.data['Message']);
-                }
-                else if (resp.data['StatusResponse'] == 1) {
-                    AngularService.SuccessResponse();
-                }
-            }, function errorCallback(err) {
-                console.log(err);
-                AngularService.ErrorResponse(err);
-            });
-        
-    };
+    $scope.getDoc = function(UserId){
+        $http.post(adminUrl+'crud_user/getDocument', {'UserId' : UserId}).then(function(resp){
+            $scope.docList = resp.data;
+            console.log(resp.data);
+        })
+    }
 
     $scope.acceptSeller = function(user) {
         user['type'] = 'seller'

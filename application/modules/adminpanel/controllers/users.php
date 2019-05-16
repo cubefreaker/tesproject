@@ -169,22 +169,23 @@ class users extends CI_Controller
             if($doc){
                 foreach($doc as $k => $v){
                     $User['Document'][] = [
-                        'id' => $v->doc_id,
-                        'user_id' => $value->id,
-                        'name' => $v->doc_name,
-                        'status' => $v->status,
-                        'owner' => [
+                        'Id'      => $v->doc_id,
+                        'UserId' => $value->id,
+                        'Name'    => $v->doc_name,
+                        'Type'    => $v->type,
+                        'Status' => $v->status,
+                        'Owner' => [
                             'privyId' => 'TES001',
                             'enterpriseToken' => '41bc84b42c8543daf448d893c255be1dbdcc722e'
                         ],
-                        'recipients' => [
+                        'Recipients' => [
                             [
                                 'privyId' => 'TES001',
                                 'type' => 'Reviewer',
                                 'enterpriseToken' => '41bc84b42c8543daf448d893c255be1dbdcc722e'
                             ],
                             [
-                                'privyId' => 'TES001',
+                                'privyId' => $User['PrivyId'],
                                 'type' => 'Signer',
                                 'enterpriseToken' => ''
                             ]

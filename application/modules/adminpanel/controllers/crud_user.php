@@ -27,6 +27,20 @@ class crud_user extends CI_Controller
         echo json_encode($Return);
     }
 
+    public function getDocument()
+    {
+        $InputData = json_decode(file_get_contents('php://input'),true);
+        $UserId = $InputData['UserId'];
+
+        $npwp = $this->db->query('select * from users_document_det where user_id = "'.$UserId.'" and type = "2"')->row();
+
+        $data = [
+            'npwp'  => $npwp ? ($npwp->doc_name ? $npwp->doc_name : 'No File' ) : 'No File'
+        ];
+
+        echo json_encode($data);
+    }
+
     public function acceptSeller(){
         $InputData = json_decode(file_get_contents('php://input'),true);
         $Return['StatusResponse'] = 0;
@@ -36,16 +50,6 @@ class crud_user extends CI_Controller
         
     }
 
-    public function viewDetail()
-    {
-        $InputData = json_decode(file_get_contents('php://input'),true);
-        $UserId = $InputData['UserId'];
-        $Return['StatusResponse'] = 0;
-
-        $resp = $this->db->query("select * from users where id = '.$UserId.'")->result();
-
-        echo json_encode($resp);
-    }
 
     public function rejectSeller(){
         $InputData = json_decode(file_get_contents('php://input'),true);
@@ -197,7 +201,7 @@ class crud_user extends CI_Controller
             'multipart' => [
                 [
                     'name' => 'documentTitle',
-                    'contents' => $InputData['name']
+                    'contents' => $InputData['Name']
                 ],
                 [
                     'name' => 'docType',
@@ -206,26 +210,26 @@ class crud_user extends CI_Controller
                 [
                     'name' => 'owner',
                     'contents' => json_encode([
-                        'privyId' => $InputData['owner']['privyId'],
-                        'enterpriseToken' => $InputData['owner']['enterpriseToken']
+                        'privyId' => $InputData['Owner']['privyId'],
+                        'enterpriseToken' => $InputData['Owner']['enterpriseToken']
                     ])
                 ],
                 [
                     'name' => 'document',
-                    'contents' => fopen('./assets/file_upload/'.$InputData['name'], 'r')
+                    'contents' => fopen('./assets/file_upload/'.$InputData['Name'], 'r')
                 ],
                 [
                     'name' => 'recipients',
                     'contents' => json_encode([
                             [
-                                'privyId' => $InputData['recipients'][0]['privyId'],
-                                'type' => $InputData['recipients'][0]['type'],
-                                'enterpriseToken' => $InputData['recipients'][0]['enterpriseToken']
+                                'privyId' => $InputData['Recipients'][0]['privyId'],
+                                'type' => $InputData['Recipients'][0]['type'],
+                                'enterpriseToken' => $InputData['Recipients'][0]['enterpriseToken']
                             ],
                             [
-                                'privyId' => $InputData['recipients'][1]['privyId'],
-                                'type' => $InputData['recipients'][1]['type'],
-                                'enterpriseToken' => $InputData['recipients'][1]['enterpriseToken']
+                                'privyId' => $InputData['Recipients'][1]['privyId'],
+                                'type' => $InputData['Recipients'][1]['type'],
+                                'enterpriseToken' => $InputData['Recipients'][1]['enterpriseToken']
                             ]
                         ])
                 ],
@@ -241,12 +245,12 @@ class crud_user extends CI_Controller
         if ($r->code == 201) {
             $this->load->model('m_insert');
             $docData = [
-                'doc_name' => $InputData['name'],
+                'doc_name' => $InputData['Name'],
                 'doc_token' => $r->data->docToken,
                 'doc_url' => $r->data->urlDocument,
                 'status' => 'in progress',
                 'posted_date' => date('Y-m-d H:i:s'),
-                'user_id' => $InputData['user_id']
+                'user_id' => $InputData['UserId']
             ];
             $dataInsert = [
                 'table' => 'users_privyid_doc',
@@ -256,7 +260,7 @@ class crud_user extends CI_Controller
 
             $dataUpdate = [
                 'table' => 'users_document_det',
-                'where' => ['doc_id' => $InputData['id']],
+                'where' => ['doc_id' => $InputData['Id']],
                 'data' => ['status' => 'in progress']
             ];
             $this->m_update->updateDynamic($dataUpdate);
