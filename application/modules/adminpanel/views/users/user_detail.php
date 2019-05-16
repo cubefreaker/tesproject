@@ -6,7 +6,7 @@
         <li class="">
             <a href="#dokumen" data-toggle="tab">Dokumen</a>
         </li>
-        <li class="">
+        <li>
             <a href="#infomitra" data-toggle="tab">Info Mitra</a>
         </li>
         <li class="">
@@ -217,7 +217,7 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-qrcode"></i>
                                 </span>
-                                <input type="text" class="form-control" id="brand" name="brand" value="<?=$mitra ? $mitra->brand:'';?>" disabled>
+                                <input type="text" class="form-control" id="brand" name="brand" value="{{data.Brand}}" disabled>
                             </div>
                         </div>
                         <div class="form-group">
@@ -226,7 +226,7 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-building"></i>
                                 </span>
-                                <input type="text" class="form-control" name="coname" value="<?=$mitra ? $mitra->company_name:'';?>" disabled>
+                                <input type="text" class="form-control" name="coname" value="{{data.Name}}" disabled>
                             </div>
                         </div>
                         <div class="form-group">
@@ -244,7 +244,7 @@
                                 <span class="input-group-addon">
                                     <i class="glyphicon glyphicon-user"></i>
                                 </span>
-                                <input type="text" class="form-control" name="owner" value="<?=$mitra ? $mitra->owner:'';?>" disabled>
+                                <input type="text" class="form-control" name="owner" value="{{data.Owner}}" disabled>
                             </div>
                         </div>
                         <div class="form-group">
@@ -568,3 +568,4 @@
 
     </div>
 </div>
+
