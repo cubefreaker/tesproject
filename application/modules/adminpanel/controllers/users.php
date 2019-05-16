@@ -109,9 +109,14 @@ class users extends CI_Controller
         $data['List']           = [];
         // $data['List']   = $this->m_manages->getListUsers();
         // $Users = $this->ion_auth->users()->result();
-        $listUserReq = $this->db->query("select users.id, users.username, email, phone, first_name, last_name, nik, req_type, users_request_det.status from users inner join users_request_det on users.id = users_request_det.user_id where type != 1 ")->result(); 
+        $listUserReq = $this->db->query(
+            "select users.id, users.username, email, phone, first_name, last_name, nik, req_type, users_request_det.status, gender, birth_date, img_thum from users inner join users_request_det on users.id = users_request_det.user_id where type != 1 "
+            )->result(); 
         foreach ($listUserReq as $key => $value) {
             $privyId = $this->db->query("select * from users_privyid where user_id='".$value->id."' and type='".$value->req_type."'")->row();
+            $company = $this->db->query("select * from users_mitra where id='".$value->id."'")->row();
+            $contact = $this->db->query("select * from users_contact where user_id='".$value->id."'")->row();
+            $bank = $this->db->query("select * from users_bank where user_id='".$value->id."'")->row();
             $User = [
                 'UserId'        => $value->id,
                 'UserName'      => $value->username,
@@ -119,12 +124,46 @@ class users extends CI_Controller
                 'Phone'         => $value->phone,
                 'FirstName'     => $value->first_name,
                 'LastName'      => $value->last_name,
+                'Gender'        => $value->gender,
+                'BirthDate'     => $value->birth_date,
                 'Nik'           => $value->nik,
+                'Img'           => $value->img_thum ? base_url().'assets/images/profile/'.$value->img_thum : base_url().'assets/images/profile/profile.png',
                 'ReqType'       => $value->req_type ? $value->req_type : 'No Request',
-                'Status'     => $value->status ? $value->status : 'undefined',
-                'PrivyId'   => $privyId ? $privyId->privy_id : 'empty',
+                'Status'        => $value->status ? $value->status : 'undefined',
+                'PrivyId'       => $privyId ? $privyId->privy_id : 'empty',
                 'PrivyIdStatus' => $privyId ? ($privyId->status ? $privyId->status : 'empty') : 'empty',
-                'Group'         => $this->ion_auth->get_users_groups($value->id)->row()
+                'Group'         => $this->ion_auth->get_users_groups($value->id)->row(),
+                'Company'       => [
+                                    'Brand'     => $company->brand ? $company->brand : '',
+                                    'Name'      => $company->company_name ? $company->company_name : '',
+                                    'Owner'     => $company->owner ? $company->owner : '',
+                                    'Phone'     => $company->phone_no ? $company->phone_no : '',
+                                    'Mobile'    => $company->mobile_no ? $company->mobile_no : '',
+                                    'Address'   => $company->address ? $company->address : '',
+                                    'District'  => $company->sub_district ? $company->sub_district : '',
+                                    'Province'  => $company->province ? $company->province : '',
+                                    'City'      => $company->city ? $company->city : '',
+                                    'Email'     => $company->email ? $company->email : '',
+                                    'Website'   => $company->website ? $company->website : '',
+                                    'Postal'    => $company->postal_code ? $company->postal_code : '',
+                                    'Logo'      => $company->logo ? base_url().'assets/images/logo/'.$company->logo : base_url().'assets/images/profile/profile.png',
+                                    ],
+                'Contact'       => [
+                                    'Name'      => $contact ? ($contact->name ? $contact->name : '') : '',
+                                    'Email'     => $contact ? ($contact->email ? $contact->email : '') : '',
+                                    'Phone'     => $contact ? ($contact->phone ? $contact->phone : '') : '',
+                                    'Mobile'    => $contact ? ($contact->mobile ? $contact->mobile : '') : '',
+                                    'NameOps'   => $contact ? ($contact->name_ops ? $contact->name_ops : '') : '',
+                                    'EmailOps'  => $contact ? ($contact->email_ops ? $contact->email_ops : '') : '',
+                                    'PhoneOps'  => $contact ? ($contact->phone_ops ? $contact->phone_ops : '') : '',
+                                    'MobileOps' => $contact ? ($contact->mobile_ops ? $contact->mobile_ops : '') : '',
+                                    ],
+                'Bank'          => [
+                                    'BankName'  => $bank ? ($bank->bank_name ? $bank->bank_name : '') : '',
+                                    'Account'   => $bank ? ($bank->bank_account ? $bank->bank_account : '') : '',
+                                    'BankUser'  => $bank ? ($bank->bank_user ? $bank->bank_user : '') : '',
+                                    ],
+
             ];
             $doc = $this->db->query("select * from users_document_det where user_id='".$value->id."'")->result();
             if($doc){
@@ -174,7 +213,7 @@ class users extends CI_Controller
 
 
         // echo "<pre>";
-        // print_r($data['List']);
+        // echo json_encode($data['List']);
         // die();
         $this->load->view('adminpanel/users/requests', $data);
     }
