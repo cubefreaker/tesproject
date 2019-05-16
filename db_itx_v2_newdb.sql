@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 16, 2019 at 02:19 PM
+-- Generation Time: May 16, 2019 at 04:19 PM
 -- Server version: 5.7.26-0ubuntu0.18.04.1
 -- PHP Version: 7.3.5-1+ubuntu18.04.1+deb.sury.org+1
 
@@ -7981,9 +7981,7 @@ CREATE TABLE `users_buyer` (
 --
 
 INSERT INTO `users_buyer` (`id`, `buyer_type`, `user_doc_id`, `request_id`, `request_date`, `title`, `name`, `company`, `telephone`, `email`, `ip_dev_1`, `ip_dev_2`, `ip_production`, `protocols`, `ports`, `remark`, `change_request`, `temp_start_date`, `temp_end_date`, `agree_nda_check`, `agree_ip_whitelist`, `user_id`, `created_at`, `updated_at`, `is_active`) VALUES
-(3, 1, 0, 11, '2019-05-16 13:35:54', '', '', '', 0, '', '192.168.0.1', '127.0.0.1', '127.0.0.1', 'www.', 8888, 'testing', 1, NULL, NULL, 'YES', 'on', 23, '2019-05-16 13:35:54', '2019-05-16 13:35:54', 1),
-(4, 1, 0, 13, '2019-05-16 13:44:37', '', '', '', 0, '', '2312', '2323', '2324', '232', 12, '232', 1, NULL, NULL, 'YES', 'YES', 23, '2019-05-16 13:44:37', '2019-05-16 13:44:37', 1),
-(5, 2, 0, 14, '2019-05-16 14:17:53', NULL, '', '', 0, '', '', '', '', '', 0, '', 0, NULL, NULL, 'NO', 'NO', 23, '2019-05-16 14:17:53', '2019-05-16 14:17:53', 1);
+(10, 1, 0, 21, '2019-05-16 15:07:52', '', '', ' TEST  ', 0, '', '127.0.0.1', '', '127.0.0.1', 'https', 8888, '', 2, '0000-00-00', '0000-00-00', 'YES', 'YES', 23, '2019-05-16 15:07:52', '2019-05-16 15:07:52', 1);
 
 -- --------------------------------------------------------
 
@@ -8162,9 +8160,9 @@ CREATE TABLE `users_login_attempts` (
 --
 
 CREATE TABLE `users_mitra` (
-  `co_id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `brand` varchar(100) NOT NULL,
-  `company_name` varchar(100) NOT NULL,
+  `mitra_name` varchar(100) NOT NULL,
   `owner` varchar(100) NOT NULL,
   `phone_no` int(15) NOT NULL,
   `mobile_no` int(15) NOT NULL,
@@ -8183,9 +8181,9 @@ CREATE TABLE `users_mitra` (
 -- Dumping data for table `users_mitra`
 --
 
-INSERT INTO `users_mitra` (`co_id`, `brand`, `company_name`, `owner`, `phone_no`, `mobile_no`, `address`, `sub_district`, `province`, `city`, `email`, `website`, `postal_code`, `logo`, `user_id`) VALUES
+INSERT INTO `users_mitra` (`id`, `brand`, `mitra_name`, `owner`, `phone_no`, `mobile_no`, `address`, `sub_district`, `province`, `city`, `email`, `website`, `postal_code`, `logo`, `user_id`) VALUES
 (1, '', '', '', 0, 0, '', '', '', '', '', '', 0, '21jokowi1554957535.PNG', 21),
-(2, 'Test', '', '', 0, 0, '', '', 'ACEH', '', '', '', 0, '', 22);
+(2, 'Test', ' TEST  ', '', 0, 0, '', '', 'ACEH', '', '', '', 0, '', 23);
 
 -- --------------------------------------------------------
 
@@ -8308,10 +8306,8 @@ CREATE TABLE `users_requestv2` (
 --
 
 INSERT INTO `users_requestv2` (`id`, `type`, `user_id`, `agree_policy_check`, `status_request`, `created_at`, `updated_at`) VALUES
-(11, 2, 23, 'YES', 0, '2019-05-16 13:35:54', '2019-05-16 13:35:54'),
-(12, 1, 23, 'YES', 0, '2019-05-16 13:43:55', '2019-05-16 13:43:55'),
-(13, 2, 23, 'YES', 0, '2019-05-16 13:44:37', '2019-05-16 13:44:37'),
-(14, 2, 23, 'YES', 0, '2019-05-16 14:17:53', '2019-05-16 14:17:53');
+(20, 2, 23, 'YES', 0, '2019-05-16 15:04:29', '2019-05-16 15:04:29'),
+(21, 2, 23, 'YES', 0, '2019-05-16 15:07:52', '2019-05-16 15:07:52');
 
 -- --------------------------------------------------------
 
@@ -20280,7 +20276,68 @@ INSERT INTO `v2_log_visitor` (`lv_id`, `lv_ip_address`, `lv_user_agent`, `lv_cre
 (12854, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:15:44', 'http://localhost/webitx/member/personalData', 1, 0),
 (12855, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:17:38', 'http://localhost/webitx/member/personalData', 1, 0),
 (12856, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:17:53', 'http://localhost/webitx/member/submit_buyer', 1, 0),
-(12857, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:17:55', 'http://localhost/webitx/member/personalData', 1, 0);
+(12857, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:17:55', 'http://localhost/webitx/member/personalData', 1, 0),
+(12858, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:33:59', 'http://localhost/webitx/member/personalData', 1, 0),
+(12859, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:34:50', 'http://localhost/webitx/member/personalData', 1, 0),
+(12860, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:36:15', 'http://localhost/webitx/member/personalData', 1, 0),
+(12861, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:37:25', 'http://localhost/webitx/member/personalData', 1, 0),
+(12862, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:37:26', 'http://localhost/webitx/member/personalData', 1, 0),
+(12863, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:37:26', 'http://localhost/webitx/member/personalData', 1, 0),
+(12864, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:37:32', 'http://localhost/webitx/member/personalData', 1, 0),
+(12865, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:37:33', 'http://localhost/webitx/member/personalData', 1, 0),
+(12866, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:37:53', 'http://localhost/webitx/member/personalData', 1, 0),
+(12867, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:38:35', 'http://localhost/webitx/member/personalData', 1, 0),
+(12868, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:38:51', 'http://localhost/webitx/member/personalData', 1, 0),
+(12869, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:38:57', 'http://localhost/webitx/member/personalData', 1, 0),
+(12870, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:39:27', 'http://localhost/webitx/member/personalData', 1, 0),
+(12871, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:39:36', 'http://localhost/webitx/member/personalData', 1, 0),
+(12872, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:39:43', 'http://localhost/webitx/member/personalData', 1, 0),
+(12873, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:40:22', 'http://localhost/webitx/member/personalData', 1, 0),
+(12874, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:40:51', 'http://localhost/webitx/member/personalData', 1, 0),
+(12875, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:41:10', 'http://localhost/webitx/member/personalData', 1, 0),
+(12876, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:41:14', 'http://localhost/webitx/member/personalData', 1, 0),
+(12877, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:42:03', 'http://localhost/webitx/member/personalData', 1, 0),
+(12878, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:42:14', 'http://localhost/webitx/member/personalData', 1, 0),
+(12879, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:42:24', 'http://localhost/webitx/member/personalData', 1, 0),
+(12880, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:42:34', 'http://localhost/webitx/member/personalData', 1, 0),
+(12881, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:42:38', 'http://localhost/webitx/member/personalData', 1, 0),
+(12882, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:42:52', 'http://localhost/webitx/member/personalData', 1, 0),
+(12883, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:43:28', 'http://localhost/webitx/member/personalData', 1, 0),
+(12884, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:43:36', 'http://localhost/webitx/member/personalData', 1, 0),
+(12885, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:43:37', 'http://localhost/webitx/member/personalData', 1, 0),
+(12886, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:43:43', 'http://localhost/webitx/member/personalData', 1, 0),
+(12887, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:43:56', 'http://localhost/webitx/member/personalData', 1, 0),
+(12888, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:44:16', 'http://localhost/webitx/member/personalData', 1, 0),
+(12889, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:44:41', 'http://localhost/webitx/member/personalData', 1, 0),
+(12890, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:45:02', 'http://localhost/webitx/member/personalData', 1, 0),
+(12891, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:45:33', 'http://localhost/webitx/member/personalData', 1, 0),
+(12892, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:46:02', 'http://localhost/webitx/member/personalData', 1, 0),
+(12893, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:46:21', 'http://localhost/webitx/member/personalData', 1, 0),
+(12894, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:48:16', 'http://localhost/webitx/member/personalData', 1, 0),
+(12895, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:49:12', 'http://localhost/webitx/member/personalData', 1, 0),
+(12896, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:50:52', 'http://localhost/webitx/member/personalData', 1, 0),
+(12897, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:51:36', 'http://localhost/webitx/member/personalData', 1, 0),
+(12898, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:52:17', 'http://localhost/webitx/member/personalData', 1, 0),
+(12899, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:56:37', 'http://localhost/webitx/member/personalData', 1, 0),
+(12900, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:57:22', 'http://localhost/webitx/member/submit_buyer', 1, 0),
+(12901, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:57:58', 'http://localhost/webitx/member/submit_buyer', 1, 0),
+(12902, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:58:55', 'http://localhost/webitx/member/submit_buyer', 1, 0),
+(12903, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:59:02', 'http://localhost/webitx/member/submit_buyer', 1, 0),
+(12904, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 14:59:33', 'http://localhost/webitx/member/submit_buyer', 1, 0),
+(12905, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 15:00:14', 'http://localhost/webitx/member/submit_buyer', 1, 0),
+(12906, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 15:02:04', 'http://localhost/webitx/member/submit_buyer', 1, 0),
+(12907, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 15:02:28', 'http://localhost/webitx/member/submit_buyer', 1, 0),
+(12908, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 15:02:52', 'http://localhost/webitx/member/submit_buyer', 1, 0),
+(12909, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 15:03:08', 'http://localhost/webitx/member/submit_buyer', 1, 0),
+(12910, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 15:03:09', 'http://localhost/webitx/member/personalData', 1, 0),
+(12911, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 15:03:51', 'http://localhost/webitx/member/personalData', 1, 0),
+(12912, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 15:04:29', 'http://localhost/webitx/member/submit_buyer', 1, 0),
+(12913, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 15:04:32', 'http://localhost/webitx/member/personalData', 1, 0),
+(12914, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 15:07:52', 'http://localhost/webitx/member/submit_buyer', 1, 0),
+(12915, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 15:07:54', 'http://localhost/webitx/member/personalData', 1, 0),
+(12916, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 16:11:28', 'http://localhost/webitx/member/personalData', 1, 0),
+(12917, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 16:12:55', 'http://localhost/webitx/member/personalData', 1, 0),
+(12918, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-16 16:13:38', 'http://localhost/webitx/member/personalData', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -20796,7 +20853,7 @@ ALTER TABLE `users_login_attempts`
 -- Indexes for table `users_mitra`
 --
 ALTER TABLE `users_mitra`
-  ADD PRIMARY KEY (`co_id`),
+  ADD PRIMARY KEY (`id`),
   ADD KEY `id` (`user_id`);
 
 --
@@ -20903,7 +20960,7 @@ ALTER TABLE `users_bank`
 -- AUTO_INCREMENT for table `users_buyer`
 --
 ALTER TABLE `users_buyer`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `users_contact`
 --
@@ -20938,7 +20995,7 @@ ALTER TABLE `users_login_attempts`
 -- AUTO_INCREMENT for table `users_mitra`
 --
 ALTER TABLE `users_mitra`
-  MODIFY `co_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `users_privyid`
 --
@@ -20963,7 +21020,7 @@ ALTER TABLE `users_request`
 -- AUTO_INCREMENT for table `users_requestv2`
 --
 ALTER TABLE `users_requestv2`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `users_seller`
 --
@@ -20983,7 +21040,7 @@ ALTER TABLE `v2_list_service`
 -- AUTO_INCREMENT for table `v2_log_visitor`
 --
 ALTER TABLE `v2_log_visitor`
-  MODIFY `lv_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12858;
+  MODIFY `lv_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12919;
 --
 -- AUTO_INCREMENT for table `v2_master_country`
 --

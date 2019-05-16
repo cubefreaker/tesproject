@@ -1,5 +1,6 @@
 <?php
     $mitra = $this->db->query("SELECT * FROM users_mitra WHERE user_id = '".$Member->id."'")->row();
+    // echo $this->db->last_query();die();
     // print_r($mitra);die();
 ?>
 <div class="tab-pane" id="infomitra">
@@ -26,7 +27,7 @@
                         <span class="input-group-addon">
                             <i class="fa fa-building"></i>
                         </span>
-                        <input type="text" class="form-control" name="coname" value="<?=$mitra ? $mitra->company_name:'';?>" required>
+                        <input type="text" class="form-control" name="coname" value="<?=$mitra ? $mitra->mitra_name:'';?>" required>
                         <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                     </div>
                 </div>

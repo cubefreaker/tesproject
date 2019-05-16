@@ -98,5 +98,7 @@ define('SIGNCOMPLETE', 3);
 define('API', 1);
 define('WHITELABEL', 2);
 define('TRAVELAGENT', 3);
+define('PERMANENT', 1);
+define('TEMPORARY', 2);
 
 define('NOW', date('Y-m-d H:i:s'));

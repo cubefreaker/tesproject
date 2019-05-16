@@ -68,8 +68,17 @@
 				{
 					required: true,
 				},
-				ip_dev_1:
+				'ip_dev_1':
 				{
+					required: true,
+				},
+				'ip_production' : {
+					required: true,
+				},
+				'protocols' : {
+					required: true,
+				},
+				'ports' : {
 					required: true,
 				},
 				'agree_ip_whitelist' : {

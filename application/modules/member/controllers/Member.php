@@ -149,12 +149,28 @@ class Member extends CI_Controller
             redirect(base_url('member/login'), 'refresh');
 
         // get general data for header and footer
-        $this->load->model('member/m_member');
+        $this->load->model(array(
+            'member/m_member',
+            'Global_model'
+        ));
+
         $data = $this->m_general->loadGeneralData();
         $data['Member'] = $this->ion_auth->user()->row();
         $data['Provinces'] = $this->db->query('select name from mst_provinces')->result();
         $data['Cities'] = $this->db->query('select name from mst_regencies')->result();
         $data['Districts'] = $this->db->query('select name from mst_districts')->result();
+
+        $data['mitra_info'] = $this->Global_model->set_model('users_mitra','um','id')->mode(array(
+            'type'          => 'single_row',
+            'conditions'    => array(
+                'user_id' => $this->ion_auth->user()->row()->id
+            ),
+            'return_object' => TRUE,
+            'debug_query'   => false
+        ));
+
+        // print_r($data['Member']);die();
+
         // $this->load->model('m_general');
         usort($data['Provinces'], function($a, $b) {
             if ($a==$b) return 0;
@@ -268,7 +284,7 @@ class Member extends CI_Controller
         if($query->num_rows() > 0){
             $company = $query->row();
             $config = array(
-                'file_name' => $company->co_id.time(),
+                'file_name' => $company->id.time(),
                 'upload_path' => './assets/images/profile/',
                 'allowed_types' => 'jpg|png|jpeg',
                 'max_size'  => '2048',
@@ -392,7 +408,7 @@ class Member extends CI_Controller
 
         $companyData = [
             'brand'      => $this->input->post('brand'),
-            'company_name'    => $this->input->post('coname'),
+            'mitra_name'    => $this->input->post('coname'),
             'owner'     => $this->input->post('owner'),
             'phone_no'        => $this->input->post('phone'),
             'mobile_no'    => $this->input->post('mobile'),
@@ -776,7 +792,7 @@ class Member extends CI_Controller
             $this->form_validation->set_rules('ip_dev_1','IP DEVELOPMENT','trim|required');
             $this->form_validation->set_rules('ip_production','IP PRODUCTION','trim|required');
             $this->form_validation->set_rules('agree_policy_check_buyer','Check Policy','required');
-            $this->form_validation->set_rules('agree_ip_whitelist','Check Policy','required');
+            $this->form_validation->set_rules('agree_ip_whitelist','Check IP Whitelist','required');
         }
     }
 
@@ -787,7 +803,10 @@ class Member extends CI_Controller
             exit('No direct script access allowed');
         }
         
-        $this->load->model('M_member');
+        $this->load->model(array(
+            'M_member',
+            'Global_model'
+        ));
 
         //initial.
         $message['is_error'] = true;
@@ -814,15 +833,29 @@ class Member extends CI_Controller
             //validation success
             //prepare save to DB
             
+            $get_mitra_info = $this->Global_model->set_model('users_mitra','um','id')->mode(array(
+                'type' => 'single_row',
+                'conditions' => array(
+                    'user_id' => $this->ion_auth->user()->row()->id
+                ),
+                'return_object' => true
+                // 'debug_query' => true
+            ));
+            // print_r($get_mitra_info);die();
+            $mitra_name = ($get_mitra_info->mitra_name) ? $get_mitra_info->mitra_name : "";
+            $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
+            $telp       = ($get_mitra_info->phone_no) ? $get_mitra_info->phone_no : "";
+            $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
+
             if( $data['buyer_type'] == API ) {
                 $_save_data = array(
                     'buyer_type'            => $data['buyer_type'],
                     'request_date'          => NOW,
                     'title'                 => '',
                     'name'                  => '',
-                    'company'               => '',
-                    'telephone'             => '',
-                    'email'                 => '',
+                    'company'               => $mitra_name,
+                    'telephone'             => $telp,
+                    'email'                 => $email,
                     'ip_dev_1'              => $data['ip_dev_1'],
                     'ip_dev_2'              => $data['ip_dev_2'],
                     'ip_production'         => $data['ip_production'],
@@ -831,8 +864,13 @@ class Member extends CI_Controller
                     'remark'                => $data['remark'],
                     'agree_nda_check'       => $data['agree_nda_check'],
                     'agree_ip_whitelist'    => $data['agree_ip_whitelist'],
-                    'change_request'        => $data['change_request']
+                    'change_request'        => $data['change_request'],
                 );
+
+                if($data['change_request'] == TEMPORARY) {
+                    $_save_data['temp_start_date'] = date('Y-m-d',strtotime($data['temp_start_date']));
+                    $_save_data['temp_end_date']   = date('Y-m-d',strtotime($data['temp_end_date']));
+                } 
             } else if($data['buyer_type'] == WHITELABEL) {
                 $_save_data = array(
                     'buyer_type'   => $data['buyer_type'],
@@ -905,6 +943,10 @@ class Member extends CI_Controller
         exit;
     }
 
+    /**
+     * [submit_seller]
+     * @return 
+     */
     public function submit_seller()
     {
         $this->load->model('M_member');
@@ -926,5 +968,17 @@ class Member extends CI_Controller
             $this->session->set_flashdata('save_message', 'Success Request');
             redirect('member/personalData','refresh');
         }
+    }
+
+    public function myrequest()
+    {
+        $this->load->model('Global_model');
+        $data['request_seller'] = $this->Global_model->set_model('users_requestv2','ur','id')->mode(array(
+            'type' => 'all_data',
+            // ''
+        ));
+        $data = $this->m_general->loadGeneralData();
+
+        $this->load->view('member/my-request', $data);
     }
 }

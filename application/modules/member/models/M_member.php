@@ -70,21 +70,31 @@ class M_member extends CI_Model
         return FALSE;
     }
 
+    public function get_mitra_info()
+    {
+        
+    }
+
+    /**
+     * [insert]
+     * @param  [mix] $table 
+     * @param  [mix] $data  
+     * @return [INT] auto increment    
+     */
     public function insert($table, $data)
     {
         $this->db->insert($table, $data);
         return $this->db->insert_id();
     } 
 
+    /**
+     * [check_username]
+     * @param  [mix] $username 
+     * @return [INT] auto increment    
+     */
     public function check_username($username)
     {
         $this->db->where('username', $username);
-        return $this->db->get('users')->row();
-    }
-
-    public function check_email($email)
-    {
-        $this->db->where('email', $email);
         return $this->db->get('users')->row();
     }
 }
