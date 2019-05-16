@@ -1,5 +1,7 @@
 <?php
-    $mitra = $this->db->query("SELECT * FROM users_company WHERE id = '".$Member->id."'")->row();
+    $mitra = $this->db->query("SELECT * FROM users_mitra WHERE user_id = '".$Member->id."'")->row();
+    // echo $this->db->last_query();die();
+    // print_r($mitra);die();
 ?>
 <div class="tab-pane" id="infomitra">
 <div style="padding:2%;">
@@ -9,133 +11,128 @@
             <form id="mitrafrm" class="form-horizontal" enctype="multipart/form-data" method="post" action="<?=base_url('member/editMitra')?>">
             <div class="col-md-6" style="padding:2%;">
                     
-                    
-                        <div class="form-group">
-                            <label class="control-label col-sm-4" style="text-align: left;">Nama Brand / Merk</label> 
-                            <div class="input-group col-sm-8">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-qrcode"></i>
-                                </span>
-                                <input type="text" class="form-control" id="brand" name="brand" value="<?=$mitra ? $mitra->brand:'';?>" required>
-                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-4" style="text-align: left;">Nama Perusahaan</label> 
-                            <div class="input-group col-sm-8">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-building"></i>
-                                </span>
-                                <input type="text" class="form-control" name="coname" value="<?=$mitra ? $mitra->company_name:'';?>" required>
-                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-4" style="text-align: left;">Jenis Usaha</label> 
-                            <div class="input-group col-sm-8">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-briefcase"></i>
-                                </span>
-                                <select class="form-control" name="type" value="">
-                                                    <option value="" selected>1</option>
-                                                    <option value="">2</option>
-                                </select>
-                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-4" style="text-align: left;">Nama Pemilik Usaha</label> 
-                            <div class="input-group col-sm-8">
-                                <span class="input-group-addon">
-                                    <i class="glyphicon glyphicon-user"></i>
-                                </span>
-                                <input type="text" class="form-control" name="owner" value="<?=$mitra ? $mitra->owner:'';?>" required>
-                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-4" style="text-align: left;">No Telepon</label> 
-                            <div class="input-group col-sm-8">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-phone"></i>
-                                </span>
-                                <input type="tel" class="form-control" name="phone" value="<?=$mitra ? $mitra->phone_no:'';?>" required>
-                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-4" style="text-align: left;">No HP</label> 
-                            <div class="input-group col-sm-8">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-mobile"></i>
-                                </span>
-                                <input type="tel" class="form-control" name="mobile" value="<?=$mitra ? $mitra->mobile_no:'';?>" required>
-                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-4" style="text-align: left;">Alamat Perusahaan</label> 
-                            <div class="input-group col-sm-8">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-home"></i>
-                                </span>
-                                <input type="text" class="form-control" name="address" value="<?=$mitra ? $mitra->address:'';?>" required>
-                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-4" style="text-align: left;">Kecamatan</label> 
-                            <div class="input-group col-sm-8">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-home"></i>
-                                </span>
-                                <select class="form-control" name="subdistrict" value="">
-                                <?php
-                                if($mitra->sub_district != NULL && $mitra->sub_district != ''){
-                                    echo '<option value="'.$mitra->sub_district.'" disabled selected hidden>'.$mitra->sub_district.'</option>';
-                                }else{
-                                    echo '<option value="" disabled selected hidden>-- Select --</option>';
-                                }
-                                foreach($Districts as $d){
-                                    echo '<option value="'.$d->name.'" >'.$d->name.'</option>';
-                                }
-                                ?>
-                                </select>
-                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-4" style="text-align: left;">Provinsi</label> 
-                            <div class="input-group col-sm-8">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-home"></i>
-                                </span>
-                                <select class="form-control" name="province" value="">
-                                <?php
-                                if($mitra->province != NULL && $mitra->province != ''){
-                                    echo '<option value="'.$mitra->province.'" disabled selected hidden>'.$mitra->province.'</option>';
-                                }else{
-                                    echo '<option value="" disabled selected hidden>-- Select --</option>';
-                                }
-                                foreach($Provinces as $p){
-                                    echo '<option value="'.$p->name.'" >'.$p->name.'</option>';
-                                }
-                                ?>
-                                </select>
-                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                            </div>
-                        </div>
-
-
-                        
+                <div class="form-group">
+                    <label class="control-label col-sm-4" style="text-align: left;">Nama Brand / Merk</label> 
+                    <div class="input-group col-sm-8">
+                        <span class="input-group-addon">
+                            <i class="fa fa-qrcode"></i>
+                        </span>
+                        <input type="text" class="form-control" id="brand" name="brand" value="<?=$mitra ? $mitra->brand:'';?>" required>
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" style="text-align: left;">Nama Perusahaan</label> 
+                    <div class="input-group col-sm-8">
+                        <span class="input-group-addon">
+                            <i class="fa fa-building"></i>
+                        </span>
+                        <input type="text" class="form-control" name="coname" value="<?=$mitra ? $mitra->mitra_name:'';?>" required>
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" style="text-align: left;">Jenis Usaha</label> 
+                    <div class="input-group col-sm-8">
+                        <span class="input-group-addon">
+                            <i class="fa fa-briefcase"></i>
+                        </span>
+                        <select class="form-control" name="type" value="">
+                                            <option value="" selected>1</option>
+                                            <option value="">2</option>
+                        </select>
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" style="text-align: left;">Nama Pemilik Usaha</label> 
+                    <div class="input-group col-sm-8">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-user"></i>
+                        </span>
+                        <input type="text" class="form-control" name="owner" value="<?=$mitra ? $mitra->owner:'';?>" required>
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" style="text-align: left;">No Telepon</label> 
+                    <div class="input-group col-sm-8">
+                        <span class="input-group-addon">
+                            <i class="fa fa-phone"></i>
+                        </span>
+                        <input type="tel" class="form-control" name="phone" value="<?=$mitra ? $mitra->phone_no:'';?>" required>
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" style="text-align: left;">No HP</label> 
+                    <div class="input-group col-sm-8">
+                        <span class="input-group-addon">
+                            <i class="fa fa-mobile"></i>
+                        </span>
+                        <input type="tel" class="form-control" name="mobile" value="<?=$mitra ? $mitra->mobile_no:'';?>" required>
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" style="text-align: left;">Alamat Perusahaan</label> 
+                    <div class="input-group col-sm-8">
+                        <span class="input-group-addon">
+                            <i class="fa fa-home"></i>
+                        </span>
+                        <input type="text" class="form-control" name="address" value="<?=$mitra ? $mitra->address:'';?>" required>
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" style="text-align: left;">Kecamatan</label> 
+                    <div class="input-group col-sm-8">
+                        <span class="input-group-addon">
+                            <i class="fa fa-home"></i>
+                        </span>
+                        <select class="form-control" name="subdistrict" value="">
+                        <?php
+                        if($mitra->sub_district != NULL && $mitra->sub_district != ''){
+                            echo '<option value="'.$mitra->sub_district.'" disabled selected hidden>'.$mitra->sub_district.'</option>';
+                        }else{
+                            echo '<option value="" disabled selected hidden>-- Select --</option>';
+                        }
+                        foreach($Districts as $d){
+                            echo '<option value="'.$d->name.'" >'.$d->name.'</option>';
+                        }
+                        ?>
+                        </select>
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" style="text-align: left;">Provinsi</label> 
+                    <div class="input-group col-sm-8">
+                        <span class="input-group-addon">
+                            <i class="fa fa-home"></i>
+                        </span>
+                        <select class="form-control" name="province" value="">
+                        <?php
+                        // if($mitra->province != NULL && $mitra->province != ''){
+                        //     echo '<option value="'.$mitra->province.'" disabled selected hidden>'.$mitra->province.'</option>';
+                        // }else{
+                        //     echo '<option value="" disabled selected hidden>-- Select --</option>';
+                        // }
+                        foreach($Provinces as $p){
+                            echo '<option value="'.$p->name.'" >'.$p->name.'</option>';
+                        }
+                        ?>
+                        </select>
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                    </div>
+                </div>
             </div>
-                        
             <div class="col-md-6 text-center"style="padding:2%;">
                 <!-- <div class="form-group"> -->
                 <div class="img-thumbnail text-center" style="margin-bottom:35px;">
                     
                         <?php 
-                            $query = $this->db->query("SELECT * FROM users_company WHERE id = '".$Member->id."'");
+                            $query = $this->db->query("SELECT * FROM users_mitra WHERE user_id = '".$Member->id."'");
                             $company = $query->row();
                             
                             $csrf_name = $this->security->get_csrf_token_name();

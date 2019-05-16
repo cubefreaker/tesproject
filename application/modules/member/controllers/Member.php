@@ -2,55 +2,26 @@
 
 class Member extends CI_Controller
 {
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
+
         $this->load->library(array('form_validation', 'session', 'ion_auth', 'general'));
         $this->load->helper(array('language', 'form'));
         $this->load->model('m_general');
         $this->general->saveVisitor($this, [1, 0]);
     }
 
-    // function index()
-    // {
-    //     $data = $this->m_general->loadGeneralData();
-    //     $data = array();
-
-    //     $this->load->view('member/index', $data);
-    // }
-    function index() //before was login()
+    public function index() //before was login()
     {        
         // get general data for header and footer
         $data = $this->m_general->loadGeneralData();
         $data['error'] = FALSE;
-        // if ($input = $this->input->post()) {
-        //     $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
-        //     $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]');
-        //     if ($this->form_validation->run() === FALSE)
-        //     {
-        //         $data['error'] = trim(strip_tags(validation_errors()));
-        //     }
-        //     else
-        //     {
-            
-        //         $identity = $input['email'];
-        //         $password = $input['password'];
-        //         $remember = isset($input['remember_me']) ? TRUE : FALSE;
-        //         if( $this->ion_auth->login($identity, $password, $remember)) {
-        //             // redirect them to the member dashboard page
-        //             redirect(base_url("member/dashboard"), "refresh");
-        //         }
-        //         else {
-        //             $data['error'] = strip_tags($this->ion_auth->errors());
-        //         }
-        //     }
-        // }
         
         redirect(base_url('member/personalData'));
-        
     }
 
-    function login()
+    public function login()
     {        
         // get general data for header and footer
         $data = $this->m_general->loadGeneralData();
@@ -78,8 +49,7 @@ class Member extends CI_Controller
             }
         }
         
-        $this->load->view('member/login', $data);
-        
+        $this->load->view('member/login', $data);      
     }
 
     public function submitRegister()
@@ -160,39 +130,8 @@ class Member extends CI_Controller
         $data = $this->m_general->loadGeneralData();
         $data['error'] = FALSE;
 
-        $this->load->view('member/register', $data);
-        
+        $this->load->view('member/register', $data);      
     }
-
-    //user email activation
-    // public function activate(){
-	// 	$id =  $this->uri->segment(3);
-	// 	$code = $this->uri->segment(4);
- 
-	// 	//fetch user details
-	// 	$user = $this->users_model->getUser($id);
- 
-	// 	//if code matches
-	// 	if($user['code'] == $code){
-	// 		//update user active status
-	// 		$data['active'] = true;
-	// 		$query = $this->users_model->activate($data, $id);
- 
-	// 		if($query){
-	// 			$this->session->set_flashdata('message', 'User activated successfully');
-	// 		}
-	// 		else{
-	// 			$this->session->set_flashdata('message', 'Something went wrong in activating account');
-	// 		}
-	// 	}
-	// 	else{
-	// 		$this->session->set_flashdata('message', 'Cannot activate account. Code didnt match');
-	// 	}
- 
-	// 	redirect('register');
- 
-    // }
-    
 
     public function logout()
     {
@@ -203,22 +142,6 @@ class Member extends CI_Controller
         redirect(base_url(), 'refresh');
     }
 
-    // public function dashboard()
-    // {
-    //     // redirect them to the login page if not logged in or is login as admin
-    //     if ( !$this->ion_auth->logged_in() || $this->ion_auth->is_admin() || $this->ion_auth->user()->row()->type < 5 )
-    //         redirect(base_url('member/login'), 'refresh');
-
-    //     // get general data for header and footer
-    //     $this->load->model('member/m_member');
-    //     $data = $this->m_general->loadGeneralData();
-    //     $data['Member'] = $this->ion_auth->user()->row();
-    //     // $data['List'] = [];
-    //     $this->load->model('m_general');
-        
-    //     $this->load->view('member/dashboard', $data);
-    // }
-
     public function personalData()
     {
         // redirect them to the login page if not logged in or is login as admin
@@ -226,12 +149,28 @@ class Member extends CI_Controller
             redirect(base_url('member/login'), 'refresh');
 
         // get general data for header and footer
-        $this->load->model('member/m_member');
+        $this->load->model(array(
+            'member/m_member',
+            'Global_model'
+        ));
+
         $data = $this->m_general->loadGeneralData();
         $data['Member'] = $this->ion_auth->user()->row();
         $data['Provinces'] = $this->db->query('select name from mst_provinces')->result();
         $data['Cities'] = $this->db->query('select name from mst_regencies')->result();
         $data['Districts'] = $this->db->query('select name from mst_districts')->result();
+
+        $data['mitra_info'] = $this->Global_model->set_model('users_mitra','um','id')->mode(array(
+            'type'          => 'single_row',
+            'conditions'    => array(
+                'user_id' => $this->ion_auth->user()->row()->id
+            ),
+            'return_object' => TRUE,
+            'debug_query'   => false
+        ));
+
+        // print_r($data['Member']);die();
+
         // $this->load->model('m_general');
         usort($data['Provinces'], function($a, $b) {
             if ($a==$b) return 0;
@@ -249,7 +188,8 @@ class Member extends CI_Controller
         $this->load->view('member/profile', $data);
     }
 
-    public function accountRole(){
+    public function accountRole()
+    {
 
         $user = $this->ion_auth->user()->row();
         $dataRole = [
@@ -302,7 +242,7 @@ class Member extends CI_Controller
         redirect('member/personalData', 'refresh');
     }
 
-    function uploadImage()
+    public function uploadImage()
     {
         $user = $this->ion_auth->user()->row();
             
@@ -337,14 +277,14 @@ class Member extends CI_Controller
         }
     }
 
-    function uploadBrandlogo()
+    public function uploadBrandlogo()
     {
-        $query = $this->db->query("SELECT * FROM users_company WHERE id = '".$Member->id."'");
+        $query = $this->db->query("SELECT * FROM users_mitra WHERE id = '".$Member->id."'");
         
         if($query->num_rows() > 0){
             $company = $query->row();
             $config = array(
-                'file_name' => $company->co_id.time(),
+                'file_name' => $company->id.time(),
                 'upload_path' => './assets/images/profile/',
                 'allowed_types' => 'jpg|png|jpeg',
                 'max_size'  => '2048',
@@ -362,7 +302,7 @@ class Member extends CI_Controller
                 $logoname = ['logo' => $data['file_name']];
                 $dataimg = [
                     'data'  => $logoname,
-                    'table' => 'users_company',
+                    'table' => 'users_mitra',
                     'where' => ['id' => $company->id]
                 ];
                 $this->load->model('m_update');
@@ -393,7 +333,7 @@ class Member extends CI_Controller
                 $data = ['logo' => $data['file_name'], 'id' => $user->id];
                 $dataimg = [
                     'data'  => $data,
-                    'table' => 'users_company'
+                    'table' => 'users_mitra'
                 ];
                 $this->load->model('m_insert');
                 $this->m_update->insertDynamic($dataimg);
@@ -403,7 +343,6 @@ class Member extends CI_Controller
     
             }
         }
-
     }
 
 
@@ -454,7 +393,7 @@ class Member extends CI_Controller
         redirect(base_url('member/personalData'), 'refresh');
     }
 
-    function editMitra()
+    public function editMitra()
     {
         $user = $this->ion_auth->user()->row();
             
@@ -469,7 +408,7 @@ class Member extends CI_Controller
 
         $companyData = [
             'brand'      => $this->input->post('brand'),
-            'company_name'    => $this->input->post('coname'),
+            'mitra_name'    => $this->input->post('coname'),
             'owner'     => $this->input->post('owner'),
             'phone_no'        => $this->input->post('phone'),
             'mobile_no'    => $this->input->post('mobile'),
@@ -497,14 +436,14 @@ class Member extends CI_Controller
         $this->load->model('m_get');
         $getData = [
             'select'  => '*',
-            'from' => 'users_info_mitra',
+            'from' => 'users_mitra',
             'where' => ['id' => $user->id]
         ];
         if($this->m_get->getDynamic($getData) == FALSE){
             $this->load->model('m_insert');
             $companyData['id'] = $user->id;
             $dataInsert = [
-                'table' => 'users_info_mitra',
+                'table' => 'users_mitra',
                 'data'  => $companyData
             ];
             $this->m_insert->insertDynamic($dataInsert);
@@ -512,7 +451,7 @@ class Member extends CI_Controller
             $this->load->model('m_update');
             $dataUpdate = [
                 'data'  => $companyData,
-                'table' => 'users_info_mitra',
+                'table' => 'users_mitra',
                 'where' => ['id' => $user->id]
             ];
             
@@ -521,10 +460,9 @@ class Member extends CI_Controller
         
         // echo json_encode($Return);
         redirect('member/personalData', 'refresh');        
-        
     }
 
-    function editKontak()
+    public function editKontak()
     {
         $user = $this->ion_auth->user()->row();
 
@@ -541,7 +479,7 @@ class Member extends CI_Controller
 
         $getContact = [
             'select' => '*',
-            'from'  => 'company_contact',
+            'from'  => 'users_contact',
             'where' => ['user_id' => $user->id]
         ];
         $this->load->model('m_get');
@@ -676,7 +614,7 @@ class Member extends CI_Controller
         redirect('member/personalData', 'refresh');      
     }
 
-    function editRekening()
+    public function editRekening()
     {
         $user = $this->ion_auth->user()->row();
         $rekData = [
@@ -713,7 +651,6 @@ class Member extends CI_Controller
         redirect('member/personalData');
     }
 
-
     public function changePassView()
     {
         $data = $this->m_general->loadGeneralData();
@@ -745,7 +682,7 @@ class Member extends CI_Controller
     }
 
     public function changePassword()
-	{
+    {
         
         $user = $this->ion_auth->user()->row();
         $this->form_validation->set_rules('newpass', 'Password', 'trim|required|min_length[8]');
@@ -788,7 +725,6 @@ class Member extends CI_Controller
         //     $this->load->model('m_get');
         //     $checkpass = 
         }
-
     }
 
     public function tes()
@@ -807,26 +743,26 @@ class Member extends CI_Controller
 
         // echo $img;
         // echo '<br>';
-        $a = 'opsigoitx';
-        echo $this->bcrypt->hash($a); //$2y$08$vOaaUVUp/65calOv6POl/Oxj.pFJevquxTwQNLFibmGT.KgwKcSnW
+        // $a = 'opsigoitx';
+        // echo $this->bcrypt->hash($a); //$2y$08$vOaaUVUp/65calOv6POl/Oxj.pFJevquxTwQNLFibmGT.KgwKcSnW
     }
 
     public function tes2()
     {
         $this->load->library('privyid_api');
 
-        $url = 'https://antavaya.opsifin.com/opsifin_api_print';
-        $user = 'anv-ops189';
-        $pass = '$2y$10$XFSAh4wRcteGhbzXoEEuU./6XWinKmEunDNdqs1/dRX9oylpNJ9da';
-        $data = [
-            'auth' => [$user,$pass],
-            // 'headers' => [
-            //     'Content-Type' => 'application/json'
-            // ]
-        ];
-        $resp = $this->privyid_api->tesGet($url, $data);
-        // var_dump($resp);
-        print_r($resp);
+        // $url = 'https://antavaya.opsifin.com/opsifin_api_print';
+        // $user = 'anv-ops189';
+        // $pass = '$2y$10$XFSAh4wRcteGhbzXoEEuU./6XWinKmEunDNdqs1/dRX9oylpNJ9da';
+        // $data = [
+        //     'auth' => [$user,$pass],
+        //     // 'headers' => [
+        //     //     'Content-Type' => 'application/json'
+        //     // ]
+        // ];
+        // $resp = $this->privyid_api->tesGet($url, $data);
+        // // var_dump($resp);
+        // print_r($resp);
         // $r = json_decode($resp, true);
         // echo json_encode($r[0]);
     }
@@ -839,5 +775,210 @@ class Member extends CI_Controller
 
         echo $data;
     }
-   
+
+    /**
+     * Set validation rule 
+     */
+    private function _set_rule_validation() {
+
+        //prepping to set no delimiters.
+        $this->form_validation->set_error_delimiters('', '');
+        $data = $this->input->post();
+        //validates.
+        //special validations for when editing.
+        $this->form_validation->set_rules('buyer_type','Type Buyer','required');
+        if( $data['buyer_type'] == 1 ) {
+            $this->form_validation->set_rules('agree_nda_check', 'Check NDA', "required");
+            $this->form_validation->set_rules('ip_dev_1','IP DEVELOPMENT','trim|required');
+            $this->form_validation->set_rules('ip_production','IP PRODUCTION','trim|required');
+            $this->form_validation->set_rules('agree_policy_check_buyer','Check Policy','required');
+            $this->form_validation->set_rules('agree_ip_whitelist','Check IP Whitelist','required');
+        }
+    }
+
+    public function submit_buyer() {
+
+        //must ajax and must post.
+        if (!$this->input->is_ajax_request() || $this->input->method(true) != "POST") {
+            exit('No direct script access allowed');
+        }
+        
+        $this->load->model(array(
+            'M_member',
+            'Global_model'
+        ));
+
+        //initial.
+        $message['is_error'] = true;
+        $message['error_msg'] = "";
+        $message['redirect_to'] = "";
+
+        //sanitize input (id is primary key, if from edit, it has value).
+        $id     = $this->input->post('id');
+        $data   = $this->input->post();
+
+        //server side validation.
+        $this->_set_rule_validation();
+
+        //checking.
+        if ($this->form_validation->run($this) == FALSE) {
+
+            //validation failed.
+            $message['error_msg'] = validation_errors();
+
+        } else {
+
+            //begin transaction
+            $this->db->trans_begin();
+            //validation success
+            //prepare save to DB
+            
+            $get_mitra_info = $this->Global_model->set_model('users_mitra','um','id')->mode(array(
+                'type' => 'single_row',
+                'conditions' => array(
+                    'user_id' => $this->ion_auth->user()->row()->id
+                ),
+                'return_object' => true
+                // 'debug_query' => true
+            ));
+            // print_r($get_mitra_info);die();
+            $mitra_name = ($get_mitra_info->mitra_name) ? $get_mitra_info->mitra_name : "";
+            $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
+            $telp       = ($get_mitra_info->phone_no) ? $get_mitra_info->phone_no : "";
+            $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
+
+            if( $data['buyer_type'] == API ) {
+                $_save_data = array(
+                    'buyer_type'            => $data['buyer_type'],
+                    'request_date'          => NOW,
+                    'title'                 => '',
+                    'name'                  => '',
+                    'company'               => $mitra_name,
+                    'telephone'             => $telp,
+                    'email'                 => $email,
+                    'ip_dev_1'              => $data['ip_dev_1'],
+                    'ip_dev_2'              => $data['ip_dev_2'],
+                    'ip_production'         => $data['ip_production'],
+                    'protocols'             => $data['protocols'],
+                    'ports'                 => $data['ports'],
+                    'remark'                => $data['remark'],
+                    'agree_nda_check'       => $data['agree_nda_check'],
+                    'agree_ip_whitelist'    => $data['agree_ip_whitelist'],
+                    'change_request'        => $data['change_request'],
+                );
+
+                if($data['change_request'] == TEMPORARY) {
+                    $_save_data['temp_start_date'] = date('Y-m-d',strtotime($data['temp_start_date']));
+                    $_save_data['temp_end_date']   = date('Y-m-d',strtotime($data['temp_end_date']));
+                } 
+            } else if($data['buyer_type'] == WHITELABEL) {
+                $_save_data = array(
+                    'buyer_type'   => $data['buyer_type'],
+                    'request_date' => NOW
+                );
+            } else {
+                $_save_data = array(
+                    'buyer_type'   => $data['buyer_type'],
+                    'request_date' => NOW
+                );
+            }
+
+
+            // print_r($this->input->post());die();
+
+            //insert or update?
+            if ($id == "") {
+                //save table request
+                $_save_data_request = array(
+                    'type'                  => BUYER,
+                    'user_id'               => $this->ion_auth->user()->row()->id,
+                    'agree_policy_check'    => $data['agree_policy_check_buyer'],
+                    'status_request'        => WAITING,
+                    'created_at'            => NOW,
+                    'updated_at'            => NOW
+                );
+
+                $request_id = $this->M_member->insert('users_requestv2', $_save_data_request);
+
+                $_save_data['request_id']   = $request_id;
+                $_save_data['user_id']      = $this->ion_auth->user()->row()->id;
+                $_save_data['created_at']   = NOW; 
+                $_save_data['updated_at']   = NOW; 
+
+                $result = $this->M_member->insert('users_buyer',$_save_data);
+
+                //end transaction
+                if($this->db->trans_status() == false ) {
+                    //balikin jangan di insert
+                    $this->db->trans_rollback();
+                } else {
+                    $this->db->trans_commit();
+                    //success
+                    $message['is_error']        = false;
+                    $message['notif_title']     = 'Success!';
+                    $message['notif_message']   = 'Request has been submited';
+                    $message['redirect_to']     = site_url();
+                }
+            } else {
+
+                //end transaction.
+                // if ($this->db->trans_status() === FALSE) {
+                //     $this->db->trans_rollback();
+                //     $message['error_msg'] = 'Insert failed! Please try again.';
+                // } else {
+                //     $this->db->trans_commit();
+                //     //growler.
+                //     $message['is_error'] = false;
+                //     $message['notif_title'] = "Excellent!";
+                //     $message['notif_message'] = "Article has been updated.";
+
+                //     //on update, redirect.
+                //     $message['redirect_to'] = site_url('manager/article/');
+                // }
+            }
+        }
+        //encoding and returning.
+        $this->output->set_content_type('application/json');
+        echo json_encode($message);
+        exit;
+    }
+
+    /**
+     * [submit_seller]
+     * @return 
+     */
+    public function submit_seller()
+    {
+        $this->load->model('M_member');
+        $data = $this->input->post();
+
+        $_save_data_request = array(
+            'type'                  => SELLER,
+            'user_id'               => $this->ion_auth->user()->row()->id,
+            'agree_policy_check'    => $data['agree_policy_check_seller'],
+            'status_request'        => WAITING,
+            'created_at'            => NOW,
+            'updated_at'            => NOW
+        );
+
+        $request_id = $this->M_member->insert('users_requestv2', $_save_data_request);
+
+        if($request_id) {
+            $this->session->set_flashdata('save_status', 'success');
+            $this->session->set_flashdata('save_message', 'Success Request');
+            redirect('member/personalData','refresh');
+        }
+    }
+
+    public function myrequest()
+    {
+        $this->load->model('Global_model');
+        $data['request_seller'] = $this->Global_model->set_model('users_requestv2','ur','id')->mode(array(
+            'type' => 'all_data',
+            // ''
+        ));
+        $data = $this->m_general->loadGeneralData();
+
+        $this->load->view('member/my-request', $data);
+    }
 }

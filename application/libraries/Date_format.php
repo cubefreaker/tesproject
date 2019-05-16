@@ -1,6 +1,6 @@
 <?php
 
-class date_format {
+class Date_format {
 
 	function switchDateFormat($date) {
     $dateToInt =  explode("-", $date);

@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class country_list{
+class Country_list{
     public function country()
     {
         $countries =
