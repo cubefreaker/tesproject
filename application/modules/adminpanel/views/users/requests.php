@@ -117,8 +117,8 @@
                                             <span>Reject</span>
                                         </button>
                                     </a>
-                                    <a ng-click="viewDetail(data.UserId)" href="" class="tooltipx pointer"  data-toggle="modal" data-target="#detModal">
-                                        <button class="btn btn-xs btn-primary fa fa-eye">
+                                    <a href="" class="tooltipx pointer"  data-toggle="modal" data-target="#detModal">
+                                        <button class="btn btn-xs btn-primary fa     fa-eye">
                                             <span>View Detail</span>
                                         </button>
                                     </a>
@@ -131,7 +131,517 @@
                                                 <h4 class="modal-title">User's Detail</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <?php $this->load->view('adminpanel/users/user_detail'); ?>
+                                                <div class="">
+                                                    <ul class="nav nav-tabs">
+                                                        <li class="active">
+                                                            <a href="#personaldata" data-toggle="tab">Personal Data</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#dokumen" data-toggle="tab">Dokumen</a>
+                                                        </li>
+                                                        <li ng-if="data.ReqType == 'seller'">
+                                                            <a href="#infomitra" data-toggle="tab">Info Mitra</a>
+                                                        </li>
+                                                        <li ng-if="data.ReqType == 'seller'">
+                                                            <a href="#kontak" data-toggle="tab">Kontak Perwakilan</a>
+                                                        </li>
+                                                        <li ng-if="data.ReqType == 'seller'">
+                                                            <a href="#rekening" data-toggle="tab">Rekening Bank</a>
+                                                        </li>
+                                                    </ul>
+
+                                                    <div class="tab-content clearfix">
+
+                                                        <div class="tab-pane active" id="personaldata">
+                                                            <div style="padding:2%;">
+                                                                <h3 style="margin-bottom:10px;">Personal Data</h3>
+                                                            </div>
+                                                            <div class="col-md-8" >
+                                                                    
+                                                                    <form class="form-horizontal">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-sm-2" style="text-align: left;">Username</label> 
+                                                                            <div class="input-group col-sm-10">
+                                                                                <span class="input-group-addon">
+                                                                                    <i class="glyphicon glyphicon-user"></i>
+                                                                                </span>
+                                                                                <input type="text" class="form-control" name="username" value="{{data.UserName}}" disabled>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-sm-2" style="text-align: left;">First Name</label> 
+                                                                            <div class="input-group col-sm-10">
+                                                                                <span class="input-group-addon">
+                                                                                    <i class="glyphicon glyphicon-user"></i>
+                                                                                </span>
+                                                                                <input type="text" class="form-control" name="firstname" value="{{data.FirstName}}" disabled>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-sm-2" style="text-align: left;">Last Name</label> 
+                                                                            <div class="input-group col-sm-10">
+                                                                                <span class="input-group-addon">
+                                                                                    <i class="glyphicon glyphicon-user"></i>
+                                                                                </span>
+                                                                                <input type="text" class="form-control" name="lastname" value="{{data.LastName}}" disabled>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-sm-2" style="text-align: left;">Gender</label> 
+                                                                            <div class="input-group col-sm-10">
+                                                                                <span class="input-group-addon">
+                                                                                    <i class="fa fa-mars"></i>
+                                                                                </span>
+                                                                                <input class="form-control" name="gender" value="{{data.Gender}}" disabled>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-sm-2" style="text-align: left;">Birth Date</label> 
+                                                                            <div class="input-group col-sm-10">
+                                                                                <span class="input-group-addon">
+                                                                                    <i class="fa fa-calendar"></i>
+                                                                                </span>
+                                                                                <input type="text" class="form-control" name="birthdate" value="{{data.BirthDate}}" disabled>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-sm-2" style="text-align: left;">Email</label> 
+                                                                            <div class="input-group col-sm-10">
+                                                                                <span class="input-group-addon">
+                                                                                    <i class="fa fa-envelope"></i>
+                                                                                </span>
+                                                                                <input type="email" class="form-control" name="email" value="{{data.Email}}" disabled>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-sm-2" style="text-align: left;">Phone</label> 
+                                                                            <div class="input-group col-sm-10">
+                                                                                <span class="input-group-addon">
+                                                                                    <i class="fa fa-phone"></i>
+                                                                                </span>
+                                                                                <input type="tel" class="form-control" name="phone" value="{{data.Phone}}" disabled>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-sm-2" style="text-align: left;">NIK</label> 
+                                                                            <div class="input-group col-sm-10">
+                                                                                <span class="input-group-addon">
+                                                                                    <i class="fa fa-user"></i>
+                                                                                </span>
+                                                                                <input type="text" class="form-control" name="nik" value="{{data.Nik}}" disabled>
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+                                                            </div>
+                                                                        
+                                                            <div class="col-md-4 text-center">
+                                                                
+                                                                <div class="img-thumbnail text-center">
+                                                                    <img height="200" width="200" src="{{data.Img}}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <?php
+                                                            $scdok = $this->db->query("SELECT * FROM users_document WHERE user_id = '".$Member->id."'")->row();
+                                                        ?>
+
+                                                        <div class="tab-pane" id="dokumen">
+                                                            <h3 style="padding:2%;">Dokumen Upload</h3>
+                                                            <form class="form-horizontal">
+                                                                
+                                                                <div class="col-md-12">
+                                                                    <table class="table">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Name</th>
+                                                                                <th>File</th>
+                                                                                <th>Status</th>
+                                                                                <th>Action</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>Scan KTP</td>
+                                                                                <td>
+                                                                                    <label id="ktpid"><?= $scdok ? ($scdok->scan_ktp ? $scdok->scan_ktp : 'No File') : 'No File'?></label>
+                                                                                </td>
+                                                                                <td></td>
+                                                                                <td>
+                                                                                    
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Scan Selfie KTP</td>
+                                                                                <td>
+                                                                                    <label id="selfieid"><?= $scdok ? ($scdok->scan_selfie ? $scdok->scan_selfie : 'No File') : 'No File'?></label>
+                                                                                </td>
+                                                                                <td></td>
+                                                                                <td>
+                                                                                    
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Scan NPWP</td>
+                                                                                <td>
+                                                                                    <label id="npwpid"><?= $scdok ? ($scdok->scan_npwp ? $scdok->scan_npwp : 'No File') : 'No File' ?></label>
+                                                                                </td>
+                                                                                <td></td>
+                                                                                <td>
+                                                                                    
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Scan SIUP/TDP</td>
+                                                                                <td>
+                                                                                    <label id="siupid"><?= $scdok ? ($scdok->scan_siup ? $scdok->scan_siup : 'No File') : 'No File' ?></label>
+                                                                                </td>
+                                                                                <td></td>
+                                                                                <td>
+                                                                                    
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Scan Akta Perusahaan</td>
+                                                                                <td>
+                                                                                    <label id="aktaid"><?= $scdok ? ($scdok->scan_akta ? $scdok->scan_akta : 'No File') : 'No File' ?></label>
+                                                                                </td>
+                                                                                <td></td>
+                                                                                <td>
+                                                                                    
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Scan Surat Kuasa (bila diwakilkan)</td>
+                                                                                <td>
+                                                                                    <label id="skid"><?= $scdok ? ($scdok->scan_sk ? $scdok->scan_sk : 'No File') : 'No File' ?></label>
+                                                                                </td>
+                                                                                <td></td>
+                                                                                <td>
+                                                                                    
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                        <div class="tab-pane" id="infomitra">
+                                                            <div style="padding:2%;">
+                                                                <h3 style="margin-bottom:10px;">Informasi Mitra</h3>
+                                                            </div>
+                                                            <form class="form-horizontal">
+                                                            <div class="col-md-6" style="padding:2%;">
+                                                                    
+                                                                    
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-sm-4" style="text-align: left;">Nama Brand / Merk</label> 
+                                                                            <div class="input-group col-sm-8">
+                                                                                <span class="input-group-addon">
+                                                                                    <i class="fa fa-qrcode"></i>
+                                                                                </span>
+                                                                                <input type="text" class="form-control" id="brand" name="brand" value="{{data.Company.Brand}}" disabled>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-sm-4" style="text-align: left;">Nama Perusahaan</label> 
+                                                                            <div class="input-group col-sm-8">
+                                                                                <span class="input-group-addon">
+                                                                                    <i class="fa fa-building"></i>
+                                                                                </span>
+                                                                                <input type="text" class="form-control" name="coname" value="{{data.Company.Name}}" disabled>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-sm-4" style="text-align: left;">Jenis Usaha</label> 
+                                                                            <div class="input-group col-sm-8">
+                                                                                <span class="input-group-addon">
+                                                                                    <i class="fa fa-briefcase"></i>
+                                                                                </span>
+                                                                                <input class="form-control" value="" disabled>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-sm-4" style="text-align: left;">Nama Pemilik Usaha</label> 
+                                                                            <div class="input-group col-sm-8">
+                                                                                <span class="input-group-addon">
+                                                                                    <i class="glyphicon glyphicon-user"></i>
+                                                                                </span>
+                                                                                <input type="text" class="form-control" name="owner" value="{{data.Company.Owner}}" disabled>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-sm-4" style="text-align: left;">No Telepon</label> 
+                                                                            <div class="input-group col-sm-8">
+                                                                                <span class="input-group-addon">
+                                                                                    <i class="fa fa-phone"></i>
+                                                                                </span>
+                                                                                <input type="tel" class="form-control" name="phone" value="{{data.Company.Phone}}" disabled>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-sm-4" style="text-align: left;">No HP</label> 
+                                                                            <div class="input-group col-sm-8">
+                                                                                <span class="input-group-addon">
+                                                                                    <i class="fa fa-mobile"></i>
+                                                                                </span>
+                                                                                <input type="tel" class="form-control" name="mobile" value="{{data.Company.Mobile}}" disabled>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-sm-4" style="text-align: left;">Alamat Perusahaan</label> 
+                                                                            <div class="input-group col-sm-8">
+                                                                                <span class="input-group-addon">
+                                                                                    <i class="fa fa-home"></i>
+                                                                                </span>
+                                                                                <input type="text" class="form-control" name="address" value="{{data.Company.Address}}" disabled>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-sm-4" style="text-align: left;">Kecamatan</label> 
+                                                                            <div class="input-group col-sm-8">
+                                                                                <span class="input-group-addon">
+                                                                                    <i class="fa fa-home"></i>
+                                                                                </span>
+                                                                                <select class="form-control" name="subdistrict" value="{{data.Company.District}}" disabled>
+                                                                                
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-sm-4" style="text-align: left;">Provinsi</label> 
+                                                                            <div class="input-group col-sm-8">
+                                                                                <span class="input-group-addon">
+                                                                                    <i class="fa fa-home"></i>
+                                                                                </span>
+                                                                                <select class="form-control" name="province" value="{{data.Company.Province}}" disabled>
+                                                                                
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                        
+                                                            </div>
+                                                                        
+                                                            <div class="col-md-6 text-center"style="padding:2%;">
+                                                                <!-- <div class="form-group"> -->
+                                                                <div class="img-thumbnail text-center" style="margin-bottom:35px;">
+                                                                        <img src="{{data.Company.Logo}}" height="200" width="200">
+                                                                </div>
+                                                                <!-- </div> -->
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-4" style="text-align: left;">Email</label> 
+                                                                    <div class="input-group col-sm-8">
+                                                                        <span class="input-group-addon">
+                                                                            <i class="fa fa-envelope"></i>
+                                                                        </span>
+                                                                        <input type="email" class="form-control" name="email" value="{{data.Company.Email}}" disabled>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-4" style="text-align: left;">Website</label> 
+                                                                    <div class="input-group col-sm-8">
+                                                                        <span class="input-group-addon">
+                                                                            <i class="fa fa-globe"></i>
+                                                                        </span>
+                                                                        <input type="text" class="form-control" name="website" value="{{data.Company.Website}}" disabled>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-4" style="text-align: left;">Kabupaten / Kota</label> 
+                                                                    <div ng-app="myApp" ngController="myCtrl" class="input-group col-sm-8">
+                                                                        <span class="input-group-addon">
+                                                                            <i class="fa fa-home"></i>
+                                                                        </span>
+                                                                        <select class="form-control" name="city" value="{{data.Company.City}}" disabled>
+                                                                        
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-4" style="text-align: left;">Kode Pos</label> 
+                                                                    <div class="input-group col-sm-8">
+                                                                        <span class="input-group-addon">
+                                                                            <i class="fa fa-envelope-o"></i>
+                                                                        </span>
+                                                                        <input type="text" class="form-control" name="postal" value="{{data.Company.Postal}}" disabled>
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                        <div class="tab-pane" id="kontak">
+                                                            <div style="padding:2%;">
+                                                                <h3 style="margin-bottom:10px;">Kontak Perwakilan Perusahaan</h3>
+                                                            </div>
+                                                            <form class="form-horizontal">
+                                                                <div class="col-md-12">    
+                                                                    <table class="table">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Kontak Umum</th>
+                                                                                <th>Kontak Operasional</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <div class="form-group" style="margin-right:5%;">
+                                                                                        <label class="control-label col-sm-2" style="text-align: left;">Nama</label> 
+                                                                                        <div class="input-group col-sm-10">
+                                                                                            <span class="input-group-addon">
+                                                                                                <i class="glyphicon glyphicon-user"></i>
+                                                                                            </span>
+                                                                                            <input type="text" class="form-control" name="name" value="{{data.Contact.Name}}" disabled>
+                                                                                            
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="form-group">
+                                                                                        <label class="control-label col-sm-2" style="text-align: left;">Nama</label> 
+                                                                                        <div class="input-group col-sm-10">
+                                                                                            <span class="input-group-addon">
+                                                                                                <i class="glyphicon glyphicon-user"></i>
+                                                                                            </span>
+                                                                                            <input type="text" class="form-control" name="nameops" value="{{data.Contact.NameOps}}" disabled>
+                                                                                            
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <div class="form-group" style="margin-right:5%;">
+                                                                                        <label class="control-label col-sm-2" style="text-align: left;">Email</label> 
+                                                                                        <div class="input-group col-sm-10">
+                                                                                            <span class="input-group-addon">
+                                                                                                <i class="fa fa-envelope"></i>
+                                                                                            </span>
+                                                                                            <input type="email" class="form-control" name="email" value="{{data.Contact.Email}}" disabled>
+                                                                                            
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="form-group">
+                                                                                        <label class="control-label col-sm-2" style="text-align: left;">Email</label> 
+                                                                                        <div class="input-group col-sm-10">
+                                                                                            <span class="input-group-addon">
+                                                                                                <i class="fa fa-envelope"></i>
+                                                                                            </span>
+                                                                                            <input type="email" class="form-control" name="emailops" value="{{data.Contact.EmailOps}}" disabled>
+                                                                                            
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <div class="form-group" style="margin-right:5%;">
+                                                                                        <label class="control-label col-sm-2" style="text-align: left;">No. Tlp</label> 
+                                                                                        <div class="input-group col-sm-10">
+                                                                                            <span class="input-group-addon">
+                                                                                                <i class="fa fa-phone"></i>
+                                                                                            </span>
+                                                                                            <input type="tel" class="form-control" name="phone" value="{{data.Contact.Phone}}" disabled>
+                                                                                            
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="form-group">
+                                                                                        <label class="control-label col-sm-2" style="text-align: left;">No. Tlp</label> 
+                                                                                        <div class="input-group col-sm-10">
+                                                                                            <span class="input-group-addon">
+                                                                                                <i class="fa fa-phone"></i>
+                                                                                            </span>
+                                                                                            <input type="tel" class="form-control" name="phoneops" value="{{data.Contact.PhoneOps}}" disabled>
+                                                                                            
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <div class="form-group" style="margin-right:5%;">
+                                                                                        <label class="control-label col-sm-2" style="text-align: left;">No. HP</label> 
+                                                                                        <div class="input-group col-sm-10">
+                                                                                            <span class="input-group-addon">
+                                                                                                <i class="fa fa-mobile"></i>
+                                                                                            </span>
+                                                                                            <input type="tel" class="form-control" name="mobile" value="{{data.Contact.Mobile}}" disabled>
+                                                                                            
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="form-group">
+                                                                                        <label class="control-label col-sm-2" style="text-align: left;">No. HP</label> 
+                                                                                        <div class="input-group col-sm-10">
+                                                                                            <span class="input-group-addon">
+                                                                                                <i class="fa fa-mobile"></i>
+                                                                                            </span>
+                                                                                            <input type="tel" class="form-control" name="mobileops" value="{{data.Contact.MobileOps}}" disabled>
+                                                                                            
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </form>
+                                                            
+                                                        </div>
+
+                                                        <div class="tab-pane" id="rekening">
+                                                            <div style="padding:2%;">
+                                                                <h3 style="margin-bottom:10px;">Kontak Perwakilan Perusahaan</h3>
+                                                            </div>
+                                                            <form id="rekfrm" class="form-horizontal" style="padding-left:2%;" method="post" action="<?=base_url('member/editRekening')?>">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-2" style="text-align: left;">Nama Bank</label> 
+                                                                    <div class="input-group col-sm-4">
+                                                                        <span class="input-group-addon">
+                                                                            <i class="fa fa-building"></i>
+                                                                        </span>
+                                                                        <input type="text" class="form-control" name="bankname" value="{{data.Bank.BankName}}" disabled>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-2" style="text-align: left;">Nomor Rekening</label> 
+                                                                    <div class="input-group col-sm-4">
+                                                                        <span class="input-group-addon">
+                                                                            <i class="fa fa-credit-card"></i>
+                                                                        </span>
+                                                                        <input type="text" class="form-control" name="bankaccount" value="{{data.Bank.Account}}" disabled>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-2" style="text-align: left;">Atas Nama</label> 
+                                                                    <div class="input-group col-sm-4">
+                                                                        <span class="input-group-addon">
+                                                                            <i class="glyphicon glyphicon-user"></i>
+                                                                        </span>
+                                                                        <input type="text" class="form-control" name="bankuser" value="{{data.Bank.BankUser}}" disabled>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
+
+                                                
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -172,8 +682,8 @@
     	$scope.AngularService   = AngularService;
     	$scope.List             = <?=json_encode($List)?>;
         $scope.Member           = <?=json_encode($Member)?>;
+        console.log($scope.List);
     };
-console.log($scope.List);
     (function () {
         // FlightSearch.startLoadingPage("Your transaction is being processed. Please be patient");
         $scope.init();
@@ -219,7 +729,7 @@ console.log($scope.List);
     // };
 
     $scope.viewDetail = function(UserId) {
-
+        console.log(UserId);
             $http.post(
                 adminUrl+'crud_user/viewDetail',
                 {'UserId': UserId}
