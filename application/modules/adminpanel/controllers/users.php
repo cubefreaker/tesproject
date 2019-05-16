@@ -110,10 +110,10 @@ class users extends CI_Controller
         // $data['List']   = $this->m_manages->getListUsers();
         // $Users = $this->ion_auth->users()->result();
         $listUserReq = $this->db->query(
-            "select users.id, users.username, email, phone, first_name, last_name, nik, req_type, users_request_det.status, gender, birth_date, img_thum from users inner join users_request_det on users.id = users_request_det.user_id where type != 1 "
+            "select users.id, users.username, email, phone, first_name, last_name, nik, users_requestv2.type, users_requestv2.status_request, gender, birth_date, img_thum from users inner join users_requestv2 on users.id = users_requestv2.user_id"
             )->result(); 
         foreach ($listUserReq as $key => $value) {
-            $privyId = $this->db->query("select * from users_privyid where user_id='".$value->id."' and type='".$value->req_type."'")->row();
+            $privyId = $this->db->query("select * from users_privyid where user_id='".$value->id."' and type='".$value->type."'")->row();
             $company = $this->db->query("select * from users_mitra where id='".$value->id."'")->row();
             $contact = $this->db->query("select * from users_contact where user_id='".$value->id."'")->row();
             $bank = $this->db->query("select * from users_bank where user_id='".$value->id."'")->row();
@@ -128,25 +128,25 @@ class users extends CI_Controller
                 'BirthDate'     => $value->birth_date,
                 'Nik'           => $value->nik,
                 'Img'           => $value->img_thum ? base_url().'assets/images/profile/'.$value->img_thum : base_url().'assets/images/profile/profile.png',
-                'ReqType'       => $value->req_type ? $value->req_type : 'No Request',
-                'Status'        => $value->status ? $value->status : 'undefined',
+                'ReqType'       => $value->type ? ($value->type == 1 ? 'seller' : ($value->type == 2 ? 'buyer' : 'No Request')) : 'No Request',
+                'Status'        => $value->status_request ? ($value->status_request == 0 ? 'waiting' : ($value->status_request == 1 ? 'on progress' : ($value->status_request == 2 ? 'waiting for sign' : ($value->status_request == 3 ? 'signed' : 'undefined')))) : 'undefined',
                 'PrivyId'       => $privyId ? $privyId->privy_id : 'empty',
                 'PrivyIdStatus' => $privyId ? ($privyId->status ? $privyId->status : 'empty') : 'empty',
                 'Group'         => $this->ion_auth->get_users_groups($value->id)->row(),
                 'Company'       => [
-                                    'Brand'     => $company->brand ? $company->brand : '',
-                                    'Name'      => $company->company_name ? $company->company_name : '',
-                                    'Owner'     => $company->owner ? $company->owner : '',
-                                    'Phone'     => $company->phone_no ? $company->phone_no : '',
-                                    'Mobile'    => $company->mobile_no ? $company->mobile_no : '',
-                                    'Address'   => $company->address ? $company->address : '',
-                                    'District'  => $company->sub_district ? $company->sub_district : '',
-                                    'Province'  => $company->province ? $company->province : '',
-                                    'City'      => $company->city ? $company->city : '',
-                                    'Email'     => $company->email ? $company->email : '',
-                                    'Website'   => $company->website ? $company->website : '',
-                                    'Postal'    => $company->postal_code ? $company->postal_code : '',
-                                    'Logo'      => $company->logo ? base_url().'assets/images/logo/'.$company->logo : base_url().'assets/images/profile/profile.png',
+                                    'Brand'     => $company ? ($company->brand ? $company->brand : '') : '',
+                                    'Name'      => $company ? ($company->company_name ? $company->company_name : '') : '',
+                                    'Owner'     => $company ? ($company->owner ? $company->owner : '') : '',
+                                    'Phone'     => $company ? ($company->phone_no ? $company->phone_no : '') : '',
+                                    'Mobile'    => $company ? ($company->mobile_no ? $company->mobile_no : '') : '',
+                                    'Address'   => $company ? ($company->address ? $company->address : '') : '',
+                                    'District'  => $company ? ($company->sub_district ? $company->sub_district : '') : '',
+                                    'Province'  => $company ? ($company->province ? $company->province : '') : '',
+                                    'City'      => $company ? ($company->city ? $company->city : '') : '',
+                                    'Email'     => $company ? ($company->email ? $company->email : '') : '',
+                                    'Website'   => $company ? ($company->website ? $company->website : '') : '',
+                                    'Postal'    => $company ? ($company->postal_code ? $company->postal_code : '') : '',
+                                    'Logo'      => $company ? ($company->logo ? base_url().'assets/images/logo/'.$company->logo : base_url().'assets/images/profile/profile.png') :base_url().'assets/images/profile/profile.png',
                                     ],
                 'Contact'       => [
                                     'Name'      => $contact ? ($contact->name ? $contact->name : '') : '',

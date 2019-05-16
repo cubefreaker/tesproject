@@ -154,13 +154,13 @@
                             </td>
                             <td>
                                 <div class="text-center">
-                                    <a ng-if="data.ReqType != 'No Request' && data.Status == 'requested'" id="accept" href="" class="tooltipx pointer">
+                                    <a ng-if="data.ReqType != 'No Request' && data.Status == 'waiting'" id="accept" href="" class="tooltipx pointer">
                                         <button class="btn btn-xs btn-success fa fa-check">
                                             <span>Accept</span>
                                         </button>
                                     </a>
                                     
-                                    <a ng-if="data.ReqType != 'No Request' && data.Status == 'requested'" id="reject" href="" class="tooltipx pointer">
+                                    <a ng-if="data.ReqType != 'No Request' && data.Status == 'waiting'" id="reject" href="" class="tooltipx pointer">
                                         <button class="btn btn-xs btn-danger fa fa-times">
                                             <span>Reject</span>
                                         </button>
