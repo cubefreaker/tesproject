@@ -88,3 +88,15 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 defined('DEFAULT_CURRENCY')      OR define('DEFAULT_CURRENCY', 'IDR'); // default currency
 defined('DEFAULT_KURS')      OR define('DEFAULT_KURS', 1); // default currency
 defined('CLIENT_CODE')      OR define('CLIENT_CODE', 3); // default currency
+
+define('SELLER', 1);
+define('BUYER', 2);
+define('WAITING', 0);
+define('INPROGRESS', 1);
+define('WAITINGSIGN', 2);
+define('SIGNCOMPLETE', 3);
+define('API', 1);
+define('WHITELABEL', 2);
+define('TRAVELAGENT', 3);
+
+define('NOW', date('Y-m-d H:i:s'));

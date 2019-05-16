@@ -2,7 +2,7 @@
 
 use GuzzleHttp\Client;
 
-class privyid_api {
+class Privyid_api {
 
 
   function tesGet($url, $data)

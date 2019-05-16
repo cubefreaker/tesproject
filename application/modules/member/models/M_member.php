@@ -70,6 +70,12 @@ class M_member extends CI_Model
         return FALSE;
     }
 
+    public function insert($table, $data)
+    {
+        $this->db->insert($table, $data);
+        return $this->db->insert_id();
+    } 
+
     public function check_username($username)
     {
         $this->db->where('username', $username);

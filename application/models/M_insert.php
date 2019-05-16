@@ -1,6 +1,6 @@
 <?php
 
-class m_insert extends CI_Model
+class M_insert extends CI_Model
 {
 
 	function insertDynamic($data)

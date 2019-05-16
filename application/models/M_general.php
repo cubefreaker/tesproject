@@ -1,6 +1,6 @@
 <?php
 
-class m_general extends CI_Model
+class M_general extends CI_Model
 {
 
     // @Params : OrderId

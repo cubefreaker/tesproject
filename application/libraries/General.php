@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class general {
+class General {
 
 	public function __construct()
     {

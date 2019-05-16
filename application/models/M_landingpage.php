@@ -1,6 +1,6 @@
 <?php
 
-class m_landingpage extends CI_Model
+class M_landingpage extends CI_Model
 {
 	function getMasterLandingpage()
     {

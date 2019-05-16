@@ -7,6 +7,7 @@
     <link rel="icon" type="image/x-icon" href="<?=base_url('assets/images/favicon/').$masterLandingPage->favicon?>" />
     <title><?=$masterLandingPage->title?></title>
     <link href="<?=base_url('assets/css/bootstrap.min.css')?>" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="<?=base_url('assets/css/nav_footer.css')?>" rel="stylesheet" type="text/css">
     <link href="<?=base_url('assets/css/landing-page.css')?>" rel="stylesheet" type="text/css">
@@ -19,13 +20,25 @@
     <link href="<?=base_url('assets/css/swal.css')?>" rel="stylesheet" type="text/css">
     <link href="<?=base_url('assets/css/main.css')?>" rel="stylesheet" type="text/css">
     <link href="<?=base_url('assets/css/v2/custom.css')?>" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- for the most recent version of the "default" theme -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Zebra_datepicker/1.9.12/css/default/zebra_datepicker.css">
 
+    <!-- load jquery -->
     <script type='text/javascript' src="<?=base_url('assets/js/jquery.min.js')?>"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- load bootstrap -->
     <script type='text/javascript' src="<?=base_url('assets/js/bootstrap.min.js')?>"></script>
+    <!-- form and validate js -->
+    <script src="<?php echo base_url() ?>assets/js/jquery.form.min.js"></script>
+    <script src="<?php echo base_url() ?>assets/js/jquery.validate.min.js"></script>
+    <!-- load datatables -->
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+    <!-- load angular framework -->
     <script type='text/javascript' src="<?=base_url('assets/lib/plugins/angular-1.6.9/angular.min.js')?>"></script>
     <script type='text/javascript' src="<?=base_url('assets/lib/plugins/angular-1.6.9/angular-cookies.js')?>"></script>
     <script type='text/javascript' src="<?=base_url('assets/lib/plugins/angular-1.6.9/angular-route.js')?>"></script>
-
+    <script type="text/javascript" src="<?= base_url('assets/js/global.js?time='.time()); ?>"></script>
     <script type="text/javascript">
         var baseUrl = "<?=base_url()?>";
     </script>
@@ -176,6 +189,135 @@
                 background: #e6eaed;
             }
         }
+        .shad { box-shadow: 3px 0px 4px #888888};
+
+        .clearfix:before,
+        .clearfix:after {
+            content: " ";
+            display: table;
+        }
+
+        .clearfix:after {
+            clear: both;
+        }
+
+        body {
+            font-family: sans-serif;
+            background: #f6f9fa;
+        }
+
+        h1 {
+            color: #ccc;
+            text-align: center;
+        }
+
+        a {
+          color: #ccc;
+          text-decoration: none;
+          outline: none;
+        }
+
+        /*Fun begins*/
+        .tab_container {
+            width: 90%;
+            margin: 0 auto;
+            padding-top: 70px;
+            position: relative;
+        }
+
+        .tabs, section {
+          clear: both;
+          padding-top: 10px;
+          display: none;
+        }
+
+        .labels {
+          font-weight: 700;
+          font-size: 18px;
+          display: block;
+          float: left;
+          width: 20%;
+          padding: 1.5em;
+          color: #757575;
+          cursor: pointer;
+          text-decoration: none;
+          text-align: center;
+          background: #f0f0f0;
+        }
+
+        #tab1:checked ~ #content1,
+        #tab2:checked ~ #content2,
+        #tab3:checked ~ #content3,
+        #tab4:checked ~ #content4,
+        #tab5:checked ~ #content5 {
+          display: block;
+          padding: 20px;
+          background: #fff;
+          color: #999;
+          border-bottom: 2px solid #f0f0f0;
+        }
+
+        .tab_container .tab-content p,
+        .tab_container .tab-content h3 {
+          -webkit-animation: fadeInScale 0.7s ease-in-out;
+          -moz-animation: fadeInScale 0.7s ease-in-out;
+          animation: fadeInScale 0.7s ease-in-out;
+        }
+        .tab_container .tab-content h3  {
+          text-align: center;
+        }
+
+        .tab_container [id^="tab"]:checked + label {
+          background: #fff;
+          box-shadow: inset 0 3px #0CE;
+        }
+
+        .tab_container [id^="tab"]:checked + label .fa {
+          color: #0CE;
+        }
+
+        label .fa {
+          font-size: 1.3em;
+          margin: 0 0.4em 0 0;
+        }
+
+        /*Media query*/
+        @media only screen and (max-width: 930px) {
+          label span {
+            font-size: 14px;
+          }
+          label .fa {
+            font-size: 14px;
+          }
+        }
+
+        @media only screen and (max-width: 768px) {
+          label span {
+            display: none;
+          }
+
+          label .fa {
+            font-size: 16px;
+          }
+
+          .tab_container {
+            width: 98%;
+          }
+        }
+
+        /*Content Animation*/
+        @keyframes fadeInScale {
+          0% {
+            transform: scale(0.9);
+            opacity: 0;
+          }
+          
+          100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
     </style>
+    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/style-modify.css'); ?>">
 
 </head>

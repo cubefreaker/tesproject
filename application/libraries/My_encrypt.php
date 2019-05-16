@@ -1,7 +1,7 @@
 <?php
 
 
-class my_encrypt {
+class My_encrypt {
 
     function encrypt_decrypt($action, $string) {
         $output = false;

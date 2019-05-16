@@ -1,5 +1,5 @@
 <?php
-    $contact = $this->db->query("SELECT * FROM company_contact WHERE user_id = '".$Member->id."'")->row();
+    $contact = $this->db->query("SELECT * FROM users_contact WHERE user_id = '".$Member->id."'")->row();
 ?>
 <div class="tab-pane" id="kontak">
     <div style="padding:2%;">
@@ -124,5 +124,4 @@
             <button id="savekontak" type="submit" class="btn btn-md btn-danger pull-right">Save</button>
         </div>
     </form>
-    
 </div>
