@@ -32,7 +32,8 @@
             </select></div>
         <div class="form-group col-md-6" style="padding-left: 0px;">
             <label>Birth Date</label>
-            <input type="text" name="bdate" class="form-control datepicker" required/></div>
+            <input type="text" name="bdate" id="bdate" class="form-control datepicker" required/>
+            </div>
         <div class="form-group col-md-6" style="padding-left: 0px;">
             <label>Email</label>
             <input type="email" name="email" class="form-control" placeholder="Example: john@example.com" required/></div>
@@ -133,7 +134,7 @@ $(document).ready(function() {
                         allowOutsideClick: true,
                         confirmButtonText: "OK"
                     }).then(function() {
-                        location.reload();
+                        window.location = "<?=base_url('member/login')?>"
                     }, function(dismiss) {
                         location.reload();
                     })
