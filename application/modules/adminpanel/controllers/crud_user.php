@@ -32,10 +32,33 @@ class crud_user extends CI_Controller
         $InputData = json_decode(file_get_contents('php://input'),true);
         $UserId = $InputData['UserId'];
 
-        $npwp = $this->db->query('select * from users_document_det where user_id = "'.$UserId.'" and type = "2"')->row();
+        $document = $this->db->query('select * from users_document where user_id = "'.$UserId.'"')->row();
 
         $data = [
-            'npwp'  => $npwp ? ($npwp->doc_name ? $npwp->doc_name : 'No File' ) : 'No File'
+            'ktp'  => [
+                'name'  => $document ? ($document->scan_ktp ? $document->scan_ktp : '' ) : '',
+                'url'   => $document ? ($document->scan_ktp ? base_url().'assets/file_upload/'.$document->scan_ktp : '') : ''
+            ],
+            'selfie'  => [
+                'name'  => $document ? ($document->scan_selfie ? $document->scan_selfie : '' ) : '',
+                'url'   => $document ? ($document->scan_selfie ? base_url().'assets/file_upload/'.$document->scan_selfie : '') : ''
+            ],
+            'npwp'  => [
+                'name'  => $document ? ($document->scan_npwp ? $document->scan_npwp : '' ) : '',
+                'url'   => $document ? ($document->scan_npwp ? base_url().'assets/file_upload/'.$document->scan_npwp : '') : ''
+            ],
+            'siup'  => [
+                'name'  => $document ? ($document->scan_siup ? $document->scan_siup : '' ) : '',
+                'url'   => $document ? ($document->scan_siup ? base_url().'assets/file_upload/'.$document->scan_siup : '') : ''
+            ],
+            'akta'  => [
+                'name'  => $document ? ($document->scan_akta ? $document->scan_akta : '' ) : '',
+                'url'   => $document ? ($document->scan_akta ? base_url().'assets/file_upload/'.$document->scan_akta : '') : ''
+            ],
+            'sk'  => [
+                'name'  => $document ? ($document->scan_sk ? $document->scan_sk : '' ) : '',
+                'url'   => $document ? ($document->scan_sk ? base_url().'assets/file_upload/'.$document->scan_sk : '') : ''
+            ]
         ];
 
         echo json_encode($data);

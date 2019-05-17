@@ -129,7 +129,9 @@
                                                         <tbody>
                                                             <tr ng-repeat="doc in data.Document">
                                                                 <!-- <td>{{ $index+1 }}</td> -->
-                                                                <td>{{ doc.Name }}</td>
+                                                                <td>
+                                                                    <a href="{{doc.Url}}" target="__blank">{{ doc.Name }}</a>
+                                                                </td>
                                                                 <td>
                                                                     <div ng-if="doc.Status == 'undefined'">
                                                                         <a ng-click="submitDoc(doc)" class="tooltipx pointer">
@@ -160,7 +162,7 @@
                                         </button>
                                     </a>
                                     
-                                    <a ng-if="data.ReqType != 'No Request' && data.Status == 'waiting'" id="reject" href="" class="tooltipx pointer">
+                                    <a ng-if="data.ReqType != 'No Request'" href="" class="tooltipx pointer" data-toggle="modal" data-target="#rejectModal">
                                         <button class="btn btn-xs btn-danger fa fa-times">
                                             <span>Reject</span>
                                         </button>
@@ -170,6 +172,26 @@
                                             <span>View Detail</span>
                                         </button>
                                     </a>
+                                </div>
+                                <div class="modal fade" id="rejectModal" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Reject Request?</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div style="margin:10px">
+                                                    <label>Remark&nbsp;:</label>
+                                                    <input type="text" class="form-control" id="remarkReject"  placeholder="Input reason of rejection...">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button ng-click="rejectRequest()" type="button" class="btn btn-danger">Reject</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="modal fade" id="detModal" role="dialog">
                                     <div class="modal-dialog modal-lg">
@@ -300,15 +322,15 @@
                                                                             <tr>
                                                                                 <th>Name</th>
                                                                                 <th>File</th>
-                                                                                <th>Status</th>
-                                                                                <th>Action</th>
+                                                                                <!-- <th>Status</th>
+                                                                                <th>Action</th> -->
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
                                                                             <tr>
                                                                                 <td>Scan KTP</td>
                                                                                 <td>
-                                                                                    <label id="ktpid"></label>
+                                                                                    <a href="{{docList.ktp.url}}" target="__blank">{{docList.ktp.name}}</a>
                                                                                 </td>
                                                                                 <td></td>
                                                                                 <td>
@@ -318,7 +340,7 @@
                                                                             <tr>
                                                                                 <td>Scan Selfie KTP</td>
                                                                                 <td>
-                                                                                    <label id="selfieid"></label>
+                                                                                    <a href="{{docList.selfie.url}}" target="__blank">{{docList.selfie.name}}</a>
                                                                                 </td>
                                                                                 <td></td>
                                                                                 <td>
@@ -328,7 +350,7 @@
                                                                             <tr>
                                                                                 <td>Scan NPWP</td>
                                                                                 <td>
-                                                                                    <label id="npwpid">{{docList.npwp}}</label>
+                                                                                    <a href="{{docList.npwp.url}}" target="__blank">{{docList.npwp.name}}</a>
                                                                                 </td>
                                                                                 <td></td>
                                                                                 <td>
@@ -338,7 +360,7 @@
                                                                             <tr>
                                                                                 <td>Scan SIUP/TDP</td>
                                                                                 <td>
-                                                                                    <label id="siupid"></label>
+                                                                                    <a href="{{docList.siup.url}}" target="__blank">{{docList.siup.name}}</a>
                                                                                 </td>
                                                                                 <td></td>
                                                                                 <td>
@@ -348,7 +370,7 @@
                                                                             <tr>
                                                                                 <td>Scan Akta Perusahaan</td>
                                                                                 <td>
-                                                                                    <label id="aktaid"></label>
+                                                                                    <a href="{{docList.akta.url}}" target="__blank">{{docList.akta.name}}</a>
                                                                                 </td>
                                                                                 <td></td>
                                                                                 <td>
@@ -358,7 +380,7 @@
                                                                             <tr>
                                                                                 <td>Scan Surat Kuasa (bila diwakilkan)</td>
                                                                                 <td>
-                                                                                    <label id="skid"></label>
+                                                                                    <a href="{{docList.sk.url}}" target="__blank">{{docList.sk.name}}</a>
                                                                                 </td>
                                                                                 <td></td>
                                                                                 <td>
@@ -777,6 +799,27 @@
             $scope.docList = resp.data;
             console.log(resp.data);
         })
+    }
+
+    $scope.rejectRequest = function(){
+        var remark = document.getElementById('remarkReject').value
+        AngularService.startLoadingPage();
+        $http.post(
+                adminUrl+'crud_user/rejectRequest',
+                {'Remark' : remark}
+            ).then(function successCallback(resp) {
+                console.log(resp);
+                AngularService.stopLoadingPage();
+                if (resp.data['StatusResponse'] == 0) {
+                    AngularService.ErrorResponse(resp.data['Message']);
+                }
+                else if (resp.data['StatusResponse'] == 1) {
+                    AngularService.SuccessResponse();
+                }
+            }, function errorCallback(err) {
+                console.log(err);
+                AngularService.ErrorResponse(err);
+            });
     }
 
     $scope.acceptSeller = function(user) {
