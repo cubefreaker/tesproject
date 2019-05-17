@@ -115,7 +115,7 @@ class Member extends CI_Controller
 
             $check_username = $this->M_member->check_username($username);
             $check_email = $this->M_member->check_email($email);
-            $chek_nik = $this->M_member->check_nik($nik);
+            $check_nik = $this->M_member->check_nik($nik);
 
             if( $check_username ) {
                 $result['status'] = false;  

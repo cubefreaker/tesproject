@@ -19,7 +19,7 @@
     <link href="<?=base_url('assets/css/swal.css')?>" rel="stylesheet" type="text/css">
     <link href="<?=base_url('assets/css/main.css')?>" rel="stylesheet" type="text/css">
     <link href="<?=base_url('assets/css/v2/custom.css')?>" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <!-- for the most recent version of the "default" theme -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Zebra_datepicker/1.9.12/css/default/zebra_datepicker.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">

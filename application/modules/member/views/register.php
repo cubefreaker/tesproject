@@ -2,11 +2,10 @@
     <link href="<?=base_url()?>assets/css/member-dashboard.css" rel="stylesheet" type="text/css">
     <link href="<?=base_url()?>assets/css/member-info.css" rel="stylesheet" type="text/css">
     <link href="<?=base_url('assets/css/main2.css')?>" rel="stylesheet" type="text/css">
-<body>  
+<body ng-controller="UserRegister">  
 <?php $this->load->view('template/landingpage/nav') ?>
 
-    <!-- <section class="main-section container-fluid" ng-controller="LoginController"> -->
-  <div class="container-fluid my-auto" ng-controller="LoginController" style="margin-right: 15%;margin-left: 15%;background-color: #ffffff;">
+  <div class="container-fluid my-auto" style="margin-right: 15%;margin-left: 15%;background-color: #ffffff;">
     <h1 class="text-left" style="margin-top: 35px;color: rgb(0,0,0);margin-left: 35px;"><strong>User Registration</strong></h1>
     <form id="regfrm" name="regfrm" style="margin: 40px;">
         <div class="form-group col-md-6" style="padding-left: 0px;">
@@ -66,7 +65,7 @@
   
   <!-- <?php $this->load->view('template/landingpage/footer', $footerPage) ?> -->
 
-<script src="<?=base_url()?>assets/js/jquery.min.js"></script>
+<!-- <script src="<?=base_url()?>assets/js/jquery.min.js"></script> -->
 <script src="<?=base_url()?>assets/js/bootstrap.min.js"></script>
 <script src="<?=base_url()?>assets/js/nav.js"></script>
 <script src="<?=base_url()?>assets/js/slick.min.js"></script>
@@ -74,6 +73,10 @@
 
 
 <script type="text/javascript">
+
+app.controller('UserRegister', function ($scope, $filter, $window, $http) {
+
+
 function stopLoading() {
     $('.page_preloader').fadeOut(800);
 
@@ -117,11 +120,10 @@ $(document).ready(function() {
             url: "<?=base_url('member/submitRegister')?>",
             data: $('#regfrm').serialize(),
             headers: { 'X-CSRF-TOKEN': getCookiebyName('5f05193eee9e900380c12e6040e7dee9') },
-            // dataType: 'json',
+            dataType: 'json',
             success: function(resp){
-                console.log(resp.data);
                 var response = resp;
-                console.log(response);
+                console.log(response.data);
                 console.log(response.status);
                 stopLoading();
                 if( response.status == true) {
@@ -169,22 +171,10 @@ setTimeout(function(){
 },500);
 <?php endif;?>
 });
+
+}); // end angular
 </script>
 
-<script type="text/javascript">
-    var urlSearch = "<?=base_url('flight/search')?>";
-    app.filter('range', function() {
-        return function(input, min, max) {
-            min = parseInt(min);
-            max = parseInt(max);
-            for (var i=min; i<max; i++)
-                input.push(i);
-            return input;
-        };
-    });
-    app.controller('LoginController', function ($scope, $filter, $window, $http) {
-  });
-</script>
 </body>
 
 </html>
