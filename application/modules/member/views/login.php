@@ -3,8 +3,8 @@
 <?php $this->load->view('template/landingpage/nav') ?>
 
     <!-- <section class="main-section container-fluid" ng-controller="LoginController" style="margin-top: 5%"> -->
-    <div class="row" style="margin-top: 10px;">
-        <div class="col-sm-8 col-md-8" style="text-align: center;">
+    <div class="col-md-12" style="margin-top: 10px;">
+      <div class="col-sm-8 col-md-8" style="text-align: center;">
       <h1 style="text-align: center;">Why Must Join ITX?</h1>
         <div class="row">
           <div class="col-md-4">
@@ -56,9 +56,10 @@
         </div>
       </div>
         <!-- End of col-sm-5 -->
-      <div class="col-sm-4 col-md-4" style="padding-right:5%;padding-left:5%;">
-      <form name="logfrm" method="post" action="<?=base_url('member/login')?>" style="margin: 0px; padding:0px;">
+      <div class="col-sm-4 col-md-4">
       <h1>Login</h1>
+      <div style="padding: 40px; display: block; background-color: #fff; border: 1px solid #ddd;">
+      <form name="logfrm" method="post" action="<?=base_url('member/login')?>" style="margin: 0px; padding:0px;">
       <div class="form-group">
                     <label>Email</label>
                     <input type="email" name="email" required class="form-control">
@@ -74,6 +75,7 @@
                 </button>
       </div>
       </form>
+      </div>
         <!-- <div class="col-sm-4 col-md-4" style="padding-right:5%;padding-left:5%;">
             <form name="logfrm" method="post" action="<base_url('member/login')?>">
                 <h3>Already Member</h3>
