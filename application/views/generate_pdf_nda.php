@@ -17,17 +17,10 @@
 
 	/* Create two equal columns that floats next to each other */
 	.column {
-	  float: left;
-	  width: 50%;
-	  padding: 10px;
-	  margin-left: 30%;
-	  height: auto; /* Should be removed. Only for demonstration */
-	}
-
-	.columns {
-	  float: right;
-	  width: 30%;
-	  padding: 10px;
+	  /*float: left;*/
+	  width: 100%;
+	  /*padding: 10px;*/
+	  /*margin-left: 30%;*/
 	  height: auto; /* Should be removed. Only for demonstration */
 	}
 

@@ -5,7 +5,7 @@ class Proto_pdf extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('proto_pdf');
+		$this->load->view('generate_pdf_nda');
 	}
 
 	public function table()
