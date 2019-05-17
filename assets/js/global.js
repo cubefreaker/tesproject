@@ -1,6 +1,9 @@
 $( function() {
     $(".datepicker" ).datepicker({
-    	dateFormat: 'dd-mm-yy'
+        dateFormat : 'dd-mm-yy',
+        changeMonth : true,
+        changeYear : true,
+        yearRange: "c-100:c",
     });
 
     //submit handler from external button.
