@@ -64,11 +64,14 @@
                                     {{ data.Buyer }}
                             </td> -->
                             <td>
-                                <div ng-if="data.ReqType != 'empty'">
-                                    {{ data.ReqType }}
+                                <div ng-if="data.ReqType == 1 ">
+                                    Seller
+                                </div>
+                                <div ng-if="data.ReqType == 2 ">
+                                    Buyer
                                 </div>
 
-                                <div ng-if="data.ReqType == 'empty'">
+                                <div ng-if="data.ReqType == 'NoReq'">
                                     No Request
                                 </div>
                             </td>
@@ -133,17 +136,19 @@
                                                                     <a href="{{doc.Url}}" target="__blank">{{ doc.Name }}</a>
                                                                 </td>
                                                                 <td>
-                                                                    <div ng-if="doc.Status == 'undefined'">
+                                                                    <!-- <div ng-if="doc.Status == 'undefined'">
                                                                         <a ng-click="submitDoc(doc)" class="tooltipx pointer">
                                                                             <button class="btn btn-sm btn-success">Submit</button><span>Submit to PrivyId</span>
                                                                         </a>
-                                                                    </div>
-                                                                    <div ng-if="doc.Status != 'undefined'">{{ doc.Status }}</div>
+                                                                    </div> -->
+                                                                    <div>{{ doc.Status }}</div>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
                                                     <button class="btn btn-sm btn-success" ng-click="submitDocAll(data.Document)">Submit all documents</button>
+                                                    <button ng-if="loading == false" class="btn btn-sm btn-success" ng-click="checkDoc(data.Document)">Update Status</button>
+                                                    <button ng-if="loading == true" class="btn btn-sm btn-success fa fa-spinner" disabled>Update Status</button>
                                                 
                                                 </div>
                                                 <div class="modal-footer">
@@ -156,23 +161,44 @@
                             </td>
                             <td>
                                 <div class="text-center">
-                                    <a ng-if="data.ReqType != 'No Request' && data.Status == 'waiting'" id="accept" href="" class="tooltipx pointer">
+                                    <a ng-if="data.ReqType != 'NoRequest' && data.Status == 1" id="accept" href="" class="tooltipx pointer" data-toggle="modal" data-target="#acceptModal">
                                         <button class="btn btn-xs btn-success fa fa-check">
                                             <span>Accept</span>
                                         </button>
                                     </a>
                                     
-                                    <a ng-if="data.ReqType != 'No Request'" href="" class="tooltipx pointer" data-toggle="modal" data-target="#rejectModal">
+                                    <a ng-if="data.ReqType != 'NoRequest' && data.Status == 1" href="" class="tooltipx pointer" data-toggle="modal" data-target="#rejectModal">
                                         <button class="btn btn-xs btn-danger fa fa-times">
                                             <span>Reject</span>
                                         </button>
                                     </a>
                                     <a href="" class="tooltipx pointer"  data-toggle="modal" data-target="#detModal">
-                                        <button class="btn btn-xs btn-primary fa     fa-eye">
+                                        <button class="btn btn-xs btn-primary fa fa-eye">
                                             <span>View Detail</span>
                                         </button>
                                     </a>
                                 </div>
+
+                                <!-- Modal Accept -->
+                                <div class="modal fade" id="acceptModal" role="dialog">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Accept Request?</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p style="font-weight:bold">Accept request and submit user's data to Privy ID</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button ng-click="acceptRequest(data)" type="button" class="btn btn-success">Accept</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal Reject -->
                                 <div class="modal fade" id="rejectModal" role="dialog">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -187,12 +213,14 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button ng-click="rejectRequest()" type="button" class="btn btn-danger">Reject</button>
+                                                <button ng-click="rejectRequest(data.UserId, data.ReqType)" type="button" class="btn btn-danger">Reject</button>
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- Modal View Detail -->
                                 <div class="modal fade" id="detModal" role="dialog">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
@@ -209,13 +237,13 @@
                                                         <li>
                                                             <a ng-click="getDoc(data.UserId)" href="#dokumen" data-toggle="tab">Dokumen</a>
                                                         </li>
-                                                        <li ng-if="data.ReqType == 'seller'">
+                                                        <li>
                                                             <a href="#infomitra" data-toggle="tab">Info Mitra</a>
                                                         </li>
-                                                        <li ng-if="data.ReqType == 'seller'">
+                                                        <li>
                                                             <a href="#kontak" data-toggle="tab">Kontak Perwakilan</a>
                                                         </li>
-                                                        <li ng-if="data.ReqType == 'seller'">
+                                                        <li>
                                                             <a href="#rekening" data-toggle="tab">Rekening Bank</a>
                                                         </li>
                                                     </ul>
@@ -748,6 +776,7 @@
     	$scope.AngularService   = AngularService;
     	$scope.List             = <?=json_encode($List)?>;
         $scope.Member           = <?=json_encode($Member)?>;
+        $scope.loading          = false;
         console.log($scope.List);
     };
     (function () {
@@ -801,17 +830,52 @@
         })
     }
 
-    $scope.rejectRequest = function(){
-        var remark = document.getElementById('remarkReject').value
+    $scope.checkDoc = function(doc){
+        console.log(doc);
+        $scope.loading = true;
+        AngularService.startLoadingPage();
+        $http.post(adminUrl+'crud_user/checkDokumenStatus', doc).then(function successCallback(resp){
+                console.log(resp);
+                $scope.loading = false;
+                AngularService.stopLoadingPage();
+        }, function errorCallback(err) {
+                console.log(err);
+        });
+        location.reload();
+    }
+
+    $scope.acceptRequest = function(UserData){
+        AngularService.startLoadingPage();
+        $http.post(
+                adminUrl+'crud_user/acceptRequest',
+                UserData
+            ).then(function successCallback(resp) {
+                console.log(resp)
+                AngularService.stopLoadingPage();
+                if (resp.data['StatusResponse'] == 0) {
+                    AngularService.ErrorResponse(resp.data['Message']);
+                }
+                else if (resp.data['StatusResponse'] == 1) {
+                    AngularService.SuccessResponse();
+                }
+            }, function errorCallback(err) {
+                console.log(err);
+                AngularService.ErrorResponse(err);
+            });
+        location.reload();
+    }
+
+    $scope.rejectRequest = function(UserId, ReqType){
+        var Remark = document.getElementById('remarkReject').value
         AngularService.startLoadingPage();
         $http.post(
                 adminUrl+'crud_user/rejectRequest',
-                {'Remark' : remark}
+                {'UserId' : UserId, 'ReqType' : ReqType, 'Remark' : Remark}
             ).then(function successCallback(resp) {
                 console.log(resp);
                 AngularService.stopLoadingPage();
                 if (resp.data['StatusResponse'] == 0) {
-                    AngularService.ErrorResponse(resp.data['Message']);
+                    AngularService.ErrorResponse(resp.data['errors']['messages']);
                 }
                 else if (resp.data['StatusResponse'] == 1) {
                     AngularService.SuccessResponse();
@@ -822,123 +886,123 @@
             });
     }
 
-    $scope.acceptSeller = function(user) {
-        user['type'] = 'seller'
-        var c = confirm("Are you sure you want to accept this request?");
-          if(c) {
-            AngularService.startLoadingPage();
-            $http.post(
-                adminUrl+'crud_user/acceptSeller',
-                user
-            ).then(function successCallback(resp) {
-                console.log(resp);
-                AngularService.stopLoadingPage();
-                if (resp.data['StatusResponse'] == 0) {
-                    AngularService.ErrorResponse(resp.data['Message']);
-                }
-                else if (resp.data['StatusResponse'] == 1) {
-                    AngularService.SuccessResponse();
-                }
-            }, function errorCallback(err) {
-                console.log(err);
-                AngularService.ErrorResponse(err);
-            });
-        }
-    };
+    // $scope.acceptSeller = function(user) {
+    //     user['type'] = 'seller'
+    //     var c = confirm("Are you sure you want to accept this request?");
+    //       if(c) {
+    //         AngularService.startLoadingPage();
+    //         $http.post(
+    //             adminUrl+'crud_user/acceptSeller',
+    //             user
+    //         ).then(function successCallback(resp) {
+    //             console.log(resp);
+    //             AngularService.stopLoadingPage();
+    //             if (resp.data['StatusResponse'] == 0) {
+    //                 AngularService.ErrorResponse(resp.data['Message']);
+    //             }
+    //             else if (resp.data['StatusResponse'] == 1) {
+    //                 AngularService.SuccessResponse();
+    //             }
+    //         }, function errorCallback(err) {
+    //             console.log(err);
+    //             AngularService.ErrorResponse(err);
+    //         });
+    //     }
+    // };
 
-    $scope.rejectSeller = function(UserId) {
-        var c = confirm("Are you sure you want to reject this request?");
-          if(c) {
-            AngularService.startLoadingPage();
-            $http.post(
-                adminUrl+'crud_user/rejectSeller',
-                {'UserId': UserId}
-            ).then(function successCallback(resp) {
-                console.log(resp);
-                AngularService.stopLoadingPage();
-                if (resp.data['StatusResponse'] == 0) {
-                    AngularService.ErrorResponse(resp.data['Message']);
-                }
-                else if (resp.data['StatusResponse'] == 1) {
-                    AngularService.SuccessResponse();
-                }
-            }, function errorCallback(err) {
-                console.log(err);
-                AngularService.ErrorResponse(err);
-            });
-        }
-    };
+    // $scope.rejectSeller = function(UserId) {
+    //     var c = confirm("Are you sure you want to reject this request?");
+    //       if(c) {
+    //         AngularService.startLoadingPage();
+    //         $http.post(
+    //             adminUrl+'crud_user/rejectSeller',
+    //             {'UserId': UserId}
+    //         ).then(function successCallback(resp) {
+    //             console.log(resp);
+    //             AngularService.stopLoadingPage();
+    //             if (resp.data['StatusResponse'] == 0) {
+    //                 AngularService.ErrorResponse(resp.data['Message']);
+    //             }
+    //             else if (resp.data['StatusResponse'] == 1) {
+    //                 AngularService.SuccessResponse();
+    //             }
+    //         }, function errorCallback(err) {
+    //             console.log(err);
+    //             AngularService.ErrorResponse(err);
+    //         });
+    //     }
+    // };
     
-    $scope.acceptBuyer = function(user) {
-        user['type'] = 'buyer'
-        var c = confirm("Are you sure you want to accept this request?");
+    // $scope.acceptBuyer = function(user) {
+    //     user['type'] = 'buyer'
+    //     var c = confirm("Are you sure you want to accept this request?");
 
-          if(c) {
-            AngularService.startLoadingPage();
-            $http.post(
-                adminUrl+'crud_user/acceptBuyer',
-                user
-            ).then(function successCallback(resp) {
-                console.log(resp);
-                AngularService.stopLoadingPage();
-                if (resp.data['StatusResponse'] == 0) {
-                    AngularService.ErrorResponse(resp.data['Message']);
-                }
-                else if (resp.data['StatusResponse'] == 1) {
-                    AngularService.SuccessResponse();
-                }
-            }, function errorCallback(err) {
-                console.log(err);
-                AngularService.ErrorResponse(err);
-            });
-        }
-    };
+    //       if(c) {
+    //         AngularService.startLoadingPage();
+    //         $http.post(
+    //             adminUrl+'crud_user/acceptBuyer',
+    //             user
+    //         ).then(function successCallback(resp) {
+    //             console.log(resp);
+    //             AngularService.stopLoadingPage();
+    //             if (resp.data['StatusResponse'] == 0) {
+    //                 AngularService.ErrorResponse(resp.data['Message']);
+    //             }
+    //             else if (resp.data['StatusResponse'] == 1) {
+    //                 AngularService.SuccessResponse();
+    //             }
+    //         }, function errorCallback(err) {
+    //             console.log(err);
+    //             AngularService.ErrorResponse(err);
+    //         });
+    //     }
+    // };
 
-    $scope.rejectBuyer = function(UserId) {
-        var c = confirm("Are you sure you want to reject this request?");
-          if(c) {
-            AngularService.startLoadingPage();
-            $http.post(
-                adminUrl+'crud_user/rejectBuyer',
-                {'UserId': UserId}
-            ).then(function successCallback(resp) {
-                console.log(resp);
-                AngularService.stopLoadingPage();
-                if (resp.data['StatusResponse'] == 0) {
-                    AngularService.ErrorResponse(resp.data['Message']);
-                }
-                else if (resp.data['StatusResponse'] == 1) {
-                    AngularService.SuccessResponse();
-                }
-            }, function errorCallback(err) {
-                console.log(err);
-                AngularService.ErrorResponse(err);
-            });
-        }
-    };
+    // $scope.rejectBuyer = function(UserId) {
+    //     var c = confirm("Are you sure you want to reject this request?");
+    //       if(c) {
+    //         AngularService.startLoadingPage();
+    //         $http.post(
+    //             adminUrl+'crud_user/rejectBuyer',
+    //             {'UserId': UserId}
+    //         ).then(function successCallback(resp) {
+    //             console.log(resp);
+    //             AngularService.stopLoadingPage();
+    //             if (resp.data['StatusResponse'] == 0) {
+    //                 AngularService.ErrorResponse(resp.data['Message']);
+    //             }
+    //             else if (resp.data['StatusResponse'] == 1) {
+    //                 AngularService.SuccessResponse();
+    //             }
+    //         }, function errorCallback(err) {
+    //             console.log(err);
+    //             AngularService.ErrorResponse(err);
+    //         });
+    //     }
+    // };
 
-    $scope.submitDoc = function(doc) {
-        var c = confirm("Are you sure you want to submit this document?");
-          if(c) {
-            AngularService.startLoadingPage();
-            $http.post(
-                adminUrl+'crud_user/submitDokumen',
-                doc
-            ).then(function successCallback(resp) {
-                console.log(resp);
-                AngularService.stopLoadingPage();
-                if (resp.data['StatusResponse'] == 0) {
-                    AngularService.ErrorResponse(resp.data['Message']);
-                }
-                else if (resp.data['StatusResponse'] == 1) {
-                    AngularService.SuccessResponse();
-                }
-            }, function errorCallback(err) {
-                console.log(err);
-                AngularService.ErrorResponse(err);
-            });
-        }
-    };
+    // $scope.submitDoc = function(doc) {
+    //     var c = confirm("Are you sure you want to submit this document?");
+    //       if(c) {
+    //         AngularService.startLoadingPage();
+    //         $http.post(
+    //             adminUrl+'crud_user/submitDokumen',
+    //             doc
+    //         ).then(function successCallback(resp) {
+    //             console.log(resp);
+    //             AngularService.stopLoadingPage();
+    //             if (resp.data['StatusResponse'] == 0) {
+    //                 AngularService.ErrorResponse(resp.data['Message']);
+    //             }
+    //             else if (resp.data['StatusResponse'] == 1) {
+    //                 AngularService.SuccessResponse();
+    //             }
+    //         }, function errorCallback(err) {
+    //             console.log(err);
+    //             AngularService.ErrorResponse(err);
+    //         });
+    //     }
+    // };
 
     $scope.submitDocAll = function(doc) {
         var c = confirm("Are you sure you want to submit all documents?");
