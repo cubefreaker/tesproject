@@ -186,13 +186,13 @@
                                                     <h4 class="panel-title">
                                                         <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                                                             <span class="pull-right glyphicon glyphicon-collapse-down"> </span> NDA
-                                                        </a>
+                                                         </a>
                                                     </h4>
                                                 </div>
                                                 <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                                                     <div class="panel-body">
                                                         <?php 
-                                                            $mitraName = $mitra_info->mitra_name;
+                                                            $mitraName = ($mitra_info->mitra_name) ? $mitra_info->mitra_name : "";
                                                             $first = $this->ion_auth->user()->row()->first_name;
                                                             $last  = $this->ion_auth->user()->row()->last_name;
 

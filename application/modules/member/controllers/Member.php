@@ -14,6 +14,17 @@ class Member extends CI_Controller
         $this->general->saveVisitor($this, [1, 0]);
     }
 
+    /**
+     * Get an instance of CodeIgniter
+     *
+     * @access    protected
+     * @return    void
+     */
+    protected function ci()
+    {
+        return get_instance();
+    }
+
     public function index() //before was login()
     {        
         // get general data for header and footer
@@ -171,7 +182,7 @@ class Member extends CI_Controller
             'debug_query'   => false
         ));
 
-        // print_r($data['Member']);die();
+        // print_r($data['mitra_info']);die();
 
         // $this->load->model('m_general');
         usort($data['Provinces'], function($a, $b) {
@@ -843,11 +854,13 @@ class Member extends CI_Controller
                 'return_object' => true
                 // 'debug_query' => true
             ));
-            // print_r($get_mitra_info);die();
-            $mitra_name = ($get_mitra_info->mitra_name) ? $get_mitra_info->mitra_name : "";
-            $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
-            $telp       = ($get_mitra_info->phone_no) ? $get_mitra_info->phone_no : "";
-            $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
+
+            if(!empty($get_mitra_info)) {
+                $mitra_name = ($get_mitra_info->mitra_name) ? $get_mitra_info->mitra_name : "";
+                $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
+                $telp       = ($get_mitra_info->phone_no) ? $get_mitra_info->phone_no : "";
+                $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
+            }
 
             if( $data['buyer_type'] == API ) {
                 $_save_data = array(
@@ -868,6 +881,19 @@ class Member extends CI_Controller
                     'agree_ip_whitelist'    => $data['agree_ip_whitelist'],
                     'change_request'        => $data['change_request'],
                 );
+
+
+                $name = $mitra_name.'_'.date('d-m-Y');
+                $pdf = $this->generate_nda_pdf($name);
+                // print_r($pdf['nama_file']);die;
+
+                $insert_doc = $this->M_member->insert('users_document_det', array(
+                    'doc_name'      => $pdf['nama_file'],
+                    'created_date'  => NOW,
+                    'modified_date' => NOW,
+                    'user_id'       => $this->ion_auth->user()->row()->id,
+                    'type'          => 1
+                ));
 
                 if($data['change_request'] == TEMPORARY) {
                     $_save_data['temp_start_date'] = date('Y-m-d',strtotime($data['temp_start_date']));
@@ -1008,49 +1034,30 @@ class Member extends CI_Controller
         }
     }
 
-    public function laporan_pdf(){
-
-        $data = array(
-            
-        );
-
-        $this->load->library('pdf');
-
-        $this->pdf->setPaper('A4', 'potrait');
-        $this->pdf->filename = "laporan-petanikode.pdf";
-        $this->pdf->load_view('proto_pdf', $data);
-    }
-
-    public function generate_nda_pdf()
+    /**
+     * [generate_nda_pdf with domppdf]
+     * @author didi <[diditriawan13@gmail.com]>
+     * @return [filename] 
+     */
+    public function generate_nda_pdf($filename = '')
     {
-        // $this->load->library('pdf');
+        $html = $this->load->view('generate_pdf_nda','',true);
+        $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+        $dompdf = new DOMPDF();
+        $dompdf->load_html($html);
+        $dompdf->render();
+        $output = $dompdf->output();
 
         $direktori = 'assets/generate_pdf/NDA/';
 
-        if(!is_dir($direktori) ) {
-            mkdir($direktori,0777,TRUE);
+        if(!is_dir($direktori)) {
+            mkdir($direktori, 0777, TRUE);
         }
 
-        $html = $this->ci()->load->view($view, $data, TRUE);
-        $this->load_html($html);
-        // Render the PDF
-        $this->render();
+        file_put_contents($direktori.$filename.'.pdf', $output);
 
-
-        $this->load_view('proto_pdf');
-        $pdf = $this->output();
-        $file_location = $_SERVER['DOCUMENT_ROOT'].$direktori."test".".pdf";
-        file_put_contents($file_location,$pdf); 
-    }
-
-    /**
-     * Get an instance of CodeIgniter
-     *
-     * @access    protected
-     * @return    void
-     */
-    protected function ci()
-    {
-        return get_instance();
+        return array(
+            'nama_file' => $filename
+        );
     }
 }

@@ -1,4 +1,7 @@
 <?php $this->load->view('template/landingpage/head') ?>
+    <link href="<?=base_url()?>assets/css/member-dashboard.css" rel="stylesheet" type="text/css">
+    <link href="<?=base_url()?>assets/css/member-info.css" rel="stylesheet" type="text/css">
+    <link href="<?=base_url('assets/css/main2.css')?>" rel="stylesheet" type="text/css">
 <body>  
 <?php $this->load->view('template/landingpage/nav') ?>
 
@@ -30,7 +33,7 @@
             </select></div>
         <div class="form-group col-md-6" style="padding-left: 0px;">
             <label>Birth Date</label>
-            <input type="date" name="bdate" class="form-control datepicker" required/></div>
+            <input type="text" name="bdate" class="form-control datepicker" required/></div>
         <div class="form-group col-md-6" style="padding-left: 0px;">
             <label>Email</label>
             <input type="email" name="email" class="form-control" placeholder="Example: john@example.com" required/></div>
