@@ -123,7 +123,6 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(resp){
                 var response = resp;
-                console.log(response.data);
                 console.log(response.status);
                 stopLoading();
                 if( response.status == true) {
