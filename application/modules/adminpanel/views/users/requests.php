@@ -18,6 +18,7 @@
 							<th>Username</th>
 							<th>Email</th>
 							<th>Request Type</th>
+                            <th>Request Status</th>
                             <th>Privy ID</th>
                             <th>Document</th>
                             <th>Action</th>
@@ -67,15 +68,37 @@
                                 <div ng-if="data.ReqType == 1 ">
                                     Seller
                                 </div>
-                                <div ng-if="data.ReqType == 2 ">
-                                    Buyer
+                                <div ng-if="data.ReqType == 21 ">
+                                    Buyer - API
+                                </div>
+                                <div ng-if="data.ReqType == 22 ">
+                                    Buyer - WL
+                                </div>
+                                <div ng-if="data.ReqType == 23 ">
+                                    Buyer - TA
                                 </div>
 
                                 <div ng-if="data.ReqType == 'NoReq'">
                                     No Request
                                 </div>
                             </td>
-                            
+                            <td>
+                                <div ng-if="data.Status == 1">
+                                    Requested
+                                </div>
+                                <div ng-if="data.Status == 2">
+                                    On Progress
+                                </div>
+                                <div ng-if="data.Status == 3">
+                                    Signature Waiting
+                                </div>
+                                <div ng-if="data.Status == 4">
+                                    Signed
+                                </div>
+                                <div ng-if="data.Status == 5">
+                                    Rejected
+                                </div>
+                            </td>
                             <td>
                                 <div ng-if="data.PrivyId != 'empty'">
                                     <a href="#" data-toggle="modal" data-target="#privyModal" class="tooltipx pointer">
@@ -288,7 +311,7 @@
                                                                             <label class="control-label col-sm-2" style="text-align: left;">Gender</label> 
                                                                             <div class="input-group col-sm-10">
                                                                                 <span class="input-group-addon">
-                                                                                    <i class="fa fa-mars"></i>
+                                                                                    <i class="fa fa-user"></i>
                                                                                 </span>
                                                                                 <input class="form-control" name="gender" value="{{data.Gender}}" disabled>
                                                                             </div>
@@ -442,7 +465,7 @@
                                                                             <label class="control-label col-sm-4" style="text-align: left;">Nama Perusahaan</label> 
                                                                             <div class="input-group col-sm-8">
                                                                                 <span class="input-group-addon">
-                                                                                    <i class="fa fa-building"></i>
+                                                                                    <i class="fa fa-briefcase"></i>
                                                                                 </span>
                                                                                 <input type="text" class="form-control" name="coname" value="{{data.Company.Name}}" disabled>
                                                                             </div>
@@ -701,7 +724,7 @@
                                                                     <label class="control-label col-sm-2" style="text-align: left;">Nama Bank</label> 
                                                                     <div class="input-group col-sm-4">
                                                                         <span class="input-group-addon">
-                                                                            <i class="fa fa-building"></i>
+                                                                            <i class="fa fa-briefcase"></i>
                                                                         </span>
                                                                         <input type="text" class="form-control" name="bankname" value="{{data.Bank.BankName}}" disabled>
                                                                         
