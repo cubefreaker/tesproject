@@ -153,7 +153,7 @@ class crud_user extends CI_Controller
         $resp = $this->privyid_api->postPrivyAPI($url, $data);
         $r = json_decode($resp);
         // echo $r->code;die();
-        echo $resp;
+        // echo $resp;
         
         if($r->code == 201){
 
@@ -183,6 +183,8 @@ class crud_user extends CI_Controller
             $this->m_insert->insertDynamic($dataInsert);
 
             $Return['StatusResponse'] = 1;
+        }else if($r->code == 422){
+            $Return['Message'] = $r->errors[0]->messages;
         }
         
         echo json_encode($Return);
@@ -270,7 +272,7 @@ class crud_user extends CI_Controller
         $this->load->library('privyid_api');
         $resp = $this->privyid_api->postPrivyAPI($url, $data);
         $r = json_decode($resp);
-        echo $resp;
+        // echo $resp;
         if ($r->code == 201) {
             $this->load->model('m_insert');
             $docData = [
@@ -295,6 +297,8 @@ class crud_user extends CI_Controller
             $this->m_update->updateDynamic($dataUpdate);
 
             $Return['StatusResponse'] = 1;
+        }else if($r->code == 422){
+            $Return['Message'] = $r->errors[0]->messages;
         }
         echo json_encode($Return);
     }

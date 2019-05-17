@@ -191,7 +191,7 @@
                                                 <p style="font-weight:bold">Accept request and submit user's data to Privy ID</p>
                                             </div>
                                             <div class="modal-footer">
-                                                <button ng-click="acceptRequest(data)" type="button" class="btn btn-success">Accept</button>
+                                                <button ng-click="acceptRequest(data)" type="button" class="btn btn-success" data-dismiss="modal">Accept</button>
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                             </div>
                                         </div>
@@ -862,7 +862,6 @@
                 console.log(err);
                 AngularService.ErrorResponse(err);
             });
-        location.reload();
     }
 
     $scope.rejectRequest = function(UserId, ReqType){
