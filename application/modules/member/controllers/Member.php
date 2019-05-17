@@ -1,7 +1,9 @@
 <?php
 
+use Dompdf\Dompdf;
 class Member extends CI_Controller
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -825,7 +827,6 @@ class Member extends CI_Controller
 
             //validation failed.
             $message['error_msg'] = validation_errors();
-
         } else {
 
             //begin transaction
@@ -835,6 +836,7 @@ class Member extends CI_Controller
             
             $get_mitra_info = $this->Global_model->set_model('users_mitra','um','id')->mode(array(
                 'type' => 'single_row',
+                // 'select' => '',
                 'conditions' => array(
                     'user_id' => $this->ion_auth->user()->row()->id
                 ),
@@ -970,15 +972,85 @@ class Member extends CI_Controller
         }
     }
 
+    /**
+     * [myrequest]
+     * @return 
+     */
     public function myrequest()
     {
         $this->load->model('Global_model');
-        $data['request_seller'] = $this->Global_model->set_model('users_requestv2','ur','id')->mode(array(
-            'type' => 'all_data',
-            // ''
-        ));
+
         $data = $this->m_general->loadGeneralData();
+        $data['title_table'] = "List My Request";
+        $data['reques'] = $this->Global_model->set_model('users_requestv2','ur','id')->mode(array(
+            'type' => 'all_data',
+            'select' => 'ur.*, ub.buyer_type',
+            'left_joined' => array(
+                'users_buyer ub' => array(
+                    'ub.request_id' => 'ur.id' 
+                ) 
+            ),
+            'conditions' => array(
+                'ur.user_id' => $this->ion_auth->user()->row()->id
+            ),
+            'debug_query' => false
+        ));
 
         $this->load->view('member/my-request', $data);
+    }
+
+    public function cancel_request()
+    {
+        $id = $this->input->post('id');
+
+        if( !empty($id) ) {
+            
+        }
+    }
+
+    public function laporan_pdf(){
+
+        $data = array(
+            
+        );
+
+        $this->load->library('pdf');
+
+        $this->pdf->setPaper('A4', 'potrait');
+        $this->pdf->filename = "laporan-petanikode.pdf";
+        $this->pdf->load_view('proto_pdf', $data);
+    }
+
+    public function generate_nda_pdf()
+    {
+        // $this->load->library('pdf');
+
+        $direktori = 'assets/generate_pdf/NDA/';
+
+        if(!is_dir($direktori) ) {
+            mkdir($direktori,0777,TRUE);
+        }
+
+        $html = $this->ci()->load->view($view, $data, TRUE);
+        $this->load_html($html);
+        // Render the PDF
+        $this->render();
+
+
+        $this->load_view('proto_pdf');
+        $pdf = $this->output();
+        $file_location = $_SERVER['DOCUMENT_ROOT'].$direktori."test".".pdf";
+        file_put_contents($file_location,$pdf); 
+    }
+
+    /**
+     * Get an instance of CodeIgniter
+     *
+     * @access    protected
+     * @return    void
+     */
+    protected function ci()
+    {
+        return get_instance();
     }
 }

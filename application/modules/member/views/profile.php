@@ -5,19 +5,19 @@
 <body>  
 <?php $this->load->view('template/landingpage/nav') ?>
 
-<div class="container">
+<div class="container" style="margin-top: 40px;">
     <ul class="nav nav-tabs">
         <li class="pull-right">
             <a href="#rekening" data-toggle="tab">Rekening Bank</a>
-        </li>
-        <li class="pull-right">
-            <a href="#dokumen" data-toggle="tab">Dokumen</a>
         </li>
         <li class="pull-right">
             <a href="#kontak" data-toggle="tab">Kontak Perwakilan</a>
         </li>
         <li class="pull-right">
             <a href="#infomitra" data-toggle="tab">Info Mitra</a>
+        </li>
+        <li class="pull-right">
+            <a href="#dokumen" data-toggle="tab">Dokumen</a>
         </li>
         <li class="pull-right">
             <a href="#personaldata" data-toggle="tab">Personal Data</a>
