@@ -172,7 +172,7 @@ class users extends CI_Controller
                         'Id'        => $v->doc_id,
                         'UserId'    => $value->id,
                         'Name'      => $v->doc_name,
-                        'Url'       => base_url().'assets/file_upload/'.$v->doc_name,
+                        'Url'       => base_url().'assets/generate_pdf/'.$v->doc_name,
                         'Type'      => $v->type,
                         'Status'    => $v->status,
                         'Owner'     => [
