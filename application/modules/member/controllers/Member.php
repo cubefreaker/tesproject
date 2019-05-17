@@ -103,28 +103,38 @@ class Member extends CI_Controller
             );
 
             $check_username = $this->M_member->check_username($username);
+            $check_email = $this->M_member->check_email($email);
+            $chek_nik = $this->M_member->check_nik($nik);
 
             if( $check_username ) {
-                $result['status'] = FALSE;  
+                $result['status'] = false;  
                 $result['message'] = 'Username already exist';
-            }
-
-            if( $this->ion_auth->register($email, $password, $email, $additional_data) ) {
+            }else if($check_email){
+                $result['status'] = false;  
+                $result['message'] = 'Email already exist';
+            }else if($check_nik){
+                $result['status'] = false;  
+                $result['message'] = 'NIK already exist';
+            }else if($this->ion_auth->register($email, $password, $email, $additional_data)){
                 $result['status'] = true;
-                $result['message'] = "Success register";
-            } else {
-                $result['status']  = FALSE;
-                $result['message'] = trim(strip_tags($this->ion_auth->errors()));
-
-                if( $check_username ) {
-                    $result = ['status'=>FALSE, 'message'=>'Username already exist', 'data'=>[]];
-                }
             }
+
+            // if( $this->ion_auth->register($email, $password, $email, $additional_data) ) {
+            //     $result['status'] = true;
+            //     $result['message'] = "Success register";
+            // } else {
+            //     $result['status']  = FALSE;
+            //     $result['message'] = trim(strip_tags($this->ion_auth->errors()));
+
+            //     if( $check_username ) {
+            //         $result = ['status'=>FALSE, 'message'=>'Username already exist', 'data'=>[]];
+            //     }
+            // }
         }
 
-        $this->output->set_content_type('application/json');
+        // $this->output->set_content_type('application/json');
         echo json_encode($result);
-        exit;
+        // exit;
     }
 
     public function register()

@@ -97,4 +97,16 @@ class M_member extends CI_Model
         $this->db->where('username', $username);
         return $this->db->get('users')->row();
     }
+
+    public function check_email($email)
+    {
+        $this->db->where('email', $email);
+        return $this->db->get('users')->row();
+    }
+
+    public function check_nik($nik)
+    {
+        $this->db->where('nik', $nik);
+        return $this->db->get('users')->row();
+    }
 }

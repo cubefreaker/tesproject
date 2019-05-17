@@ -116,8 +116,9 @@ $(document).ready(function() {
             headers: { 'X-CSRF-TOKEN': getCookiebyName('5f05193eee9e900380c12e6040e7dee9') },
             // dataType: 'json',
             success: function(resp){
-                console.log(resp);
-                var response = JSON.parse(resp);
+                console.log(resp.data);
+                var response = resp;
+                console.log(response);
                 console.log(response.status);
                 stopLoading();
                 if( response.status == true) {
@@ -134,11 +135,10 @@ $(document).ready(function() {
                     })
                 }
                 else {
-                    // console.log(resp.message);
-                    // console.log(resp.status);
+                    console.log(response.message);
                     swal({
                         title: "Failed",
-                        text: resp.message,
+                        text: response.message,
                         type:"error"
                     });
                 }

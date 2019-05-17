@@ -135,7 +135,7 @@ class users extends CI_Controller
                 'Group'         => $this->ion_auth->get_users_groups($value->id)->row(),
                 'Company'       => [
                                     'Brand'     => $company ? ($company->brand ? $company->brand : '') : '',
-                                    'Name'      => $company ? ($company->company_name ? $company->company_name : '') : '',
+                                    'Name'      => $company ? ($company->mitra_name ? $company->mitra_name : '') : '',
                                     'Owner'     => $company ? ($company->owner ? $company->owner : '') : '',
                                     'Phone'     => $company ? ($company->phone_no ? $company->phone_no : '') : '',
                                     'Mobile'    => $company ? ($company->mobile_no ? $company->mobile_no : '') : '',
