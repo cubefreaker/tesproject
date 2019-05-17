@@ -66,7 +66,7 @@
             }
             else {
                 $member = $this->ion_auth->user()->row();
-                $memberUsername = $member->username;
+                $memberUsername = ($member->username) ? $member->username : "";
                 echo'
                     <li class="sign-up">
                         <a class="keep-color" href="">Home</a>
