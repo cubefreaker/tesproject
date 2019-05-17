@@ -99,7 +99,7 @@ class Global_model extends CI_Model {
 			{
 				foreach($params['left_joined'] as $key => $val )
 				{	
-					$this->db->join($key, key($val)." = ".$val[key($val)] ."left");
+					$this->db->join($key, key($val)." = ".$val[key($val)]. "","left");
 				}
 			}
 
@@ -107,7 +107,7 @@ class Global_model extends CI_Model {
 			{
 				foreach($params['right_joinend'] as $key => $val )
 				{	
-					$this->db->join($key, key($val)." = ".$val[key($val)] ."right");
+					$this->db->join($key, key($val)." = ".$val[key($val)] ."","right");
 				}
 			}
 
@@ -155,18 +155,19 @@ class Global_model extends CI_Model {
 			if( isset($params['limit']) && isset($params['start']) ) {
 				$this->db->limit($params['limit'], $params['start']);
 			}
-
-			if( isset($params['return_object']) && $params['return_object'] != "" ) 
-			{
-				$this->_result = $this->db->get()->result();
-			} else {
-				$this->_result = $this->db->get()->result_array();
-			}
-
+			
 			//debug query
 			if( isset($params['debug_query']) && $params['debug_query'] == true) {
 				print_query($this->db);exit;
 			}
+
+			if( isset($params['return_object']) && $params['return_object'] == true ) 
+			{
+				return $this->_result = $this->db->get()->result();
+			} else {
+				return $this->_result = $this->db->get()->result_array();
+			}
+
 		/**
 	     * type single row.
 	     * @param index['type'] = (singel_row)

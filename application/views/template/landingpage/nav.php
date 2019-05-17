@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" style="height:85px">
     <div class="container-fluid">
         <div class="col-xs-12 col-md-10 col-md-offset-1">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -66,7 +66,7 @@
             }
             else {
                 $member = $this->ion_auth->user()->row();
-                $memberUsername = $member->username;
+                $memberUsername = ($member->username) ? $member->username : "";
                 echo'
                     <li class="sign-up">
                         <a class="keep-color" href="">Home</a>

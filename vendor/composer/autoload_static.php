@@ -25,6 +25,14 @@ class ComposerStaticInit58a5bdc6c183675dfb055aa36b984699
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
         ),
+        'F' => 
+        array (
+            'FontLib\\' => 8,
+        ),
+        'D' => 
+        array (
+            'Dompdf\\' => 7,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -48,6 +56,14 @@ class ComposerStaticInit58a5bdc6c183675dfb055aa36b984699
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
+        'FontLib\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phenx/php-font-lib/src/FontLib',
+        ),
+        'Dompdf\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dompdf/dompdf/src',
+        ),
     );
 
     public static $prefixesPsr0 = array (
@@ -56,6 +72,17 @@ class ComposerStaticInit58a5bdc6c183675dfb055aa36b984699
             'org\\bovigo\\vfs' => 
             array (
                 0 => __DIR__ . '/..' . '/mikey179/vfsStream/src/main/php',
+            ),
+        ),
+        'S' => 
+        array (
+            'Svg\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/phenx/php-svg-lib/src',
+            ),
+            'Sabberworm\\CSS' => 
+            array (
+                0 => __DIR__ . '/..' . '/sabberworm/php-css-parser/lib',
             ),
         ),
         'D' => 
@@ -68,35 +95,15 @@ class ComposerStaticInit58a5bdc6c183675dfb055aa36b984699
     );
 
     public static $classMap = array (
+        'Cpdf' => __DIR__ . '/..' . '/dompdf/dompdf/lib/Cpdf.php',
         'Format' => __DIR__ . '/..' . '/chriskacerguis/codeigniter-restserver/application/libraries/Format.php',
+        'HTML5_Data' => __DIR__ . '/..' . '/dompdf/dompdf/lib/html5lib/Data.php',
+        'HTML5_InputStream' => __DIR__ . '/..' . '/dompdf/dompdf/lib/html5lib/InputStream.php',
+        'HTML5_Parser' => __DIR__ . '/..' . '/dompdf/dompdf/lib/html5lib/Parser.php',
+        'HTML5_Tokenizer' => __DIR__ . '/..' . '/dompdf/dompdf/lib/html5lib/Tokenizer.php',
+        'HTML5_TreeBuilder' => __DIR__ . '/..' . '/dompdf/dompdf/lib/html5lib/TreeBuilder.php',
         'Mobile_Detect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/Mobile_Detect.php',
         'REST_Controller' => __DIR__ . '/..' . '/chriskacerguis/codeigniter-restserver/application/libraries/REST_Controller.php',
-        'SnapIntegrationTest' => __DIR__ . '/..' . '/veritrans/veritrans-php/tests/integration/SnapIntegrationTest.php',
-        'VT_Tests' => __DIR__ . '/..' . '/veritrans/veritrans-php/tests/VtTests.php',
-        'VeritransApiRequestorTest' => __DIR__ . '/..' . '/veritrans/veritrans-php/tests/VeritransApiRequestorTest.php',
-        'VeritransConfigTest' => __DIR__ . '/..' . '/veritrans/veritrans-php/tests/VeritransConfigTest.php',
-        'VeritransNotificationIntegrationTest' => __DIR__ . '/..' . '/veritrans/veritrans-php/tests/integration/VtNotificationIntegrationTest.php',
-        'VeritransNotificationTest' => __DIR__ . '/..' . '/veritrans/veritrans-php/tests/VeritransNotificationTest.php',
-        'VeritransSnapApiRequestorTest' => __DIR__ . '/..' . '/veritrans/veritrans-php/tests/VeritransSnapApiRequestorTest.php',
-        'VeritransSnapTest' => __DIR__ . '/..' . '/veritrans/veritrans-php/tests/VeritransSnapTest.php',
-        'VeritransTransactionTest' => __DIR__ . '/..' . '/veritrans/veritrans-php/tests/VeritransTransactionTest.php',
-        'VeritransVtDirectTest' => __DIR__ . '/..' . '/veritrans/veritrans-php/tests/VeritransVtDirectTest.php',
-        'VeritransVtWebTest' => __DIR__ . '/..' . '/veritrans/veritrans-php/tests/VeritransVtWebTest.php',
-        'Veritrans_ApiRequestor' => __DIR__ . '/..' . '/veritrans/veritrans-php/Veritrans/ApiRequestor.php',
-        'Veritrans_Config' => __DIR__ . '/..' . '/veritrans/veritrans-php/Veritrans/Config.php',
-        'Veritrans_Notification' => __DIR__ . '/..' . '/veritrans/veritrans-php/Veritrans/Notification.php',
-        'Veritrans_Sanitizer' => __DIR__ . '/..' . '/veritrans/veritrans-php/Veritrans/Sanitizer.php',
-        'Veritrans_Snap' => __DIR__ . '/..' . '/veritrans/veritrans-php/Veritrans/Snap.php',
-        'Veritrans_SnapApiRequestor' => __DIR__ . '/..' . '/veritrans/veritrans-php/Veritrans/SnapApiRequestor.php',
-        'Veritrans_Transaction' => __DIR__ . '/..' . '/veritrans/veritrans-php/Veritrans/Transaction.php',
-        'Veritrans_VtDirect' => __DIR__ . '/..' . '/veritrans/veritrans-php/Veritrans/VtDirect.php',
-        'Veritrans_VtWeb' => __DIR__ . '/..' . '/veritrans/veritrans-php/Veritrans/VtWeb.php',
-        'VtChargeFixture' => __DIR__ . '/..' . '/veritrans/veritrans-php/tests/utility/VtFixture.php',
-        'VtDirectIntegrationTest' => __DIR__ . '/..' . '/veritrans/veritrans-php/tests/integration/VtDirectIntegrationTest.php',
-        'VtFixture' => __DIR__ . '/..' . '/veritrans/veritrans-php/tests/utility/VtFixture.php',
-        'VtIntegrationTest' => __DIR__ . '/..' . '/veritrans/veritrans-php/tests/integration/VtIntegrationTest.php',
-        'VtTransactionIntegrationTest' => __DIR__ . '/..' . '/veritrans/veritrans-php/tests/integration/VtTransactionIntegrationTest.php',
-        'VtWebIntegrationTest' => __DIR__ . '/..' . '/veritrans/veritrans-php/tests/integration/VtWebIntegrationTest.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

@@ -7,5 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'org\\bovigo\\vfs' => array($vendorDir . '/mikey179/vfsStream/src/main/php'),
+    'Svg\\' => array($vendorDir . '/phenx/php-svg-lib/src'),
+    'Sabberworm\\CSS' => array($vendorDir . '/sabberworm/php-css-parser/lib'),
     'Detection' => array($vendorDir . '/mobiledetect/mobiledetectlib/namespaced'),
 );

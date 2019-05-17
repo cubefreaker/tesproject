@@ -7,7 +7,6 @@
     <link rel="icon" type="image/x-icon" href="<?=base_url('assets/images/favicon/').$masterLandingPage->favicon?>" />
     <title><?=$masterLandingPage->title?></title>
     <link href="<?=base_url('assets/css/bootstrap.min.css')?>" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="<?=base_url('assets/css/nav_footer.css')?>" rel="stylesheet" type="text/css">
     <link href="<?=base_url('assets/css/landing-page.css')?>" rel="stylesheet" type="text/css">
@@ -23,7 +22,8 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <!-- for the most recent version of the "default" theme -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Zebra_datepicker/1.9.12/css/default/zebra_datepicker.css">
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/style-modify.css'); ?>">
     <!-- load jquery -->
     <script type='text/javascript' src="<?=base_url('assets/js/jquery.min.js')?>"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -33,7 +33,8 @@
     <script src="<?php echo base_url() ?>assets/js/jquery.form.min.js"></script>
     <script src="<?php echo base_url() ?>assets/js/jquery.validate.min.js"></script>
     <!-- load datatables -->
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
     <!-- load angular framework -->
     <script type='text/javascript' src="<?=base_url('assets/lib/plugins/angular-1.6.9/angular.min.js')?>"></script>
     <script type='text/javascript' src="<?=base_url('assets/lib/plugins/angular-1.6.9/angular-cookies.js')?>"></script>
@@ -269,7 +270,7 @@
 
         .tab_container [id^="tab"]:checked + label {
           background: #fff;
-          box-shadow: inset 0 3px #0CE;
+          box-shadow: inset 0 3px #347ab7;
         }
 
         .tab_container [id^="tab"]:checked + label .fa {
@@ -317,7 +318,12 @@
             opacity: 1;
           }
         }
+        .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+          color: #f6f9fa;
+          cursor: default;
+          background-color: #347ab7;
+          border: 1px solid #ddd;
+          border-bottom-color: transparent;
+        }
     </style>
-    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/style-modify.css'); ?>">
-
 </head>
