@@ -6,6 +6,13 @@ $( function() {
         yearRange: "c-100:c",
     });
 
+    $(".datepickers" ).datepicker({
+        dateFormat : 'dd-mm-yy',
+        changeMonth : true,
+        changeYear : true,
+        // yearRange: "-100:+0",
+    });
+
     //submit handler from external button.
     $(".submit-form").on("click", function() {
         var formID = $(this).data("form-target");

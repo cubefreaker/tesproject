@@ -462,13 +462,13 @@
                                                                                 <div class="form-group">
                                                                                     <label class="control-label col-md-4">Start Date<span>*</span> </label>
                                                                                     <div class="controls col-md-8"> 
-                                                                                        <input class="input-md form-control datepicker" id="temp_start_date" name="temp_start_date" placeholder="Start Date" style="margin-bottom: 10px" type="text" />
+                                                                                        <input class="input-md form-control datepickers" id="temp_start_date" name="temp_start_date" placeholder="Start Date" style="margin-bottom: 10px" type="text" />
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group">
                                                                                     <label class="control-label col-md-4">End Date<span>*</span> </label>
                                                                                     <div class="controls col-md-8"> 
-                                                                                        <input class="input-md form-control datepicker" id="" name="    temp_end_date" placeholder="End Date" style="margin-bottom: 10px" type="text" />
+                                                                                        <input class="input-md form-control datepickers" id="" name="    temp_end_date" placeholder="End Date" style="margin-bottom: 10px" type="text" />
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
