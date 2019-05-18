@@ -14,22 +14,48 @@
         background: #fff0f0;
         border-color: #A90329;
     }
+    .lds-dual-ring {
+      display: inline-block;
+      width: 64px;
+      height: 64px;
+    }
+    .lds-dual-ring:after {
+      content: " ";
+      display: block;
+      width: 46px;
+      height: 46px;
+      margin: 1px;
+      border-radius: 50%;
+      border: 5px solid #fff;
+      border-color: #fff transparent #fff transparent;
+      animation: lds-dual-ring 1.2s linear infinite;
+    }
+    @keyframes lds-dual-ring {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
 </style>
 <?php if ($this->session->flashdata('save_status') == 'success'): ?>
     <div style="margin-top: 40px;" id="success-alert" class="alert alert-success"><?php echo $this->session->flashdata('save_message'); ?></div>
 <?php endif; ?>
 
+<?php if ($this->session->flashdata('save_status') == 'error'): ?>
+    <div class="alert alert-danger alert-dismissible fade in" style="margin-top: 40px;">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Warning!</strong> <?php echo $this->session->flashdata('save_message'); ?>
+  </div>
+<?php endif; ?>
+<!-- <div class="lds-dual-ring"></div> -->
 <div class="tab-pane active" id="accountrole">
     <div style="padding:2%;">
         <h3 style="margin-bottom:10px;">Account Role</h3>
     </div>
     <div class="panel panel-default shad">
-        <!-- <div class="panel-heading"> -->
-            <!-- div class="panel-title">
-                <center>Rekening Bank</center>
-            </div> -->
-        <!-- </div> -->
-    
         <div class="panel-body"> 
             <div class="tab_container" style="margin-left: 10%">
                 <input id="tab1" type="radio" class="tabs" name="tabs" checked>
@@ -192,11 +218,25 @@
                                                 <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                                                     <div class="panel-body">
                                                         <?php 
-                                                            $mitraName = ($mitra_info->mitra_name) ? $mitra_info->mitra_name : "";
-                                                            $first = $this->ion_auth->user()->row()->first_name;
-                                                            $last  = $this->ion_auth->user()->row()->last_name;
+                                                            if(!empty($mitra_info)) {
 
-                                                            $pic_mitra = $first." ".$last;
+                                                                $mitraName = ($mitra_info->mitra_name) ? $mitra_info->mitra_name : "";
+                                                                $kota      = ($mitra_info->city) ? $mitra_info->city : "";
+                                                                $kecamatan = ($mitra_info->sub_district) ? $mitra_info->sub_district : "";
+
+                                                                $alamat    = $kota ."". $kecamatan;
+                                                                $first = $this->ion_auth->user()->row()->first_name;
+                                                                $last  = $this->ion_auth->user()->row()->last_name;
+                                                                $pic_mitra = $mitra_info->owner;
+                                                            } else {
+                                                                $mitraName = "";
+                                                                $kota      = "";
+                                                                $kecamatan = "";
+                                                                $alamat    = "";
+                                                                $pic_mitra = "";
+                                                            }
+
+                                                            $today = date('d M Y');
                                                         ?>
                                                         <p class="text-center ex3">
                                                             <b style="text-align: center;">PERJANJIAN KERAHASIAAN </b><br>
@@ -205,11 +245,11 @@
                                                             <b style="text-align: center;">DAN</b><br>
                                                             <b style="text-align: center;">PT. <?php echo $mitraName; ?></b><br>
                                                             <!-- RSP NO : ____ /DIR/NDA/V/2018<br> -->
-                                                            Perjanjian Kerahasiaan ini (selanjutnya disebut “Perjanjian”) ditandatangani pada tanggal ___ Mei 2018 (selanjutnya disebut “Tanggal Efektif”) oleh dan antara: <br>
+                                                            Perjanjian Kerahasiaan ini (selanjutnya disebut “Perjanjian”) ditandatangani pada tanggal <?php echo $today; ?> (selanjutnya disebut “Tanggal Efektif”) oleh dan antara: <br>
 
-                                                            ITX, suatu perseroan terbatas yang didirikan berdasarkan hukum negara Republik Indonesia, berdomisili di Jl. Kebon Sirih No.12 RT.11/RW.2, Gambir Kota Jakarta Pusat 10110, Indonesia, dalam hal ini diwakili oleh  david pattiasina, dalam jabatannya selaku Direktur Utama dari dan karenanya sah bertindak untuk dan atas nama ITX; and
+                                                            ITX, suatu perseroan terbatas yang didirikan berdasarkan hukum negara Republik Indonesia, berdomisili di Jl. Kebon Sirih No.12 RT.11/RW.2, Gambir Kota Jakarta Pusat 10110, Indonesia, dalam hal ini diwakili oleh  David pattiasina, dalam jabatannya selaku Direktur Utama dari dan karenanya sah bertindak untuk dan atas nama ITX and
 
-                                                            PT. <?php echo $mitraName; ?>, suatu perseroan terbatas yang didirikan berdasarkan hukum negara Republik Indonesia, berdomisili di Jl. ____________________, dalam hal ini diwakili oleh  <?php echo "<b>".$pic_mitra."</b>"; ?>, dalam jabatannya selaku Direktur Utama dari dan karenanya sah bertindak untuk dan atas nama PT. <?php echo $mitraName; ?>
+                                                            PT. <?php echo $mitraName; ?>, suatu perseroan terbatas yang didirikan berdasarkan hukum negara Republik Indonesia, berdomisili di <?= $alamat; ?>, dalam hal ini diwakili oleh  <?php echo "<b>".$pic_mitra."</b>"; ?>, dalam jabatannya selaku Direktur Utama dari dan karenanya sah bertindak untuk dan atas nama PT. <?php echo $mitraName; ?>
 
                                                             Masing-masing disebut Pihak, dan secara bersama-sama disebut Para Pihak. <br>
 
@@ -500,7 +540,7 @@
                                 Changes to this Policy
                                 ITX may from time to time change this Policy or change, modify or withdraw access to this site at any time with or without notice. However, if this Policy is changed in a material, adverse way, ITX will post a notice advising of such change at the beginning of this Policy and on this site's home page for 30 days. We recommend that you re-visit this Policy from time to time to learn of any such changes to this Policy.
                                 <br>
-                                Copyright © ITX, 2017. All rights reserved.
+                                Copyright © ITX, 2019. All rights reserved.
                             </p>
                         </div>
                         <p style="margin-top: 20px;">
@@ -552,7 +592,7 @@
                                 Termination 
                                 ITX reserves the right, in its sole discretion, to terminate your access to all or part of this site, with or without notice. 
                                 <br>
-                                © Copyright by ITX 2017 - All rights reserved.
+                                © Copyright by ITX 2019 - All rights reserved.
                             </p>
                         </div>
                         <p>

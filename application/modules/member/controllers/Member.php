@@ -431,7 +431,8 @@ class Member extends CI_Controller
             'city'         => $this->input->post('city'),
             'email'         => $this->input->post('email'),
             'website'         => $this->input->post('website'),
-            'postal_code'         => $this->input->post('postal')
+            'postal_code'         => $this->input->post('postal'),
+            'user_id'           => $this->ion_auth->user()->row()->id
         ];
         
         $this->load->library('upload', $config);
@@ -487,7 +488,8 @@ class Member extends CI_Controller
             'name_ops' => $this->input->post('nameops'),
             'email_ops' => $this->input->post('emailops'),
             'phone_ops' => $this->input->post('phoneops'),
-            'mobile_ops' => $this->input->post('mobileops')
+            'mobile_ops' => $this->input->post('mobileops'),
+            'user_id'           => $this->ion_auth->user()->row()->id
         ];
 
         $getContact = [
@@ -495,6 +497,7 @@ class Member extends CI_Controller
             'from'  => 'users_contact',
             'where' => ['user_id' => $user->id]
         ];
+
         $this->load->model('m_get');
         if($this->m_get->getRowDynamic($getContact) == FALSE){
             $contactData['user_id'] = $user->id;
@@ -800,7 +803,7 @@ class Member extends CI_Controller
         //validates.
         //special validations for when editing.
         $this->form_validation->set_rules('buyer_type','Type Buyer','required');
-        if( $data['buyer_type'] == 1 ) {
+        if( $data['buyer_type'] == API ) {
             $this->form_validation->set_rules('agree_nda_check', 'Check NDA', "required");
             $this->form_validation->set_rules('ip_dev_1','IP DEVELOPMENT','trim|required');
             $this->form_validation->set_rules('ip_production','IP PRODUCTION','trim|required');
@@ -847,73 +850,209 @@ class Member extends CI_Controller
             
             $get_mitra_info = $this->Global_model->set_model('users_mitra','um','id')->mode(array(
                 'type' => 'single_row',
-                // 'select' => '',
                 'conditions' => array(
                     'user_id' => $this->ion_auth->user()->row()->id
                 ),
                 'return_object' => true
-                // 'debug_query' => true
             ));
 
-            if(!empty($get_mitra_info)) {
-                $mitra_name = ($get_mitra_info->mitra_name) ? $get_mitra_info->mitra_name : "";
-                $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
-                $telp       = ($get_mitra_info->phone_no) ? $get_mitra_info->phone_no : "";
-                $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
-            }
+            $check_buyer_api = $this->Global_model->set_model('users_buyer','um','id')->mode(array(
+                'type' => 'single_row',
+                'conditions' => array(
+                    'user_id' => $this->ion_auth->user()->row()->id,
+                    'buyer_type' => API
+                ),
+                'return_object' => true
+            ));
+
+            $check_buyer_whitelabel = $this->Global_model->set_model('users_buyer','um','id')->mode(array(
+                'type' => 'single_row',
+                'conditions' => array(
+                    'user_id' => $this->ion_auth->user()->row()->id,
+                    'buyer_type' => WHITELABEL
+                ),
+                'return_object' => true
+            ));
+
+            $check_buyer_ta = $this->Global_model->set_model('users_buyer','um','id')->mode(array(
+                'type' => 'single_row',
+                'conditions' => array(
+                    'user_id' => $this->ion_auth->user()->row()->id,
+                    'buyer_type' => TRAVELAGENT
+                ),
+                'return_object' => true
+            ));
+
+
+            // if(!empty($get_mitra_info)) {
+            //     $mitra_name = ($get_mitra_info->mitra_name) ? $get_mitra_info->mitra_name : "";
+            //     $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
+            //     $telp       = ($get_mitra_info->phone_no) ? $get_mitra_info->phone_no : "";
+            //     $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
+            // } else {
+
+            // }
 
             if( $data['buyer_type'] == API ) {
-                $_save_data = array(
-                    'buyer_type'            => $data['buyer_type'],
-                    'request_date'          => NOW,
-                    'title'                 => '',
-                    'name'                  => '',
-                    'company'               => $mitra_name,
-                    'telephone'             => $telp,
-                    'email'                 => $email,
-                    'ip_dev_1'              => $data['ip_dev_1'],
-                    'ip_dev_2'              => $data['ip_dev_2'],
-                    'ip_production'         => $data['ip_production'],
-                    'protocols'             => $data['protocols'],
-                    'ports'                 => $data['ports'],
-                    'remark'                => $data['remark'],
-                    'agree_nda_check'       => $data['agree_nda_check'],
-                    'agree_ip_whitelist'    => $data['agree_ip_whitelist'],
-                    'change_request'        => $data['change_request'],
-                );
+
+                if($check_buyer_api) {
+                    $message['is_error']    = true;
+                    $message['error_msg']   = "Tidak bisa melakukan request, Anda sudah request sebelumnya sebagai buyer (API)";
+                    $message['redirect_to'] = "";
+
+                    $this->output->set_content_type('application/json');
+                    echo json_encode($message);
+                    exit;
+                } elseif(empty($get_mitra_info)) {
+                    $message['is_error']    = true;
+                    $message['error_msg']   = "Tidak bisa melakukan request, Silahkan isi informasi mitra";
+                    $message['redirect_to'] = "";
+
+                    $this->output->set_content_type('application/json');
+                    echo json_encode($message);
+                    exit;
+                } else {
+                    $mitra_name = ($get_mitra_info->mitra_name) ? $get_mitra_info->mitra_name : "";
+                    $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
+                    $telp       = ($get_mitra_info->phone_no) ? $get_mitra_info->phone_no : "";
+                    $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
+                    $_save_data = array(
+                        'buyer_type'            => $data['buyer_type'],
+                        'request_date'          => NOW,
+                        'title'                 => '',
+                        'name'                  => '',
+                        'company'               => $mitra_name,
+                        'telephone'             => $telp,
+                        'email'                 => $email,
+                        'ip_dev_1'              => $data['ip_dev_1'],
+                        'ip_dev_2'              => $data['ip_dev_2'],
+                        'ip_production'         => $data['ip_production'],
+                        'protocols'             => $data['protocols'],
+                        'ports'                 => $data['ports'],
+                        'remark'                => $data['remark'],
+                        'agree_nda_check'       => $data['agree_nda_check'],
+                        'agree_ip_whitelist'    => $data['agree_ip_whitelist'],
+                        'change_request'        => $data['change_request'],
+                    );
 
 
-                $name = $mitra_name.'_'.date('d-m-Y');
-                $pdf = $this->generate_nda_pdf($name);
-                // print_r($pdf['nama_file']);die;
+                    $file_name_nda = $mitra_name.'_'.date('d-m-Y')."_NDA_".time();
+                    $file_name_nda = str_replace(" ", "_", $file_name_nda);
 
-                $insert_doc = $this->M_member->insert('users_document_det', array(
-                    'doc_name'      => $pdf['nama_file'],
-                    'created_date'  => NOW,
-                    'modified_date' => NOW,
-                    'user_id'       => $this->ion_auth->user()->row()->id,
-                    'type'          => 1
-                ));
+                    $file_name_ip = $mitra_name.'_'.date('d-m-Y')."_IP_".time();
+                    $file_name_ip = str_replace(" ", "_", $file_name_ip);
 
-                if($data['change_request'] == TEMPORARY) {
-                    $_save_data['temp_start_date'] = date('Y-m-d',strtotime($data['temp_start_date']));
-                    $_save_data['temp_end_date']   = date('Y-m-d',strtotime($data['temp_end_date']));
-                } 
+                    $pdf_nda = $this->generate_nda_pdf($file_name_nda);
+                    $pdf_ip  = $this->generate_ip_pdf($file_name_ip);
+
+                    $this->M_member->insert('users_document_det', array(
+                        'doc_name'      => $pdf_nda['nama_file'],
+                        'created_date'  => NOW,
+                        'modified_date' => NOW,
+                        'user_id'       => $this->ion_auth->user()->row()->id,
+                        'type'          => 1
+                    ));
+
+                    $this->M_member->insert('users_document_det', array(
+                        'doc_name'      => $pdf_ip['nama_file'],
+                        'created_date'  => NOW,
+                        'modified_date' => NOW,
+                        'user_id'       => $this->ion_auth->user()->row()->id,
+                        'type'          => 1
+                    ));
+
+                    if($data['change_request'] == TEMPORARY) {
+                        $_save_data['temp_start_date'] = date('Y-m-d',strtotime($data['temp_start_date']));
+                        $_save_data['temp_end_date']   = date('Y-m-d',strtotime($data['temp_end_date']));
+                    } 
+                }
+                
             } else if($data['buyer_type'] == WHITELABEL) {
-                $_save_data = array(
-                    'buyer_type'   => $data['buyer_type'],
-                    'request_date' => NOW
-                );
+                if($check_buyer_whitelabel) {
+                    $message['is_error']    = true;
+                    $message['error_msg']   = "Tidak bisa melakukan request, Anda sudah request sebelumnya sebagai buyer (WHITELABEL)";
+                    $message['redirect_to'] = "";
+
+                    $this->output->set_content_type('application/json');
+                    echo json_encode($message);
+                    exit;
+                } else if(empty($get_mitra_info)) {
+                    $message['is_error']    = true;
+                    $message['error_msg']   = "Tidak bisa melakukan request, Silahkan isi informasi mitra";
+                    $message['redirect_to'] = "";
+
+                    $this->output->set_content_type('application/json');
+                    echo json_encode($message);
+                    exit;
+                } else {
+                    $mitra_name = ($get_mitra_info->mitra_name) ? $get_mitra_info->mitra_name : "";
+                    $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
+                    $telp       = ($get_mitra_info->phone_no) ? $get_mitra_info->phone_no : "";
+                    $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
+
+                    $_save_data = array(
+                        'buyer_type'   => $data['buyer_type'],
+                        'request_date' => NOW
+                    );
+
+                    $file_name_wl = $mitra_name.'_'.date('d-m-Y')."_WHITE_LABEL_".time();
+                    $file_name_wl = str_replace(" ", "_", $file_name_wl);
+
+                    $pdf_nda = $this->generate_whitelabel_pdf($file_name_wl);
+
+                    $this->M_member->insert('users_document_det', array(
+                        'doc_name'      => $pdf_nda['nama_file'],
+                        'created_date'  => NOW,
+                        'modified_date' => NOW,
+                        'user_id'       => $this->ion_auth->user()->row()->id,
+                        'type'          => 1
+                    ));
+
+                }
             } else {
-                $_save_data = array(
-                    'buyer_type'   => $data['buyer_type'],
-                    'request_date' => NOW
-                );
+                if($check_buyer_ta) {
+                    $message['is_error']    = true;
+                    $message['error_msg']   = "Tidak bisa melakukan request, Anda sudah request sebelumnya sebagai buyer (TRAVELAGENT)";
+                    $message['redirect_to'] = "";
+                    
+                    $this->output->set_content_type('application/json');
+                    echo json_encode($message);
+                    exit;
+                } else if(empty($get_mitra_info)) {
+                    $message['is_error']    = true;
+                    $message['error_msg']   = "Tidak bisa melakukan request, Silahkan isi informasi mitra";
+                    $message['redirect_to'] = "";
+
+                    $this->output->set_content_type('application/json');
+                    echo json_encode($message);
+                    exit;
+                } else {
+                    $mitra_name = ($get_mitra_info->mitra_name) ? $get_mitra_info->mitra_name : "";
+                    $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
+                    $telp       = ($get_mitra_info->phone_no) ? $get_mitra_info->phone_no : "";
+                    $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
+
+                    $_save_data = array(
+                        'buyer_type'   => $data['buyer_type'],
+                        'request_date' => NOW
+                    );
+
+                    $file_name_ta = $mitra_name.'_'.date('d-m-Y')."_TRAVEL_AGENT_".time();
+                    $file_name_ta = str_replace(" ", "_", $file_name_ta);
+
+                    $pdf_nda = $this->generate_ta_pdf($file_name_ta);
+
+                    $this->M_member->insert('users_document_det', array(
+                        'doc_name'      => $pdf_nda['nama_file'],
+                        'created_date'  => NOW,
+                        'modified_date' => NOW,
+                        'user_id'       => $this->ion_auth->user()->row()->id,
+                        'type'          => 1
+                    ));
+                }
             }
 
-
             // print_r($this->input->post());die();
-
             //insert or update?
             if ($id == "") {
                 //save table request
@@ -922,6 +1061,7 @@ class Member extends CI_Controller
                     'user_id'               => $this->ion_auth->user()->row()->id,
                     'agree_policy_check'    => $data['agree_policy_check_buyer'],
                     'status_request'        => WAITING,
+                    'request_date'          => NOW,
                     'created_at'            => NOW,
                     'updated_at'            => NOW
                 );
@@ -930,6 +1070,7 @@ class Member extends CI_Controller
 
                 $_save_data['request_id']   = $request_id;
                 $_save_data['user_id']      = $this->ion_auth->user()->row()->id;
+                $_save_data['request_date'] = NOW;
                 $_save_data['created_at']   = NOW; 
                 $_save_data['updated_at']   = NOW; 
 
@@ -977,25 +1118,94 @@ class Member extends CI_Controller
      */
     public function submit_seller()
     {
-        $this->load->model('M_member');
+        $this->load->model(array('M_member','Global_model'));
         $data = $this->input->post();
+        $request_id = array();
+        $get_mitra_info = $this->Global_model->set_model('users_mitra','um','id')->mode(array(
+            'type' => 'single_row',
+            'conditions' => array(
+                'user_id' => $this->ion_auth->user()->row()->id
+            ),
+            'return_object' => true
+        ));
 
-        $_save_data_request = array(
-            'type'                  => SELLER,
-            'user_id'               => $this->ion_auth->user()->row()->id,
-            'agree_policy_check'    => $data['agree_policy_check_seller'],
-            'status_request'        => WAITING,
-            'created_at'            => NOW,
-            'updated_at'            => NOW
-        );
+        $get_doc_info = $this->Global_model->set_model('users_document','ud','id')->mode(array(
+            'type' => 'single_row',
+            'conditions' => array(
+                'user_id' => $this->ion_auth->user()->row()->id
+            ),
+            'return_object' => true
+        ));
 
-        $request_id = $this->M_member->insert('users_requestv2', $_save_data_request);
+        $get_contact_info = $this->Global_model->set_model('users_contact','uc','contact_id')->mode(array(
+            'type' => 'single_row',
+            'conditions' => array(
+                'user_id' => $this->ion_auth->user()->row()->id
+            ),
+            'return_object' => true
+        ));
 
-        if($request_id) {
+        $get_bank_info = $this->Global_model->set_model('users_bank','ub','bank_id')->mode(array(
+            'type' => 'single_row',
+            'conditions' => array(
+                'user_id' => $this->ion_auth->user()->row()->id
+            ),
+            'return_object' => true
+        ));
+
+        $check_request = $this->Global_model->set_model('users_requestv2','ur','id')->mode(array(
+            'type' => 'single_row',
+            'conditions' => array(
+                'ur.user_id' => $this->ion_auth->user()->row()->id
+            )
+        ));
+
+        $link_kontak = '<a href="#kontak" data-toggle="tab"><strong><u>kontak Perwakilan</u></strong></a>';
+
+        if( empty($get_mitra_info) ) {
+            $this->session->set_flashdata('save_status', 'error');
+            $this->session->set_flashdata('save_message', 'Tidak bisa melakukan request isi terlebih dahulu informasi mitra');
+        } elseif( empty($get_doc_info) ) {
+            $this->session->set_flashdata('save_status', 'error');
+            $this->session->set_flashdata('save_message', 'Tidak bisa melakukan request silahkan upload document');
+        } elseif( empty($get_contact_info) ) {
+            $this->session->set_flashdata('save_status', 'error');
+            $this->session->set_flashdata('save_message', 'Tidak bisa melakukan request isi terlebih dahulu informasi '.$link_kontak.'');
+        } elseif( empty($get_bank_info) ) {
+            $this->session->set_flashdata('save_status', 'error');
+            $this->session->set_flashdata('save_message', 'Tidak bisa melakukan request isi terlebih dahulu informasi rekening bank');
+        } else if( !empty($check_request)) {
+            $this->session->set_flashdata('save_status', 'error');
+            $this->session->set_flashdata('save_message', 'Tidak bisa melakukan request, Anda sudah melakukan request sebagai seller sebelumnya');
+        } else {
+
+            $_save_data_request = array(
+                'type'                  => SELLER,
+                'user_id'               => $this->ion_auth->user()->row()->id,
+                'agree_policy_check'    => $data['agree_policy_check_seller'],
+                'status_request'        => WAITING,
+                'request_date'          => NOW,
+                'created_at'            => NOW,
+                'updated_at'            => NOW
+            );
+
+            $request_id = $this->M_member->insert('users_requestv2', $_save_data_request);
+            $file_name_seller = $mitra_name.'_'.date('d-m-Y')."_SELLER";
+            $file_name_seller = str_replace(" ", "_", $file_name_seller);
+
+            $pdf_seller  = $this->generate_seller_pdf($file_name_seller);
+
+            $this->M_member->insert('users_document_det', array(
+                'doc_name'      => $pdf_seller['nama_file'],
+                'created_date'  => NOW,
+                'modified_date' => NOW,
+                'user_id'       => $this->ion_auth->user()->row()->id,
+                'type'          => 1
+            ));
             $this->session->set_flashdata('save_status', 'success');
             $this->session->set_flashdata('save_message', 'Success Request');
-            redirect('member/personalData','refresh');
         }
+        redirect('member/personalData','refresh');
     }
 
     /**
@@ -1041,14 +1251,22 @@ class Member extends CI_Controller
      */
     public function generate_nda_pdf($filename = '')
     {
-        $html = $this->load->view('generate_pdf_nda','',true);
+        $this->load->model('Global_model');
+        $data['mitra'] = $this->Global_model->set_model('users_mitra','um','id')->mode(array(
+            'type' => 'single_row',
+            'conditions' => array(
+                'user_id' => $this->ion_auth->user()->row()->id
+            )
+        ));
+
+        $html = $this->load->view('generate_pdf_nda',$data,true);
         $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
         $dompdf = new DOMPDF();
         $dompdf->load_html($html);
         $dompdf->render();
         $output = $dompdf->output();
 
-        $direktori = 'assets/generate_pdf/NDA/';
+        $direktori = 'assets/generate_pdf/';
 
         if(!is_dir($direktori)) {
             mkdir($direktori, 0777, TRUE);
@@ -1057,7 +1275,303 @@ class Member extends CI_Controller
         file_put_contents($direktori.$filename.'.pdf', $output);
 
         return array(
-            'nama_file' => $filename
+            'nama_file' => $filename.'.pdf'
         );
+    }
+
+    /**
+     * [generate_ip_pdf with domppdf]
+     * @author didi <[diditriawan13@gmail.com]>
+     * @return [filename] 
+     */
+    public function generate_ip_pdf($filename = '')
+    {
+        $this->load->model('Global_model');
+        $data['ip_whitelist'] = $this->Global_model->set_model('users_buyer','ub','id')->mode(array(
+            'type' => 'single_row',
+            'select' => 'ub.*, um.mitra_name,um.brand,u.first_name,u.last_name',
+            'joined' => array(
+                'users_mitra um' => array(
+                    'um.user_id' => 'ub.user_id'
+                ),
+                'users u' => array(
+                    'u.id' => 'um.user_id'
+                )
+            ),
+            'conditions' => array(
+                'ub.user_id' => $this->ion_auth->user()->row()->id
+            )
+        ));
+
+        $html = $this->load->view('generate_pdf_ip',$data,true);
+        $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+        $dompdf = new DOMPDF();
+        $dompdf->load_html($html);
+        $dompdf->render();
+        $output = $dompdf->output();
+
+        $direktori = 'assets/generate_pdf/';
+
+        if(!is_dir($direktori)) {
+            mkdir($direktori, 0777, TRUE);
+        }
+
+        file_put_contents($direktori.$filename.'.pdf', $output);
+
+        return array(
+            'nama_file' => $filename.'.pdf'
+        );
+    }
+
+    /**
+     * [generate_ip_pdf with domppdf]
+     * @author didi <[diditriawan13@gmail.com]>
+     * @return [filename] 
+     */
+    public function generate_seller_pdf($filename = '')
+    {
+        $this->load->model('Global_model');
+        $data['seller'] = $this->Global_model->set_model('users','u','id')->mode(array(
+            'type' => 'single_row',
+            'select' => 
+                    'u.*, 
+                    um.email as email_mitra,
+                    um.mitra_name,
+                    um.owner,
+                    um.phone_no,
+                    um.mobile_no,
+                    um.address,
+                    um.city,
+                    um.province,
+                    um.website,
+                    uc.name as name_contact,
+                    uc.email as email_contact,
+                    uc.phone as phone_contact,
+                    uc.mobile,
+                    uc.name_ops,
+                    uc.email_ops,
+                    uc.phone_ops,
+                    uc.mobile_ops,
+                    ub.*',
+            'left_joined' => array(
+                'users_mitra um' => array(
+                    'um.user_id' => 'u.id'
+                ),
+                'users_contact uc' => array(
+                    'u.id' => 'uc.user_id'
+                ),
+                'users_bank ub' => array(
+                    'ub.user_id' => 'u.id'
+                )
+            ),
+            'conditions' => array(
+                'u.id' => $this->ion_auth->user()->row()->id
+            ),
+            'debug_query' => false
+        ));
+
+        $html = $this->load->view('generate_pdf_seller',$data,true);
+        $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+        $dompdf = new DOMPDF();
+        $dompdf->load_html($html);
+        $dompdf->render();
+        $output = $dompdf->output();
+
+        $direktori = 'assets/generate_pdf/';
+
+        if(!is_dir($direktori)) {
+            mkdir($direktori, 0777, TRUE);
+        }
+
+        file_put_contents($direktori.$filename.'.pdf', $output);
+
+        return array(
+            'nama_file' => $filename.'.pdf'
+        );
+    }
+
+    /**
+     * [generate_ip_pdf with domppdf]
+     * @author didi <[diditriawan13@gmail.com]>
+     * @return [filename] 
+     */
+    public function generate_whitelabel_pdf($filename = '')
+    {
+        $this->load->model('Global_model');
+        $data['whitelabel'] = $this->Global_model->set_model('users','u','id')->mode(array(
+            'type' => 'single_row',
+            'select' => 
+                    'u.*, 
+                    um.email as email_mitra,
+                    um.mitra_name,
+                    um.owner,
+                    um.phone_no,
+                    um.mobile_no,
+                    um.address,
+                    um.city,
+                    um.province,
+                    um.website,
+                    uc.name as name_contact,
+                    uc.email as email_contact,
+                    uc.phone as phone_contact,
+                    uc.mobile,
+                    uc.name_ops,
+                    uc.email_ops,
+                    uc.phone_ops,
+                    uc.mobile_ops,
+                    ub.*',
+            'left_joined' => array(
+                'users_mitra um' => array(
+                    'um.user_id' => 'u.id'
+                ),
+                'users_contact uc' => array(
+                    'u.id' => 'uc.user_id'
+                ),
+                'users_bank ub' => array(
+                    'ub.user_id' => 'u.id'
+                )
+            ),
+            'conditions' => array(
+                'u.id' => $this->ion_auth->user()->row()->id
+            ),
+            'debug_query' => false
+        ));
+
+        $html = $this->load->view('generate_pdf_ip',$data,true);
+        $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+        $dompdf = new DOMPDF();
+        $dompdf->load_html($html);
+        $dompdf->render();
+        $output = $dompdf->output();
+
+        $direktori = 'assets/generate_pdf/';
+
+        if(!is_dir($direktori)) {
+            mkdir($direktori, 0777, TRUE);
+        }
+
+        file_put_contents($direktori.$filename.'.pdf', $output);
+
+        return array(
+            'nama_file' => $filename.'.pdf'
+        );
+    }
+
+    /**
+     * [generate_ip_pdf with domppdf]
+     * @author didi <[diditriawan13@gmail.com]>
+     * @return [filename] 
+     */
+    public function generate_ta_pdf($filename = '')
+    {
+        $this->load->model('Global_model');
+        $data['travel_agent'] = $this->Global_model->set_model('users','u','id')->mode(array(
+            'type' => 'single_row',
+            'select' => 
+                    'u.*, 
+                    um.email as email_mitra,
+                    um.mitra_name,
+                    um.owner,
+                    um.phone_no,
+                    um.mobile_no,
+                    um.address,
+                    um.city,
+                    um.province,
+                    um.website,
+                    uc.name as name_contact,
+                    uc.email as email_contact,
+                    uc.phone as phone_contact,
+                    uc.mobile,
+                    uc.name_ops,
+                    uc.email_ops,
+                    uc.phone_ops,
+                    uc.mobile_ops,
+                    ub.*',
+            'left_joined' => array(
+                'users_mitra um' => array(
+                    'um.user_id' => 'u.id'
+                ),
+                'users_contact uc' => array(
+                    'u.id' => 'uc.user_id'
+                ),
+                'users_bank ub' => array(
+                    'ub.user_id' => 'u.id'
+                )
+            ),
+            'conditions' => array(
+                'u.id' => $this->ion_auth->user()->row()->id
+            ),
+            'debug_query' => false
+        ));
+
+        $html = $this->load->view('generate_pdf_ta',$data,true);
+        $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+        $dompdf = new DOMPDF();
+        $dompdf->load_html($html);
+        $dompdf->render();
+        $output = $dompdf->output();
+
+        $direktori = 'assets/generate_pdf/';
+
+        if(!is_dir($direktori)) {
+            mkdir($direktori, 0777, TRUE);
+        }
+
+        file_put_contents($direktori.$filename.'.pdf', $output);
+
+        return array(
+            'nama_file' => $filename.'.pdf'
+        );
+    }
+
+    public function example(){
+
+        $this->load->model('Global_model');
+        $data['seller'] = $this->Global_model->set_model('users','u','id')->mode(array(
+            'type' => 'single_row',
+            'select' => 
+                    'u.*, 
+                    um.email as email_mitra,
+                    um.mitra_name,
+                    um.owner,
+                    um.phone_no,
+                    um.mobile_no,
+                    um.address,
+                    um.city,
+                    um.province,
+                    um.website,
+                    uc.name as name_contact,
+                    uc.email as email_contact,
+                    uc.phone as phone_contact,
+                    uc.mobile,
+                    uc.name_ops,
+                    uc.email_ops,
+                    uc.phone_ops,
+                    uc.mobile_ops,
+                    ub.*',
+            'left_joined' => array(
+                'users_mitra um' => array(
+                    'um.user_id' => 'u.id'
+                ),
+                'users_contact uc' => array(
+                    'u.id' => 'uc.user_id'
+                ),
+                'users_bank ub' => array(
+                    'ub.user_id' => 'u.id'
+                )
+            ),
+            'conditions' => array(
+                'u.id' => $this->ion_auth->user()->row()->id
+            ),
+            'debug_query' => false
+        ));
+
+        // print_r($data['seller']);die();
+        $this->load->library('pdf');
+
+        $this->pdf->setPaper('A4', 'potrait');
+        $this->pdf->filename = "laporan-petanikode.pdf";
+        $this->pdf->load_view('generate_pdf_whitelabel', $data);
+
     }
 }

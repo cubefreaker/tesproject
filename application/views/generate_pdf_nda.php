@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>test</title>
+	<title>NDA</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -38,15 +38,21 @@
 		  	<div class="column">
 		    	<p>
 		    		<?php
+		    			$mitra_name = $mitra['mitra_name'];
+		    			$today 		= date('d M Y');
+		    			$address	= $mitra['city'];
+		    			$pic_mitra  = $mitra['owner'];
+
 		    			$text = '<b><center>PERJANJIAN KERAHASIAAN</center></b>
 					<b><center>ANTARA</center></b>
 					<b><center>ITX</center></b>
 					<b><center>DAN</center></b>
-					<b><center>PT. _________________</center></b>
-					Perjanjian Kerahasiaan ini (selanjutnya disebut “Perjanjian”) ditandatangani pada tanggal ___ Mei 2018 (selanjutnya disebut “Tanggal Efektif”) oleh dan antara:
+					<b><center>PT.'.$mitra_name.'</center></b>
+					Perjanjian Kerahasiaan ini (selanjutnya disebut “Perjanjian”) ditandatangani pada tanggal 
+					'.$today.' (selanjutnya disebut “Tanggal Efektif”) oleh dan antara:
 					  
-					PT.	REKA SINERGI PRATAMA, suatu perseroan terbatas yang didirikan berdasarkan hukum negara Republik Indonesia, berdomisili di Jl. K.H. Wahid Hasyim No.147, Jakarta Pusat 10240, Indonesia, dalam hal ini diwakili oleh  Edward Nelson Jusuf, dalam jabatannya selaku Direktur Utama dari dan karenanya sah bertindak untuk dan atas nama ITX; and
-					PT.	_____________, suatu perseroan terbatas yang didirikan berdasarkan hukum negara Republik Indonesia, berdomisili di Jl. ____________________, dalam hal ini diwakili oleh  ___________, dalam jabatannya selaku Direktur Utama dari dan karenanya sah bertindak untuk dan atas nama PT. _____________
+					PT.	ITX, suatu perseroan terbatas yang didirikan berdasarkan hukum negara Republik Indonesia, berdomisili di Jl. K.H. Wahid Hasyim No.147, Jakarta Pusat 10240, Indonesia, dalam hal ini diwakili oleh  Edward Nelson Jusuf, dalam jabatannya selaku Direktur Utama dari dan karenanya sah bertindak untuk dan atas nama ITX; and
+					PT.	'.$mitra_name.', suatu perseroan terbatas yang didirikan berdasarkan hukum negara Republik Indonesia, berdomisili di '.$address.', dalam hal ini diwakili oleh  '.$pic_mitra.', dalam jabatannya selaku Direktur Utama dari dan karenanya sah bertindak untuk dan atas nama PT. '.$mitra_name.'
 					Masing-masing disebut Pihak, dan secara bersama-sama disebut Para Pihak.
 					<b><center>KONSIDERANS</center></b>
 					Para Pihak sedang menjajaki kerjasama bisnis yang saling menguntungkan (selanjutnya disebut “Hubungan Bisnis”). Para Pihak mengakui bahwa dalam proses diskusi untuk menyelenggarakan Hubungan Bisnis, masing-masing Pihak akan perlu mengungkapkan informasi rahasia tertentu kepada Pihak Lainnya (sebagaimana didefinisikan di bawah). Untuk itu perlu ditetapkan ketentuan guna mengatur pengungkapan Informasi Rahasia tersebut. 
@@ -164,7 +170,7 @@
 						<div class="col-md-4">
 							<u style="margin-left:40px;"><b>ITX</b></u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><u>ITX</u></b><br><br><br>
 
-							<u style="margin-left:40px;"><b>nama</b></u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>nama</b></u><br/>
+							<u style="margin-left:40px;"><b>David Pattiasina</b></u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>'.$mitra_name.'</b></u><br/>
 							<div style="margin-left:0px;"><p style="line-height: 1.5em;">'.ucfirst('Director').'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.ucfirst('Director').'</p></div>
 							
 						</div>

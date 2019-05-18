@@ -99,7 +99,7 @@ class Global_model extends CI_Model {
 			{
 				foreach($params['left_joined'] as $key => $val )
 				{	
-					$this->db->join($key, key($val)." = ".$val[key($val)]. "","left");
+					$this->db->join($key, key($val)." = ".$val[key($val)], "left", true);
 				}
 			}
 
@@ -107,7 +107,7 @@ class Global_model extends CI_Model {
 			{
 				foreach($params['right_joinend'] as $key => $val )
 				{	
-					$this->db->join($key, key($val)." = ".$val[key($val)] ."","right");
+					$this->db->join($key, key($val)." = ".$val[key($val)], "right", true);
 				}
 			}
 
@@ -196,11 +196,11 @@ class Global_model extends CI_Model {
 				}
 			}
 
-			if( isset($params['left_joined']) && ($params['left_joined']) != null)
+			if( isset($params['left_joined']) && ($params['left_joined']) != null )
 			{
 				foreach($params['left_joined'] as $key => $val )
 				{	
-					$this->db->join($key, key($val)." = ".$val[key($val)] ."left");
+					$this->db->join($key, key($val)." = ".$val[key($val)], "left", true);
 				}
 			}
 

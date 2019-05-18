@@ -8,9 +8,14 @@ class Proto_pdf extends CI_Controller {
 		$this->load->view('generate_pdf_nda');
 	}
 
-	public function table()
+	public function pdf_ip()
 	{
-		$this->load->view('proto_table_pdf');
+		$this->load->view('generate_pdf_ip');
+	}
+
+	public function pdf_seller()
+	{
+		$this->load->view('generate_pdf_seller');
 	}
 
 }
