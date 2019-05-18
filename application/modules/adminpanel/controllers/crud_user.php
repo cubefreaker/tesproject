@@ -32,10 +32,33 @@ class crud_user extends CI_Controller
         $InputData = json_decode(file_get_contents('php://input'),true);
         $UserId = $InputData['UserId'];
 
-        $npwp = $this->db->query('select * from users_document_det where user_id = "'.$UserId.'" and type = "2"')->row();
+        $document = $this->db->query('select * from users_document where user_id = "'.$UserId.'"')->row();
 
         $data = [
-            'npwp'  => $npwp ? ($npwp->doc_name ? $npwp->doc_name : 'No File' ) : 'No File'
+            'ktp'  => [
+                'name'  => $document ? ($document->scan_ktp ? $document->scan_ktp : '' ) : '',
+                'url'   => $document ? ($document->scan_ktp ? base_url().'assets/file_upload/'.$document->scan_ktp : '') : ''
+            ],
+            'selfie'  => [
+                'name'  => $document ? ($document->scan_selfie ? $document->scan_selfie : '' ) : '',
+                'url'   => $document ? ($document->scan_selfie ? base_url().'assets/file_upload/'.$document->scan_selfie : '') : ''
+            ],
+            'npwp'  => [
+                'name'  => $document ? ($document->scan_npwp ? $document->scan_npwp : '' ) : '',
+                'url'   => $document ? ($document->scan_npwp ? base_url().'assets/file_upload/'.$document->scan_npwp : '') : ''
+            ],
+            'siup'  => [
+                'name'  => $document ? ($document->scan_siup ? $document->scan_siup : '' ) : '',
+                'url'   => $document ? ($document->scan_siup ? base_url().'assets/file_upload/'.$document->scan_siup : '') : ''
+            ],
+            'akta'  => [
+                'name'  => $document ? ($document->scan_akta ? $document->scan_akta : '' ) : '',
+                'url'   => $document ? ($document->scan_akta ? base_url().'assets/file_upload/'.$document->scan_akta : '') : ''
+            ],
+            'sk'  => [
+                'name'  => $document ? ($document->scan_sk ? $document->scan_sk : '' ) : '',
+                'url'   => $document ? ($document->scan_sk ? base_url().'assets/file_upload/'.$document->scan_sk : '') : ''
+            ]
         ];
 
         echo json_encode($data);
@@ -50,15 +73,34 @@ class crud_user extends CI_Controller
         
     }
 
-
-    public function rejectSeller(){
+    public function acceptRequest(){
         $InputData = json_decode(file_get_contents('php://input'),true);
+
+        $Return['StatusResponse'] = 0;
+
+        $this->submitPrivyId($InputData);
+        // $dataUpdate = [
+        //     'table' => 'users_requestv2',
+        //     'where' => ['user_id' => $UserId, 'type' => $ReqType],
+        //     'data'  => ['status_request' => 2]
+        // ];
+        // if ($this->m_update->updateDynamic($dataUpdate)) {
+        //     $Return['StatusResponse'] = 1;
+        // }
+        // echo json_encode($Return);
+    }
+
+    public function rejectRequest(){
+        $InputData = json_decode(file_get_contents('php://input'),true);
+        $Remark = $InputData['Remark'];
         $UserId = $InputData['UserId'];
+        $ReqType = $InputData['ReqType'];
+
         $Return['StatusResponse'] = 0;
         $dataUpdate = [
-            'table' => 'users_request',
-            'where' => ['user_id' => $UserId],
-            'data'  => ['seller_status' => 'rejected']
+            'table' => 'users_requestv2',
+            'where' => ['user_id' => $UserId, 'type' => $ReqType],
+            'data'  => ['status_request' => 5, 'reason_reject' => $Remark]
         ];
         if ($this->m_update->updateDynamic($dataUpdate)) {
             $Return['StatusResponse'] = 1;
@@ -66,33 +108,10 @@ class crud_user extends CI_Controller
         echo json_encode($Return);
     }
 
-    public function acceptBuyer(){
-        $InputData = json_decode(file_get_contents('php://input'),true);
-        $Return['StatusResponse'] = 0;
-        $type = 'buyer_status';
-
-        $this->submitPrivyId($InputData, $type);
-       
-    }
-
-    public function rejectBuyer(){
-        $InputData = json_decode(file_get_contents('php://input'),true);
-        $UserId = $InputData['UserId'];
-        $Return['StatusResponse'] = 0;
-        $dataUpdate = [
-            'table' => 'users_request',
-            'where' => ['user_id' => $UserId],
-            'data'  => ['buyer_status' => 'rejected']
-        ];
-        if ($this->m_update->updateDynamic($dataUpdate)) {
-            $Return['StatusResponse'] = 1;
-        }
-        echo json_encode($Return);
-    }
-
-    public function submitPrivyId($InputData, $typestatus)
+    public function submitPrivyId($InputData)
     {
         //Submit to PrivyId
+        $Return['StatusResponse'] = 0;
         $privy = $this->db->query('select * from privyid_api')->row();
         $doc = $this->db->query('select scan_ktp, scan_selfie from users_document where user_id ="'.$InputData['UserId'].'"')->row();
         $url = $privy->base.$privy->reg;
@@ -134,14 +153,14 @@ class crud_user extends CI_Controller
         $resp = $this->privyid_api->postPrivyAPI($url, $data);
         $r = json_decode($resp);
         // echo $r->code;die();
-        echo $resp;
+        // echo $resp;
         
         if($r->code == 201){
 
             $dataUpdate = [
-                'table' => 'users_request',
-                'where' => ['user_id' => $UserId],
-                'data'  => [ $typestatus => 'on process']
+                'table' => 'users_requestv2',
+                'where' => ['user_id' => $InputData['UserId'], 'type' => $InputData['ReqType']],
+                'data'  => [ 'status' => '2']
             ];
 
             $this->m_update->updateDynamic($dataUpdate);
@@ -152,7 +171,7 @@ class crud_user extends CI_Controller
                 'token' => $r->data->userToken,
                 'status' => strtolower($r->data->status),
                 'created_date' => date('Y-m-d H:i:s'),
-                'user_id' => $user->id
+                'user_id' => $InputData['UserId']
             ];
 
             $dataInsert = [
@@ -164,6 +183,8 @@ class crud_user extends CI_Controller
             $this->m_insert->insertDynamic($dataInsert);
 
             $Return['StatusResponse'] = 1;
+        }else if($r->code == 422){
+            $Return['Message'] = $r->errors[0]->messages;
         }
         
         echo json_encode($Return);
@@ -180,17 +201,27 @@ class crud_user extends CI_Controller
     public function submitAllDokumen()
     {
         $InputData = json_decode(file_get_contents('php://input'),true);
-        $Return['StatusResponse'] = 0;
 
         foreach($InputData as $key => $value){
-            if($value['status'] == 'undefined'){
+            if($value['Status'] == 'undefined'){
                 $this->privyDocUpload($value);
             }
         }
     }
 
+    public function checkDokumenStatus()
+    {
+        $InputData = json_decode(file_get_contents('php://input'),true);
+
+        foreach($InputData as $key => $value){
+            if($value['Status'] != 'undefined'){
+                $this->privyDocStatus($value['Id']);
+            }           
+        }
+    }
+
     public function privyDocUpload($InputData){
-        
+        $Return['StatusResponse'] = 0;
         $privy = $this->db->query('select * from privyid_api')->row();
         $url = $privy->base.$privy->doc_upload;
         $data = [
@@ -241,7 +272,7 @@ class crud_user extends CI_Controller
         $this->load->library('privyid_api');
         $resp = $this->privyid_api->postPrivyAPI($url, $data);
         $r = json_decode($resp);
-        echo $resp;
+        // echo $resp;
         if ($r->code == 201) {
             $this->load->model('m_insert');
             $docData = [
@@ -266,8 +297,47 @@ class crud_user extends CI_Controller
             $this->m_update->updateDynamic($dataUpdate);
 
             $Return['StatusResponse'] = 1;
+        }else if($r->code == 422){
+            $Return['Message'] = $r->errors[0]->messages;
         }
         echo json_encode($Return);
+    }
+
+    public function privyDocStatus($docid)
+    {
+        
+        $privy = $this->db->query('select * from privyid_api')->row();
+        $doc = $this->db->query('select * from users_privyid_doc where doc_id = "'.$docid.'"')->row();
+        $url = $privy->base.$privy->doc_status.'/'.$doc->doc_token;
+        $data = [
+            'auth' => [$privy->user,$privy->pass],
+            'headers' => [
+                'Merchant-Key' => $privy->merchant_key,
+            ]
+        ];
+                
+        $this->load->library('privyid_api');
+        $resp = $this->privyid_api->getPrivyAPI($url, $data);
+        $r = json_decode($resp);
+        // echo $resp;
+        if($r->code == 200){
+            $dataUpdate = [
+                'table' => 'users_privyid_doc',
+                'where' => ['doc_id' => $docid],
+                'data'  => ['status' => strtolower($r->data->documentStatus)]
+            ];
+            $dataUpdate2 = [
+                'table' => 'users_document_det',
+                'where' => ['doc_id' => $docid],
+                'data'  => ['status' => strtolower($r->data->documentStatus)]
+            ];
+
+            $this->load->model('m_update');
+            $this->m_update->updateDynamic($dataUpdate);
+            $this->m_update->updateDynamic($dataUpdate2);
+            
+        }
+        echo json_encode($r->data->documentStatus);
     }
 
     public function editUser()

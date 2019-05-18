@@ -128,14 +128,14 @@ class users extends CI_Controller
                 'BirthDate'     => $value->birth_date,
                 'Nik'           => $value->nik,
                 'Img'           => $value->img_thum ? base_url().'assets/images/profile/'.$value->img_thum : base_url().'assets/images/profile/profile.png',
-                'ReqType'       => $value->type ? ($value->type == 1 ? 'seller' : ($value->type == 2 ? 'buyer' : 'No Request')) : 'No Request',
-                'Status'        => $value->status_request ? ($value->status_request == 0 ? 'waiting' : ($value->status_request == 1 ? 'on progress' : ($value->status_request == 2 ? 'waiting for sign' : ($value->status_request == 3 ? 'signed' : 'undefined')))) : 'undefined',
+                'ReqType'       => $value->type ? $value->type : 'NoRequest',
+                'Status'        => $value->status_request ? $value->status_request : 'undefined',
                 'PrivyId'       => $privyId ? $privyId->privy_id : 'empty',
                 'PrivyIdStatus' => $privyId ? ($privyId->status ? $privyId->status : 'empty') : 'empty',
                 'Group'         => $this->ion_auth->get_users_groups($value->id)->row(),
                 'Company'       => [
                                     'Brand'     => $company ? ($company->brand ? $company->brand : '') : '',
-                                    'Name'      => $company ? ($company->company_name ? $company->company_name : '') : '',
+                                    'Name'      => $company ? ($company->mitra_name ? $company->mitra_name : '') : '',
                                     'Owner'     => $company ? ($company->owner ? $company->owner : '') : '',
                                     'Phone'     => $company ? ($company->phone_no ? $company->phone_no : '') : '',
                                     'Mobile'    => $company ? ($company->mobile_no ? $company->mobile_no : '') : '',
@@ -169,12 +169,13 @@ class users extends CI_Controller
             if($doc){
                 foreach($doc as $k => $v){
                     $User['Document'][] = [
-                        'Id'      => $v->doc_id,
-                        'UserId' => $value->id,
-                        'Name'    => $v->doc_name,
-                        'Type'    => $v->type,
-                        'Status' => $v->status,
-                        'Owner' => [
+                        'Id'        => $v->doc_id,
+                        'UserId'    => $value->id,
+                        'Name'      => $v->doc_name,
+                        'Url'       => base_url().'assets/generate_pdf/'.$v->doc_name,
+                        'Type'      => $v->type,
+                        'Status'    => $v->status,
+                        'Owner'     => [
                             'privyId' => 'TES001',
                             'enterpriseToken' => '41bc84b42c8543daf448d893c255be1dbdcc722e'
                         ],
@@ -292,40 +293,40 @@ class users extends CI_Controller
     }
         
 
-    public function privyDocStatus($docid)
-    {
-        $privy = $this->db->query('select * from privyid_api')->row();
-        $doc = $this->db->query('select * from users_privyid_doc where doc_id = "'.$docid.'"')->row();
-        $url = $privy->base.$privy->doc_status.'/'.$doc->doc_token;
-        $data = [
-            'auth' => [$privy->user,$privy->pass],
-            'headers' => [
-                'Merchant-Key' => $privy->merchant_key,
-            ]
-        ];
+    // public function privyDocStatus($docid)
+    // {
+    //     $privy = $this->db->query('select * from privyid_api')->row();
+    //     $doc = $this->db->query('select * from users_privyid_doc where doc_id = "'.$docid.'"')->row();
+    //     $url = $privy->base.$privy->doc_status.'/'.$doc->doc_token;
+    //     $data = [
+    //         'auth' => [$privy->user,$privy->pass],
+    //         'headers' => [
+    //             'Merchant-Key' => $privy->merchant_key,
+    //         ]
+    //     ];
                 
-        $this->load->library('privyid_api');
-        $resp = $this->privyid_api->getPrivyAPI($url, $data);
-        $r = json_decode($resp);
-        // echo $resp;
-        if($r->code == 200){
-            $dataUpdate = [
-                'table' => 'users_privyid_doc',
-                'where' => ['doc_id' => $docid],
-                'data'  => ['status' => strtolower($r->data->documentStatus)]
-            ];
-            $dataUpdate2 = [
-                'table' => 'users_document_det',
-                'where' => ['doc_id' => $docid],
-                'data'  => ['status' => strtolower($r->data->documentStatus)]
-            ];
+    //     $this->load->library('privyid_api');
+    //     $resp = $this->privyid_api->getPrivyAPI($url, $data);
+    //     $r = json_decode($resp);
+    //     // echo $resp;
+    //     if($r->code == 200){
+    //         $dataUpdate = [
+    //             'table' => 'users_privyid_doc',
+    //             'where' => ['doc_id' => $docid],
+    //             'data'  => ['status' => strtolower($r->data->documentStatus)]
+    //         ];
+    //         $dataUpdate2 = [
+    //             'table' => 'users_document_det',
+    //             'where' => ['doc_id' => $docid],
+    //             'data'  => ['status' => strtolower($r->data->documentStatus)]
+    //         ];
 
-            $this->load->model('m_update');
-            $this->m_update->updateDynamic($dataUpdate);
-            $this->m_update->updateDynamic($dataUpdate2);
-        }
+    //         $this->load->model('m_update');
+    //         $this->m_update->updateDynamic($dataUpdate);
+    //         $this->m_update->updateDynamic($dataUpdate2);
+    //     }
 
-    }
+    // }
 
 
 }
