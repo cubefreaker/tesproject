@@ -169,7 +169,7 @@
                                                             </tr>
                                                         </tbody>
                                                     </table>
-                                                    <button class="btn btn-sm btn-success" ng-click="submitDocAll(data.Document)">Submit all documents</button>
+                                                    <button class="btn btn-sm btn-success" ng-click="submitDocAll(data.Document, data.PrivyId)">Submit all documents</button>
                                                     <button ng-if="loading == false" class="btn btn-sm btn-success" ng-click="checkDoc(data.Document)">Update Status</button>
                                                     <button ng-if="loading == true" class="btn btn-sm btn-success fa fa-spinner" disabled>Update Status</button>
                                                 
@@ -852,9 +852,51 @@
             console.log(resp.data);
         })
     }
+    
+    $scope.submitDocAll = function(doc, privyid) {
+        if(privyid == 'empty' ){
+            alert('Privy ID not available!')
+        }else{
+        var c = confirm("Are you sure you want to submit all documents?");
+          if(c) {
+            AngularService.startLoadingPage();
+            $http.post(
+                adminUrl+'crud_user/submitAllDokumen',
+                doc
+            ).then(function successCallback(resp) {
+                console.log(resp);
+                AngularService.stopLoadingPage();
+                if (resp.data['StatusResponse'] == 0) {
+                    AngularService.ErrorResponse(resp.data['Message']);
+                }
+                else if (resp.data['StatusResponse'] == 1) {
+                    AngularService.SuccessResponse();
+                }
+            }, function errorCallback(err) {
+                console.log(err);
+                AngularService.ErrorResponse(err);
+                });
+            }
+        }
+    };
 
     $scope.checkDoc = function(doc){
-        console.log(doc);
+
+        //check if there're submitted doc
+        function isSubmitted(arr){
+            var res = false;
+            for(var key in arr){
+                console.log(arr[key].Status)
+                if(arr[key].Status != 'undefined'){
+                    res = true
+                }
+            }
+            return res;
+        }
+
+        if(!isSubmitted(doc)){
+            alert('No documents were submitted yet!')
+        }else{
         $scope.loading = true;
         AngularService.startLoadingPage();
         $http.post(adminUrl+'crud_user/checkDokumenStatus', doc).then(function successCallback(resp){
@@ -864,7 +906,8 @@
         }, function errorCallback(err) {
                 console.log(err);
         });
-        location.reload();
+        // location.reload();
+        }
     }
 
     $scope.acceptRequest = function(UserData){
@@ -1026,28 +1069,6 @@
     //     }
     // };
 
-    $scope.submitDocAll = function(doc) {
-        var c = confirm("Are you sure you want to submit all documents?");
-          if(c) {
-            AngularService.startLoadingPage();
-            $http.post(
-                adminUrl+'crud_user/submitAllDokumen',
-                doc
-            ).then(function successCallback(resp) {
-                console.log(resp);
-                AngularService.stopLoadingPage();
-                if (resp.data['StatusResponse'] == 0) {
-                    AngularService.ErrorResponse(resp.data['Message']);
-                }
-                else if (resp.data['StatusResponse'] == 1) {
-                    AngularService.SuccessResponse();
-                }
-            }, function errorCallback(err) {
-                console.log(err);
-                AngularService.ErrorResponse(err);
-            });
-        }
-    };
 
   }); // --- end angular controller --- //
 </script>

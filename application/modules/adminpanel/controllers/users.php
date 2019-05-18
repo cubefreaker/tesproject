@@ -113,7 +113,7 @@ class users extends CI_Controller
             "select users.id, users.username, email, phone, first_name, last_name, nik, users_requestv2.type, users_requestv2.status_request, gender, birth_date, img_thum from users inner join users_requestv2 on users.id = users_requestv2.user_id"
             )->result(); 
         foreach ($listUserReq as $key => $value) {
-            $privyId = $this->db->query("select * from users_privyid where user_id='".$value->id."' and type='".$value->type."'")->row();
+            $privyId = $this->db->query("select * from users_privyid where user_id='".$value->id."'")->row();
             $company = $this->db->query("select * from users_mitra where id='".$value->id."'")->row();
             $contact = $this->db->query("select * from users_contact where user_id='".$value->id."'")->row();
             $bank = $this->db->query("select * from users_bank where user_id='".$value->id."'")->row();
@@ -165,7 +165,8 @@ class users extends CI_Controller
                                     ],
 
             ];
-            $doc = $this->db->query("select * from users_document_det where user_id='".$value->id."'")->result();
+            $doc = $this->db->query("select * from users_document_det where user_id='".$value->id."' and request_type = '".$User['ReqType']."'")->result();
+            // echo json_encode($doc);die();
             if($doc){
                 foreach($doc as $k => $v){
                     $User['Document'][] = [
