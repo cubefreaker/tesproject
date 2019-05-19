@@ -1,6 +1,6 @@
 <?php
 
-class crud_page extends CI_Controller
+class Crud_page extends CI_Controller
 {
 
     function __construct()
