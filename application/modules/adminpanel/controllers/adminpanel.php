@@ -1,6 +1,6 @@
 <?php
 
-class adminpanel extends CI_Controller
+class Adminpanel extends CI_Controller
 {
 
     function __construct()

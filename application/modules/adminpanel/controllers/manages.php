@@ -1,6 +1,6 @@
 <?php
 
-class manages extends CI_Controller
+class Manages extends CI_Controller
 {
 
     function __construct()

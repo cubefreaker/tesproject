@@ -1,6 +1,6 @@
 <?php
 
-class settings extends CI_Controller
+class Settings extends CI_Controller
 {
 
     function __construct()

@@ -1,6 +1,6 @@
 <?php
 
-class m_manages extends CI_Model
+class M_manages extends CI_Model
 {
     function getRowDynamic($data)
     {

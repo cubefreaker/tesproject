@@ -3,6 +3,7 @@ $( function() {
         dateFormat : 'dd-mm-yy',
         changeMonth : true,
         changeYear : true,
+        maxDate : '-17Y',
         yearRange: "c-100:c",
     });
 
