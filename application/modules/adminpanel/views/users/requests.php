@@ -133,7 +133,7 @@
                             </td>
                             <td>
                                 <div>
-                                    <a href="#" data-toggle="modal" data-target="#docModal">
+                                    <a ng-click="listData(data.Document, data.PrivyId)" href="#" data-toggle="modal" data-target="#docModal">
                                         view detail
                                     </a>
                                     <div class="modal fade" id="docModal" role="dialog">
@@ -147,14 +147,12 @@
                                                     <table class="table">
                                                         <thead>
                                                             <tr>
-                                                                <!-- <th>No</th> -->
                                                                 <th>Document Name</th>
                                                                 <th>Status</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr ng-repeat="doc in data.Document">
-                                                                <!-- <td>{{ $index+1 }}</td> -->
+                                                            <tr ng-repeat="doc in docList">
                                                                 <td>
                                                                     <a href="{{doc.Url}}" target="__blank">{{ doc.Name }}</a>
                                                                 </td>
@@ -169,8 +167,8 @@
                                                             </tr>
                                                         </tbody>
                                                     </table>
-                                                    <button class="btn btn-sm btn-success" ng-click="submitDocAll(data.Document, data.PrivyId)">Submit all documents</button>
-                                                    <button ng-if="loading == false" class="btn btn-sm btn-success" ng-click="checkDoc(data.Document)">Update Status</button>
+                                                    <button class="btn btn-sm btn-success" ng-click="submitDocAll(docList, privyId)">Submit all documents</button>
+                                                    <button ng-if="loading == false" class="btn btn-sm btn-success" ng-click="checkDoc(docList)">Update Status</button>
                                                     <button ng-if="loading == true" class="btn btn-sm btn-success fa fa-spinner" disabled>Update Status</button>
                                                 
                                                 </div>
@@ -846,16 +844,36 @@
     //     window.location.href = adminUrl+'users/add/'+UserId;
     // };
 
+    $scope.listData = function(doc, privyid){
+        // console.log(data);
+        $scope.docList = doc;
+        $scope.privyId = privyid;
+    }
+
     $scope.getDoc = function(UserId){
         $http.post(adminUrl+'crud_user/getDocument', {'UserId' : UserId}).then(function(resp){
             $scope.docList = resp.data;
             console.log(resp.data);
         })
     }
+
+    function isSubmitted(arr){
+            var res = true;
+            for(var key in arr){
+                console.log(arr[key].Status)
+                if(arr[key].Status == 'new'){
+                    res = false
+                }
+            }
+            return res;
+        }
     
     $scope.submitDocAll = function(doc, privyid) {
+        console.log(privyid);
         if(privyid == 'empty' ){
             alert('Privy ID not available!')
+        }else if(isSubmitted(doc)){
+            alert('All documents were submitted')
         }else{
         var c = confirm("Are you sure you want to submit all documents?");
           if(c) {
@@ -883,18 +901,18 @@
     $scope.checkDoc = function(doc){
 
         //check if there're submitted doc
-        function isSubmitted(arr){
-            var res = false;
-            for(var key in arr){
-                console.log(arr[key].Status)
-                if(arr[key].Status != 'undefined'){
-                    res = true
-                }
-            }
-            return res;
-        }
+        // function isSubmitted(arr){
+        //     var res = false;
+        //     for(var key in arr){
+        //         console.log(arr[key].Status)
+        //         if(arr[key].Status != 'undefined'){
+        //             res = true
+        //         }
+        //     }
+        //     return res;
+        // }
 
-        if(!isSubmitted(doc)){
+        if(isSubmitted(doc)){
             alert('No documents were submitted yet!')
         }else{
         $scope.loading = true;
