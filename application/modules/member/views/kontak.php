@@ -80,7 +80,7 @@
                                             <span class="input-group-addon">
                                                 <i class="fa fa-phone"></i>
                                             </span>
-                                            <input type="tel" class="form-control" name="phone" value="<?=$contact ? $contact->phone:'';?>" required>
+                                            <input type="tel" class="form-control" onkeypress="return isNumberKey(event)" name="phone" value="<?=$contact ? $contact->phone:'';?>" required>
                                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                                         </div>
                                     </div>
@@ -92,7 +92,7 @@
                                             <span class="input-group-addon">
                                                 <i class="fa fa-phone"></i>
                                             </span>
-                                            <input type="tel" class="form-control" name="phoneops" value="<?=$contact ? $contact->phone_ops:'';?>" required>
+                                            <input type="tel" class="form-control" onkeypress="return isNumberKey(event)" name="phoneops" value="<?=$contact ? $contact->phone_ops:'';?>" required>
                                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                                         </div>
                                     </div>
@@ -106,7 +106,7 @@
                                             <span class="input-group-addon">
                                                 <i class="fa fa-mobile"></i>
                                             </span>
-                                            <input type="tel" class="form-control" name="mobile" value="<?=$contact ? $contact->mobile:'';?>" required>
+                                            <input type="tel" class="form-control" onkeypress="return isNumberKey(event)" name="mobile" value="<?=$contact ? $contact->mobile:'';?>" required>
                                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                                         </div>
                                     </div>
@@ -118,7 +118,7 @@
                                             <span class="input-group-addon">
                                                 <i class="fa fa-mobile"></i>
                                             </span>
-                                            <input type="tel" class="form-control" name="mobileops" value="<?=$contact ? $contact->mobile_ops:'';?>" required>
+                                            <input type="tel" class="form-control" onkeypress="return isNumberKey(event)" name="mobileops" value="<?=$contact ? $contact->mobile_ops:'';?>" required>
                                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                                         </div>
                                     </div>

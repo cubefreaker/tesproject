@@ -17,7 +17,7 @@
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-user"></i>
                             </span>
-                            <input type="text" class="form-control" name="username" value="<?=$Member->username;?>" required>
+                            <input type="text" readonly class="form-control" name="username" value="<?=$Member->username;?>" required>
                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                             <span class="input-group-addon">
                                 <i class="fa fa-phone"></i>
                             </span>
-                            <input type="tel" class="form-control" name="phone" value="<?=$Member->phone;?>" required>
+                            <input type="tel" class="form-control" onkeypress="return isNumberKey(event)" name="phone" value="<?=$Member->phone;?>" required>
                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                             <span class="input-group-addon">
                                 <i class="fa fa-user"></i>
                             </span>
-                            <input type="number" class="form-control" name="nik" value="<?=$Member->nik;?>" required>
+                            <input type="number" onkeypress="return isNumberKey(event)" class="form-control" name="nik" value="<?=$Member->nik;?>" required>
                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                         </div>
                     </div>

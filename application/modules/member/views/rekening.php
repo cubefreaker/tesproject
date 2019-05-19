@@ -28,7 +28,7 @@
                             <span class="input-group-addon">
                                 <i class="fa fa-credit-card"></i>
                             </span>
-                            <input type="text" class="form-control" name="bankaccount" value="<?=$rekening ? $rekening->bank_account:'';?>" required>
+                            <input type="text" class="form-control" name="bankaccount" onkeypress="return isNumberKey(event)" value="<?=$rekening ? $rekening->bank_account:'';?>" required>
                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                         </div>
                     </div>

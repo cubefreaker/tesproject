@@ -52,7 +52,7 @@
                             <span class="input-group-addon">
                                 <i class="fa fa-phone"></i>
                             </span>
-                            <input type="tel" class="form-control" name="phone" value="<?=$mitra ? $mitra->phone_no:'';?>" required>
+                            <input type="tel" class="form-control" onkeypress="return isNumberKey(event)" name="phone" value="<?=$mitra ? $mitra->phone_no:'';?>" required>
                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                             <span class="input-group-addon">
                                 <i class="fa fa-mobile"></i>
                             </span>
-                            <input type="tel" class="form-control" name="mobile" value="<?=$mitra ? $mitra->mobile_no:'';?>" required>
+                            <input type="tel" class="form-control" onkeypress="return isNumberKey(event)" name="mobile" value="<?=$mitra ? $mitra->mobile_no:'';?>" required>
                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                         </div>
                     </div>
@@ -75,6 +75,46 @@
                                 <i class="fa fa-home"></i>
                             </span>
                             <input type="text" class="form-control" name="address" value="<?=$mitra ? $mitra->address:'';?>" required>
+                            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" style="text-align: left;">Provinsi</label> 
+                        <div class="input-group col-sm-8">
+                            <span class="input-group-addon">
+                                <i class="fa fa-home"></i>
+                            </span>
+                            <select class="form-control" name="province">
+                                <?php
+                                    foreach($Provinces as $p){
+                                        echo '<option value="'.$p->name.'" >'.$p->name.'</option>';
+                                    }
+                                ?>
+                            </select>
+                            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" style="text-align: left;">Kabupaten / Kota</label> 
+                        <div ng-app="myApp" ngController="myCtrl" class="input-group col-sm-8">
+                            <span class="input-group-addon">
+                                <i class="fa fa-home"></i>
+                            </span>
+                            <select class="form-control" name="city" value="">
+                            <?php
+                                    if($mitra->city != NULL && $mitra->city != ''){
+                                        echo '<option value="'.$mitra->city.'" disabled selected hidden>'.$mitra->city.'</option>';
+                                    }else{
+                                        echo '<option value="" disabled selected hidden>-- Select --</option>';
+                                    }
+                                    foreach($Cities as $c){
+                                        echo '<option value="'.$c->name.'" >'.$c->name.'</option>';
+                                    }
+                                    ?>
+                            </select>
                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                         </div>
                     </div>
@@ -96,23 +136,6 @@
                                 echo '<option value="'.$d->name.'" >'.$d->name.'</option>';
                             }
                             ?>
-                            </select>
-                            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-sm-4" style="text-align: left;">Provinsi</label> 
-                        <div class="input-group col-sm-8">
-                            <span class="input-group-addon">
-                                <i class="fa fa-home"></i>
-                            </span>
-                            <select class="form-control" name="province">
-                                <?php
-                                    foreach($Provinces as $p){
-                                        echo '<option value="'.$p->name.'" >'.$p->name.'</option>';
-                                    }
-                                ?>
                             </select>
                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                         </div>
@@ -168,34 +191,14 @@
                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-4" style="text-align: left;">Kabupaten / Kota</label> 
-                        <div ng-app="myApp" ngController="myCtrl" class="input-group col-sm-8">
-                            <span class="input-group-addon">
-                                <i class="fa fa-home"></i>
-                            </span>
-                            <select class="form-control" name="city" value="">
-                            <?php
-                                    if($mitra->city != NULL && $mitra->city != ''){
-                                        echo '<option value="'.$mitra->city.'" disabled selected hidden>'.$mitra->city.'</option>';
-                                    }else{
-                                        echo '<option value="" disabled selected hidden>-- Select --</option>';
-                                    }
-                                    foreach($Cities as $c){
-                                        echo '<option value="'.$c->name.'" >'.$c->name.'</option>';
-                                    }
-                                    ?>
-                            </select>
-                            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                        </div>
-                    </div>
+                    
                     <div class="form-group">
                         <label class="control-label col-sm-4" style="text-align: left;">Kode Pos</label> 
                         <div class="input-group col-sm-8">
                             <span class="input-group-addon">
                                 <i class="fa fa-envelope-o"></i>
                             </span>
-                            <input type="text" class="form-control" name="postal" value="<?=$mitra ? $mitra->postal_code:'';?>" required>
+                            <input type="text" class="form-control" onkeypress="return isNumberKey(event)" name="postal" value="<?=$mitra ? $mitra->postal_code:'';?>" required>
                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                         </div>
                     </div>
@@ -243,6 +246,16 @@ $(document).ready(function(){
 $(document).ready(function(){
     $('#brand').val("Test");
 });
+
+function isNumberKey(evt)
+{
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+
+    return true;
+}
+
 
 </script>
 
