@@ -184,18 +184,18 @@
                             </td>
                             <td>
                                 <div class="text-center">
-                                    <a ng-if="data.ReqType != 'NoRequest' && data.Status == 1" id="accept" href="" class="tooltipx pointer" data-toggle="modal" data-target="#acceptModal">
+                                    <a ng-if="data.ReqType != 'NoRequest' && data.Status == 1" id="accept" ng-click="chckPrivId(data)" href="" class="tooltipx pointer" data-toggle="modal" data-target="#acceptModal">
                                         <button class="btn btn-xs btn-success fa fa-check">
                                             <span>Accept</span>
                                         </button>
                                     </a>
                                     
-                                    <a ng-if="data.ReqType != 'NoRequest' && data.Status == 1" href="" class="tooltipx pointer" data-toggle="modal" data-target="#rejectModal">
+                                    <a ng-if="data.ReqType != 'NoRequest' && data.Status == 1" ng-click="chckPrivId(data)" href="" class="tooltipx pointer" data-toggle="modal" data-target="#rejectModal">
                                         <button class="btn btn-xs btn-danger fa fa-times">
                                             <span>Reject</span>
                                         </button>
                                     </a>
-                                    <a href="" class="tooltipx pointer"  data-toggle="modal" data-target="#detModal">
+                                    <a ng-click="chckPrivId(data)" href="" class="tooltipx pointer"  data-toggle="modal" data-target="#detModal">
                                         <button class="btn btn-xs btn-primary fa fa-eye">
                                             <span>View Detail</span>
                                         </button>
@@ -214,7 +214,7 @@
                                                 <p style="font-weight:bold">Accept request and submit user's data to Privy ID</p>
                                             </div>
                                             <div class="modal-footer">
-                                                <button ng-click="acceptRequest(data)" type="button" class="btn btn-success" data-dismiss="modal">Accept</button>
+                                                <button ng-click="acceptRequest(datacheck)" type="button" class="btn btn-success" data-dismiss="modal">Accept</button>
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                             </div>
                                         </div>
@@ -236,7 +236,7 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button ng-click="rejectRequest(data.UserId, data.ReqType)" type="button" class="btn btn-danger">Reject</button>
+                                                <button ng-click="rejectRequest(datacheck.UserId, datacheck.ReqType)" type="button" class="btn btn-danger">Reject</button>
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                             </div>
                                         </div>
@@ -258,7 +258,7 @@
                                                             <a href="#personaldata" data-toggle="tab">Personal Data</a>
                                                         </li>
                                                         <li>
-                                                            <a ng-click="getDoc(data.UserId)" href="#dokumen" data-toggle="tab">Dokumen</a>
+                                                            <a ng-click="getDoc(datacheck.UserId)" href="#dokumen" data-toggle="tab">Dokumen</a>
                                                         </li>
                                                         <li>
                                                             <a href="#infomitra" data-toggle="tab">Info Mitra</a>
@@ -286,7 +286,7 @@
                                                                                 <span class="input-group-addon">
                                                                                     <i class="glyphicon glyphicon-user"></i>
                                                                                 </span>
-                                                                                <input type="text" class="form-control" name="username" value="{{data.UserName}}" disabled>
+                                                                                <input type="text" class="form-control" name="username" value="{{datacheck.UserName}}" disabled>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
@@ -295,7 +295,7 @@
                                                                                 <span class="input-group-addon">
                                                                                     <i class="glyphicon glyphicon-user"></i>
                                                                                 </span>
-                                                                                <input type="text" class="form-control" name="firstname" value="{{data.FirstName}}" disabled>
+                                                                                <input type="text" class="form-control" name="firstname" value="{{datacheck.FirstName}}" disabled>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
@@ -304,7 +304,7 @@
                                                                                 <span class="input-group-addon">
                                                                                     <i class="glyphicon glyphicon-user"></i>
                                                                                 </span>
-                                                                                <input type="text" class="form-control" name="lastname" value="{{data.LastName}}" disabled>
+                                                                                <input type="text" class="form-control" name="lastname" value="{{datacheck.LastName}}" disabled>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
@@ -313,7 +313,7 @@
                                                                                 <span class="input-group-addon">
                                                                                     <i class="fa fa-user"></i>
                                                                                 </span>
-                                                                                <input class="form-control" name="gender" value="{{data.Gender}}" disabled>
+                                                                                <input class="form-control" name="gender" value="{{datacheck.Gender}}" disabled>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
@@ -322,7 +322,7 @@
                                                                                 <span class="input-group-addon">
                                                                                     <i class="fa fa-calendar"></i>
                                                                                 </span>
-                                                                                <input type="text" class="form-control" name="birthdate" value="{{data.BirthDate}}" disabled>
+                                                                                <input type="text" class="form-control" name="birthdate" value="{{datacheck.BirthDate}}" disabled>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
@@ -331,7 +331,7 @@
                                                                                 <span class="input-group-addon">
                                                                                     <i class="fa fa-envelope"></i>
                                                                                 </span>
-                                                                                <input type="email" class="form-control" name="email" value="{{data.Email}}" disabled>
+                                                                                <input type="email" class="form-control" name="email" value="{{datacheck.Email}}" disabled>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
@@ -340,7 +340,7 @@
                                                                                 <span class="input-group-addon">
                                                                                     <i class="fa fa-phone"></i>
                                                                                 </span>
-                                                                                <input type="tel" class="form-control" name="phone" value="{{data.Phone}}" disabled>
+                                                                                <input type="tel" class="form-control" name="phone" value="{{datacheck.Phone}}" disabled>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
@@ -349,7 +349,7 @@
                                                                                 <span class="input-group-addon">
                                                                                     <i class="fa fa-user"></i>
                                                                                 </span>
-                                                                                <input type="text" class="form-control" name="nik" value="{{data.Nik}}" disabled>
+                                                                                <input type="text" class="form-control" name="nik" value="{{datacheck.Nik}}" disabled>
                                                                             </div>
                                                                         </div>
                                                                     </form>
@@ -358,7 +358,7 @@
                                                             <div class="col-md-4 text-center">
                                                                 
                                                                 <div class="img-thumbnail text-center">
-                                                                    <img height="200" width="200" src="{{data.Img}}">
+                                                                    <img height="200" width="200" src="{{datacheck.Img}}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -458,7 +458,7 @@
                                                                                 <span class="input-group-addon">
                                                                                     <i class="fa fa-qrcode"></i>
                                                                                 </span>
-                                                                                <input type="text" class="form-control" id="brand" name="brand" value="{{data.Company.Brand}}" disabled>
+                                                                                <input type="text" class="form-control" id="brand" name="brand" value="{{datacheck.Company.Brand}}" disabled>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
@@ -467,7 +467,7 @@
                                                                                 <span class="input-group-addon">
                                                                                     <i class="fa fa-briefcase"></i>
                                                                                 </span>
-                                                                                <input type="text" class="form-control" name="coname" value="{{data.Company.Name}}" disabled>
+                                                                                <input type="text" class="form-control" name="coname" value="{{datacheck.Company.Name}}" disabled>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
@@ -485,7 +485,7 @@
                                                                                 <span class="input-group-addon">
                                                                                     <i class="glyphicon glyphicon-user"></i>
                                                                                 </span>
-                                                                                <input type="text" class="form-control" name="owner" value="{{data.Company.Owner}}" disabled>
+                                                                                <input type="text" class="form-control" name="owner" value="{{datacheck.Company.Owner}}" disabled>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
@@ -494,7 +494,7 @@
                                                                                 <span class="input-group-addon">
                                                                                     <i class="fa fa-phone"></i>
                                                                                 </span>
-                                                                                <input type="tel" class="form-control" name="phone" value="{{data.Company.Phone}}" disabled>
+                                                                                <input type="tel" class="form-control" name="phone" value="{{datacheck.Company.Phone}}" disabled>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
@@ -503,7 +503,7 @@
                                                                                 <span class="input-group-addon">
                                                                                     <i class="fa fa-mobile"></i>
                                                                                 </span>
-                                                                                <input type="tel" class="form-control" name="mobile" value="{{data.Company.Mobile}}" disabled>
+                                                                                <input type="tel" class="form-control" name="mobile" value="{{datacheck.Company.Mobile}}" disabled>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
@@ -512,7 +512,7 @@
                                                                                 <span class="input-group-addon">
                                                                                     <i class="fa fa-home"></i>
                                                                                 </span>
-                                                                                <input type="text" class="form-control" name="address" value="{{data.Company.Address}}" disabled>
+                                                                                <input type="text" class="form-control" name="address" value="{{datacheck.Company.Address}}" disabled>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
@@ -521,7 +521,7 @@
                                                                                 <span class="input-group-addon">
                                                                                     <i class="fa fa-home"></i>
                                                                                 </span>
-                                                                                <select class="form-control" name="subdistrict" value="{{data.Company.District}}" disabled>
+                                                                                <select class="form-control" name="subdistrict" value="{{datacheck.Company.District}}" disabled>
                                                                                 
                                                                                 </select>
                                                                             </div>
@@ -532,7 +532,7 @@
                                                                                 <span class="input-group-addon">
                                                                                     <i class="fa fa-home"></i>
                                                                                 </span>
-                                                                                <select class="form-control" name="province" value="{{data.Company.Province}}" disabled>
+                                                                                <select class="form-control" name="province" value="{{datacheck.Company.Province}}" disabled>
                                                                                 
                                                                                 </select>
                                                                             </div>
@@ -554,7 +554,7 @@
                                                                         <span class="input-group-addon">
                                                                             <i class="fa fa-envelope"></i>
                                                                         </span>
-                                                                        <input type="email" class="form-control" name="email" value="{{data.Company.Email}}" disabled>
+                                                                        <input type="email" class="form-control" name="email" value="{{datacheck.Company.Email}}" disabled>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
@@ -563,7 +563,7 @@
                                                                         <span class="input-group-addon">
                                                                             <i class="fa fa-globe"></i>
                                                                         </span>
-                                                                        <input type="text" class="form-control" name="website" value="{{data.Company.Website}}" disabled>
+                                                                        <input type="text" class="form-control" name="website" value="{{datacheck.Company.Website}}" disabled>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
@@ -572,7 +572,7 @@
                                                                         <span class="input-group-addon">
                                                                             <i class="fa fa-home"></i>
                                                                         </span>
-                                                                        <select class="form-control" name="city" value="{{data.Company.City}}" disabled>
+                                                                        <select class="form-control" name="city" value="{{datacheck.Company.City}}" disabled>
                                                                         
                                                                         </select>
                                                                     </div>
@@ -583,7 +583,7 @@
                                                                         <span class="input-group-addon">
                                                                             <i class="fa fa-envelope-o"></i>
                                                                         </span>
-                                                                        <input type="text" class="form-control" name="postal" value="{{data.Company.Postal}}" disabled>
+                                                                        <input type="text" class="form-control" name="postal" value="{{datacheck.Company.Postal}}" disabled>
                                                                     </div>
                                                                 </div>
                                                                 </div>
@@ -612,7 +612,7 @@
                                                                                             <span class="input-group-addon">
                                                                                                 <i class="glyphicon glyphicon-user"></i>
                                                                                             </span>
-                                                                                            <input type="text" class="form-control" name="name" value="{{data.Contact.Name}}" disabled>
+                                                                                            <input type="text" class="form-control" name="name" value="{{datacheck.Contact.Name}}" disabled>
                                                                                             
                                                                                         </div>
                                                                                     </div>
@@ -624,7 +624,7 @@
                                                                                             <span class="input-group-addon">
                                                                                                 <i class="glyphicon glyphicon-user"></i>
                                                                                             </span>
-                                                                                            <input type="text" class="form-control" name="nameops" value="{{data.Contact.NameOps}}" disabled>
+                                                                                            <input type="text" class="form-control" name="nameops" value="{{datacheck.Contact.NameOps}}" disabled>
                                                                                             
                                                                                         </div>
                                                                                     </div>
@@ -638,7 +638,7 @@
                                                                                             <span class="input-group-addon">
                                                                                                 <i class="fa fa-envelope"></i>
                                                                                             </span>
-                                                                                            <input type="email" class="form-control" name="email" value="{{data.Contact.Email}}" disabled>
+                                                                                            <input type="email" class="form-control" name="email" value="{{datacheck.Contact.Email}}" disabled>
                                                                                             
                                                                                         </div>
                                                                                     </div>
@@ -650,7 +650,7 @@
                                                                                             <span class="input-group-addon">
                                                                                                 <i class="fa fa-envelope"></i>
                                                                                             </span>
-                                                                                            <input type="email" class="form-control" name="emailops" value="{{data.Contact.EmailOps}}" disabled>
+                                                                                            <input type="email" class="form-control" name="emailops" value="{{datacheck.Contact.EmailOps}}" disabled>
                                                                                             
                                                                                         </div>
                                                                                     </div>
@@ -664,7 +664,7 @@
                                                                                             <span class="input-group-addon">
                                                                                                 <i class="fa fa-phone"></i>
                                                                                             </span>
-                                                                                            <input type="tel" class="form-control" name="phone" value="{{data.Contact.Phone}}" disabled>
+                                                                                            <input type="tel" class="form-control" name="phone" value="{{datacheck.Contact.Phone}}" disabled>
                                                                                             
                                                                                         </div>
                                                                                     </div>
@@ -676,7 +676,7 @@
                                                                                             <span class="input-group-addon">
                                                                                                 <i class="fa fa-phone"></i>
                                                                                             </span>
-                                                                                            <input type="tel" class="form-control" name="phoneops" value="{{data.Contact.PhoneOps}}" disabled>
+                                                                                            <input type="tel" class="form-control" name="phoneops" value="{{datacheck.Contact.PhoneOps}}" disabled>
                                                                                             
                                                                                         </div>
                                                                                     </div>
@@ -690,7 +690,7 @@
                                                                                             <span class="input-group-addon">
                                                                                                 <i class="fa fa-mobile"></i>
                                                                                             </span>
-                                                                                            <input type="tel" class="form-control" name="mobile" value="{{data.Contact.Mobile}}" disabled>
+                                                                                            <input type="tel" class="form-control" name="mobile" value="{{datacheck.Contact.Mobile}}" disabled>
                                                                                             
                                                                                         </div>
                                                                                     </div>
@@ -702,7 +702,7 @@
                                                                                             <span class="input-group-addon">
                                                                                                 <i class="fa fa-mobile"></i>
                                                                                             </span>
-                                                                                            <input type="tel" class="form-control" name="mobileops" value="{{data.Contact.MobileOps}}" disabled>
+                                                                                            <input type="tel" class="form-control" name="mobileops" value="{{datacheck.Contact.MobileOps}}" disabled>
                                                                                             
                                                                                         </div>
                                                                                     </div>
@@ -719,14 +719,14 @@
                                                             <div style="padding:2%;">
                                                                 <h3 style="margin-bottom:10px;">Kontak Perwakilan Perusahaan</h3>
                                                             </div>
-                                                            <form id="rekfrm" class="form-horizontal" style="padding-left:2%;" method="post" action="<?=base_url('member/editRekening')?>">
+                                                            <form id="rekfrm" class="form-horizontal" style="padding-left:2%;">
                                                                 <div class="form-group">
                                                                     <label class="control-label col-sm-2" style="text-align: left;">Nama Bank</label> 
                                                                     <div class="input-group col-sm-4">
                                                                         <span class="input-group-addon">
                                                                             <i class="fa fa-briefcase"></i>
                                                                         </span>
-                                                                        <input type="text" class="form-control" name="bankname" value="{{data.Bank.BankName}}" disabled>
+                                                                        <input type="text" class="form-control" name="bankname" value="{{datacheck.Bank.BankName}}" disabled>
                                                                         
                                                                     </div>
                                                                 </div>
@@ -736,7 +736,7 @@
                                                                         <span class="input-group-addon">
                                                                             <i class="fa fa-credit-card"></i>
                                                                         </span>
-                                                                        <input type="text" class="form-control" name="bankaccount" value="{{data.Bank.Account}}" disabled>
+                                                                        <input type="text" class="form-control" name="bankaccount" value="{{datacheck.Bank.Account}}" disabled>
                                                                         
                                                                     </div>
                                                                 </div>
@@ -746,7 +746,7 @@
                                                                         <span class="input-group-addon">
                                                                             <i class="glyphicon glyphicon-user"></i>
                                                                         </span>
-                                                                        <input type="text" class="form-control" name="bankuser" value="{{data.Bank.BankUser}}" disabled>
+                                                                        <input type="text" class="form-control" name="bankuser" value="{{datacheck.Bank.BankUser}}" disabled>
                                                                         
                                                                     </div>
                                                                 </div>
@@ -845,6 +845,11 @@
     // $scope.GoToDetailUser = function(UserId) {
     //     window.location.href = adminUrl+'users/add/'+UserId;
     // };
+
+    $scope.chckPrivId = function(data){
+
+        $scope.datacheck = data;
+    }
 
     $scope.listData = function(doc, privyid){
         // console.log(data);
