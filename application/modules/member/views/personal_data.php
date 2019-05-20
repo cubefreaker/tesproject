@@ -87,7 +87,7 @@
                             <span class="input-group-addon">
                                 <i class="fa fa-phone"></i>
                             </span>
-                            <input type="tel" class="form-control" onkeypress="return isNumberKey(event)" name="phone" value="<?=$Member->phone;?>" required>
+                            <input type="number" class="form-control" onkeypress="return isNumberKey(event)" name="phone" value="<?=$Member->phone;?>" required>
                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                         </div>
                     </div>

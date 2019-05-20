@@ -978,17 +978,10 @@ class Member extends CI_Controller
                         'created_date'  => NOW,
                         'modified_date' => NOW,
                         'user_id'       => $this->ion_auth->user()->row()->id,
-                        'type'          => 1
+                        'request_type'  => 21
                     ));
 
-                    $this->M_member->insert('users_document_det', array(
-                        'doc_name'      => $pdf_ip['nama_file'],
-                        'created_date'  => NOW,
-                        'modified_date' => NOW,
-                        'user_id'       => $this->ion_auth->user()->row()->id,
-                        'type'          => 1
-                    ));
-
+    
                     if($data['change_request'] == TEMPORARY) {
                         $_save_data['temp_start_date'] = date('Y-m-d',strtotime($data['temp_start_date']));
                         $_save_data['temp_end_date']   = date('Y-m-d',strtotime($data['temp_end_date']));
@@ -1033,7 +1026,7 @@ class Member extends CI_Controller
                         'created_date'  => NOW,
                         'modified_date' => NOW,
                         'user_id'       => $this->ion_auth->user()->row()->id,
-                        'type'          => 1
+                        'request_type'  => 22
                     ));
 
                 }
@@ -1075,7 +1068,7 @@ class Member extends CI_Controller
                         'created_date'  => NOW,
                         'modified_date' => NOW,
                         'user_id'       => $this->ion_auth->user()->row()->id,
-                        'type'          => 1
+                        'request_type'  => 23
                     ));
                 }
             }
@@ -1229,7 +1222,7 @@ class Member extends CI_Controller
                 'created_date'  => NOW,
                 'modified_date' => NOW,
                 'user_id'       => $this->ion_auth->user()->row()->id,
-                'type'          => 1
+                'request_type'  => 1
             ));
             $this->session->set_flashdata('save_status', 'success');
             $this->session->set_flashdata('save_message', 'Success Request');
