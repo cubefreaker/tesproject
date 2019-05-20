@@ -308,19 +308,8 @@ $('#city').change(function () {
         }
     });
 });
-// function saveProfile(){
-    // if(confirm("Are You Sure?")){
-    //     document.getElementById("editfrm").submit();
-    // }   
-// }
 
-$(document).ready(function(){
-    $('#brand').val("Test");
-});
-
-$('.select2').select2({
-  // placeholder: 'Select an option'
-});
+$('.select2').select2();
 function isNumberKey(evt)
 {
     var charCode = (evt.which) ? evt.which : event.keyCode
