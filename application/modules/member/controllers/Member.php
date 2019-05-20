@@ -193,22 +193,25 @@ class Member extends CI_Controller
             'debug_query'   => false
         ));
 
-        // print_r($data['mitra_info']->province);die;
-        $data['is_exist_province'] = $this->db
-                                            ->select('*')
-                                            ->from('mst_provinces')
-                                            ->where('mst_provinces.name != ', $data['mitra_info']->province)
-                                            ->get()->result();
-        $data['is_exist_districts'] = $this->db
-                                            ->select('*')
-                                            ->from('mst_districts')
-                                            ->where('mst_districts.name != ', $data['mitra_info']->sub_district)
-                                            ->get()->result();
-        $data['is_exist_city'] = $this->db
-                                            ->select('*')
-                                            ->from('mst_regencies')
-                                            ->where('mst_regencies.name != ', $data['mitra_info']->city)
-                                            ->get()->result();
+        if( !empty($data['mitra_info'])) {
+            
+            // print_r($data['mitra_info']->province);die;
+            $data['is_exist_province'] = $this->db
+                                                ->select('*')
+                                                ->from('mst_provinces')
+                                                ->where('mst_provinces.name != ', $data['mitra_info']->province)
+                                                ->get()->result();
+            $data['is_exist_districts'] = $this->db
+                                                ->select('*')
+                                                ->from('mst_districts')
+                                                ->where('mst_districts.name != ', $data['mitra_info']->sub_district)
+                                                ->get()->result();
+            $data['is_exist_city'] = $this->db
+                                                ->select('*')
+                                                ->from('mst_regencies')
+                                                ->where('mst_regencies.name != ', $data['mitra_info']->city)
+                                                ->get()->result();
+        }
 
 
         // $this->load->model('m_general');
