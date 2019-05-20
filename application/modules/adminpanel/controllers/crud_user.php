@@ -114,6 +114,21 @@
             echo json_encode($Return);
         }
 
+        public function getReasonReject(){
+            $InputData = json_decode(file_get_contents('php://input'),true);
+            $ReqType = $InputData['ReqType'];
+            $UserId = $InputData['UserId'];
+
+            if($ReqType == 'seller'){
+                $query = 'select reason_reject from users_requestv2 where user_id = "'.$UserId.'" and type = 1';
+            }else{
+                $query = 'select reason_reject from users_requestv2 where user_id = "'.$UserId.'" and type = 2 and buyer_type = "'.$ReqType.'"';
+            }
+            $resp = $this->db->query($query)->row();
+
+            echo json_encode($resp);
+        }
+
         public function submitPrivyId($InputData)
         {
             //Submit to PrivyId
