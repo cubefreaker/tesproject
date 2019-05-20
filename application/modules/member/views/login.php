@@ -4,54 +4,51 @@
 
     <!-- <section class="main-section container-fluid" ng-controller="LoginController" style="margin-top: 5%"> -->
     <div class="col-md-12" style="margin-top: 10px;">
-      <div class="col-sm-8 col-md-8" style="text-align: center;">
+      <div class="col-sm-8 col-md-8">
       <h1 style="text-align: center;">Why Must Join ITX?</h1>
         <div class="row">
-          <div class="col-md-4">
-            <div class="thumbnail">
+          <div class="col-md-6">
+            <div class="">
               <img src="" alt="">
-              <h3>Buyer Management</h3>
-              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur placeat dicta eum ea? Nesciunt eveniet, saepe quod cum vitae labore ipsam commodi dicta, impedit voluptatem nulla atque vel, provident voluptates?</p>
+              <h3 style="text-align: center;font-weight:bold">Seller</h3>
+              <p>Corporate that buys large quantity of goods from various suppliers, and reseller to retailers. Corporate who aggregates one or more suppliers under their corporation.</p>
+              <h4 style="font-weight:bold">Benefits</h4>
+              <ul>
+                <li>Many connections to travel agent</li>
+                <li>24 / 7 online support</li>
+                <li>Easy to use</li>
+              </ul>
+              <h4 style="font-weight:bold">Features</h4>
+              <ul>
+                <li>Set different prices for different customer, using our Price Management capability</li>
+                <li>Allow or deny to buy your product through our Buyer Management capability</li>
+                <li>Monitor all of your products and transactions in a single dashboard</li>
+                <li>API connection capability</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="">
+              <img src="" alt="">
+              <h3 style="text-align: center;font-weight:bold">Buyer</h3>
+              <p>A person or business who gives out or sells the T&T inventory that sold by the supplier to person or business as traveler. Accommodation, transportation, food and beverages, event and MICE, Corporate Travel Management</p>
+              <h4 style="font-weight:bold">Benefits</h4>
+              <ul>
+                <li>Many connections to seller</li>
+                <li>Choose from one or more seller for any products</li>
+                <li>No subscription or transaction fee, it’s absolutely free</li>
+                <li>24 / 7 online support</li>
+                <li>Easy to use</li>
+              </ul>
+              <h4 style="font-weight:bold">Features</h4>
+              <ul>
+                <li>Set your preferred seller of any products through our Seller Management capability</li>
+                <li>Monitor all of your transactions in a single dashboard</li>
+                <li>API connection capability</li>
+              </ul>
             
             </div>
             <!-- <label>Buyer Management</label>                 -->
-          </div>
-          <div class="col-md-4">
-            <div class="thumbnail">
-              <img src="" alt="">
-              <h3>Seller Management</h3>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur ipsam repudiandae non animi? Architecto vitae quia atque exercitationem sed corporis optio consequuntur inventore error quod deserunt, delectus iure perferendis? Laborum!</p>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="thumbnail">
-              <img src="" alt="">
-              <h3>Price Management</h3>
-              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt rerum molestias illum voluptatibus consectetur, assumenda nobis nam nihil velit. Sed impedit sapiente obcaecati quis libero molestiae quidem repellendus commodi ullam?</p>
-            </div>
-          </div>
-        </div>
-        <div class="row" style="margin-top: 10px;">
-          <div class="col-md-4">                
-            <div class="thumbnail">
-              <img src="" alt="">
-              <h3>Data Analytics</h3>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae quasi maxime sit? Ullam deleniti, quos ratione illo veniam natus fugiat numquam quibusdam doloremque facilis consequuntur? Nam repellendus error minus recusandae?</p>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="thumbnail">
-              <img src="" alt="">
-              <h3>Aplication Program Interface</h3>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus autem, mollitia aut facere, veniam, ab excepturi praesentium sapiente voluptatum ipsam doloremque illo! Obcaecati recusandae atque facere veniam, repellat blanditiis tempore.</p>
-            </div>                
-          </div>
-          <div class="col-md-4">
-            <div class="thumbnail">
-              <img src="" alt="">
-              <h3>Dashboard</h3>
-              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. A laudantium odio expedita nesciunt impedit deleniti aliquid quis sed vel. Fugit vel earum quaerat tempora voluptatem quasi repellendus quidem eveniet nesciunt!</p>
-            </div>      
           </div>
         </div>
       </div>
