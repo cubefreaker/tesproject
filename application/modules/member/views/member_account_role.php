@@ -112,7 +112,7 @@
                                 Changes to this Policy
                                 ITX may from time to time change this Policy or change, modify or withdraw access to this site at any time with or without notice. However, if this Policy is changed in a material, adverse way, ITX will post a notice advising of such change at the beginning of this Policy and on this site's home page for 30 days. We recommend that you re-visit this Policy from time to time to learn of any such changes to this Policy.
                                 <br>
-                                Copyright © ITX, 2017. All rights reserved.
+                                Copyright © ITX, 2019. All rights reserved.
                             </p>
                         </div>
                         <p style="margin-top: 20px;">
@@ -163,7 +163,7 @@
                                 Termination 
                                 ITX reserves the right, in its sole discretion, to terminate your access to all or part of this site, with or without notice. 
                                 <br>
-                                © Copyright by ITX 2017 - All rights reserved.
+                                © Copyright by ITX 2019 - All rights reserved.
                             </p>
                         </div>
                         <br><br>
@@ -250,7 +250,7 @@
                                                             <!-- RSP NO : ____ /DIR/NDA/V/2018<br> -->
                                                             Perjanjian Kerahasiaan ini (selanjutnya disebut “Perjanjian”) ditandatangani pada tanggal <?php echo $today; ?> (selanjutnya disebut “Tanggal Efektif”) oleh dan antara: <br>
 
-                                                            ITX, suatu perseroan terbatas yang didirikan berdasarkan hukum negara Republik Indonesia, berdomisili di Jl. Kebon Sirih No.12 RT.11/RW.2, Gambir Kota Jakarta Pusat 10110, Indonesia, dalam hal ini diwakili oleh  David pattiasina, dalam jabatannya selaku Direktur Utama dari dan karenanya sah bertindak untuk dan atas nama ITX and
+                                                            ITX, suatu perseroan terbatas yang didirikan berdasarkan hukum negara Republik Indonesia, berdomisili di Jl. Kebon Sirih No.12 RT.11/RW.2, Gambir Kota Jakarta Pusat 10110, Indonesia, dalam hal ini diwakili oleh Jeami Gumilarsjah, dalam jabatannya selaku Direktur Utama dari dan karenanya sah bertindak untuk dan atas nama ITX and
 
                                                             PT. <?php echo $mitraName; ?>, suatu perseroan terbatas yang didirikan berdasarkan hukum negara Republik Indonesia, berdomisili di <?= $alamat; ?>, dalam hal ini diwakili oleh  <?php echo "<b>".$pic_mitra."</b>"; ?>, dalam jabatannya selaku Direktur Utama dari dan karenanya sah bertindak untuk dan atas nama PT. <?php echo $mitraName; ?>
 

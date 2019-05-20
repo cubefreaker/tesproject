@@ -88,7 +88,7 @@
 	  	</table>
 	  	<table class="table" style="margin-top: 90px;">
 	  		<tr>
-	  			<th style="width: 50%"><p style="margin-left: 100px;">David Pattiasina</p></th>
+	  			<th style="width: 50%"><p style="margin-left: 100px;">Jeami Gumilarsjah</p></th>
 	  			<th style="width: 50%"><center><?= $ip_whitelist['first_name']." ".$ip_whitelist['last_name'] ?></center></th>
 	  		</tr>
 	  		<tr>
