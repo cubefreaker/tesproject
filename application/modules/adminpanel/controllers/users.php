@@ -110,7 +110,10 @@ class Users extends CI_Controller
         // $data['List']   = $this->m_manages->getListUsers();
         // $Users = $this->ion_auth->users()->result();
         $listUserReq = $this->db->query(
-            "select users.id, users.username, email, phone, first_name, last_name, nik, users_requestv2.type, users_requestv2.status_request, gender, birth_date, img_thum from users inner join users_requestv2 on users.id = users_requestv2.user_id"
+            "select users.id, users.username, users.email, users.phone, users.first_name, users.last_name, users.nik, users_requestv2.type, users_requestv2.status_request, gender, birth_date, img_thum, users_requestv2.buyer_type 
+            from users 
+            inner join users_requestv2 on users.id = users_requestv2.user_id
+            inner join users_buyer on users_buyer.user_id = users.id"
             )->result(); 
         foreach ($listUserReq as $key => $value) {
             $privyId = $this->db->query("select * from users_privyid where user_id='".$value->id."'")->row();
@@ -128,7 +131,7 @@ class Users extends CI_Controller
                 'BirthDate'     => $value->birth_date,
                 'Nik'           => $value->nik,
                 'Img'           => $value->img_thum ? base_url().'assets/images/profile/'.$value->img_thum : base_url().'assets/images/profile/profile.png',
-                'ReqType'       => $value->type ? $value->type : 'NoRequest',
+                'ReqType'       => $value->type ? ($value->type == 2 ? $value->buyer_type : 'seller') : 'NoRequest',
                 'Status'        => $value->status_request ? $value->status_request : 'undefined',
                 'PrivyId'       => $privyId ? $privyId->privy_id : 'empty',
                 'PrivyIdStatus' => $privyId ? ($privyId->status ? $privyId->status : 'empty') : 'empty',

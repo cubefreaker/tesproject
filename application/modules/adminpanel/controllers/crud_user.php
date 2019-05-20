@@ -96,10 +96,16 @@
             $UserId = $InputData['UserId'];
             $ReqType = $InputData['ReqType'];
 
+            if($ReqType == 'seller'){
+                $datawhere = ['user_id' => $UserId, 'type' => 1];
+            }else{
+                $datawhere = ['user_id' => $UserId, 'buyer_type' => $ReqType];
+            }
+
             $Return['StatusResponse'] = 0;
             $dataUpdate = [
                 'table' => 'users_requestv2',
-                'where' => ['user_id' => $UserId, 'type' => $ReqType],
+                'where' => $datawhere,
                 'data'  => ['status_request' => 5, 'reason_reject' => $Remark]
             ];
             if ($this->m_update->updateDynamic($dataUpdate)) {
