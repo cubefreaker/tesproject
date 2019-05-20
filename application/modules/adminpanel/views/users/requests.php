@@ -65,16 +65,16 @@
                                     {{ data.Buyer }}
                             </td> -->
                             <td>
-                                <div ng-if="data.ReqType == 1 ">
+                                <div ng-if="data.ReqType == 'seller' ">
                                     Seller
                                 </div>
-                                <div ng-if="data.ReqType == 21 ">
+                                <div ng-if="data.ReqType == 1 ">
                                     Buyer - API
                                 </div>
-                                <div ng-if="data.ReqType == 22 ">
+                                <div ng-if="data.ReqType == 2 ">
                                     Buyer - WL
                                 </div>
-                                <div ng-if="data.ReqType == 23 ">
+                                <div ng-if="data.ReqType == 3 ">
                                     Buyer - TA
                                 </div>
 
