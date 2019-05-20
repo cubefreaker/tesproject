@@ -110,7 +110,7 @@ class Users extends CI_Controller
         // $data['List']   = $this->m_manages->getListUsers();
         // $Users = $this->ion_auth->users()->result();
         $listUserReq = $this->db->query(
-            "select users.id, users.username, email, phone, first_name, last_name, nik, users_requestv2.type, users_requestv2.status_request, gender, birth_date, img_thum from users inner join users_requestv2 on users.id = users_requestv2.user_id"
+            "select users.id, users.username, email, phone, first_name, last_name, nik, users_requestv2.type, users_requestv2.status_request, gender, birth_date, img_thum from users inner join users_requestv2 on users.id = users_requestv2.user_id group by users_requestv2.user_id "
             )->result(); 
         foreach ($listUserReq as $key => $value) {
             $privyId = $this->db->query("select * from users_privyid where user_id='".$value->id."'")->row();
@@ -174,7 +174,7 @@ class Users extends CI_Controller
                         'UserId'    => $value->id,
                         'Name'      => $v->doc_name,
                         'Url'       => base_url().'assets/generate_pdf/'.$v->doc_name,
-                        'Type'      => $v->type,
+                        'Type'      => $v->request_type,
                         'Status'    => $v->status,
                         'Owner'     => [
                             'privyId' => 'JE1736',
