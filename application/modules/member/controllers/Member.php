@@ -912,15 +912,6 @@ class Member extends CI_Controller
             ));
 
 
-            // if(!empty($get_mitra_info)) {
-            //     $mitra_name = ($get_mitra_info->mitra_name) ? $get_mitra_info->mitra_name : "";
-            //     $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
-            //     $telp       = ($get_mitra_info->phone_no) ? $get_mitra_info->phone_no : "";
-            //     $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
-            // } else {
-
-            // }
-
             if( $data['buyer_type'] == API ) {
 
                 if($check_buyer_api) {
@@ -945,7 +936,6 @@ class Member extends CI_Controller
                     $telp       = ($get_mitra_info->phone_no) ? $get_mitra_info->phone_no : "";
                     $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
                     $_save_data = array(
-                        'buyer_type'            => $data['buyer_type'],
                         'request_date'          => NOW,
                         'title'                 => '',
                         'name'                  => '',
@@ -973,7 +963,7 @@ class Member extends CI_Controller
                     $pdf_nda = $this->generate_nda_pdf($file_name_nda);
                     $pdf_ip  = $this->generate_ip_pdf($file_name_ip);
 
-                    $this->M_member->insert('users_document_det', array(
+                    $insert_docs = $this->M_member->insert('users_document_det', array(
                         'doc_name'      => $pdf_nda['nama_file'],
                         'created_date'  => NOW,
                         'modified_date' => NOW,
@@ -981,7 +971,8 @@ class Member extends CI_Controller
                         'request_type'  => 21
                     ));
 
-    
+                    $_save_data['user_doc_id'] = $insert_docs;
+                    
                     if($data['change_request'] == TEMPORARY) {
                         $_save_data['temp_start_date'] = date('Y-m-d',strtotime($data['temp_start_date']));
                         $_save_data['temp_end_date']   = date('Y-m-d',strtotime($data['temp_end_date']));
@@ -1011,10 +1002,6 @@ class Member extends CI_Controller
                     $telp       = ($get_mitra_info->phone_no) ? $get_mitra_info->phone_no : "";
                     $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
 
-                    $_save_data = array(
-                        'buyer_type'   => $data['buyer_type'],
-                        'request_date' => NOW
-                    );
 
                     $file_name_wl = $mitra_name.'_'.date('d-m-Y')."_WHITE_LABEL_".time();
                     $file_name_wl = str_replace(" ", "_", $file_name_wl);
@@ -1047,16 +1034,12 @@ class Member extends CI_Controller
                     $this->output->set_content_type('application/json');
                     echo json_encode($message);
                     exit;
+
                 } else {
                     $mitra_name = ($get_mitra_info->mitra_name) ? $get_mitra_info->mitra_name : "";
                     $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
                     $telp       = ($get_mitra_info->phone_no) ? $get_mitra_info->phone_no : "";
                     $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
-
-                    $_save_data = array(
-                        'buyer_type'   => $data['buyer_type'],
-                        'request_date' => NOW
-                    );
 
                     $file_name_ta = $mitra_name.'_'.date('d-m-Y')."_TRAVEL_AGENT_".time();
                     $file_name_ta = str_replace(" ", "_", $file_name_ta);
@@ -1079,6 +1062,7 @@ class Member extends CI_Controller
                 //save table request
                 $_save_data_request = array(
                     'type'                  => BUYER,
+                    'buyer_type'            => $data['buyer_type'],
                     'user_id'               => $this->ion_auth->user()->row()->id,
                     'agree_policy_check'    => $data['agree_policy_check_buyer'],
                     'status_request'        => WAITING,
@@ -1095,8 +1079,9 @@ class Member extends CI_Controller
                 $_save_data['created_at']   = NOW; 
                 $_save_data['updated_at']   = NOW; 
 
-                $result = $this->M_member->insert('users_buyer',$_save_data);
-
+                if( $data['buyer_type'] == API ) {
+                    $result = $this->M_member->insert('users_buyer',$_save_data);
+                }
                 //end transaction
                 if($this->db->trans_status() == false ) {
                     //balikin jangan di insert
@@ -1242,14 +1227,9 @@ class Member extends CI_Controller
         $data['title_table'] = "List My Request";
         $data['reques'] = $this->Global_model->set_model('users_requestv2','ur','id')->mode(array(
             'type' => 'all_data',
-            'select' => 'ur.*, ub.buyer_type',
-            'left_joined' => array(
-                'users_buyer ub' => array(
-                    'ub.request_id' => 'ur.id' 
-                ) 
-            ),
             'conditions' => array(
-                'ur.user_id' => $this->ion_auth->user()->row()->id
+                'ur.user_id' => $this->ion_auth->user()->row()->id,
+                'is_request' => 1
             ),
             'debug_query' => false
         ));
