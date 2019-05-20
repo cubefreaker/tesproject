@@ -8,7 +8,7 @@
                         $('.page_preloader').css('z-index', '9999');
                         $('.page_preloader').css('display', 'block');"> -->
 <div class="tab-pane" id="infomitra" style="margin-top: 60px;">
-    <form id="mitrafrm" class="form-horizontal" enctype="multipart/form-data" method="post" action="<?=base_url('member/editMitra')?>" >
+    <?= form_open_multipart('member/editMitra',array('class' => 'form-horizontal','id' => 'mitrafrm')) ?>
         <div class="panel panel-primary shad">
             <div class="panel-heading">
                 <div class="panel-title">
@@ -227,7 +227,7 @@
                 <button id="savemitra" type="submit" class="btn btn-info pull-right">Save Changes</button>
             </div>
         </div>
-    </form>
+    <?= form_close(); ?>
 </div>
 <script>
 function readURL(input) {
@@ -246,21 +246,21 @@ $("#imgUpload").change(function(){
     readURL(this);
 });
 
-$("#imgBrand").click(function() {
-    $("#imgUpload").click();
-});
-
 $(document).ready(function(){
 	$('#savemitra').click(function(){
         if(confirm("Are You Sure?")){
             $("#mitrafrm").submit();
         }
 	});
+
+    $("#imgBrand").click(function(e) {
+        e.preventDefault();
+        $("#imgUpload").click();
+    });
 });
 
 $('#id_province').change(function () {
     var id_province = $(this).find(':selected').attr('data-id')
-    // var id_province = $('#id_province').val();
     $.ajax({
         type: 'POST',
         url: '<?php echo base_url(); ?>member/get_city',
