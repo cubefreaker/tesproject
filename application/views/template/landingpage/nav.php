@@ -67,14 +67,14 @@
             else {
                 $member = $this->ion_auth->user()->row();
                 $memberUsername = ($member->username) ? $member->username : "";
+                    // <li class="sign-up">
+                    //     <a class="keep-color" href="">Home</a>
+                    // <li class="sign-up">
+                    //     <a class="keep-color" href="">Promo</a>
+                    // <li class="sign-up">
+                    //     <a class="keep-color" href="">Contact Us</a>
+                    // </li>
                 echo'
-                    <li class="sign-up">
-                        <a class="keep-color" href="">Home</a>
-                    <li class="sign-up">
-                        <a class="keep-color" href="">Promo</a>
-                    <li class="sign-up">
-                        <a class="keep-color" href="">Contact Us</a>
-                    </li>
                     <li class="sign-up" style="padding: 18px">
                     <div class="dropdown">
                         <button class="keep-color" type="button" data-toggle="dropdown">

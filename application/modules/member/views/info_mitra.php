@@ -266,7 +266,7 @@ $('#id_province').change(function () {
             $city.append('<option>-- Pilih kota --</option>');
             for (var i = 0; i < data.length; i++) {
                 // console.log(data[i].name);
-                $city.append('<option data-id = '+data[i].id+' value=' + data[i].name + '>' + data[i].name + '</option>');
+                $city.append('<option data-id = '+data[i].id+' value="' + data[i].name + '">' + data[i].name + '</option>');
             }
             $city.change();
         }
@@ -292,7 +292,7 @@ $('#city').change(function () {
             $kecamatan.append('<option>-- Pilih Kecamatan --</option>');
             for (var i = 0; i < data.length; i++) {
                 // console.log(data[i].name);
-                $kecamatan.append('<option value=' + data[i].name + '>' + data[i].name + '</option>');
+                $kecamatan.append('<option value="' + data[i].name + '">' + data[i].name + '</option>');
             }
             $kecamatan.change();
         }

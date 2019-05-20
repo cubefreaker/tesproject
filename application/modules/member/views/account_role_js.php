@@ -100,14 +100,18 @@
 					beforeSend: function()
 					{
 						$(submit).attr('disabled', true);
-						// $('.loading').css("display", "block");
+						$('.page_preloader').css('opacity', '0.8');
+				        $('.page_preloader').css('z-index', '9999');
+				        $('.page_preloader').css('display', 'block');
 					},
 					headers: { 'X-CSRF-TOKEN': getCookiebyName('5f05193eee9e900380c12e6040e7dee9') },
 					success: function(data)
 					{
+						stopLoading();
 						//validate if error
 						// $('.loading').css("display","none");
 						if(data['is_error']) {
+							// stopLoading();
 							swal("Oops!", data['error_msg'], "error");
 							$(submit).attr('disabled', false);
 						} 
@@ -141,6 +145,15 @@
 		});
 	}
 
+	function stopLoading() {
+	    $('.page_preloader').fadeOut(800);
+
+	    $('body, html').css({
+	        'overflow' : 'auto',
+	        'max-width' : 'none',
+	        'max-height' : 'none'
+	    });
+	}
 	$(document).ready(function() {
 		//init validate;
 		validate();
@@ -151,5 +164,12 @@
 		$("#error-alert").fadeTo(4000, 4000).slideUp(500, function(){
 		    $("#error-alert").slideUp(500);
 		});
+
+		// var start = $('#temp_start_date').val();
+		// 	end   = $('#temp_end_date').val();
+
+		// if( end > start) {
+		// 	swal('Oops','Tanggal selesai tidak boleh lebih besar dari tanggal mulai','error');
+		// }
 	});
 </script>
