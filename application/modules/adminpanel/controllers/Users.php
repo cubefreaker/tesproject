@@ -201,7 +201,7 @@ class Users extends CI_Controller
                 }
             }
             $data['List'][] = $User;
-            $this->privyUserStatus($value->id);
+            $this->privyUserStatus($User['UserId'], $User['ReqType']);
             // echo json_encode($value);
             // if($privySeller){
             //     $this->privyUserStatus($value->id, 'seller');
@@ -248,7 +248,7 @@ class Users extends CI_Controller
     	return $data;
     }
 
-    public function privyUserStatus($userid)
+    public function privyUserStatus($userid, $type)
     {
         // $user = $this->ion_auth->user()->row();
         $privy = $this->db->query('select * from privyid_api')->row();
@@ -279,22 +279,28 @@ class Users extends CI_Controller
                 'data'  => ['status' => strtolower($r->data->status)]
             ];
 
-            // if($r->data->status == 'waiting'){
-            //     $stat = 2;
-            // }else if($r->data->status == 'rejected'){
-            //     $stat = 5;
-            // }else if($r->data->status == 'verified' || $r->data->status == 'registered'){
-            //     $stat = 3;
-            // }
+            if($r->data->status == 'waiting'){
+                $stat = 2;
+            }else if($r->data->status == 'rejected'){
+                $stat = 5;
+            }else if($r->data->status == 'verified' || $r->data->status == 'registered'){
+                $stat = 3;
+            }
 
-            // $dataUpdate2 = [
-            //     'table' => 'users_requestv2',
-            //     'where' => ['user_id' => $userid],
-            //     'data' => [ 'status_request' => $stat]
-            // ];
+            if($type == 'seller'){
+                $datawhere = ['user_id' => $userid, 'type' => 1, 'status_request!=' => 5];
+            }else{
+                $datawhere = ['user_id' => $userid, 'buyer_type' => $type, 'status_request!=' => 5];
+            }
+
+            $dataUpdate2 = [
+                'table' => 'users_requestv2',
+                'where' => $datawhere,
+                'data' => [ 'status_request' => $stat]
+            ];
             $this->load->model('m_update');
             $this->m_update->updateDynamic($dataUpdate);
-            // $this->m_update->updateDynamic($dataUpdate2);
+            $this->m_update->updateDynamic($dataUpdate2);
         }
         }
 
