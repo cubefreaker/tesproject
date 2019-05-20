@@ -167,7 +167,19 @@ class Users extends CI_Controller
                                     ],
 
             ];
-            $doc = $this->db->query("select * from users_document_det where user_id='".$value->id."' and request_type = '".$User['ReqType']."'")->result();
+            if($User['ReqType'] == 'seller'){
+                $reqType = 1;
+            }else if($User['ReqType'] == '1'){
+                $reqType = 21;
+            }else if($User['ReqType'] == '2'){
+                $reqType = 22;
+            }else if($User['ReqType'] == '3'){
+                $reqType = 23;
+            }else{
+                $reqType = '';
+            }
+
+            $doc = $this->db->query("select * from users_document_det where user_id='".$value->id."' and request_type = '".$reqType."'")->result();
             // echo json_encode($doc);die();
             if($doc){
                 foreach($doc as $k => $v){
@@ -176,7 +188,7 @@ class Users extends CI_Controller
                         'UserId'    => $value->id,
                         'Name'      => $v->doc_name,
                         'Url'       => base_url().'assets/generate_pdf/'.$v->doc_name,
-                        'Type'      => $v->type,
+                        // 'Type'      => $v->type,
                         'Status'    => $v->status,
                         'Owner'     => [
                             'privyId' => 'JE1736',
