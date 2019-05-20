@@ -509,8 +509,8 @@ class Member extends CI_Controller
         $this->load->library('upload', $config);
         if(!$this->upload->do_upload('logoURL')){
             $error = array('error' => $this->upload->display_errors());
-            echo $error['error'];
-            die();
+            // echo $error['error'];
+            // die();
         }
         else{
             $data = $this->upload->data();
