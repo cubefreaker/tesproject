@@ -179,9 +179,10 @@ class Member extends CI_Controller
 
         $data = $this->m_general->loadGeneralData();
         $data['Member'] = $this->ion_auth->user()->row();
-        $data['Provinces'] = $this->db->query('select name from mst_provinces')->result();
-        $data['Cities'] = $this->db->query('select name from mst_regencies')->result();
-        $data['Districts'] = $this->db->query('select name from mst_districts')->result();
+        $data['Provinces'] = $this->db->query('select name,id from mst_provinces')->result();
+        
+        $data['Cities'] = $this->db->query('select name,id from mst_regencies')->result();
+        $data['Districts'] = $this->db->query('select name,id from mst_districts')->result();
 
         $data['mitra_info'] = $this->Global_model->set_model('users_mitra','um','id')->mode(array(
             'type'          => 'single_row',
@@ -192,7 +193,23 @@ class Member extends CI_Controller
             'debug_query'   => false
         ));
 
-        // print_r($data['mitra_info']);die();
+        // print_r($data['mitra_info']->province);die;
+        $data['is_exist_province'] = $this->db
+                                            ->select('*')
+                                            ->from('mst_provinces')
+                                            ->where('mst_provinces.name != ', $data['mitra_info']->province)
+                                            ->get()->result();
+        $data['is_exist_districts'] = $this->db
+                                            ->select('*')
+                                            ->from('mst_districts')
+                                            ->where('mst_districts.name != ', $data['mitra_info']->sub_district)
+                                            ->get()->result();
+        $data['is_exist_city'] = $this->db
+                                            ->select('*')
+                                            ->from('mst_regencies')
+                                            ->where('mst_regencies.name != ', $data['mitra_info']->city)
+                                            ->get()->result();
+
 
         // $this->load->model('m_general');
         usort($data['Provinces'], function($a, $b) {
@@ -1583,5 +1600,37 @@ class Member extends CI_Controller
         $this->pdf->filename = "laporan-petanikode.pdf";
         $this->pdf->load_view('generate_pdf_whitelabel', $data);
 
+    }
+
+    public function get_city()
+    {
+
+        $id_province   = $this->input->post('id');
+        $data       = $this->db
+                            ->select('*')
+                            ->from('mst_regencies')
+                            ->where('mst_regencies.province_id', $id_province)
+                            ->get()
+                            ->result_array();
+
+        $this->output->set_content_type('application/json');
+        echo json_encode($data);
+        exit;
+    }
+
+    public function get_district()
+    {
+
+        $id_city   = $this->input->post('id');
+        $data       = $this->db
+                            ->select('*')
+                            ->from('mst_districts')
+                            ->where('mst_districts.regency_id', $id_city)
+                            ->get()
+                            ->result_array();
+        // echo $this->db->last_query();
+        $this->output->set_content_type('application/json');
+        echo json_encode($data);
+        exit;
     }
 }

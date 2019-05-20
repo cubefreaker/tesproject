@@ -281,7 +281,7 @@ class Global_model extends CI_Model {
 
 			if( !$this->_is_permanent ) 
 			{
-				$this->_result = $this->db->delete($this->_table, $this->_conditions);
+				// $this->_result = $this->db->delete($this->_table, $this->_conditions);
 			} else {
 				$this->_result = $this->db->update($this->_table, $this->_data, $this->_conditions);
 			}

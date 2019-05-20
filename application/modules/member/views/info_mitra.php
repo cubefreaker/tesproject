@@ -69,27 +69,23 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-sm-4" style="text-align: left;">Alamat Perusahaan</label> 
-                        <div class="input-group col-sm-8">
-                            <span class="input-group-addon">
-                                <i class="fa fa-home"></i>
-                            </span>
-                            <input type="text" class="form-control" name="address" value="<?=$mitra ? $mitra->address:'';?>" required>
-                            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
                         <label class="control-label col-sm-4" style="text-align: left;">Provinsi</label> 
                         <div class="input-group col-sm-8">
                             <span class="input-group-addon">
                                 <i class="fa fa-home"></i>
                             </span>
-                            <select class="form-control" name="province">
+                            <select class="form-control select2" name="province" id="id_province" style="width: 100%">
                                 <?php
-                                    foreach($Provinces as $p){
-                                        echo '<option value="'.$p->name.'" >'.$p->name.'</option>';
+                                    if($mitra->province != '') {
+                                        echo '<option selected value="'.$mitra->province.'">'.$mitra->province.'';
+                                        foreach($is_exist_province as $p){
+                                            echo '<option data-id="'.$p->id.'" value="'.$p->name.'" >'.$p->name.'</option>';
+                                        }
+                                    } else {
+
+                                        foreach($Provinces as $p){
+                                            echo '<option data-id="'.$p->id.'" value="'.$p->name.'" >'.$p->name.'</option>';
+                                        }
                                     }
                                 ?>
                             </select>
@@ -99,19 +95,23 @@
 
                     <div class="form-group">
                         <label class="control-label col-sm-4" style="text-align: left;">Kabupaten / Kota</label> 
-                        <div ng-app="myApp" ngController="myCtrl" class="input-group col-sm-8">
+                        <div class="input-group col-sm-8">
                             <span class="input-group-addon">
                                 <i class="fa fa-home"></i>
                             </span>
-                            <select class="form-control" name="city" value="">
+                            <select class="form-control" name="city" id="city">
                             <?php
                                     if($mitra->city != NULL && $mitra->city != ''){
-                                        echo '<option value="'.$mitra->city.'" disabled selected hidden>'.$mitra->city.'</option>';
+                                        echo '<option selected value="'.$mitra->city.'">'.$mitra->city.'</option>';
+                                        foreach($is_exist_city as $p){
+                                            echo '<option data-id="'.$p->id.'" value="'.$p->name.'" >'.$p->name.'</option>';
+                                        }
+
                                     }else{
-                                        echo '<option value="" disabled selected hidden>-- Select --</option>';
-                                    }
-                                    foreach($Cities as $c){
-                                        echo '<option value="'.$c->name.'" >'.$c->name.'</option>';
+                                        echo '<option value="">-- Pilih Kota --</option>';
+                                        foreach($Cities as $p){
+                                            echo '<option data-id="'.$p->id.'" value="'.$p->name.'" >'.$p->name.'</option>';
+                                        }
                                     }
                                     ?>
                             </select>
@@ -125,23 +125,33 @@
                             <span class="input-group-addon">
                                 <i class="fa fa-home"></i>
                             </span>
-                            <select class="form-control" name="subdistrict" value="">
+                            <select class="form-control" name="subdistrict" id="kecamatan">
                             <?php
-                            if($mitra->sub_district != NULL && $mitra->sub_district != ''){
-                                echo '<option value="'.$mitra->sub_district.'" disabled selected hidden>'.$mitra->sub_district.'</option>';
-                            }else{
-                                echo '<option value="" disabled selected hidden>-- Select --</option>';
-                            }
-                            foreach($Districts as $d){
-                                echo '<option value="'.$d->name.'" >'.$d->name.'</option>';
-                            }
+                                if($mitra->sub_district != NULL && $mitra->sub_district != ''){
+                                    echo '<option value="'.$mitra->sub_district.'" disabled selected hidden>'.$mitra->sub_district.'</option>';
+                                }else{
+                                    echo '<option value="">-- Pilih Kecamatan --</option>';
+                                    
+                                }
+
                             ?>
                             </select>
                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" style="text-align: left;">Alamat Perusahaan</label> 
+                        <div class="input-group col-sm-8">
+                            <span class="input-group-addon">
+                                <i class="fa fa-home"></i>
+                            </span>
+                            <textarea  class="form-control" name="address"><?=$mitra ? $mitra->address:'';?></textarea> 
+                            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                        </div>
+                    </div>
                 </div>
-            
+                
+
                 <div class="col-md-6 text-center"style="padding:2%;">
                     <div class="img-thumbnail text-center" style="margin-bottom:35px;">
                         <?php 
@@ -237,6 +247,57 @@ $(document).ready(function(){
         }
 	});
 });
+
+$('#id_province').change(function () {
+    var id_province = $(this).find(':selected').attr('data-id')
+    // var id_province = $('#id_province').val();
+    $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>member/get_city',
+        data: {
+            'id': id_province
+
+        },
+        success: function (data) {
+            // console.log(data);
+            data = JSON.parse(data);
+            var $city = $('#city');
+            $city.empty();
+            $city.append('<option>-- Pilih kota --</option>');
+            for (var i = 0; i < data.length; i++) {
+                // console.log(data[i].name);
+                $city.append('<option data-id = '+data[i].id+' value=' + data[i].name + '>' + data[i].name + '</option>');
+            }
+            $city.change();
+        }
+    });
+});
+
+$('#city').change(function () {
+    var id_city = $(this).find(':selected').attr('data-id')
+    // console.log(id_city)
+    // var id_province = $('#id_province').val();
+    $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>member/get_district',
+        data: {
+            'id': id_city
+
+        },
+        success: function (data) {
+            // console.log(data);
+            data = JSON.parse(data);
+            var $kecamatan = $('#kecamatan');
+            $kecamatan.empty();
+            $kecamatan.append('<option>-- Pilih Kecamatan --</option>');
+            for (var i = 0; i < data.length; i++) {
+                // console.log(data[i].name);
+                $kecamatan.append('<option value=' + data[i].name + '>' + data[i].name + '</option>');
+            }
+            $kecamatan.change();
+        }
+    });
+});
 // function saveProfile(){
     // if(confirm("Are You Sure?")){
     //     document.getElementById("editfrm").submit();
@@ -247,6 +308,9 @@ $(document).ready(function(){
     $('#brand').val("Test");
 });
 
+$('.select2').select2({
+  // placeholder: 'Select an option'
+});
 function isNumberKey(evt)
 {
     var charCode = (evt.which) ? evt.which : event.keyCode
