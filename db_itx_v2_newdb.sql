@@ -8051,8 +8051,7 @@ CREATE TABLE `users_document_det` (
   `modified_date` datetime DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `is_active` tinyint(4) DEFAULT '1' COMMENT '0=notactive;1=active',
-  `request_type` int(1) DEFAULT NULL COMMENT '1=seller;21=buyer_api;22=buyerwhitelabel;23=buyertravelagent',
-  `reason_reject` varchar(250) DEFAULT NULL,
+  `request_type` int(1) DEFAULT NULL COMMENT '1=seller;21=buyer_api;22=buyerwhitelabel;23=buyertravelagent'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -8301,7 +8300,8 @@ CREATE TABLE `users_requestv2` (
   `count_request` int(11) NOT NULL DEFAULT '0',
   `request_date` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
+  `updated_at` datetime DEFAULT NULL,
+  `reason_reject` varchar(250) DEFAULT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
