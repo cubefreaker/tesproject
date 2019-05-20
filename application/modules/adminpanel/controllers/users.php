@@ -177,12 +177,12 @@ class Users extends CI_Controller
                         'Type'      => $v->type,
                         'Status'    => $v->status,
                         'Owner'     => [
-                            'privyId' => 'TES001',
+                            'privyId' => 'JE1736',
                             'enterpriseToken' => '41bc84b42c8543daf448d893c255be1dbdcc722e'
                         ],
                         'Recipients' => [
                             [
-                                'privyId' => 'TES001',
+                                'privyId' => 'JE1736',
                                 'type' => 'Reviewer',
                                 'enterpriseToken' => '41bc84b42c8543daf448d893c255be1dbdcc722e'
                             ],
@@ -199,6 +199,7 @@ class Users extends CI_Controller
                 }
             }
             $data['List'][] = $User;
+            $this->privyUserStatus($value->id);
             // echo json_encode($value);
             // if($privySeller){
             //     $this->privyUserStatus($value->id, 'seller');
@@ -245,12 +246,13 @@ class Users extends CI_Controller
     	return $data;
     }
 
-    public function privyUserStatus($userid, $type)
+    public function privyUserStatus($userid)
     {
         // $user = $this->ion_auth->user()->row();
         $privy = $this->db->query('select * from privyid_api')->row();
         $privyUser = $this->db->query('select * from users_privyid where user_id = "'.$userid.'"')->row();
         // $privyUserDet = $this->db->query('select * from users_privyid where user_id = "'.$userid.'" and type="'.$type.'"')->row();
+        if($privyUser){
         $url = $privy->base.$privy->reg_status;
         $data = [
             'auth' => [$privy->user,$privy->pass],
@@ -266,29 +268,32 @@ class Users extends CI_Controller
         $this->load->library('privyid_api');
         $resp = $this->privyid_api->postPrivyAPI($url, $data);
         $r = json_decode($resp);
-        // echo $resp;
+        // echo $resp;die();
 
         if($r->code == 201){
             $dataUpdate = [
                 'table' => 'users_privyid',
-                'where' => ['user_id' => $userid, 'type' => $type],
+                'where' => ['user_id' => $userid],
                 'data'  => ['status' => strtolower($r->data->status)]
             ];
 
-            if($type == 'seller'){
-                $typestat = 'seller_status';
-            }else{
-                $typestat = 'buyer_status';
-            }
+            // if($r->data->status == 'waiting'){
+            //     $stat = 2;
+            // }else if($r->data->status == 'rejected'){
+            //     $stat = 5;
+            // }else if($r->data->status == 'verified' || $r->data->status == 'registered'){
+            //     $stat = 3;
+            // }
 
-            $dataUpdate2 = [
-                'table' => 'users_request',
-                'where' => ['user_id' => $userid],
-                'data' => [ $typestat => strtolower($r->data->status)]
-            ];
+            // $dataUpdate2 = [
+            //     'table' => 'users_requestv2',
+            //     'where' => ['user_id' => $userid],
+            //     'data' => [ 'status_request' => $stat]
+            // ];
             $this->load->model('m_update');
             $this->m_update->updateDynamic($dataUpdate);
-            $this->m_update->updateDynamic($dataUpdate2);
+            // $this->m_update->updateDynamic($dataUpdate2);
+        }
         }
 
     }
