@@ -179,9 +179,9 @@
             if($r->code == 201){
 
                 if($InputData['ReqType'] == 'seller'){
-                    $datawhere = ['user_id' => $InputData['UserId'], 'type' => 1];
+                    $datawhere = ['user_id' => $InputData['UserId'], 'type' => 1, 'status_request!=' => 5];
                 }else{
-                    $datawhere = ['user_id' => $InputData['UserId'], 'buyer_type' => $InputData['ReqType']];
+                    $datawhere = ['user_id' => $InputData['UserId'], 'buyer_type' => $InputData['ReqType'], 'status_request!=' => 5];
                 }
 
                 $dataUpdate = [
@@ -239,10 +239,14 @@
         public function checkDokumenStatus()
         {
             $InputData = json_decode(file_get_contents('php://input'),true);
+            $UserId = $InputData['UserId'];
+            $DocList = $InputData['Document'];
+            $ReqStatus = $InputData['Status'];
+            $ReqType = $InputData['ReqType'];
 
-            foreach($InputData as $key => $value){
-                if($value['Status'] != 'undefined'){
-                    $this->privyDocStatus($value['Id']);
+            foreach($DocList as $key => $value){
+                if($value['Status'] != 'new'){
+                    $this->privyDocStatus($value['Id'], $UserId, $ReqType, $ReqStatus);
                 }           
             }
         }
@@ -330,7 +334,7 @@
             echo json_encode($Return);
         }
 
-        public function privyDocStatus($docid)
+        public function privyDocStatus($docid, $userid, $reqtype, $reqstatus)
         {
             
             $privy = $this->db->query('select * from privyid_api')->row();
@@ -362,9 +366,24 @@
                 $this->load->model('m_update');
                 $this->m_update->updateDynamic($dataUpdate);
                 $this->m_update->updateDynamic($dataUpdate2);
-                
+
+                if($r->data->documentStatus == 'Completed'){
+
+                    if($reqtype == 'seller'){
+                        $datawhere = ['user_id' => $userid, 'type' => 1, 'status_request!=' => 5];
+                    }else{
+                        $datawhere = ['user_id' => $userid, 'buyer_type' => $reqtype, 'status_request!=' => 5];
+                    }
+
+                    $dataUpdate3 = [
+                        'table' => 'users_requestv2',
+                        'where' => $datawhere,
+                        'data'  => ['status_request' => 4]
+                    ];
+                }
+                echo json_encode($r->data->documentStatus);
             }
-            echo json_encode($r->data->documentStatus);
+            
         }
 
         public function editUser()

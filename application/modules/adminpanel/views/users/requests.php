@@ -152,7 +152,7 @@
                             </td>
                             <td>
                                 <div>
-                                    <a ng-click="listData(data.Document, data.PrivyId)" href="#" data-toggle="modal" data-target="#docModal">
+                                    <a ng-click="chckPrivId(data)" href="#" data-toggle="modal" data-target="#docModal">
                                         view detail
                                     </a>
                                     <div class="modal fade" id="docModal" role="dialog">
@@ -171,7 +171,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr ng-repeat="doc in docList">
+                                                            <tr ng-repeat="doc in datacheck.Document">
                                                                 <td>
                                                                     <a href="{{doc.Url}}" target="__blank">{{ doc.Name }}</a>
                                                                 </td>
@@ -186,8 +186,8 @@
                                                             </tr>
                                                         </tbody>
                                                     </table>
-                                                    <button class="btn btn-sm btn-success" ng-click="submitDocAll(docList, privyId)">Submit all documents</button>
-                                                    <button ng-if="loading == false" class="btn btn-sm btn-success" ng-click="checkDoc(docList)">Update Status</button>
+                                                    <button class="btn btn-sm btn-success" ng-click="submitDocAll(datacheck.Document, datacheck.PrivyId)">Submit all documents</button>
+                                                    <button ng-if="loading == false" class="btn btn-sm btn-success" ng-click="checkDoc(datacheck)">Update Status</button>
                                                     <button ng-if="loading == true" class="btn btn-sm btn-success fa fa-spinner" disabled>Update Status</button>
                                                 
                                                 </div>
@@ -874,12 +874,6 @@
         })
     }
 
-    $scope.listData = function(doc, privyid){
-        // console.log(data);
-        $scope.docList = doc;
-        $scope.privyId = privyid;
-    }
-
     $scope.getDoc = function(UserId){
         $http.post(adminUrl+'crud_user/getDocument', {'UserId' : UserId}).then(function(resp){
             $scope.docList = resp.data;
@@ -928,7 +922,7 @@
         }
     };
 
-    $scope.checkDoc = function(doc){
+    $scope.checkDoc = function(data){
 
         //check if there're submitted doc
         // function isSubmitted(arr){
@@ -941,13 +935,14 @@
         //     }
         //     return res;
         // }
+        var userData = data;
 
-        if(!isSubmitted(doc)){
+        if(!isSubmitted(userData.Document)){
             alert('No documents were submitted yet!')
         }else{
         $scope.loading = true;
         AngularService.startLoadingPage();
-        $http.post(adminUrl+'crud_user/checkDokumenStatus', doc).then(function successCallback(resp){
+        $http.post(adminUrl+'crud_user/checkDokumenStatus', userData).then(function successCallback(resp){
                 console.log(resp);
                 $scope.loading = false;
                 AngularService.stopLoadingPage();
