@@ -8051,7 +8051,8 @@ CREATE TABLE `users_document_det` (
   `modified_date` datetime DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `is_active` tinyint(4) DEFAULT '1' COMMENT '0=notactive;1=active',
-  `request_type` int(1) DEFAULT NULL COMMENT '1=seller;21=buyer_api;22=buyerwhitelabel;23=buyertravelagent'
+  `request_type` int(1) DEFAULT NULL COMMENT '1=seller;21=buyer_api;22=buyerwhitelabel;23=buyertravelagent',
+  `reason_reject` varchar(250) DEFAULT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
