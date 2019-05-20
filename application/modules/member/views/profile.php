@@ -7,33 +7,28 @@
 
 <div class="container" style="margin-top: 40px;">
     <ul class="nav nav-tabs">
-        <li class="pull-right">
-            <a href="#rekening" data-toggle="tab">Rekening Bank</a>
+        <li class="<?php if ($tab == 'rekening') echo 'active'; ?> pull-right">
+            <a class="<?php if ($tab == 'rekening') echo 'active'; ?>" href="<?php echo site_url('/member/personalData/rekening'); ?>">&nbsp; Rekening Bank</a>
         </li>
-        <li class="pull-right">
-            <a href="#kontak" data-toggle="tab">Kontak Perwakilan</a>
+        <li class="<?php if ($tab == 'kontak') echo 'active'; ?> pull-right">
+            <a class="<?php if ($tab == 'kontak') echo 'active'; ?>" href="<?php echo site_url('/member/personalData/kontak'); ?>">&nbsp; Kontak Perwakilan</a>
         </li>
-        <li class="pull-right">
-            <a href="#infomitra" data-toggle="tab">Info Mitra</a>
+        <li class="<?php if ($tab == 'info_mitra') echo 'active'; ?> pull-right">
+            <a class="<?php if ($tab == 'info_mitra') echo 'active'; ?>" href="<?php echo site_url('/member/personalData/info_mitra'); ?>">&nbsp; Info Mitra</a>
         </li>
-        <li class="pull-right">
-            <a href="#dokumen" data-toggle="tab">Dokumen</a>
+        <li class="<?php if ($tab == 'dokumen') echo 'active'; ?> pull-right">
+            <a class="<?php if ($tab == 'dokumen') echo 'active'; ?>" href="<?php echo site_url('/member/personalData/dokumen'); ?>">&nbsp; Dokumen</a>
         </li>
-        <li class="pull-right">
-            <a href="#personaldata" data-toggle="tab">Personal Data</a>
+        <li class="<?php if ($tab == 'personal_data') echo 'active'; ?> pull-right">
+            <a class="<?php if ($tab == 'personal_data') echo 'active'; ?>" href="<?php echo site_url('/member/personalData/personal_data'); ?>">&nbsp; Personal Data</a>
         </li>
-        <li class="active pull-right">
-            <a href="#accountrole" data-toggle="tab">Account Role</a>
+        <li class="<?php if ($tab == 'account_role') echo 'active'; ?>  pull-right">
+            <a class="<?php if ($tab == 'account_role') echo 'active'; ?>" href="<?php echo site_url('/member/personalData/account_role'); ?>">&nbsp; Account Role</a>
         </li>
     </ul>
 
     <div class="tab-content clearfix">
-        <?php $this->load->view('member/account_role'); ?>
-        <?php $this->load->view('member/personal_data'); ?>
-        <?php $this->load->view('member/info_mitra'); ?>
-        <?php $this->load->view('member/kontak'); ?>
-        <?php $this->load->view('member/dokumen'); ?>
-        <?php $this->load->view('member/rekening'); ?>
+        <?php $this->load->view('member_'.$tab); ?>
     </div>
 </div>
 

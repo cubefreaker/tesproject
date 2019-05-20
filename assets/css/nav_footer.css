@@ -190,12 +190,12 @@ nav {
 
 /*Footer*/
 footer {
-	margin-top: 25px;
-	padding-top: 15px;
-	/*border-top: 1.5px solid #c51e36;*/
-	background-color: #fff;
-	border-top: none;
-	/*border-top: 1px solid #ddd;*/
+    margin-top: 25px;
+    padding-top: 15px;
+    /* border-top: 1.5px solid #c51e36; */
+    background-color: #6D6E71;
+    border-top: none;
+    /* border-top: 1px solid #ddd; */
 }
 
 .footer-container{
@@ -231,7 +231,7 @@ footer {
 }
 
 .footer-container ul li a {
-	color:#c51e36;
+	color:#fdf4f5;
 	font-size:13px;
 }
 
@@ -239,6 +239,7 @@ footer {
 	text-decoration: none;
 	opacity: 0.8;
 	cursor: pointer;
+    /*color: #ece4e4 !important;*/
 }
 
 .footer-col-4 p {
@@ -265,6 +266,10 @@ footer {
 }
 .footer-contact h5, .footer-contact p{
 	margin-bottom: 5px;
+}
+
+.footer-text-color {
+	color: white;
 }
 
 @media only screen and (max-width: 320px) {

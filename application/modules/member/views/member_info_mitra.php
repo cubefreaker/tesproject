@@ -1,13 +1,4 @@
-<?php
-    $mitra = $this->db->query("SELECT * FROM users_mitra WHERE user_id = '".$Member->id."'")->row();
-    // echo $this->db->last_query();die();
-    // print_r($mitra);die();
-?>
- <!-- <form id="mitrafrm" class="form-horizontal" enctype="multipart/form-data" method="post" action="<?php//base_url('member/editMitra')?>" onsubmit="$('.page_preloader').show();  -->
-                       <!--  $('.page_preloader').css('opacity', '0.8');
-                        $('.page_preloader').css('z-index', '9999');
-                        $('.page_preloader').css('display', 'block');"> -->
-<div class="tab-pane" id="infomitra" style="margin-top: 60px;">
+<div class="tab-pane active" id="infomitra" style="margin-top: 60px;">
     <?= form_open_multipart('member/editMitra',array('class' => 'form-horizontal','id' => 'mitrafrm')) ?>
         <div class="panel panel-primary shad">
             <div class="panel-heading">
@@ -230,7 +221,7 @@
     <?= form_close(); ?>
 </div>
 <script>
-function readURL(input) {
+    function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             
@@ -240,86 +231,76 @@ function readURL(input) {
             
             reader.readAsDataURL(input.files[0]);
         }
-}
+    }
     
-$("#imgUpload").change(function(){
-    readURL(this);
-});
-
-$(document).ready(function(){
-	$('#savemitra').click(function(){
-        if(confirm("Are You Sure?")){
-            $("#mitrafrm").submit();
-        }
-	});
-
-    $("#imgBrand").click(function(e) {
-        e.preventDefault();
-        $("#imgUpload").click();
+    $("#imgUpload").change(function(){
+        readURL(this);
     });
-});
 
-$('#id_province').change(function () {
-    var id_province = $(this).find(':selected').attr('data-id')
-    $.ajax({
-        type: 'POST',
-        url: '<?php echo base_url(); ?>member/get_city',
-        data: {
-            'id': id_province
-
-        },
-        success: function (data) {
-            // console.log(data);
-            data = JSON.parse(data);
-            var $city = $('#city');
-            $city.empty();
-            $city.append('<option>-- Pilih kota --</option>');
-            for (var i = 0; i < data.length; i++) {
-                // console.log(data[i].name);
-                $city.append('<option data-id = '+data[i].id+' value="' + data[i].name + '">' + data[i].name + '</option>');
+    $(document).ready(function(){
+    	$('#savemitra').click(function(){
+            if(confirm("Are You Sure?")){
+                $("#mitrafrm").submit();
             }
-            $city.change();
-        }
+    	});
+
+        $("#imgBrand").click(function(e) {
+            e.preventDefault();
+            $("#imgUpload").click();
+        });
     });
-});
 
-$('#city').change(function () {
-    var id_city = $(this).find(':selected').attr('data-id')
-    // console.log(id_city)
-    // var id_province = $('#id_province').val();
-    $.ajax({
-        type: 'POST',
-        url: '<?php echo base_url(); ?>member/get_district',
-        data: {
-            'id': id_city
+    $('#id_province').change(function () {
+        var id_province = $(this).find(':selected').attr('data-id')
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url(); ?>member/get_city',
+            data: {
+                'id': id_province
 
-        },
-        success: function (data) {
-            // console.log(data);
-            data = JSON.parse(data);
-            var $kecamatan = $('#kecamatan');
-            $kecamatan.empty();
-            $kecamatan.append('<option>-- Pilih Kecamatan --</option>');
-            for (var i = 0; i < data.length; i++) {
-                // console.log(data[i].name);
-                $kecamatan.append('<option value="' + data[i].name + '">' + data[i].name + '</option>');
+            },
+            success: function (data) {
+                // console.log(data);
+                data = JSON.parse(data);
+                var $city = $('#city');
+                $city.empty();
+                $city.append('<option>-- Pilih kota --</option>');
+                for (var i = 0; i < data.length; i++) {
+                    // console.log(data[i].name);
+                    $city.append('<option data-id = '+data[i].id+' value="' + data[i].name + '">' + data[i].name + '</option>');
+                }
+                $city.change();
             }
-            $kecamatan.change();
-        }
+        });
     });
-});
 
-$('.select2').select2();
-function isNumberKey(evt)
-{
-    var charCode = (evt.which) ? evt.which : event.keyCode
-    if (charCode > 31 && (charCode < 48 || charCode > 57))
-        return false;
+    $('#city').change(function () {
+        var id_city = $(this).find(':selected').attr('data-id')
+        // console.log(id_city)
+        // var id_province = $('#id_province').val();
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url(); ?>member/get_district',
+            data: {
+                'id': id_city
 
-    return true;
-}
+            },
+            success: function (data) {
+                // console.log(data);
+                data = JSON.parse(data);
+                var $kecamatan = $('#kecamatan');
+                $kecamatan.empty();
+                $kecamatan.append('<option>-- Pilih Kecamatan --</option>');
+                for (var i = 0; i < data.length; i++) {
+                    // console.log(data[i].name);
+                    $kecamatan.append('<option value="' + data[i].name + '">' + data[i].name + '</option>');
+                }
+                $kecamatan.change();
+            }
+        });
+    });
 
-
+    $('.select2').select2();
 </script>
 
 

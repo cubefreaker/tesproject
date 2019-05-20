@@ -1,8 +1,7 @@
 <?php
     $scdok = $this->db->query("SELECT * FROM users_document WHERE user_id = '".$Member->id."'")->row();
 ?>
-
-<div class="tab-pane" id="dokumen" style="margin-top: 60px;">
+<div class="tab-pane active" id="dokumen" style="margin-top: 60px;">
     <?= form_open_multipart('member/editDokumen',array('class' => 'form-horizontal','id' => 'dokumenfrm')) ?>
         <div class="panel panel-primary shad">
             <div class="panel-heading">

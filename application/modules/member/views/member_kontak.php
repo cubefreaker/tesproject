@@ -1,7 +1,4 @@
-<?php
-    $contact = $this->db->query("SELECT * FROM users_contact WHERE user_id = '".$Member->id."'")->row();
-?>
-<div class="tab-pane" id="kontak" style="margin-top: 60px;">
+<div class="tab-pane active" id="kontak" style="margin-top: 60px;">
     <form id="kontakfrm" class="form-horizontal" method="post" action="<?=base_url('member/editKontak')?>">
         <div class="panel panel-primary shad">
             <div class="panel-heading">

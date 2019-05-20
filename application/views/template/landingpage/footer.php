@@ -1,5 +1,5 @@
 <footer>
-    <div class="footer-container row">
+    <div class="footer-container row footer-text-color">
         <?php
         for ($position=1; $position <= 2; $position++) { // for position
             $title = array_filter($footerPage, function ($var) use ($position) {
@@ -9,9 +9,9 @@
             if ($title) {
                 foreach ($title as $value) {
                     foreach ($value['title'] as $keyTitle => $valueTitle) {
-                        echo "<div class='mb_20'><h5>".$valueTitle['title']->seourl."</h5><ul>";
+                        echo "<div class='mb_20 footer-text-color'><h5>".$valueTitle['title']->seourl."</h5><ul class='footer-text-color'>";
                         foreach ($valueTitle['subTitle'] as $keySubTitle => $valueSubTitle) {
-                                echo"<li><a href='".base_url().'page/'.$valueSubTitle->seourl."'>".$valueSubTitle->nav_name."</a></li>";
+                                echo"<li class=''><i class='fa fa-caret-right' style='color:#0088cc;'></i> <a href='".base_url().'page/'.$valueSubTitle->seourl."'>".$valueSubTitle->nav_name."</a></li>";
                         } // end foreach subtitle
                         echo"</ul></div>";
                     } // end foreach title
@@ -21,7 +21,7 @@
         } // end for position
         ?>
 
-        <div class="col-sm-3 col-xs-12 footer-col-3 footer-contact">
+        <div class="col-sm-3 col-xs-12 footer-col-3 footer-contact footer-text-color">
             <h5><b><?=json_decode($masterLandingPage->contactus_contact_center)->title?></b></h5>
             <p>
                 <?=json_decode($masterLandingPage->contactus_contact_center)->phone?> <br>
@@ -41,7 +41,7 @@
             </p>
         </div>
 
-        <div class="col-sm-3 col-xs-12 footer-col-4 text-right">
+        <div class="col-sm-3 col-xs-12 footer-col-4 text-right footer-text-color">
             <p><?=$masterLandingPage->company_address?></p>
             <?php 
             $socials_icon= [

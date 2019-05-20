@@ -165,7 +165,7 @@ class Member extends CI_Controller
         redirect(base_url(), 'refresh');
     }
 
-    public function personalData()
+    public function personalData($tab = 'accountRole')
     {
         // redirect them to the login page if not logged in or is login as admin
         if ( !$this->ion_auth->logged_in() || $this->ion_auth->is_admin() || $this->ion_auth->user()->row()->type < 5 )
@@ -177,57 +177,97 @@ class Member extends CI_Controller
             'Global_model'
         ));
 
-        $data = $this->m_general->loadGeneralData();
-        $data['Member'] = $this->ion_auth->user()->row();
-        $data['Provinces'] = $this->db->query('select name,id from mst_provinces')->result();
-        
-        $data['Cities'] = $this->db->query('select name,id from mst_regencies')->result();
-        $data['Districts'] = $this->db->query('select name,id from mst_districts')->result();
+        $data   = $this->m_general->loadGeneralData();
 
-        $data['mitra_info'] = $this->Global_model->set_model('users_mitra','um','id')->mode(array(
-            'type'          => 'single_row',
-            'conditions'    => array(
-                'user_id' => $this->ion_auth->user()->row()->id
-            ),
-            'return_object' => TRUE,
-            'debug_query'   => false
-        ));
+        if( $data ) {
+            switch ($tab) {
+                case 'account_role': {
+                    $data = $this->m_general->loadGeneralData();
+                    $data['Member'] = $this->ion_auth->user()->row();
+                }
+                case 'personal_data': {
+                    $data = $this->m_general->loadGeneralData();
+                    $data['Member'] = $this->ion_auth->user()->row();
+                    break;
+                }
+                case 'dokumen': {
+                    $data = $this->m_general->loadGeneralData();
+                    
+                    $data['Member'] = $this->ion_auth->user()->row();
+                    break;
+                }
+                case 'info_mitra': {
+                    $data               = $this->m_general->loadGeneralData();
+                    $data['Member']     = $this->ion_auth->user()->row();
+                    $data['Provinces']  = $this->db->query('select name,id from mst_provinces')->result();
+                    
+                    $data['Cities']     = $this->db->query('select name,id from mst_regencies')->result();
+                    $data['Districts']  = $this->db->query('select name,id from mst_districts')->result();
 
-        if( !empty($data['mitra_info'])) {
-            
-            // print_r($data['mitra_info']->province);die;
-            $data['is_exist_province'] = $this->db
-                                                ->select('*')
-                                                ->from('mst_provinces')
-                                                ->where('mst_provinces.name != ', $data['mitra_info']->province)
-                                                ->get()->result();
-            $data['is_exist_districts'] = $this->db
-                                                ->select('*')
-                                                ->from('mst_districts')
-                                                ->where('mst_districts.name != ', $data['mitra_info']->sub_district)
-                                                ->get()->result();
-            $data['is_exist_city'] = $this->db
-                                                ->select('*')
-                                                ->from('mst_regencies')
-                                                ->where('mst_regencies.name != ', $data['mitra_info']->city)
-                                                ->get()->result();
+                    $data['mitra_info'] = $this->Global_model->set_model('users_mitra','um','id')->mode(array(
+                        'type'          => 'single_row',
+                        'conditions'    => array(
+                            'user_id' => $this->ion_auth->user()->row()->id
+                        ),
+                        'return_object' => TRUE,
+                        'debug_query'   => false
+                    ));
+
+                    if( !empty($data['mitra_info'])) {
+                        
+                        // print_r($data['mitra_info']->province);die;
+                        $data['is_exist_province'] = $this->db
+                                                            ->select('*')
+                                                            ->from('mst_provinces')
+                                                            ->where('mst_provinces.name != ', $data['mitra_info']->province)
+                                                            ->get()->result();
+                        $data['is_exist_districts'] = $this->db
+                                                            ->select('*')
+                                                            ->from('mst_districts')
+                                                            ->where('mst_districts.name != ', $data['mitra_info']->sub_district)
+                                                            ->get()->result();
+                        $data['is_exist_city'] = $this->db
+                                                            ->select('*')
+                                                            ->from('mst_regencies')
+                                                            ->where('mst_regencies.name != ', $data['mitra_info']->city)
+                                                            ->get()->result();
+                    }
+
+                    $data['mitra']    = $this->db
+                                                ->get_where('users_mitra', array(
+                                                    'user_id' => $this->ion_auth->user()->row()->id
+                                                )
+                                            )
+                                        ->row();
+                    break;
+                }
+                case 'kontak':{
+                    $data               = $this->m_general->loadGeneralData();
+                    $data['Member']     = $this->ion_auth->user()->row();
+                    $data['contact']    = $this->db
+                                                ->get_where('users_contact', array(
+                                                    'user_id' => $this->ion_auth->user()->row()->id
+                                                )
+                                            )
+                                        ->row();
+                    break;
+                }
+                case 'rekening': {
+                    $data               = $this->m_general->loadGeneralData();
+                    $data['Member']     = $this->ion_auth->user()->row();
+                    $data['rekening']   = $this->db
+                                                ->get_where('users_bank', array(
+                                                    'user_id' => $this->ion_auth->user()->row()->id
+                                                )
+                                            )
+                                        ->row();
+                    break;
+                }
+                    
+            }
         }
 
-
-        // $this->load->model('m_general');
-        usort($data['Provinces'], function($a, $b) {
-            if ($a==$b) return 0;
-            return ($a<$b)?-1:1;
-        });
-        usort($data['Cities'], function($a, $b) {
-            if ($a==$b) return 0;
-            return ($a<$b)?-1:1;
-        });
-        usort($data['Districts'], function($a, $b) {
-            if ($a==$b) return 0;
-            return ($a<$b)?-1:1;
-        });
-        
+        $data['tab'] = $tab;
         $this->load->view('member/profile', $data);
     }
 
@@ -469,8 +509,8 @@ class Member extends CI_Controller
         $this->load->library('upload', $config);
         if(!$this->upload->do_upload('logoURL')){
             $error = array('error' => $this->upload->display_errors());
-            // echo $error['error'];
-            // die();
+            echo $error['error'];
+            die();
         }
         else{
             $data = $this->upload->data();
