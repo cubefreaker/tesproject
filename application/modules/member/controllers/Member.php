@@ -884,7 +884,7 @@ class Member extends CI_Controller
                 'return_object' => true
             ));
 
-            $check_buyer_api = $this->Global_model->set_model('users_buyer','um','id')->mode(array(
+            $check_buyer_api = $this->Global_model->set_model('users_requestv2','um','id')->mode(array(
                 'type' => 'single_row',
                 'conditions' => array(
                     'user_id' => $this->ion_auth->user()->row()->id,
@@ -893,7 +893,7 @@ class Member extends CI_Controller
                 'return_object' => true
             ));
 
-            $check_buyer_whitelabel = $this->Global_model->set_model('users_buyer','um','id')->mode(array(
+            $check_buyer_whitelabel = $this->Global_model->set_model('users_requestv2','um','id')->mode(array(
                 'type' => 'single_row',
                 'conditions' => array(
                     'user_id' => $this->ion_auth->user()->row()->id,
@@ -902,7 +902,7 @@ class Member extends CI_Controller
                 'return_object' => true
             ));
 
-            $check_buyer_ta = $this->Global_model->set_model('users_buyer','um','id')->mode(array(
+            $check_buyer_ta = $this->Global_model->set_model('users_requestv2','um','id')->mode(array(
                 'type' => 'single_row',
                 'conditions' => array(
                     'user_id' => $this->ion_auth->user()->row()->id,

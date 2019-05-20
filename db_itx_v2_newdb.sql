@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 20, 2019 at 11:21 AM
+-- Generation Time: May 20, 2019 at 11:28 AM
 -- Server version: 5.7.26-0ubuntu0.18.04.1
 -- PHP Version: 7.3.5-1+ubuntu18.04.1+deb.sury.org+1
 
@@ -7982,7 +7982,7 @@ CREATE TABLE `users_buyer` (
 --
 
 INSERT INTO `users_buyer` (`id`, `user_doc_id`, `request_id`, `request_date`, `title`, `name`, `company`, `telephone`, `email`, `ip_dev_1`, `ip_dev_2`, `ip_production`, `protocols`, `ports`, `remark`, `change_request`, `temp_start_date`, `temp_end_date`, `agree_nda_check`, `agree_ip_whitelist`, `user_id`, `created_at`, `updated_at`, `is_active`) VALUES
-(30, 0, 53, '2019-05-20 11:18:30', '', '', 'asd', 23123, 'superadmin@nra-tour.co.id', '127.0.0.1', '', '192.168.0.1', 'https', 8888, '', 1, NULL, NULL, 'YES', 'YES', 23, '2019-05-20 11:18:30', '2019-05-20 11:18:30', 1);
+(31, 41, 56, '2019-05-20 11:25:47', '', '', 'asd', 23123, 'superadmin@nra-tour.co.id', '127.0.0.1', '', '1111', 'https', 111, '', 1, NULL, NULL, 'YES', 'YES', 23, '2019-05-20 11:25:47', '2019-05-20 11:25:47', 1);
 
 -- --------------------------------------------------------
 
@@ -8046,25 +8046,13 @@ INSERT INTO `users_document` (`id`, `type`, `scan_ktp`, `scan_selfie`, `scan_npw
 CREATE TABLE `users_document_det` (
   `doc_id` int(11) NOT NULL,
   `doc_name` varchar(100) DEFAULT NULL,
-  `status` enum('undefined','in progress','completed') DEFAULT 'undefined',
+  `status` enum('new','in progress','completed') DEFAULT 'new',
   `created_date` datetime DEFAULT NULL,
   `modified_date` datetime DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `is_active` tinyint(4) DEFAULT '1' COMMENT '0=notactive;1=active',
   `request_type` int(1) DEFAULT NULL COMMENT '1=seller;21=buyer_api;22=buyerwhitelabel;23=buyertravelagent'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `users_document_det`
---
-
-INSERT INTO `users_document_det` (`doc_id`, `doc_name`, `status`, `created_date`, `modified_date`, `user_id`, `is_active`, `request_type`) VALUES
-(32, 'asd_20-05-2019_SELLER_1558325086.pdf', 'undefined', '2019-05-20 11:04:46', '2019-05-20 11:04:46', 23, 1, 1),
-(33, 'asd_20-05-2019_WHITE_LABEL_1558325236.pdf', 'undefined', '2019-05-20 11:07:16', '2019-05-20 11:07:16', 23, 1, 22),
-(34, 'asd_20-05-2019_TRAVEL_AGENT_1558325380.pdf', 'undefined', '2019-05-20 11:09:40', '2019-05-20 11:09:40', 23, 1, 23),
-(36, 'asd_20-05-2019_WHITE_LABEL_1558325523.pdf', 'undefined', '2019-05-20 11:12:03', '2019-05-20 11:12:03', 23, 1, 22),
-(37, 'asd_20-05-2019_TRAVEL_AGENT_1558325550.pdf', 'undefined', '2019-05-20 11:12:29', '2019-05-20 11:12:29', 23, 1, 23),
-(38, 'asd_20-05-2019_NDA_1558325910.pdf', 'undefined', '2019-05-20 11:18:30', '2019-05-20 11:18:30', 23, 1, 21);
 
 -- --------------------------------------------------------
 
@@ -8320,10 +8308,10 @@ CREATE TABLE `users_requestv2` (
 --
 
 INSERT INTO `users_requestv2` (`id`, `type`, `buyer_type`, `user_id`, `agree_policy_check`, `status_request`, `is_request`, `count_request`, `request_date`, `created_at`, `updated_at`) VALUES
-(48, 1, 0, 23, 'YES', 1, 1, 0, '2019-05-20 11:04:46', '2019-05-20 11:04:46', '2019-05-20 11:04:46'),
-(51, 2, 2, 23, 'YES', 1, 1, 0, '2019-05-20 11:12:03', '2019-05-20 11:12:03', '2019-05-20 11:12:03'),
-(52, 2, 3, 23, 'YES', 1, 1, 0, '2019-05-20 11:12:29', '2019-05-20 11:12:29', '2019-05-20 11:12:29'),
-(53, 2, 1, 23, 'YES', 1, 1, 0, '2019-05-20 11:18:30', '2019-05-20 11:18:30', '2019-05-20 11:18:30');
+(54, 2, 2, 23, 'YES', 1, 1, 0, '2019-05-20 11:25:03', '2019-05-20 11:25:03', '2019-05-20 11:25:03'),
+(55, 2, 3, 23, 'YES', 1, 1, 0, '2019-05-20 11:25:18', '2019-05-20 11:25:18', '2019-05-20 11:25:18'),
+(56, 2, 1, 23, 'YES', 1, 1, 0, '2019-05-20 11:25:47', '2019-05-20 11:25:47', '2019-05-20 11:25:47'),
+(57, 1, 0, 23, 'YES', 1, 1, 0, '2019-05-20 11:26:01', '2019-05-20 11:26:01', '2019-05-20 11:26:01');
 
 -- --------------------------------------------------------
 
@@ -21486,7 +21474,24 @@ INSERT INTO `v2_log_visitor` (`lv_id`, `lv_ip_address`, `lv_user_agent`, `lv_cre
 (14045, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:18:05', 'http://localhost/webitx/member/personalData', 1, 0),
 (14046, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:18:30', 'http://localhost/webitx/member/submit_buyer', 1, 0),
 (14047, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:18:37', 'http://localhost/webitx/member/personalData', 1, 0),
-(14048, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:18:41', 'http://localhost/webitx/member/myrequest', 1, 0);
+(14048, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:18:41', 'http://localhost/webitx/member/myrequest', 1, 0),
+(14049, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:23:34', 'http://localhost/webitx/member/myrequest', 1, 0),
+(14050, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:23:38', 'http://localhost/webitx/member/index', 1, 0),
+(14051, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:23:38', 'http://localhost/webitx/member/personalData', 1, 0),
+(14052, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:23:56', 'http://localhost/webitx/member/submit_buyer', 1, 0),
+(14053, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:24:38', 'http://localhost/webitx/member/personalData', 1, 0),
+(14054, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:24:48', 'http://localhost/webitx/member/submit_buyer', 1, 0),
+(14055, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:25:03', 'http://localhost/webitx/member/submit_buyer', 1, 0),
+(14056, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:25:10', 'http://localhost/webitx/member/personalData', 1, 0),
+(14057, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:25:18', 'http://localhost/webitx/member/submit_buyer', 1, 0),
+(14058, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:25:23', 'http://localhost/webitx/member/personalData', 1, 0),
+(14059, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:25:47', 'http://localhost/webitx/member/submit_buyer', 1, 0),
+(14060, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:25:53', 'http://localhost/webitx/member/personalData', 1, 0),
+(14061, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:26:01', 'http://localhost/webitx/member/submit_seller', 1, 0),
+(14062, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:26:05', 'http://localhost/webitx/member/personalData', 1, 0),
+(14063, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:26:19', 'http://localhost/webitx/member/submit_buyer', 1, 0),
+(14064, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:26:26', 'http://localhost/webitx/member/submit_buyer', 1, 0),
+(14065, '::1', 'Chrome 73.0.3683.86, Linux', '2019-05-20 11:26:31', 'http://localhost/webitx/member/myrequest', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -22108,7 +22113,7 @@ ALTER TABLE `users_bank`
 -- AUTO_INCREMENT for table `users_buyer`
 --
 ALTER TABLE `users_buyer`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT for table `users_contact`
 --
@@ -22123,7 +22128,7 @@ ALTER TABLE `users_document`
 -- AUTO_INCREMENT for table `users_document_det`
 --
 ALTER TABLE `users_document_det`
-  MODIFY `doc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `doc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 --
 -- AUTO_INCREMENT for table `users_groups`
 --
@@ -22168,7 +22173,7 @@ ALTER TABLE `users_request`
 -- AUTO_INCREMENT for table `users_requestv2`
 --
 ALTER TABLE `users_requestv2`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 --
 -- AUTO_INCREMENT for table `users_seller`
 --
@@ -22188,7 +22193,7 @@ ALTER TABLE `v2_list_service`
 -- AUTO_INCREMENT for table `v2_log_visitor`
 --
 ALTER TABLE `v2_log_visitor`
-  MODIFY `lv_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14049;
+  MODIFY `lv_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14066;
 --
 -- AUTO_INCREMENT for table `v2_master_country`
 --
