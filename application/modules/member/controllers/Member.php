@@ -95,10 +95,10 @@ class Member extends CI_Controller
             $phone          = $this->input->post('phone');
             $nik            = $this->input->post('nik');
             $gender         = $this->input->post('gender');
-            $bdate          = $this->input->post('bdate');
+            $bdate          = date('Y-m-d',strtotime($this->input->post('bdate')));
             $email = strtolower($this->input->post('email'));
             $password = $this->input->post('password');
-
+            
             $additional_data = array(
                 'username'      => $username,
                 'phone'         => $phone,
