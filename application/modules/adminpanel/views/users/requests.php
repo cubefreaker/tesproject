@@ -100,7 +100,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div ng-if="data.PrivyId != 'empty'">
+                                <div ng-if="data.PrivyId != 'empty' && data.PrivyIdStatus != 'waiting'">
                                     <a href="#" data-toggle="modal" data-target="#privyModal" class="tooltipx pointer">
                                         {{ data.PrivyId }} <span>view detail</span>
                                     </a>
@@ -126,7 +126,9 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <div ng-if="data.PrivyIdStatus == 'waiting'">
+                                    waiting
+                                </div>
                                 <div ng-if="data.PrivyId == 'empty'">
                                     {{ data.PrivyId }}
                                 </div>
@@ -912,7 +914,7 @@
         //     return res;
         // }
 
-        if(isSubmitted(doc)){
+        if(!isSubmitted(doc)){
             alert('No documents were submitted yet!')
         }else{
         $scope.loading = true;
