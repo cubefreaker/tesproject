@@ -96,12 +96,29 @@
                                     Signed
                                 </div>
                                 <div ng-if="data.Status == 5">
-                                    Rejected
+                                <a ng-click="chckReject(data.UserId, data.ReqType)" href="#" data-toggle="modal" data-target="#reasonRejectModal" class="tooltipx pointer">Rejected<span>view reason</span></a>
+                                </div>
+                                <!-- Modal Reason Reject -->
+                                <div class="modal fade" id="reasonRejectModal" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Reason Reject</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p style="font-weight:bold">{{ reasonReject }}</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </td>
                             <td>
                                 <div ng-if="data.PrivyId != 'empty' && data.PrivyIdStatus != 'waiting'">
-                                    <a href="#" data-toggle="modal" data-target="#privyModal" class="tooltipx pointer">
+                                    <a ng-click="chckPrivId(data)" href="#" data-toggle="modal" data-target="#privyModal" class="tooltipx pointer">
                                         {{ data.PrivyId }} <span>view detail</span>
                                     </a>
                                     <div class="modal fade" id="privyModal" role="dialog">
@@ -115,7 +132,7 @@
                                                     <div>
                                                         <label class="control-label col-sm-3" style="text-align: left;">PrivyId Status</label> 
                                                         <div class=" col-sm-3">
-                                                           :&nbsp;&nbsp;{{ data.PrivyIdStatus }}
+                                                           :&nbsp;&nbsp;{{ datacheck.PrivyIdStatus }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -849,6 +866,12 @@
     $scope.chckPrivId = function(data){
 
         $scope.datacheck = data;
+    }
+
+    $scope.chckReject = function(userid, reqtype){
+        $http.post(adminUrl+'crud_user/getReasonReject', {'UserId' : userid, 'ReqType' : reqtype}).then(function(resp){
+            $scope.reasonReject = resp.data.reason_reject;
+        })
     }
 
     $scope.listData = function(doc, privyid){
