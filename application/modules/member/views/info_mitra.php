@@ -3,8 +3,12 @@
     // echo $this->db->last_query();die();
     // print_r($mitra);die();
 ?>
+ <!-- <form id="mitrafrm" class="form-horizontal" enctype="multipart/form-data" method="post" action="<?php//base_url('member/editMitra')?>" onsubmit="$('.page_preloader').show();  -->
+                       <!--  $('.page_preloader').css('opacity', '0.8');
+                        $('.page_preloader').css('z-index', '9999');
+                        $('.page_preloader').css('display', 'block');"> -->
 <div class="tab-pane" id="infomitra" style="margin-top: 60px;">
-    <form id="mitrafrm" class="form-horizontal" enctype="multipart/form-data" method="post" action="<?=base_url('member/editMitra')?>">
+    <form id="mitrafrm" class="form-horizontal" enctype="multipart/form-data" method="post" action="<?=base_url('member/editMitra')?>" >
         <div class="panel panel-primary shad">
             <div class="panel-heading">
                 <div class="panel-title">
@@ -129,9 +133,15 @@
                             <?php
                                 if($mitra->sub_district != NULL && $mitra->sub_district != ''){
                                     echo '<option value="'.$mitra->sub_district.'" disabled selected hidden>'.$mitra->sub_district.'</option>';
+                                    foreach($is_exist_districts as $p){
+                                            echo '<option data-id="'.$p->id.'" value="'.$p->name.'" >'.$p->name.'</option>';
+                                        }
+
                                 }else{
                                     echo '<option value="">-- Pilih Kecamatan --</option>';
-                                    
+                                    foreach($Districts as $p){
+                                        echo '<option data-id="'.$p->id.'" value="'.$p->name.'" >'.$p->name.'</option>';
+                                    }
                                 }
 
                             ?>
