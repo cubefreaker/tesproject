@@ -62,7 +62,7 @@
     </table>
 </div>
 <?php $this->load->view('template/loader/preloader') ?>
-<?php $this->load->view('template/landingpage/footer', $footerPage) ?>
+<!-- <?php $this->load->view('template/landingpage/footer', $footerPage) ?> -->
 
 <script type="text/javascript">
     $(document).on("click", ".cancel-confirm", function(e) {

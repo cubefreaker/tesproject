@@ -33,7 +33,7 @@
 </div>
 
 <?php $this->load->view('template/loader/preloader') ?>
- <?php $this->load->view('template/landingpage/footer', $footerPage) ?>
+<!-- <?php $this->load->view('template/landingpage/footer', $footerPage) ?> -->
 
 
 </body>

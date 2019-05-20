@@ -6,7 +6,7 @@
     <div class="col-md-12" style="margin-top: 10px;">
       <div class="col-sm-8 col-md-8">
       <h1 style="text-align: center;">Why Must Join ITX?</h1>
-        <div class="row">
+        <div class="row" style="padding: 40px; display: block; background-color: #fff; border: 1px solid #ddd;">
           <div class="col-md-6">
             <div class="">
               <img src="" alt="">
@@ -101,7 +101,7 @@
         <!-- End of col-sm-6 -->
     </div>
     <?php $this->load->view('template/loader/preloader') ?>
-  <!-- <?php $this->load->view('template/landingpage/footer') ?> -->
+    <!-- <?php $this->load->view('template/landingpage/footer') ?> -->
   
 
   <script src="<?=base_url()?>assets/js/jquery.min.js"></script>
