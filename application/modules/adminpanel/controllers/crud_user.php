@@ -97,9 +97,9 @@
             $ReqType = $InputData['ReqType'];
 
             if($ReqType == 'seller'){
-                $datawhere = ['user_id' => $UserId, 'type' => 1];
+                $datawhere = ['user_id' => $UserId, 'type' => 1, 'status_request!=' => 5];
             }else{
-                $datawhere = ['user_id' => $UserId, 'buyer_type' => $ReqType];
+                $datawhere = ['user_id' => $UserId, 'buyer_type' => $ReqType, 'status_request!=' => 5];
             }
 
             $Return['StatusResponse'] = 0;
@@ -178,13 +178,19 @@
             
             if($r->code == 201){
 
-                // $dataUpdate = [
-                //     'table' => 'users_requestv2',
-                //     'where' => ['user_id' => $InputData['UserId'], 'type' => $InputData['ReqType']],
-                //     'data'  => [ 'status_request' => '2']
-                // ];
+                if($InputData['ReqType'] == 'seller'){
+                    $datawhere = ['user_id' => $InputData['UserId'], 'type' => 1];
+                }else{
+                    $datawhere = ['user_id' => $InputData['UserId'], 'buyer_type' => $InputData['ReqType']];
+                }
 
-                // $this->m_update->updateDynamic($dataUpdate);
+                $dataUpdate = [
+                    'table' => 'users_requestv2',
+                    'where' => $datawhere,
+                    'data'  => [ 'status_request' => '2']
+                ];
+
+                $this->m_update->updateDynamic($dataUpdate);
             
                 $dataUser = [
                     'email' => $r->data->email,
