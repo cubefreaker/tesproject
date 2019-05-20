@@ -1,4 +1,4 @@
-<div class="tab-pane" id="personaldata">
+<div class="tab-pane active" id="personaldata">
     <div style="padding:2%;">
         <h3 style="margin-bottom:10px;"></h3>
     </div>
@@ -160,11 +160,11 @@
 
 <script>
 $(document).ready(function(){
-	$('#savechanges').click(function(){
+    $('#savechanges').click(function(){
         if(confirm("Are You Sure?")){
             $("#editfrm").submit();
         }
-	});
+    });
 });
 </script>
        

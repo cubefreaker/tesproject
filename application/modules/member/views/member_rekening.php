@@ -1,7 +1,4 @@
-<?php
-    $rekening = $this->db->query("SELECT * FROM users_bank WHERE user_id = '".$Member->id."'")->row();
-?>
-<div class="tab-pane" id="rekening" style="margin-top: 60px;">
+<div class="tab-pane active" id="rekening" style="margin-top: 60px;">
     <form id="rekfrm" class="form-horizontal" style="padding-left:2%;" method="post" action="<?=base_url('member/editRekening')?>">
         <div class="panel panel-primary shad">
             <div class="panel-heading">

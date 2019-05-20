@@ -92,7 +92,7 @@
     <style type="text/css">
         <?=$masterLandingPage->style?>
         .header-form .btn-switch,
-        .footer-container ul li a,
+        /*.footer-container ul li a,*/
         .nav-right li a,
         .color_red,
         .color_red_2,
@@ -107,6 +107,7 @@
         .title_menu_holder ul li:hover
         /*.nav-right .sign-up span:hover, .nav-right .sign-up button:hover*/
         {color: <?=$StyleColor?> !important;}
+        
 
         .header-form .btn-switch,
         .nav-right li span,

@@ -51,7 +51,7 @@
   </div>
 <?php endif; ?>
 <!-- <div class="lds-dual-ring"></div> -->
-<div class="tab-pane active" id="accountrole">
+<div class="tab-pane active" id="accountRole">
     <div style="padding:2%;">
         <h3 style="margin-bottom:10px;">Account Role</h3>
     </div>
