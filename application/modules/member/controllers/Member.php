@@ -530,7 +530,7 @@ class Member extends CI_Controller
             $contactData['user_id'] = $user->id;
             $this->load->model('m_insert');
             $dataInsert = [
-                'table' => 'users_kontak_perwakilan',
+                'table' => 'users_contact',
                 'data' => $contactData
             ];
             $this->m_insert->insertDynamic($dataInsert);
@@ -538,7 +538,7 @@ class Member extends CI_Controller
             $this->load->model('m_update');
             $dataUpdate = [
                 'data'  => $contactData,
-                'table' => 'users_kontak_perwakilan',
+                'table' => 'users_contact',
                 'where' => ['user_id' => $user->id]
             ];
             
