@@ -112,8 +112,7 @@ class Users extends CI_Controller
         $listUserReq = $this->db->query(
             "select users.id, users.username, users.email, users.phone, users.first_name, users.last_name, users.nik, users_requestv2.type, users_requestv2.status_request, gender, birth_date, img_thum, users_requestv2.buyer_type 
             from users 
-            inner join users_requestv2 on users.id = users_requestv2.user_id
-            inner join users_buyer on users_buyer.user_id = users.id"
+            inner join users_requestv2 on users.id = users_requestv2.user_id"
             )->result(); 
         foreach ($listUserReq as $key => $value) {
             $privyId = $this->db->query("select * from users_privyid where user_id='".$value->id."'")->row();
