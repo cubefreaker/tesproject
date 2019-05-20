@@ -157,13 +157,13 @@
             
             if($r->code == 201){
 
-                $dataUpdate = [
-                    'table' => 'users_requestv2',
-                    'where' => ['user_id' => $InputData['UserId'], 'type' => $InputData['ReqType']],
-                    'data'  => [ 'status' => '2']
-                ];
+                // $dataUpdate = [
+                //     'table' => 'users_requestv2',
+                //     'where' => ['user_id' => $InputData['UserId'], 'type' => $InputData['ReqType']],
+                //     'data'  => [ 'status_request' => '2']
+                // ];
 
-                $this->m_update->updateDynamic($dataUpdate);
+                // $this->m_update->updateDynamic($dataUpdate);
             
                 $dataUser = [
                     'email' => $r->data->email,
@@ -247,7 +247,7 @@
                     ],
                     [
                         'name' => 'document',
-                        'contents' => fopen('./assets/file_upload/'.$InputData['Name'], 'r')
+                        'contents' => fopen('./assets/generate_pdf/'.$InputData['Name'], 'r')
                     ],
                     [
                         'name' => 'recipients',
