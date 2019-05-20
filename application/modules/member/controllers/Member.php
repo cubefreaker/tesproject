@@ -1,6 +1,7 @@
 <?php
 
 use Dompdf\Dompdf;
+
 class Member extends CI_Controller
 {
 
@@ -866,7 +867,8 @@ class Member extends CI_Controller
     /**
      * Set validation rule 
      */
-    private function _set_rule_validation() {
+    private function _set_rule_validation() 
+    {
 
         //prepping to set no delimiters.
         $this->form_validation->set_error_delimiters('', '');
@@ -883,7 +885,13 @@ class Member extends CI_Controller
         }
     }
 
-    public function submit_buyer() {
+    /**
+     * [generate_nda_pdf with domppdf]
+     * @author didi <[diditriawan13@gmail.com]>
+     * @return [filename] 
+     */
+    public function submit_buyer() 
+    {
 
         //must ajax and must post.
         if (!$this->input->is_ajax_request() || $this->input->method(true) != "POST") {
@@ -1332,7 +1340,7 @@ class Member extends CI_Controller
     public function generate_ip_pdf($filename = '')
     {
         $this->load->model('Global_model');
-        
+
         $data['ip_whitelist'] = $this->Global_model->set_model('users_buyer','ub','id')->mode(array(
             'type' => 'single_row',
             'select' => 'ub.*, um.mitra_name,um.brand,u.first_name,u.last_name',
@@ -1483,7 +1491,7 @@ class Member extends CI_Controller
             'debug_query' => false
         ));
 
-        $html = $this->load->view('generate_pdf_ip',$data,true);
+        $html = $this->load->view('generate_pdf_whitelabel',$data,true);
         $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
         $dompdf = new DOMPDF();
         $dompdf->load_html($html);
@@ -1570,55 +1578,33 @@ class Member extends CI_Controller
         );
     }
 
-    public function example(){
+    public function example()
+    {
 
         $this->load->model('Global_model');
-        $data['seller'] = $this->Global_model->set_model('users','u','id')->mode(array(
+        $data['ip_whitelist'] = $this->Global_model->set_model('users_buyer','ub','id')->mode(array(
             'type' => 'single_row',
-            'select' => 
-                    'u.*, 
-                    um.email as email_mitra,
-                    um.mitra_name,
-                    um.owner,
-                    um.phone_no,
-                    um.mobile_no,
-                    um.address,
-                    um.city,
-                    um.province,
-                    um.website,
-                    uc.name as name_contact,
-                    uc.email as email_contact,
-                    uc.phone as phone_contact,
-                    uc.mobile,
-                    uc.name_ops,
-                    uc.email_ops,
-                    uc.phone_ops,
-                    uc.mobile_ops,
-                    ub.*',
-            'left_joined' => array(
+            'select' => 'ub.*, um.mitra_name,um.brand,u.first_name,u.last_name',
+            'joined' => array(
                 'users_mitra um' => array(
-                    'um.user_id' => 'u.id'
+                    'um.user_id' => 'ub.user_id'
                 ),
-                'users_contact uc' => array(
-                    'u.id' => 'uc.user_id'
-                ),
-                'users_bank ub' => array(
-                    'ub.user_id' => 'u.id'
+                'users u' => array(
+                    'u.id' => 'um.user_id'
                 )
             ),
             'conditions' => array(
-                'u.id' => $this->ion_auth->user()->row()->id
-            ),
-            'debug_query' => false
+                'ub.user_id' => $this->ion_auth->user()->row()->id
+            )
         ));
+
 
         // print_r($data['seller']);die();
         $this->load->library('pdf');
 
         $this->pdf->setPaper('A4', 'potrait');
         $this->pdf->filename = "laporan-petanikode.pdf";
-        $this->pdf->load_view('generate_pdf_whitelabel', $data);
-
+        $this->pdf->load_view('generate_pdf_ip', $data);
     }
 
     public function get_city()
@@ -1647,7 +1633,7 @@ class Member extends CI_Controller
                             ->where('mst_districts.regency_id', $id_city)
                             ->get()
                             ->result_array();
-        // echo $this->db->last_query();
+
         $this->output->set_content_type('application/json');
         echo json_encode($data);
         exit;
