@@ -1219,7 +1219,7 @@ class Member extends CI_Controller
             );
 
             $request_id = $this->M_member->insert('users_requestv2', $_save_data_request);
-            $file_name_seller = $get_mitra_info->mitra_name.'_'.date('d-m-Y')."_SELLER".time();
+            $file_name_seller = $get_mitra_info->mitra_name.'_'.date('d-m-Y')."_SELLER_".time();
             $file_name_seller = str_replace(" ", "_", $file_name_seller);
 
             $pdf_seller  = $this->generate_seller_pdf($file_name_seller);
