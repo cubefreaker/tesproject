@@ -165,7 +165,7 @@ class Member extends CI_Controller
         redirect(base_url(), 'refresh');
     }
 
-    public function personalData($tab = 'accountRole')
+    public function personalData($tab = 'account_role')
     {
         // redirect them to the login page if not logged in or is login as admin
         if ( !$this->ion_auth->logged_in() || $this->ion_auth->is_admin() || $this->ion_auth->user()->row()->type < 5 )
