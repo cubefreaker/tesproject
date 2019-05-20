@@ -65,8 +65,11 @@
                 <label class="labels" for="tab2"><span style="">Buyer</span></label>
                 
                 <section id="content1" class="tab-content">
-                     <form action="<?php echo site_url('member/submit_seller') ?>" method="POST">
-                        <p style="margin-top: 20px;">
+                     <form action="<?php echo site_url('member/submit_seller') ?>" method="POST" onsubmit="$('.page_preloader').show(); 
+                        $('.page_preloader').css('opacity', '0.8');
+                        $('.page_preloader').css('z-index', '9999');
+                        $('.page_preloader').css('display', 'block');">
+                        <p style="margin-top: 20px;"> 
                             <b>Privacy Policy</b>
                         </p>
                         
