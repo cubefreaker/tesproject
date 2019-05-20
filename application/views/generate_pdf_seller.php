@@ -227,7 +227,7 @@
 	  	</table>
 	  	<table class="table" style="margin-top: 70px;">
 	  		<tr>
-	  			<th style="width: 50%"><p style="margin-left: 100px;">David Pattiasina</p></th>
+	  			<th style="width: 50%"><p style="margin-left: 100px;">Jeami Gumilarsjah</p></th>
 	  			<th style="width: 50%"><center><?= ($seller['owner']) ? $seller['owner'] : "" ?></center></th>
 	  		</tr>
 	  		<tr>

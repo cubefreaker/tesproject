@@ -509,8 +509,8 @@ class Member extends CI_Controller
         $this->load->library('upload', $config);
         if(!$this->upload->do_upload('logoURL')){
             $error = array('error' => $this->upload->display_errors());
-            echo $error['error'];
-            die();
+            // echo $error['error'];
+            // die();
         }
         else{
             $data = $this->upload->data();
@@ -1332,6 +1332,7 @@ class Member extends CI_Controller
     public function generate_ip_pdf($filename = '')
     {
         $this->load->model('Global_model');
+        
         $data['ip_whitelist'] = $this->Global_model->set_model('users_buyer','ub','id')->mode(array(
             'type' => 'single_row',
             'select' => 'ub.*, um.mitra_name,um.brand,u.first_name,u.last_name',

@@ -4,7 +4,7 @@
 <link href="<?=base_url('assets/css/main2.css')?>" rel="stylesheet" type="text/css">
 <body> 
 <?php $this->load->view('template/landingpage/nav') ?>
-<div class="container" style="margin-top: 90px;">
+<div class="container" style="margin-top: 90px; margin-bottom: 50px;">
 	<table id="init-table" class="table table-striped table-bordered table-hover" style="width:100%">
         <thead>
             <tr>

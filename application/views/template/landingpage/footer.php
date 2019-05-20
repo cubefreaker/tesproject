@@ -11,7 +11,7 @@
                     foreach ($value['title'] as $keyTitle => $valueTitle) {
                         echo "<div class='mb_20 footer-text-color'><h5>".$valueTitle['title']->seourl."</h5><ul class='footer-text-color'>";
                         foreach ($valueTitle['subTitle'] as $keySubTitle => $valueSubTitle) {
-                                echo"<li class=''><i class='fa fa-caret-right' style='color:#0088cc;'></i> <a href='".base_url().'page/'.$valueSubTitle->seourl."'>".$valueSubTitle->nav_name."</a></li>";
+                                echo"<li class=''><i class='fa fa-caret-right' style='color:#0088cc;'></i> ".$valueSubTitle->nav_name."</li>";
                         } // end foreach subtitle
                         echo"</ul></div>";
                     } // end foreach title

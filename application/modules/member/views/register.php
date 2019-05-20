@@ -89,7 +89,7 @@
                                 Changes to this Policy
                                 ITX may from time to time change this Policy or change, modify or withdraw access to this site at any time with or without notice. However, if this Policy is changed in a material, adverse way, ITX will post a notice advising of such change at the beginning of this Policy and on this site's home page for 30 days. We recommend that you re-visit this Policy from time to time to learn of any such changes to this Policy.
                                 <br>
-                                Copyright © ITX, 2017. All rights reserved.
+                                Copyright © ITX, 2019. All rights reserved.
                             </p>
                         </div>
                         <p style="margin-top: 20px;">
@@ -140,7 +140,7 @@
                                 Termination 
                                 ITX reserves the right, in its sole discretion, to terminate your access to all or part of this site, with or without notice. 
                                 <br>
-                                © Copyright by ITX 2017 - All rights reserved.
+                                © Copyright by ITX 2019 - All rights reserved.
                             </p>
                         </div>
         <!-- <div class="card">
