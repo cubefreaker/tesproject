@@ -3,7 +3,7 @@
 ?>
 
 <div class="tab-pane" id="dokumen" style="margin-top: 60px;">
-    <form action="<?= site_url('member/editDokumen'); ?>" id="dokumenfrm" class="form-horizontal" enctype="multipart/form-data" onsubmit="$('.page_preloader').show();">
+    <?= form_open_multipart('member/editDokumen',array('class' => 'form-horizontal','id' => 'dokumenfrm')) ?>
         <div class="panel panel-primary shad">
             <div class="panel-heading">
                 <div class="panel-title">
@@ -179,7 +179,7 @@
                 </div>
             </div>
         </div>
-    </form>
+    <?= form_close(); ?>
 </div>
 
 <script>
