@@ -299,7 +299,7 @@ class Users extends CI_Controller
                 $dataUpdate = [
                     'table' => 'users_privyid',
                     'where' => ['user_id' => $userid],
-                    'data'  => ['status' => strtolower($r->data->status), 'privy_id' => $privId]
+                    'data'  => ['status' => strtolower($r->data->status), 'privy_id' => $r->data->privyId]
                 ];
                 $this->m_update->updateDynamic($dataUpdate);
             }
