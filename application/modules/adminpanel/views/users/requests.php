@@ -186,7 +186,7 @@
                                                                 </td>
                                                                 <td class="text-center">
 
-                                                                    <a ng-if="doc.SignUrl != 'empty'" href="{{doc.SignUrl}}" target="blank__">
+                                                                    <a ng-if="doc.SignUrl != 'empty' && doc.Status == 'in progress'" href="{{doc.SignUrl}}" target="blank__">
                                                                         <button class="btn btn-success btn-xs">Sign</button>
                                                                     </a>
                                                                 </td>
