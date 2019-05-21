@@ -962,6 +962,12 @@ class Member extends CI_Controller
                 'return_object' => true
             ));
 
+            // $check_file_upload = $this->Global_model->set_model('users_document','ud','id')->mode(array(
+            //     'type' => 'single_row',
+            //     'conditions' => array(
+            //         'ud.user_id' => $this->ion_auth->user()->row()->id,
+            //     )
+            // ));
 
             if( $data['buyer_type'] == API ) {
 
@@ -1278,6 +1284,12 @@ class Member extends CI_Controller
         $data['title_table'] = "List My Request";
         $data['reques'] = $this->Global_model->set_model('users_requestv2','ur','id')->mode(array(
             'type' => 'all_data',
+            'select' => 'ur.*,upd.doc_url',
+            'left_joined' => array(
+                'users_privyid_doc upd' => array(
+                    'upd.user_id' => 'ur.user_id'
+                ) 
+            ),
             'conditions' => array(
                 'ur.user_id' => $this->ion_auth->user()->row()->id,
                 'is_request' => 1
