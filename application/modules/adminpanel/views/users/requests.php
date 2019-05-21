@@ -193,9 +193,9 @@
                                                             </tr>
                                                         </tbody>
                                                     </table>
-                                                    <button class="btn btn-sm btn-success" ng-click="submitDocAll(datacheck.Document, datacheck.PrivyId)">Submit all documents</button>
-                                                    <button ng-if="loading == false" class="btn btn-sm btn-success" ng-click="checkDoc(datacheck)">Update Status</button>
-                                                    <button ng-if="loading == true" class="btn btn-sm btn-success fa fa-spinner" disabled>Update Status</button>
+                                                    <button ng-if="datacheck.Status != 5 && datacheck.Status != 4" class="btn btn-sm btn-success" ng-click="submitDocAll(datacheck.Document, datacheck.PrivyId)">Submit all documents</button>
+                                                    <button ng-if="loading == false && datacheck.Status != 5 && datacheck.Status != 4" class="btn btn-sm btn-success" ng-click="checkDoc(datacheck)">Update Status</button>
+                                                    <button ng-if="loading == true && datacheck.Status != 5 && datacheck.Status != 4" class="btn btn-sm btn-success fa fa-spinner" disabled>Update Status</button>
                                                 
                                                 </div>
                                                 <div class="modal-footer">
@@ -208,13 +208,13 @@
                             </td>
                             <td>
                                 <div class="text-center">
-                                    <a ng-if="data.ReqType != 'NoRequest' && data.Status == 1" id="accept" ng-click="chckPrivId(data)" href="" class="tooltipx pointer" data-toggle="modal" data-target="#acceptModal">
+                                    <a ng-if="data.ReqType != 'NoRequest' && data.Status != 5 && data.PrivyIdStatus == 'empty'" id="accept" ng-click="chckPrivId(data)" href="" class="tooltipx pointer" data-toggle="modal" data-target="#acceptModal">
                                         <button class="btn btn-xs btn-success fa fa-check">
                                             <span>Accept</span>
                                         </button>
                                     </a>
                                     
-                                    <a ng-if="data.ReqType != 'NoRequest' && data.Status == 1" ng-click="chckPrivId(data)" href="" class="tooltipx pointer" data-toggle="modal" data-target="#rejectModal">
+                                    <a ng-if="data.ReqType != 'NoRequest' && data.Status != 5 && data.Status != 4" ng-click="chckPrivId(data)" href="" class="tooltipx pointer" data-toggle="modal" data-target="#rejectModal">
                                         <button class="btn btn-xs btn-danger fa fa-times">
                                             <span>Reject</span>
                                         </button>
