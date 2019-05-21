@@ -288,20 +288,21 @@ class Users extends CI_Controller
 
         if($r->code == 201){
 
+            $this->load->model('m_update');
+
             if($r->data->status == 'waiting'){
                 $stat = 2;
             }else if($r->data->status == 'rejected'){
                 $stat = 5;
             }else if($r->data->status == 'verified' || $r->data->status == 'registered'){
                 $stat = 3;
-                $privId = $r->data->privyId;
+                $dataUpdate = [
+                    'table' => 'users_privyid',
+                    'where' => ['user_id' => $userid],
+                    'data'  => ['status' => strtolower($r->data->status), 'privy_id' => $privId]
+                ];
+                $this->m_update->updateDynamic($dataUpdate);
             }
-            
-            $dataUpdate = [
-                'table' => 'users_privyid',
-                'where' => ['user_id' => $userid],
-                'data'  => ['status' => strtolower($r->data->status), 'privy_id' => $privId]
-            ];
 
             if($type == 'seller'){
                 $datawhere = ['user_id' => $userid, 'type' => 1, 'status_request!=' => 5];
@@ -314,8 +315,6 @@ class Users extends CI_Controller
                 'where' => $datawhere,
                 'data' => [ 'status_request' => $stat]
             ];
-            $this->load->model('m_update');
-            $this->m_update->updateDynamic($dataUpdate);
             $this->m_update->updateDynamic($dataUpdate2);
         }
         }
