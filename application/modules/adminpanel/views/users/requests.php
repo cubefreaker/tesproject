@@ -195,7 +195,7 @@
                                                     </table>
                                                     <button ng-if="datacheck.Status != 5 && datacheck.Status != 4" class="btn btn-sm btn-success" ng-click="submitDocAll(datacheck.Document, datacheck.PrivyId)">Submit all documents</button>
                                                     <button ng-if="loading == false && datacheck.Status != 5 && datacheck.Status != 4" class="btn btn-sm btn-success" ng-click="checkDoc(datacheck)">Update Status</button>
-                                                    <button ng-if="loading == true datacheck.Status != 5 && datacheck.Status != 4" class="btn btn-sm btn-success fa fa-spinner" disabled>Update Status</button>
+                                                    <button ng-if="loading == true && datacheck.Status != 5 && datacheck.Status != 4" class="btn btn-sm btn-success fa fa-spinner" disabled>Update Status</button>
                                                 
                                                 </div>
                                                 <div class="modal-footer">
