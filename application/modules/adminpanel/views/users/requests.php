@@ -95,6 +95,9 @@
                                 <div ng-if="data.Status == 4">
                                     Signed
                                 </div>
+                                <div ng-if="data.Status == 'undefined'">
+                                    Undefined
+                                </div>
                                 <div ng-if="data.Status == 5">
                                 <a ng-click="chckReject(data.UserId, data.ReqType)" href="#" data-toggle="modal" data-target="#reasonRejectModal" class="tooltipx pointer">Rejected<span>view reason</span></a>
                                 </div>
@@ -186,7 +189,7 @@
                                                                 </td>
                                                                 <td class="text-center">
 
-                                                                    <a ng-if="doc.SignUrl != 'empty'" href="{{doc.SignUrl}}" target="blank__">
+                                                                    <a ng-if="doc.SignUrl != 'empty' && doc.Status == 'in progress'" href="{{doc.SignUrl}}" target="blank__">
                                                                         <button class="btn btn-success btn-xs">Sign</button>
                                                                     </a>
                                                                 </td>
