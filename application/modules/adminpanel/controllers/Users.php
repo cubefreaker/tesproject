@@ -183,11 +183,13 @@ class Users extends CI_Controller
             // echo json_encode($doc);die();
             if($doc){
                 foreach($doc as $k => $v){
+                    $sign = $this->db->query('select * from users_privyid_doc where user_id = "'.$value->id.'" and doc_id = "'.$v->doc_id.'"')->row();
                     $User['Document'][] = [
                         'Id'        => $v->doc_id,
                         'UserId'    => $value->id,
                         'Name'      => $v->doc_name,
                         'Url'       => base_url().'assets/generate_pdf/'.$v->doc_name,
+                        'SignUrl'   => $sign ? ($sign->doc_url ? $sign->doc_url : 'empty') : 'empty',
                         // 'Type'      => $v->type,
                         'Status'    => $v->status,
                         'Owner'     => [
