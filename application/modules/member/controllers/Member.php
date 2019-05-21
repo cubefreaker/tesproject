@@ -1302,11 +1302,36 @@ class Member extends CI_Controller
 
     public function cancel_request()
     {
+        $this->load->model('Global_model');
         $id = $this->input->post('id');
 
+        $message['is_error'] = true;
+        $message['message']  = '';
         if( !empty($id) ) {
-            
+            $update_cancel = array(
+                'status_request' => CANCEL_REQUEST
+            );
+
+            $result = $this->Global_model->set_model('users_requestv2','ur','id')->mode(array(
+                'type' => 'update',
+                'datas' => $update_cancel,
+                'conditions' => array(
+                    'id' => $id
+                )
+            ));
+
+            if( $result ) {
+                $message['is_error'] = false;
+                $message['message']  = 'Success cancel request';
+            }
+        } else {
+            $message['is_error'] = true;
+            $message['message']  = 'Invalid ID.';
         }
+
+        $this->output->set_content_type('application/json');
+        echo json_encode($message);
+        exit;
     }
 
     /**

@@ -42,14 +42,18 @@
                 <td  style="text-align: center;"><?= date('Y-m-d',strtotime($value['request_date'])); ?></td>
                 <td style="text-align: center;">
             		<?php 
-            			if($value['status_request'] == WAITING) {
-            				echo '<span class="label label-warning">WAITING</span>';
+            			if($value['status_request'] == REQUESTED) {
+            				echo '<span class="label label-warning">REQUESTED</span>';
             			} elseif($value['status_request'] == INPROGRESS ) {
             				echo '<span class="label label-info">IN PROGRESS</span>';
             			} elseif($value['status_request'] == WAITINGSIGN ) {
-            				 echo '<span class="label label-warning">WAITING SIGN</span>';
-            			} else {
-
+            				echo '<span class="label label-warning">WAITING SIGN</span>';
+                        } elseif($value['status_request'] == SIGNCOMPLETE ) {
+                            echo '<span class="label label-success"> SIGN COMPLETE</span>';
+                        }elseif($value['status_request'] == REJECTED ) {
+                            echo '<span class="label label-danger"> REJECTED</span>';
+            			} else  {
+                            echo '<span class="label label-danger">CAANCEL REQUEST</span>';
             			}
             		?>
         		</td>
