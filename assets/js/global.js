@@ -66,22 +66,26 @@ function popup_confirm (url, data_id, title = false, content = false, replace_da
             data: replace_data,
             dataType: 'json',
             beforeSend: function() {
-                $('.loading-box').css("display", "block");
+                $('.page_preloader').css('opacity', '0.8');
+                $('.page_preloader').css('z-index', '9999');
+                $('.page_preloader').css('display', 'block');
             },
             success: function(data) {
-                $('.loading-box').css("display", "none");
+                stopLoading();
 
                 if (data.is_error == true) swal("Error!", data.error_msg, "error");
                 else {
-                    $.smallBox({
-                        title: '<strong>' + data.notif_title + '</strong>',
-                        content: data.notif_message,
-                        color: "#659265",
-                        iconSmall: "fa fa-check fa-2x fadeInRight animated",
-                        timeout: 2000
-                    }, function() {
-                        $(document).trigger("popup-confirm:success", [url,data_id,data]);
-                    });
+                    swal({
+                        title: "Success",
+                        text: data.message,
+                        type: "success",
+                        allowOutsideClick: true,
+                        confirmButtonText: "OK"
+                    }).then(function() {
+                        location.reload();
+                    }, function(dismiss) {
+                        location.reload();
+                    })
                 }
             },
             error: function() {
@@ -92,3 +96,12 @@ function popup_confirm (url, data_id, title = false, content = false, replace_da
     }).catch(swal.noop);;
 }
 
+function stopLoading() {
+    $('.page_preloader').fadeOut(800);
+
+    $('body, html').css({
+        'overflow' : 'auto',
+        'max-width' : 'none',
+        'max-height' : 'none'
+    });
+}

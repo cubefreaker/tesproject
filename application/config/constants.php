@@ -91,10 +91,12 @@ defined('CLIENT_CODE')      OR define('CLIENT_CODE', 3); // default currency
 
 define('SELLER', 1);
 define('BUYER', 2);
-define('WAITING', 1);
+define('CANCEL_REQUEST', 0);
+define('REQUESTED', 1);
 define('INPROGRESS', 2);
 define('WAITINGSIGN', 3);
 define('SIGNCOMPLETE', 4);
+define('REJECTED', 5);
 define('API', 1);
 define('WHITELABEL', 2);
 define('TRAVELAGENT', 3);
