@@ -95,6 +95,9 @@
                                 <div ng-if="data.Status == 4">
                                     Signed
                                 </div>
+                                <div ng-if="data.Status == 'undefined'">
+                                    Undefined
+                                </div>
                                 <div ng-if="data.Status == 5">
                                 <a ng-click="chckReject(data.UserId, data.ReqType)" href="#" data-toggle="modal" data-target="#reasonRejectModal" class="tooltipx pointer">Rejected<span>view reason</span></a>
                                 </div>
