@@ -13,6 +13,7 @@
                 <th>Request Date</th>
                 <th>Status Request</th>
                 <th>Url Sign</th>
+                <th>Remark</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -52,7 +53,8 @@
             			}
             		?>
         		</td>
-                <td><a href="<?= $value['doc_url']; ?>" target='_blank'><?= $value['doc_url']; ?></a></td>
+                <td><a style="color: blue;" href="<?= $value['doc_url']; ?>" target='_blank'><?= $value['doc_url']; ?></a></td>
+                <td><?= $value['reason_reject']; ?></td>
                 <td>
                 	<a href="<?php echo site_url('member/cancel_request'); ?>" data-id="<?= $value['id'] ?>" class="btn btn-danger cancel-confirm"><i class="fa fa-ban"></i> Cancel</a>
                 </td>
