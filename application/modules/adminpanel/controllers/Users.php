@@ -193,13 +193,13 @@ class Users extends CI_Controller
                         // 'Type'      => $v->type,
                         'Status'    => $v->status,
                         'Owner'     => [
-                            'privyId' => 'JE1736',
+                            'privyId' => 'HA5204',
                             'enterpriseToken' => '41bc84b42c8543daf448d893c255be1dbdcc722e'
                         ],
                         'Recipients' => [
                             [
-                                'privyId' => 'JE1736',
-                                'type' => 'Reviewer',
+                                'privyId' => 'HA5204',
+                                'type' => 'Signer',
                                 'enterpriseToken' => '41bc84b42c8543daf448d893c255be1dbdcc722e'
                             ],
                             [
