@@ -58,7 +58,8 @@ class Member extends CI_Controller
                     redirect(base_url("member/personalData"), "refresh");
                 }
                 else {
-                    $data['error'] = strip_tags($this->ion_auth->errors());
+                    $this->session->set_flashdata('error','Username Or Password do not match');
+                    // $data['error'] = strip_tags($this->ion_auth->errors());
                 }
             }
         }
@@ -865,7 +866,9 @@ class Member extends CI_Controller
     }
 
     /**
-     * Set validation rule 
+     * [_set_rule_validation]
+     * @author didi <[diditriawan13@gmail.com]>
+     * @return [void] 
      */
     private function _set_rule_validation() 
     {
@@ -1177,7 +1180,8 @@ class Member extends CI_Controller
 
     /**
      * [submit_seller]
-     * @return 
+     * @author didi <[diditriawan13@gmail.com]>
+     * @return [void] 
      */
     public function submit_seller()
     {
@@ -1274,7 +1278,8 @@ class Member extends CI_Controller
 
     /**
      * [myrequest]
-     * @return 
+     * @author didi <[diditriawan13@gmail.com]>
+     * @return [void] 
      */
     public function myrequest()
     {
@@ -1292,7 +1297,6 @@ class Member extends CI_Controller
             ),
             'conditions' => array(
                 'ur.user_id' => $this->ion_auth->user()->row()->id,
-                'is_request' => 1
             ),
             'debug_query' => false
         ));
@@ -1300,6 +1304,11 @@ class Member extends CI_Controller
         $this->load->view('member/my-request', $data);
     }
 
+    /**
+     * [cancel request]
+     * @author didi <[diditriawan13@gmail.com]>
+     * @return [void] 
+     */
     public function cancel_request()
     {
         $this->load->model('Global_model');
@@ -1644,6 +1653,11 @@ class Member extends CI_Controller
         $this->pdf->load_view('generate_pdf_ip', $data);
     }
 
+    /**
+     * [get_city]
+     * @author didi <[diditriawan13@gmail.com]>
+     * @return [json] 
+     */
     public function get_city()
     {
 
@@ -1660,6 +1674,11 @@ class Member extends CI_Controller
         exit;
     }
 
+    /**
+     * [get_district]
+     * @author didi <[diditriawan13@gmail.com]>
+     * @return [json] 
+     */
     public function get_district()
     {
 
