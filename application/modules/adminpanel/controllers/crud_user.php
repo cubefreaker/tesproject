@@ -381,6 +381,7 @@ class Crud_user extends CI_Controller
                     'where' => $datawhere,
                     'data'  => ['status_request' => 4]
                 ];
+                $this->m_update->updateDynamic($dataUpdate3);
             }
             echo json_encode($r->data->documentStatus);
         }
