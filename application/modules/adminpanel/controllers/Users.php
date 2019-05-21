@@ -215,7 +215,7 @@ class Users extends CI_Controller
                 }
             }
             $data['List'][] = $User;
-            $this->privyUserStatus($User['UserId'], $User['ReqType']);
+            $this->privyUserStatus($User['UserId'], $User['ReqType'], $User['Status']);
             // echo json_encode($value);
             // if($privySeller){
             //     $this->privyUserStatus($value->id, 'seller');
@@ -262,7 +262,7 @@ class Users extends CI_Controller
     	return $data;
     }
 
-    public function privyUserStatus($userid, $type)
+    public function privyUserStatus($userid, $type, $stat)
     {
         // $user = $this->ion_auth->user()->row();
         $privy = $this->db->query('select * from privyid_api')->row();
@@ -295,7 +295,9 @@ class Users extends CI_Controller
             }else if($r->data->status == 'rejected'){
                 $stat = 5;
             }else if($r->data->status == 'verified' || $r->data->status == 'registered'){
-                $stat = 3;
+                if($stat != 4){
+                    $stat = 3;
+                }
                 $dataUpdate = [
                     'table' => 'users_privyid',
                     'where' => ['user_id' => $userid],
@@ -310,12 +312,14 @@ class Users extends CI_Controller
                 $datawhere = ['user_id' => $userid, 'buyer_type' => $type, 'status_request!=' => 5];
             }
 
-            $dataUpdate2 = [
-                'table' => 'users_requestv2',
-                'where' => $datawhere,
-                'data' => [ 'status_request' => $stat]
-            ];
-            $this->m_update->updateDynamic($dataUpdate2);
+            if($stat != 4){
+                $dataUpdate2 = [
+                    'table' => 'users_requestv2',
+                    'where' => $datawhere,
+                    'data' => [ 'status_request' => $stat]
+                ];
+                $this->m_update->updateDynamic($dataUpdate2);
+            }
         }
         }
 
