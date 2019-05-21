@@ -168,6 +168,7 @@
                                                             <tr>
                                                                 <th>Document Name</th>
                                                                 <th>Status</th>
+                                                                <th>Sign Document</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -182,6 +183,11 @@
                                                                         </a>
                                                                     </div> -->
                                                                     <div>{{ doc.Status }}</div>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <a href="">
+                                                                        <button class="btn btn-success btn-xs">Sign</button>
+                                                                    </a>
                                                                 </td>
                                                             </tr>
                                                         </tbody>

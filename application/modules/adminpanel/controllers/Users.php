@@ -285,11 +285,6 @@ class Users extends CI_Controller
         // echo $resp;die();
 
         if($r->code == 201){
-            $dataUpdate = [
-                'table' => 'users_privyid',
-                'where' => ['user_id' => $userid],
-                'data'  => ['status' => strtolower($r->data->status)]
-            ];
 
             if($r->data->status == 'waiting'){
                 $stat = 2;
@@ -297,7 +292,14 @@ class Users extends CI_Controller
                 $stat = 5;
             }else if($r->data->status == 'verified' || $r->data->status == 'registered'){
                 $stat = 3;
+                $privId = $r->data->privyId;
             }
+            
+            $dataUpdate = [
+                'table' => 'users_privyid',
+                'where' => ['user_id' => $userid],
+                'data'  => ['status' => strtolower($r->data->status), 'privy_id' => $privId]
+            ];
 
             if($type == 'seller'){
                 $datawhere = ['user_id' => $userid, 'type' => 1, 'status_request!=' => 5];
