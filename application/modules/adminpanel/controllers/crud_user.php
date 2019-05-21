@@ -267,7 +267,7 @@ class Crud_user extends CI_Controller
                 ],
                 [
                     'name' => 'docType',
-                    'contents' => 'Serial'
+                    'contents' => 'Parallel'
                 ],
                 [
                     'name' => 'owner',
