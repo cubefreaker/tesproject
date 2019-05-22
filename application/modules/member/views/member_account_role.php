@@ -69,6 +69,7 @@
                         $('.page_preloader').css('opacity', '0.8');
                         $('.page_preloader').css('z-index', '9999');
                         $('.page_preloader').css('display', 'block');">
+                        <input type="hidden" name="id_seller" value="">
                         <p style="margin-top: 20px;"> 
                             <b>Privacy Policy</b>
                         </p>

@@ -60,7 +60,7 @@
                 <td><a style="color: blue;" href="<?= $value['doc_url']; ?>" target='_blank'><?= $value['doc_url']; ?></a></td>
                 <td><?= $value['reason_reject']; ?></td>
                 <td>
-                	<a href="<?php echo site_url('member/cancel_request'); ?>" data-id="<?= $value['id'] ?>" class="btn btn-danger cancel-confirm"><i class="fa fa-ban"></i> Cancel</a>
+                	<a href="<?php echo site_url('member/cancel_request'); ?>" data-tipe="<?= $value['type']; ?>" data-id="<?= $value['id'] ?>" class="btn btn-danger cancel-confirm"><i class="fa fa-ban"></i> Cancel</a>
                 </td>
             </tr>
             <?php 
@@ -70,7 +70,7 @@
     </table>
 </div>
 <?php $this->load->view('template/loader/preloader') ?>
-<!-- <?php $this->load->view('template/landingpage/footer', $footerPage) ?> -->
+<?php $this->load->view('template/landingpage/footer', $footerPage) ?>
 
 <script type="text/javascript">
     $(document).on("click", ".cancel-confirm", function(e) {
@@ -79,11 +79,11 @@
         var url = $(this).attr("href");
         var data_id = $(this).data("id");
         var data_name = $(this).data("name");
-
+        var type = $(this).data('tipe');
         title = 'Cancel Confirmation';
         content = 'Do you really want to cancel this ?';
 
-        popup_confirm (url, data_id, title, content);
+        popup_cancels (url, data_id,title, content);
     });
 </script>
 </body>

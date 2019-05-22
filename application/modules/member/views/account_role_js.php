@@ -131,6 +131,7 @@
 	                	}					
 					},
 					error: function() {
+						stopLoading();
 						$(submit).attr('disabled', false);
 						swal("Oops", "Something went wrong.", "error");
 					}

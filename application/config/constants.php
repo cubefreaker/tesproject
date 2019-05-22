@@ -89,6 +89,8 @@ defined('DEFAULT_CURRENCY')      OR define('DEFAULT_CURRENCY', 'IDR'); // defaul
 defined('DEFAULT_KURS')      OR define('DEFAULT_KURS', 1); // default currency
 defined('CLIENT_CODE')      OR define('CLIENT_CODE', 3); // default currency
 
+define('ACTIVE', 1);
+define('NOTACTIVE', 0);
 define('SELLER', 1);
 define('BUYER', 2);
 define('CANCEL_REQUEST', 0);
@@ -102,5 +104,8 @@ define('WHITELABEL', 2);
 define('TRAVELAGENT', 3);
 define('PERMANENT', 1);
 define('TEMPORARY', 2);
+define('BUYER_API', 21);
+define('BUYER_WHITELABEL', 22);
+define('BUYER_TRAVELAGENT', 23);
 
 define('NOW', date('Y-m-d H:i:s'));

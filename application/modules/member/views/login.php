@@ -77,8 +77,9 @@
         </div>
         <!-- End of col-sm-6 -->
     </div>
+    <div style="margin-bottom: 50%;"></div>
     <?php $this->load->view('template/loader/preloader') ?>
-    <!-- <?php $this->load->view('template/landingpage/footer') ?> -->
+    <?php $this->load->view('template/landingpage/footer') ?> 
   
 
 <script src="<?=base_url()?>assets/js/jquery.min.js"></script>

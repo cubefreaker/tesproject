@@ -167,6 +167,11 @@ class Member extends CI_Controller
         redirect(base_url(), 'refresh');
     }
 
+    /**
+     * [personalData]
+     * @author didi <[diditriawan13@gmail.com]>
+     * @return [tab] && [data] => array() 
+     */
     public function personalData($tab = 'account_role')
     {
         // redirect them to the login page if not logged in or is login as admin
@@ -186,6 +191,15 @@ class Member extends CI_Controller
                 case 'account_role': {
                     $data = $this->m_general->loadGeneralData();
                     $data['Member'] = $this->ion_auth->user()->row();
+                    $data['mitra_info'] = $this->Global_model->set_model('users_mitra','um','id')->mode(array(
+                        'type'          => 'single_row',
+                        'conditions'    => array(
+                            'user_id' => $this->ion_auth->user()->row()->id
+                        ),
+                        'return_object' => TRUE,
+                        'debug_query'   => true
+                    ));
+                    break;
                 }
                 case 'personal_data': {
                     $data = $this->m_general->loadGeneralData();
@@ -202,7 +216,6 @@ class Member extends CI_Controller
                     $data               = $this->m_general->loadGeneralData();
                     $data['Member']     = $this->ion_auth->user()->row();
                     $data['Provinces']  = $this->db->query('select name,id from mst_provinces')->result();
-                    
                     $data['Cities']     = $this->db->query('select name,id from mst_regencies')->result();
                     $data['Districts']  = $this->db->query('select name,id from mst_districts')->result();
 
@@ -217,17 +230,18 @@ class Member extends CI_Controller
 
                     if( !empty($data['mitra_info'])) {
                         
-                        // print_r($data['mitra_info']->province);die;
                         $data['is_exist_province'] = $this->db
                                                             ->select('*')
                                                             ->from('mst_provinces')
                                                             ->where('mst_provinces.name != ', $data['mitra_info']->province)
                                                             ->get()->result();
+
                         $data['is_exist_districts'] = $this->db
                                                             ->select('*')
                                                             ->from('mst_districts')
                                                             ->where('mst_districts.name != ', $data['mitra_info']->sub_district)
                                                             ->get()->result();
+
                         $data['is_exist_city'] = $this->db
                                                             ->select('*')
                                                             ->from('mst_regencies')
@@ -269,6 +283,7 @@ class Member extends CI_Controller
             }
         }
 
+        // print_r($data);exit;
         $data['tab'] = $tab;
         $this->load->view('member/profile', $data);
     }
@@ -942,7 +957,8 @@ class Member extends CI_Controller
                 'type' => 'single_row',
                 'conditions' => array(
                     'user_id' => $this->ion_auth->user()->row()->id,
-                    'buyer_type' => API
+                    'buyer_type' => API,
+                    'status_request >'  => 0 
                 ),
                 'return_object' => true
             ));
@@ -951,7 +967,8 @@ class Member extends CI_Controller
                 'type' => 'single_row',
                 'conditions' => array(
                     'user_id' => $this->ion_auth->user()->row()->id,
-                    'buyer_type' => WHITELABEL
+                    'buyer_type' => WHITELABEL,
+                    'status_request >'  => 0 
                 ),
                 'return_object' => true
             ));
@@ -960,18 +977,14 @@ class Member extends CI_Controller
                 'type' => 'single_row',
                 'conditions' => array(
                     'user_id' => $this->ion_auth->user()->row()->id,
-                    'buyer_type' => TRAVELAGENT
+                    'buyer_type' => TRAVELAGENT,
+                    'status_request >'  => 0 
                 ),
                 'return_object' => true
             ));
 
-            // $check_file_upload = $this->Global_model->set_model('users_document','ud','id')->mode(array(
-            //     'type' => 'single_row',
-            //     'conditions' => array(
-            //         'ud.user_id' => $this->ion_auth->user()->row()->id,
-            //     )
-            // ));
-
+     
+            //cek type buyer
             if( $data['buyer_type'] == API ) {
 
                 if($check_buyer_api) {
@@ -991,6 +1004,7 @@ class Member extends CI_Controller
                     echo json_encode($message);
                     exit;
                 } else {
+                    //prepare save data
                     $mitra_name = ($get_mitra_info->mitra_name) ? $get_mitra_info->mitra_name : "";
                     $email      = ($get_mitra_info->email) ? $get_mitra_info->email : "";
                     $telp       = ($get_mitra_info->phone_no) ? $get_mitra_info->phone_no : "";
@@ -1013,25 +1027,56 @@ class Member extends CI_Controller
                         'change_request'        => $data['change_request'],
                     );
 
-
+                    //rename file pdf
                     $file_name_nda = $mitra_name.'_'.date('d-m-Y')."_NDA_".time();
                     $file_name_nda = str_replace(" ", "_", $file_name_nda);
 
                     $file_name_ip = $mitra_name.'_'.date('d-m-Y')."_IP_".time();
                     $file_name_ip = str_replace(" ", "_", $file_name_ip);
-
+                    //set convert form to pdf
                     $pdf_nda = $this->generate_nda_pdf($file_name_nda);
                     $pdf_ip  = $this->generate_ip_pdf($file_name_ip);
 
-                    $insert_docs = $this->M_member->insert('users_document_det', array(
+
+                    //get doc pdf exist
+                    $get_doc_pdf = $this->Global_model->set_model('users_document_det','ud','doc_id')->mode(array(
+                            'type' => 'all_data',
+                            'conditions' => array(
+                                'user_id'       => $this->ion_auth->user()->row()->id,
+                                'request_type'  => BUYER_API,
+                                'is_active'     => ACTIVE
+                            )
+                    ));
+
+                    //if you have ever requested and canceled it, delete the existing file 
+                    if(!empty($get_doc_pdf)) {
+
+                        foreach($get_doc_pdf as $key => $rows )
+                        {
+                            if(!empty($pdf_nda) && !empty($pdf_ip) && isset($rows['doc_name']) && !empty($rows['doc_name'])) {
+                                unlink('assets/generate_pdf/'.$rows['doc_name']);
+                            }
+                        }
+                    }
+
+                    //prepare insert to tbl users_document_det
+                    $insert_doc_nda = $this->M_member->insert('users_document_det', array(
                         'doc_name'      => $pdf_nda['nama_file'],
                         'created_date'  => NOW,
                         'modified_date' => NOW,
                         'user_id'       => $this->ion_auth->user()->row()->id,
-                        'request_type'  => 21
+                        'request_type'  => BUYER_API
                     ));
 
-                    $_save_data['user_doc_id'] = $insert_docs;
+                    $insert_doc_ip = $this->M_member->insert('users_document_det', array(
+                        'doc_name'      => $pdf_ip['nama_file'],
+                        'created_date'  => NOW,
+                        'modified_date' => NOW,
+                        'user_id'       => $this->ion_auth->user()->row()->id,
+                        'request_type'  => BUYER_API
+                    ));
+
+                    // $_save_data['user_doc_id'] = $insert_doc_nda;
                     
                     if($data['change_request'] == TEMPORARY) {
                         $_save_data['temp_start_date'] = date('Y-m-d',strtotime($data['temp_start_date']));
@@ -1066,10 +1111,24 @@ class Member extends CI_Controller
                     $file_name_wl = $mitra_name.'_'.date('d-m-Y')."_WHITE_LABEL_".time();
                     $file_name_wl = str_replace(" ", "_", $file_name_wl);
 
-                    $pdf_nda = $this->generate_whitelabel_pdf($file_name_wl);
+                    $pdf_wl = $this->generate_whitelabel_pdf($file_name_wl);
+
+                    $get_doc_pdf = $this->Global_model->set_model('users_document_det','ud','doc_id')->mode(array(
+                            'type' => 'single_row',
+                            'conditions' => array(
+                                'user_id'       => $this->ion_auth->user()->row()->id,
+                                'request_type'  => BUYER_WHITELABEL,
+                                'is_active'     => ACTIVE
+                            )
+                    ));
+
+                    if(!empty($pdf_wl) && isset($get_doc_pdf['doc_name']) && !empty($get_doc_pdf['doc_name'])) {
+                        unlink('assets/generate_pdf/'.$get_doc_pdf['doc_name']);
+                        // print_r(error_get_last());
+                    }
 
                     $this->M_member->insert('users_document_det', array(
-                        'doc_name'      => $pdf_nda['nama_file'],
+                        'doc_name'      => $pdf_wl['nama_file'],
                         'created_date'  => NOW,
                         'modified_date' => NOW,
                         'user_id'       => $this->ion_auth->user()->row()->id,
@@ -1104,10 +1163,24 @@ class Member extends CI_Controller
                     $file_name_ta = $mitra_name.'_'.date('d-m-Y')."_TRAVEL_AGENT_".time();
                     $file_name_ta = str_replace(" ", "_", $file_name_ta);
 
-                    $pdf_nda = $this->generate_ta_pdf($file_name_ta);
+                    $pdf_ta = $this->generate_ta_pdf($file_name_ta);
+
+                    $get_doc_pdf = $this->Global_model->set_model('users_document_det','ud','doc_id')->mode(array(
+                            'type' => 'single_row',
+                            'conditions' => array(
+                                'user_id'       => $this->ion_auth->user()->row()->id,
+                                'request_type'  => BUYER_TRAVELAGENT,
+                                'is_active'     => ACTIVE
+                            )
+                    ));
+
+                    if(!empty($pdf_ta) && isset($get_doc_pdf['doc_name']) && !empty($get_doc_pdf['doc_name'])) {
+                        unlink('assets/generate_pdf/'.$get_doc_pdf['doc_name']);
+                        print_r(error_get_last());
+                    }
 
                     $this->M_member->insert('users_document_det', array(
-                        'doc_name'      => $pdf_nda['nama_file'],
+                        'doc_name'      => $pdf_ta['nama_file'],
                         'created_date'  => NOW,
                         'modified_date' => NOW,
                         'user_id'       => $this->ion_auth->user()->row()->id,
@@ -1119,13 +1192,14 @@ class Member extends CI_Controller
             // print_r($this->input->post());die();
             //insert or update?
             if ($id == "") {
+
                 //save table request
                 $_save_data_request = array(
                     'type'                  => BUYER,
                     'buyer_type'            => $data['buyer_type'],
                     'user_id'               => $this->ion_auth->user()->row()->id,
                     'agree_policy_check'    => $data['agree_policy_check_buyer'],
-                    'status_request'        => WAITING,
+                    'status_request'        => REQUESTED,
                     'request_date'          => NOW,
                     'created_at'            => NOW,
                     'updated_at'            => NOW
@@ -1223,8 +1297,9 @@ class Member extends CI_Controller
         $check_request = $this->Global_model->set_model('users_requestv2','ur','id')->mode(array(
             'type' => 'single_row',
             'conditions' => array(
-                'ur.user_id' => $this->ion_auth->user()->row()->id,
-                'type'      => SELLER
+                'ur.user_id'        => $this->ion_auth->user()->row()->id,
+                'type'              => SELLER,
+                'status_request >'  => 0 
             )
         ));
 
@@ -1246,32 +1321,69 @@ class Member extends CI_Controller
             $this->session->set_flashdata('save_status', 'error');
             $this->session->set_flashdata('save_message', 'Tidak bisa melakukan request, Anda sudah melakukan request sebagai seller sebelumnya');
         } else {
+            
+            
+            if( $data['id_seller'] == "" ) {
 
-            $_save_data_request = array(
-                'type'                  => SELLER,
-                'user_id'               => $this->ion_auth->user()->row()->id,
-                'agree_policy_check'    => $data['agree_policy_check_seller'],
-                'status_request'        => WAITING,
-                'request_date'          => NOW,
-                'created_at'            => NOW,
-                'updated_at'            => NOW
-            );
+                $get_doc_pdf = $this->Global_model->set_model('users_document_det','ud','doc_id')->mode(array(
+                    'type' => 'single_row',
+                    'conditions' => array(
+                        'user_id'       => $this->ion_auth->user()->row()->id,
+                        'request_type'  => SELLER,
+                        'is_active'     => 1
+                    )
+                ));
 
-            $request_id = $this->M_member->insert('users_requestv2', $_save_data_request);
-            $file_name_seller = $get_mitra_info->mitra_name.'_'.date('d-m-Y')."_SELLER_".time();
-            $file_name_seller = str_replace(" ", "_", $file_name_seller);
+                $_save_data_request = array(
+                    'type'                  => SELLER,
+                    'user_id'               => $this->ion_auth->user()->row()->id,
+                    'agree_policy_check'    => $data['agree_policy_check_seller'],
+                    'status_request'        => REQUESTED,
+                    'request_date'          => NOW,
+                    'created_at'            => NOW,
+                    'updated_at'            => NOW
+                );
 
-            $pdf_seller  = $this->generate_seller_pdf($file_name_seller);
 
-            $this->M_member->insert('users_document_det', array(
-                'doc_name'      => $pdf_seller['nama_file'],
-                'created_date'  => NOW,
-                'modified_date' => NOW,
-                'user_id'       => $this->ion_auth->user()->row()->id,
-                'request_type'  => 1
-            ));
-            $this->session->set_flashdata('save_status', 'success');
-            $this->session->set_flashdata('save_message', 'Success Request');
+                if( !empty($get_doc_pdf) ) {
+                    $update = $this->Global_model->set_model('users_document_det','ud','doc_id')->mode(array(
+                        'type' => 'update',
+                        'datas' => array(
+                            'is_active' => 0
+                        ),
+                        'conditions' => array(
+                            'user_id'       => $this->ion_auth->user()->row()->id,
+                            'request_type'  => SELLER,
+                            'is_active'     => 1
+                        )
+                    ));
+
+                }
+
+                $request_id = $this->M_member->insert('users_requestv2', $_save_data_request);
+                $file_name_seller = $get_mitra_info->mitra_name.'_'.date('d-m-Y')."_SELLER_".time();
+                $file_name_seller = str_replace(" ", "_", $file_name_seller);
+
+                $pdf_seller  = $this->generate_seller_pdf($file_name_seller);
+
+                if(!empty($pdf_seller) && isset($get_doc_pdf['doc_name']) && !empty($get_doc_pdf['doc_name'])) {
+                    unlink('assets/generate_pdf/'.$get_doc_pdf['doc_name']);
+                    print_r(error_get_last());
+                }
+                
+                $this->M_member->insert('users_document_det', array(
+                    'doc_name'      => $pdf_seller['nama_file'],
+                    'created_date'  => NOW,
+                    'modified_date' => NOW,
+                    'user_id'       => $this->ion_auth->user()->row()->id,
+                    'request_type'  => 1
+                ));
+
+                $this->session->set_flashdata('save_status', 'success');
+                $this->session->set_flashdata('save_message', 'Success Request');
+            } else {
+
+            }
         }
         redirect('member/personalData','refresh');
     }
@@ -1312,24 +1424,37 @@ class Member extends CI_Controller
     public function cancel_request()
     {
         $this->load->model('Global_model');
-        $id = $this->input->post('id');
+        $id     = $this->input->post('id');
+        $type   = $this->input->post('tipe');
 
         $message['is_error'] = true;
         $message['message']  = '';
         if( !empty($id) ) {
             $update_cancel = array(
-                'status_request' => CANCEL_REQUEST
+                'status_request' => CANCEL_REQUEST,
+                'is_request'     => CANCEL_REQUEST
             );
 
             $result = $this->Global_model->set_model('users_requestv2','ur','id')->mode(array(
                 'type' => 'update',
                 'datas' => $update_cancel,
                 'conditions' => array(
-                    'id' => $id
+                    'id' => $id,
                 )
             ));
 
+
             if( $result ) {
+                $results = $this->Global_model->set_model('users_buyer','ub','id')->mode(array(
+                    'type' => 'update',
+                    'datas' => array(
+                        'is_active' => NOTACTIVE
+                    ),
+                    'conditions' => array(
+                        'id' => $this->ion_auth->user()->row()->id,
+                    )
+                )); 
+
                 $message['is_error'] = false;
                 $message['message']  = 'Success cancel request';
             }
