@@ -833,7 +833,7 @@
         // FlightSearch.startLoadingPage("Your transaction is being processed. Please be patient");
         $scope.init();
         $('#ParentUsers').addClass('active nav-active').find('ul').css('display','block');
-        $('#ChildrenAllUser').addClass('active');
+        $('#ChildrenRequestUser').addClass('active');
 
         getDatatablesContent();
 
