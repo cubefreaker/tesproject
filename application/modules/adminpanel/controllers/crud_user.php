@@ -289,7 +289,7 @@ class Crud_user extends CI_Controller
                                 'enterpriseToken' => $privy->enterprise_token
                             ],
                             [
-                                'privyId' => $InputData['privyId'],
+                                'privyId' => $InputData['PrivyId'],
                                 'type' => 'Signer',
                                 'enterpriseToken' => ''
                             ]
