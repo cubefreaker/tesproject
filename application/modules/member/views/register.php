@@ -160,7 +160,7 @@
        
     <?php $this->load->view('template/loader/preloader') ?>
   
-  <!-- <?php $this->load->view('template/landingpage/footer', $footerPage) ?> -->
+  <?php $this->load->view('template/landingpage/footer', $footerPage) ?>
 
 <!-- <script src="<?=base_url()?>assets/js/jquery.min.js"></script> -->
 <script src="<?=base_url()?>assets/js/bootstrap.min.js"></script>
