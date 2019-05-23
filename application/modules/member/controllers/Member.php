@@ -58,8 +58,13 @@ class Member extends CI_Controller
                     redirect(base_url("member/personalData"), "refresh");
                 }
                 else {
-                    $this->session->set_flashdata('error','Username Or Password do not match');
-                    // $data['error'] = strip_tags($this->ion_auth->errors());
+                    $getEmail = $this->db->query('select * from users where email = "'.$identity.'"')->row();
+                    $getPass = $this->db->query('select password from users where email = "'.$identity.'"')->row();
+                    if(!$getEmail){
+                        $data['error'] = 'Email Not Found!';
+                    }else if(!password_verify($password,$getPass->password)){
+                        $data['error'] = 'Wrong Password!';
+                    }
                 }
             }
         }

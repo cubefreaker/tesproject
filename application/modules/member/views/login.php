@@ -50,12 +50,6 @@
         </div>
         <!-- End of col-sm-5 -->
         <div class="col-sm-4 col-md-4">
-            <?php if ($this->session->flashdata('error')): ?>
-                <div class="alert alert-danger alert-dismissible fade in" style="margin-top: 40px;">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    <strong>Warning!</strong> <?php echo $this->session->flashdata('error'); ?>
-                </div>
-            <?php endif; ?>
             <h1>Login</h1>
             <div style="padding: 40px; display: block; background-color: #fff; border: 1px solid #ddd;">
                 <form name="logfrm" method="post" action="<?=base_url('member/login')?>" style="margin: 0px; padding:0px;">
@@ -67,7 +61,7 @@
                     </div>
                     <div class="form-group">
                         <label>Password</label>
-                        <input type="password" name="password" required class="form-control">
+                        <input type="password" name="password" required class="form-control" autocomplete="off">
                     </div>
                     <button type="submit" class="btn btn-danger btn-block">
                         Login
@@ -104,79 +98,16 @@ var getCookiebyName = function(name){
     return !!pair ? pair[1] : null;
 };
 
-$(document).ready(function() {
-    $('.btn-register').click(function() {
-        $('#regfrm').trigger("click");
-    });
-    
-    $('#regfrm').on('submit', function(e) {
-        e.preventDefault();
-        
-        var pass1=$('#pass1').val();
-        var pass2=$('#pass2').val();
-        if(pass1 != pass2) {
-            swal({
-                title: "Error",
-                text: "Password doesn't match",
-                type:"error"
-            });
-            return false;
-        }
-        
-        $('.page_preloader').css('opacity', '0.8');
-        $('.page_preloader').css('z-index', '9999');
-        $('.page_preloader').css('display', 'block');
-        
-        $.ajax({
-          type: "POST",
-          url: "<?=base_url('member/register')?>",
-          data: $('#regfrm').serialize(),
-          headers: { 'X-CSRF-TOKEN': getCookiebyName('5f05193eee9e900380c12e6040e7dee9') },
-          success: function(resp){
-            stopLoading();
-            if (resp.status) {
-              swal({
-                title: "Success",
-                text: "Registration success!",
-                type: "success",
-                allowOutsideClick: true,
-                confirmButtonText: "OK"
-              }).then(function() {
-                location.reload();
-              }, function(dismiss) {
-                location.reload();
-              });
-            }
-            else {
-              swal({
-                title: "Error",
-                text: resp.message,
-                type:"error"
-              });
-            }
-          },
-          error: function(errResp) {
-            stopLoading();
-            swal({
-                title: "Error",
-                text: "Please try again later",
-                type:"error"
-              });
-          },
-          dataType: 'json'
-        });
-    });
-    
 <?php if ($error): ?>
     setTimeout(function(){
-      swal({
-          title: "Error",
-          text: "<?php echo $error;?>",
-          type:"error"
+    swal({
+        title: "Error",
+        text: "<?php echo $error;?>",
+        type:"error"
         });
     },500);
 <?php endif;?>
-});
+
 </script>
 
 <script>
