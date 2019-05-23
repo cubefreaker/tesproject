@@ -272,8 +272,8 @@ class Crud_user extends CI_Controller
                 [
                     'name' => 'owner',
                     'contents' => json_encode([
-                        'privyId' => $url->privy_id,
-                        'enterpriseToken' => $url->enterprise_token
+                        'privyId' => $privy->privy_id,
+                        'enterpriseToken' => $privy->enterprise_token
                     ])
                 ],
                 [
@@ -284,9 +284,9 @@ class Crud_user extends CI_Controller
                     'name' => 'recipients',
                     'contents' => json_encode([
                             [
-                                'privyId' => $url->privy_id,
+                                'privyId' => $privy->privy_id,
                                 'type' => 'Signer',
-                                'enterpriseToken' => $url->enterprise_token
+                                'enterpriseToken' => $privy->enterprise_token
                             ],
                             [
                                 'privyId' => $InputData['privyId'],
