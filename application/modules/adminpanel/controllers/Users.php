@@ -192,22 +192,23 @@ class Users extends CI_Controller
                         'SignUrl'   => $sign ? ($sign->doc_url ? $sign->doc_url : 'empty') : 'empty',
                         // 'Type'      => $v->type,
                         'Status'    => $v->status,
-                        'Owner'     => [
-                            'privyId' => 'JE1736',
-                            'enterpriseToken' => 'c26f29ae89eb833fac936c977acae5022464fea9'
-                        ],
-                        'Recipients' => [
-                            [
-                                'privyId' => 'JE1736',
-                                'type' => 'Signer',
-                                'enterpriseToken' => 'c26f29ae89eb833fac936c977acae5022464fea9'
-                            ],
-                            [
-                                'privyId' => $User['PrivyId'],
-                                'type' => 'Signer',
-                                'enterpriseToken' => ''
-                            ]
-                        ]
+                        'PrivyId'   => $User['PrivyId']
+                        // 'Owner'     => [
+                        //     'privyId' => '',
+                        //     'enterpriseToken' => ''
+                        // ],
+                        // 'Recipients' => [
+                        //     [
+                        //         'privyId' => '',
+                        //         'type' => 'Signer',
+                        //         'enterpriseToken' => ''
+                        //     ],
+                        //     [
+                        //         'privyId' => '',
+                        //         'type' => 'Signer',
+                        //         'enterpriseToken' => ''
+                        //     ]
+                        // ]
                     ];
                     // if($v && $v->status != 'undefined'){
                     //     $this->privyDocStatus($v->doc_id);
